@@ -12,8 +12,6 @@ SceneLoader::~SceneLoader()
 
 void SceneLoader::SaveScene(Scene* scene, const std::string outName)
 {
-
-    struct stat info;
     std::ofstream out(outName);
 
     Json::Value root;
@@ -54,7 +52,7 @@ Scene& SceneLoader::LoadScene(const std::string inName)
     scene->skybox = res.GetCubeMap(sceneJSON["skybox"].asString());
 
     Json::Value objects = sceneJSON["objects"];
-    for (int i = 0; i < objects.size(); i++)
+    for (unsigned int i = 0; i < objects.size(); i++)
     {
         Json::Value jobj = objects[i];
      
@@ -101,11 +99,11 @@ Scene& SceneLoader::LoadScene(const std::string inName)
 
         //physics properties
 
-
+        /*
         Json::Value rb = jobj["rigidbody"];
         Json::Value rbcollider = rb["collider"];
         
-        scene->physics.AddRigidBody(*go, rb["mod"].asInt());
+        //scene->physics.AddRigidBody(*go, rb["mod"].asInt());
 
         if(rb["contact_listen"].asBool())
             go->rigidBody.ToggleContactListenState();
@@ -119,7 +117,7 @@ Scene& SceneLoader::LoadScene(const std::string inName)
         go->rigidBody.SetAxisLinearFactor( rb["axis_linear_factor"][0].asFloat() ,rb["axis_linear_factor"][1].asFloat() ,rb["axis_linear_factor"][2].asFloat() );
 
         go->rigidBody.SetAxisAngleFactor(rb["axis_angle_factor"][0].asFloat(), rb["axis_angle_factor"][1].asFloat(), rb["axis_angle_factor"][2].asFloat());
-
+        
         if (rbcollider["type"].asInt() != COLLIDER_INVALID)
         {
             float mass = rbcollider["mass"].asFloat();
@@ -138,16 +136,16 @@ Scene& SceneLoader::LoadScene(const std::string inName)
             {
             case COLLIDER_BOX:
                 glm::vec3 scale(rb["scale"][0].asFloat(), rb["scale"][1].asFloat(), rb["scale"][2].asFloat());
-                scene->physics.AddRigidBodyColliderBox(*go,scale,offset,mass,bounce ,friction);
+                //scene->physics.AddRigidBodyColliderBox(*go,scale,offset,mass,bounce ,friction);
                 break;
             case COLLIDER_SPHERE:
                 radius = rb["radius"].asFloat();
-                scene->physics.AddRigidBodyColliderSphere(*go,radius,offset,mass,bounce,friction);
+                //scene->physics.AddRigidBodyColliderSphere(*go,radius,offset,mass,bounce,friction);
                 break;
             case COLLIDER_CAPSULE:
                 radius = rb["radius"].asFloat();
                 height = rb["height"].asFloat();
-                scene->physics.AddRigidBodyColliderCapsule(*go,radius,height,offset,rotation,mass,bounce,friction);
+                //scene->physics.AddRigidBodyColliderCapsule(*go,radius,height,offset,rotation,mass,bounce,friction);
                 break;
             case COLLIDER_TERRAIN:
                 rows = rb["rows"].asInt();
@@ -155,7 +153,7 @@ Scene& SceneLoader::LoadScene(const std::string inName)
                 min = rb["min"].asFloat();
                 max = rb["max"].asFloat();
                 if(rb["heights"].asBool())
-                    scene->physics.AddRigidBodyColliderHeightMap(*static_cast<Terrain*>(go));
+                    //scene->physics.AddRigidBodyColliderHeightMap(*static_cast<Terrain*>(go));
                 
                 break;
             case COLLIDER_INVALID:
@@ -169,7 +167,7 @@ Scene& SceneLoader::LoadScene(const std::string inName)
 
         }
         //end phyiscs
-
+        */
         res.StoreGameObject(go);
         scene->AddObject(*go);
     }
@@ -215,7 +213,8 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
 
     if (obj->shader)
         jobj["shader"] = obj->shader->name;
-
+    
+    /*
     //rigidbody
     Json::Value rb;
 
@@ -292,7 +291,7 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
     rb["collider"] = rbcollider;
     jobj["rigidbody"] = rb;
     //end rigidbody
-
+    */
     //state machine info
     AIManager& ai = AIManager::Get();
 

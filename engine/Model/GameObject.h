@@ -1,7 +1,6 @@
 #pragma once
 #include <Graphics/Graphics.h>
 #include <Model.h>
-#include <Physics/Rigidbody.h>
 #include <AI/StateMachine.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -102,8 +101,7 @@ public:
 
 		///3D model data
 	DrawItem *model_data = nullptr;
-		///Rigidbody physics information for this object
-	Rigidbody rigidBody;
+
 		///Custom shader
 	Shader* shader = nullptr;
 		

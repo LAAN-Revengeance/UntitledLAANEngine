@@ -32,7 +32,7 @@ void GameEngine::ExposeToLua(){
 	luaManager.Expose_Engine();
 	luaManager.Expose_CPPReference("engine",*this);
 	luaManager.Expose_CPPReference("scene", *scene);
-	luaManager.Expose_CPPReference("physics", scene->physics);
+	//luaManager.Expose_CPPReference("physics", scene->physics);
 	luaManager.Expose_CPPReference("renderer", renderer);
 	luaManager.Expose_CPPReference("GUI", guirenderer);
 }
@@ -108,8 +108,8 @@ void GameEngine::Run() {
 		inputMngr.KeyActions(deltaTime);
 
 		if (simIsRunning) {
-			scene->physics.StepPhysics(deltaTime);
-			scene->physics.UpdateGameObjects(scene->gameObjects);
+			//scene->physics.StepPhysics(deltaTime);
+			//scene->physics.UpdateGameObjects(scene->gameObjects);
 			aiManager.UpdateAgents(deltaTime);
 		}
 		else {
@@ -117,7 +117,7 @@ void GameEngine::Run() {
 		}
 
 		renderer.Draw(*scene, deltaTime);
-		scene->physics.DrawDebug(&scene->camera, ResourceManager::Get().GetShader("physics"));
+		//scene->physics.DrawDebug(&scene->camera, ResourceManager::Get().GetShader("physics"));
 		luaManager.RunUpdateMethod(deltaTime);
 
 		glfwSwapBuffers(window);
@@ -169,7 +169,7 @@ void GameEngine::SwitchScenes(Scene& nscene)
 	delete scene;
 	scene = &nscene;
 	luaManager.Expose_CPPReference("scene", nscene);
-	luaManager.Expose_CPPReference("physics", nscene.physics);
+	//luaManager.Expose_CPPReference("physics", nscene.physics);
 	aiManager.Init(&nscene);
 }
 

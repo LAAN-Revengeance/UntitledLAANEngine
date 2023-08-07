@@ -110,7 +110,7 @@ void LuaManager::Expose_Engine() {
 		"position", &GameObject::position,
 		"rotation", &GameObject::rotation,
 		"scale", &GameObject::scale,
-		"rigidBody", &GameObject::rigidBody,
+		//"rigidBody", &GameObject::rigidBody,
 		"stateMachine", &GameObject::stateMachine,
 		"SetPosition", &GameObject::SetPosition,
 		"SetRotation", &GameObject::SetRotation,
@@ -266,6 +266,7 @@ void LuaManager::Expose_Engine() {
 		);
 	luaState["input"] = &InputManager::Get();
 
+	/*
 	//expose physics
 	Expose_CPPClass<Physics>("PhysicsManager",
 		sol::no_constructor,
@@ -300,7 +301,7 @@ void LuaManager::Expose_Engine() {
 		"SetLinearVelocity", &Rigidbody::SetLinearVelocity,
 		"SetAngularVelocity", &Rigidbody::SetAngularVelocity
 		);
-
+	*/
 	Expose_CPPClass<GUIRenderer>("GUIRenderer",
 		sol::no_constructor,
 		"Start", &GUIRenderer::Start,
@@ -351,31 +352,6 @@ void LuaManager::Expose_Engine() {
 		"stopSoundLoop", &SoundEngine::stopSoundLoop
 		);
 	luaState["Sound"] = &SoundEngine::Get();
-
-	//add generic built in states
-	State* state_wander = new State_Wander;
-	AIManager::Get().AddState("state_wander", state_wander);
-	Expose_CPPReference("state_wander", *state_wander);
-
-	State* state_chase = new State_Chase;
-	AIManager::Get().AddState("state_chase", state_chase);
-	Expose_CPPReference("state_chase", *state_chase);
-
-	State* state_pursuit = new State_Pursuit;
-	AIManager::Get().AddState("state_pursuit", state_pursuit);
-	Expose_CPPReference("state_pursuit", *state_pursuit);
-
-	State* state_flee = new State_Flee;
-	AIManager::Get().AddState("state_flee", state_flee);
-	Expose_CPPReference("state_flee", *state_flee);
-
-	State* state_evade = new State_Evade;
-	AIManager::Get().AddState("state_evade", state_evade);
-	Expose_CPPReference("state_evade", *state_evade);
-
-	State* state_patrol = new State_Patrol;
-	AIManager::Get().AddState("state_patrol", state_patrol);
-	Expose_CPPReference("state_patrol", *state_patrol);
 	
 	Expose_CPPClass<AIManager>("AIManager",
 		sol::no_constructor,

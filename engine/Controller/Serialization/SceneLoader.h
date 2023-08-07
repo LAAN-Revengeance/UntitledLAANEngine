@@ -1,7 +1,6 @@
 #pragma once
 #include <ResourceManager.h>
 #include <AI/AIManager.h>
-#include <Physics/Physics.h>
 #include <Scene.h>
 #include <NPC.h>
 #include <Terrain.h>

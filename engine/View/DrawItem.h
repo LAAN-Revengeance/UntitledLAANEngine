@@ -12,7 +12,7 @@ struct animation {
         end(0),
         speed(0.0f)
     {}
-    animation(int st, int en, int sp) : 
+    animation(int st, int en, float sp) : 
         start(st),
         end(en),
         speed(sp)

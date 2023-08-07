@@ -3,7 +3,6 @@
 #include "Terrain.h"
 #include "NPC.h"
 #include "Lighting.h"
-#include <Physics/Physics.h>
 #include <map>
 /**
 *	@Class Scene
@@ -92,8 +91,6 @@ public:
 	CubeMap* skybox = nullptr;
 		///This scenes lighting setup
 	Lights lights;
-		///Physics world associated with this senes game objects
-	Physics physics;
 		///All game objects in this scene
 	std::map<std::string,GameObject*> gameObjects;
 		///same as gameObjects but by key is ID.

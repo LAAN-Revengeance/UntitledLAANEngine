@@ -7,7 +7,6 @@
 #include <AI/States/global_states.h>
 #include <SoundEngine.h>
 #include <Lua/LuaManager.h>
-#include <Physics/Physics.h>
 #include <Serialization/SceneLoader.h>
 #include <AI/States/ScriptableState.h>
 
@@ -138,8 +137,6 @@ private:
 		//expose game engine windowing and special functions to lua
 	void ExposeToLua();
 
-		///updates per second
-	decimal timeStep = 0.0f;
 		///time since last update
 	double accumulator = 0.0f;
 		///previous time between frames

@@ -21,7 +21,6 @@
     <ClCompile Include="engine\Model\Terrain.cpp" />
     <ClCompile Include="engine\Controller\InputManager.cpp" />
     <ClCompile Include="Engine\Controller\InputManager.cpp" />
-    <ClCompile Include="Engine\Controller\Physics\Physics.cpp" />
     <ClCompile Include="Engine\Controller\ResourceManager.cpp" />
     <ClCompile Include="dependencies\include\imgui\imgui.cpp" />
     <ClCompile Include="dependencies\include\imgui\imgui_demo.cpp" />
@@ -39,17 +38,10 @@
     <ClCompile Include="Engine\Controller\AI\Message\MessageDispatcher.cpp" />
     <ClCompile Include="Engine\Controller\AI\AIManager.cpp" />
     <ClCompile Include="Engine\Controller\Timer.cpp" />
-    <ClCompile Include="Engine\Controller\AI\States\state_wander.cpp" />
     <ClCompile Include="Engine\Model\NPC.cpp" />
-    <ClCompile Include="Engine\Controller\AI\States\state_chase.cpp" />
-    <ClCompile Include="Engine\Controller\AI\States\state_pursuit.cpp" />
-    <ClCompile Include="Engine\Controller\AI\States\state_flee.cpp" />
-    <ClCompile Include="Engine\Controller\AI\States\state_evade.cpp" />
-    <ClCompile Include="Engine\Controller\AI\States\state_patrol.cpp" />
     <ClCompile Include="engine\Controller\SoundEngine.cpp" />
     <ClCompile Include="dependencies\include\jsoncpp.cpp" />
     <ClCompile Include="Engine\Controller\Serialization\SceneLoader.cpp" />
-    <ClCompile Include="Engine\Controller\Physics\Rigidbody.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\Controller\GaemEngine.h" />
@@ -73,7 +65,6 @@
     <ClInclude Include="engine\Model\Material.h" />
     <ClInclude Include="engine\View\Graphics\Graphics.h" />
     <ClInclude Include="Engine\Controller\InputManager.h" />
-    <ClInclude Include="Engine\Controller\Physics\Physics.h" />
     <ClInclude Include="Engine\Controller\ResourceManager.h" />
     <ClInclude Include="Engine\View\GUIRenderer.h" />
     <ClInclude Include="dependencies\include\imgui\imconfig.h" />
@@ -96,22 +87,14 @@
     <ClInclude Include="Engine\Controller\AI\Message\MessageDispatcher.h" />
     <ClInclude Include="Engine\Controller\AI\AIManager.h" />
     <ClInclude Include="Engine\Controller\Timer.h" />
-    <ClInclude Include="Engine\Controller\AI\States\state_wander.h" />
     <ClInclude Include="Engine\Controller\AI\States\global_states.h" />
-    <ClInclude Include="Engine\Controller\AI\Singleton.h" />
     <ClInclude Include="Engine\Model\NPC.h" />
-    <ClInclude Include="Engine\Controller\AI\States\state_chase.h" />
-    <ClInclude Include="Engine\Controller\AI\States\state_pursuit.h" />
-    <ClInclude Include="Engine\Controller\AI\States\state_flee.h" />
-    <ClInclude Include="Engine\Controller\AI\States\state_evade.h" />
-    <ClInclude Include="Engine\Controller\AI\States\state_patrol.h" />
     <ClInclude Include="Engine\View\Frustum.h" />
     <ClInclude Include="engine\Controller\SoundEngine.h" />
     <ClInclude Include="dependencies\include\json\json.h" />
     <ClInclude Include="dependencies\include\json\json-forwards.h" />
     <ClInclude Include="Engine\Controller\Serialization\SceneLoader.h" />
     <ClInclude Include="Engine\Controller\Physics\Collider.h" />
-    <ClInclude Include="Engine\Controller\Physics\Rigidbody.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Model\Graphics\Shaders\Cube_map.frag" />
