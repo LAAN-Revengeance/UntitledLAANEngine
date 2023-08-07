@@ -32,7 +32,6 @@ void GameEngine::ExposeToLua(){
 	luaManager.Expose_Engine();
 	luaManager.Expose_CPPReference("engine",*this);
 	luaManager.Expose_CPPReference("scene", *scene);
-	//luaManager.Expose_CPPReference("physics", scene->physics);
 	luaManager.Expose_CPPReference("renderer", renderer);
 	luaManager.Expose_CPPReference("GUI", guirenderer);
 }
@@ -56,13 +55,6 @@ GameEngine::GameEngine()
 		return;
 	}
 	glfwMakeContextCurrent(window);
-
-	//glad required to access GL functions
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		std::cout << "ERROR: Could not load glad" << std::endl;
-		return;
-	}
 
 	//scene camera settings
 	scene = new Scene;
@@ -95,6 +87,7 @@ GameEngine::~GameEngine() {
 
 //start main loop
 void GameEngine::Run() {
+
 	//main loop
 	while (!glfwWindowShouldClose(window))
 	{

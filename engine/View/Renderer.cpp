@@ -12,6 +12,14 @@ Renderer& Renderer::Get()
 
 void Renderer::Init(GLFWwindow* window) {
 
+
+	//glad required to access GL functions
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+		std::cout << "ERROR: Could not load glad" << std::endl;
+		return;
+	}
+
 	mainWindow = window;
 	mainShader = Shader("resources/shaders/Default.vert", "resources/shaders/Default.frag", "");
 
@@ -33,7 +41,7 @@ void Renderer::Init(GLFWwindow* window) {
 
 	//Frame Buffer Shader
 
-	screenShader = Shader("resources/shaders/screen/screen.vert", "resources/shaders/screen/screen.frag", "");
+	postProcessShader = Shader("resources/shaders/screen/screen.vert", "resources/shaders/screen/screen.frag", "");
 
 
 	////FRAME BUFFER STUFF
@@ -66,59 +74,36 @@ void Renderer::Init(GLFWwindow* window) {
 	//done setting up frame buffer so unbind
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-
-	//make a quad lmaooooo
-// Define the vertices of the quad to cover the whole screen
+	//Create a quad to render frame buffer to
 	float quadVertices[] = {
-		// Positions           // Texture Coords
-		-1.0f,  1.0f,  0.0f,   0.0f, 1.0f, // Top-left vertex
-		-1.0f, -1.0f,  0.0f,   0.0f, 0.0f, // Bottom-left vertex
-		 1.0f, -1.0f,  0.0f,   1.0f, 0.0f, // Bottom-right vertex
+		-1.0f,  1.0f,  0.0f,   0.0f, 1.0f,
+		-1.0f, -1.0f,  0.0f,   0.0f, 0.0f,
+		 1.0f, -1.0f,  0.0f,   1.0f, 0.0f,
 
-		-1.0f,  1.0f,  0.0f,   0.0f, 1.0f, // Top-left vertex
-		 1.0f, -1.0f,  0.0f,   1.0f, 0.0f, // Bottom-right vertex
-		 1.0f,  1.0f,  0.0f,   1.0f, 1.0f, // Top-right vertex
+		-1.0f,  1.0f,  0.0f,   0.0f, 1.0f,
+		 1.0f, -1.0f,  0.0f,   1.0f, 0.0f,
+		 1.0f,  1.0f,  0.0f,   1.0f, 1.0f,
 	};
-
-	// Vertex Array Object (VAO) and Vertex Buffer Object (VBO) IDs
 	unsigned int VBO;
-
-	// Generate the VAO and VBO
-	glGenVertexArrays(1, &VAO);
+	glGenVertexArrays(1, &screenQuad);
 	glGenBuffers(1, &VBO);
-
-	// Bind the VAO first, then bind and set the vertex buffer(s) and attribute pointer(s)
-	glBindVertexArray(VAO);
-
-	// Bind and set up the vertex buffer
+	glBindVertexArray(screenQuad);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
-
-	// Position attribute (3 floats per vertex)
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-
-	// Texture Coordinate attribute (2 floats per vertex)
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
-
-	// Unbind the VAO and VBO (optional but recommended)
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
 }
 
 //may want to make several "draw queues" to seperate shaders and opacity
 void Renderer::Draw(Scene& scene, double deltaTime) {
 
-	//FRAME BUFFER STUFF
+	//Bind pre-post processing frame buffer
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-	//Clear Buffers
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
-
-
-
 
 	//fps counter
 	double currentFrameTime = glfwGetTime();
@@ -136,13 +121,10 @@ void Renderer::Draw(Scene& scene, double deltaTime) {
 	if (wireFrame)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	//Clear Buffers
-	glClearColor(0.0, 0.0, 0.0, 1.0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	//caclulate camera view frustum planes
 	scene.camera.CreateViewFrustum();
 	Frustum& camFrustum = scene.camera.frustum;
+
 	//draw skybox
 	if (scene.skybox)
 		scene.skybox->Render(&scene.camera);
@@ -183,31 +165,19 @@ void Renderer::Draw(Scene& scene, double deltaTime) {
 		}
 	}
 
-	//FrameBuffer Stuff
-	//bind default frame buffer so we can draw the scene
+	//Bind the default frame buffer and draw scene with post processing shader
 	glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	screenShader.Use();
-	glBindVertexArray(VAO);
+	postProcessShader.Use();
+	glBindVertexArray(screenQuad);
 	glDisable(GL_DEPTH_TEST);
-
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureColorBuff);
 	glEnable(GL_TEXTURE_2D);
-
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 }
-
-
-void Renderer::FrameBufferStuff() {
-
-
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
-
 
 void Renderer::SetLightUniforms(Lights& sLights, Shader& sShader) {
 

@@ -1,11 +1,8 @@
 #pragma once
 #include <Graphics/Graphics.h>
-
 #include "Camera.h"
 #include "Material.h"
-#include <iostream>
 #include "OBJReader.h"
-#include <lighting.h>
 #include <DrawItem.h>
 
 /**

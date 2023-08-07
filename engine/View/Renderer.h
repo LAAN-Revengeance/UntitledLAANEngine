@@ -78,8 +78,6 @@ public:
 
 	void ToggleWireFrame();
 
-	void FrameBufferStuff();
-
 private:
 
 		///Default constructor. Private becuase singleton
