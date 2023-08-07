@@ -137,14 +137,10 @@ private:
 		//expose game engine windowing and special functions to lua
 	void ExposeToLua();
 
-		///time since last update
-	double accumulator = 0.0f;
 		///previous time between frames
 	double previousFrameTime = 0.0f;
 		///time since last frame
 	double deltaTime = 0.0f;
-		///whether main loop is running
-	bool isRunning = false;	
 		///whether AI and physics are being updated
 	bool simIsRunning = true;
 		///Default constructor. Private becuase singleton

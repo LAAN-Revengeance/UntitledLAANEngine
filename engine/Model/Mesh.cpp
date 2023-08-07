@@ -1,18 +1,18 @@
-#include "Model.h"
+#include "Mesh.h"
 #include <vector>
 
-Model::Model(void): elementCount(0),
+Mesh::Mesh(void): elementCount(0),
 vertCount(0), 
 instanceCount(1), 
 modelData(nullptr) {}
 
-Model::Model(const char* fileName): instanceCount(1) {
+Mesh::Mesh(const char* fileName): instanceCount(1) {
 	ReadOBJ(fileName);
 }
 
-Model::~Model() {}
+Mesh::~Mesh() {}
 
-Model::Model(const char* fileName, std::vector<glm::mat4> nMatrix) {
+Mesh::Mesh(const char* fileName, std::vector<glm::mat4> nMatrix) {
 
 	modelData = ReadObjFile(fileName);
 	vertCount = (int)modelData->vertexData.size();
@@ -20,7 +20,7 @@ Model::Model(const char* fileName, std::vector<glm::mat4> nMatrix) {
 	SetInstanceMatrix(nMatrix);
 }
 
-void Model::SetInstanceMatrix(std::vector<glm::mat4> nMatrix) {
+void Mesh::SetInstanceMatrix(std::vector<glm::mat4> nMatrix) {
 	
 	FreeData();
 	instanceMatrixes = nMatrix;
@@ -58,11 +58,11 @@ void Model::SetInstanceMatrix(std::vector<glm::mat4> nMatrix) {
 	ivbo.Delete();
 }
 
-OBJData* Model::GetModelData() { return modelData; }
+OBJData* Mesh::GetModelData() { return modelData; }
 
-std::vector<glm::mat4>* Model::getInstanceMatrix() { return &instanceMatrixes; }
+std::vector<glm::mat4>* Mesh::getInstanceMatrix() { return &instanceMatrixes; }
 
-void Model::ReadOBJ(const char* fileName) {
+void Mesh::ReadOBJ(const char* fileName) {
 
 	FreeData();
 	modelData = ReadObjFile(fileName);
@@ -71,7 +71,7 @@ void Model::ReadOBJ(const char* fileName) {
 
 }
 
-void Model::SetVertexData(float* nVertexData, int numData, unsigned int* vertIndexes, int numIndex) {
+void Mesh::SetVertexData(float* nVertexData, int numData, unsigned int* vertIndexes, int numIndex) {
 	FreeData();
 	vertCount = numData;
 	elementCount = numIndex;
@@ -86,7 +86,7 @@ void Model::SetVertexData(float* nVertexData, int numData, unsigned int* vertInd
 	vao = nVAO;
 }
 
-void Model::SetVertexData(float* nVertexData, int numData) {
+void Mesh::SetVertexData(float* nVertexData, int numData) {
 	FreeData();
 	vertCount = numData;
 	VAO nVAO;
@@ -100,7 +100,7 @@ void Model::SetVertexData(float* nVertexData, int numData) {
 	vao = nVAO;
 }
 
-void Model::SetDebugVertexData(float* nVertexData, int numData) {
+void Mesh::SetDebugVertexData(float* nVertexData, int numData) {
 	FreeData();
 	vertCount = numData;
 	VAO nVAO;
@@ -114,7 +114,7 @@ void Model::SetDebugVertexData(float* nVertexData, int numData) {
 }
 
 
-void Model::SetVertexElements(unsigned int* vertIndexes, int numIndex) {
+void Mesh::SetVertexElements(unsigned int* vertIndexes, int numIndex) {
 	elementCount = numIndex;
 	vao.Bind();
 	EBO nEBO(vertIndexes, sizeof(unsigned int) * numIndex);
@@ -122,7 +122,7 @@ void Model::SetVertexElements(unsigned int* vertIndexes, int numIndex) {
 }
 
 //isElements specifies if using glDrawElements instead of arrays. 
-void Model::Render(Camera* camera, Shader* shader,bool isElements = true,unsigned int primative = GL_TRIANGLES) {
+void Mesh::Render(Camera* camera, Shader* shader,bool isElements = true,unsigned int primative = GL_TRIANGLES) {
 
 	BindMaterial(shader);
 
@@ -156,14 +156,14 @@ void Model::Render(Camera* camera, Shader* shader,bool isElements = true,unsigne
 	vao.UnBind();
 }
 
-void Model::FreeData() {
+void Mesh::FreeData() {
 	vbo.Delete();
 	ivbo.Delete();
 	ebo.Delete();
 	vao.Delete();
 }
 
-void Model::FreeEBO() {
+void Mesh::FreeEBO() {
 	ebo.Delete();
 }
 

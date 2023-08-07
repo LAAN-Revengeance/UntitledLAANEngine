@@ -171,7 +171,7 @@
     <ClCompile Include="Engine\View\DrawItem.cpp" />
     <ClCompile Include="engine\View\Graphics\OpenGL\CubeMap.cpp" />
     <ClCompile Include="engine\View\Graphics\OpenGL\EBO.cpp" />
-    <ClCompile Include="engine\Model\Model.cpp" />
+    <ClCompile Include="engine\Model\Mesh.cpp" />
     <ClCompile Include="engine\Controller\OBJReader.cpp" />
     <ClCompile Include="engine\View\Graphics\OpenGL\Shader.cpp" />
     <ClCompile Include="engine\View\Graphics\OpenGL\stb_image.cpp" />
@@ -227,7 +227,7 @@
     <ClInclude Include="engine\View\Graphics\OpenGL\EBO.h" />
     <ClInclude Include="engine\View\Graphics\Graphics.h" />
     <ClInclude Include="engine\View\Graphics\OpenGL\GraphicsOpenGL.h" />
-    <ClInclude Include="engine\Model\Model.h" />
+    <ClInclude Include="engine\Model\Mesh.h" />
     <ClInclude Include="engine\Controller\OBJReader.h" />
     <ClInclude Include="engine\View\Graphics\OpenGL\Shader.h" />
     <ClInclude Include="engine\View\Graphics\OpenGL\Texture.h" />

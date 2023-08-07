@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
 #include <Gameobject.h>
-#include <Model.h>
+#include <Mesh.h>
 #include <MD2/MD2Reader.h>
 #include <Terrain.h>
 #include <NPC.h>

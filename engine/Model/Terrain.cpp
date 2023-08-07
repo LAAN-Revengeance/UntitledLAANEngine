@@ -268,7 +268,7 @@ void Terrain::CreateHeightArray() {
 	{
 		for (int x = 0; x < tWidth; x++)
 		{
-			float height = scaleY * (heightTexture->GetPixelValue(x, y, 0));
+			float height = (float)scaleY * (float)(heightTexture->GetPixelValue(x, y, 0));
 			(*heightArray).push_back(height);
 			if (height > maxHeight)
 				maxHeight = height;
@@ -280,7 +280,7 @@ void Terrain::CreateHeightArray() {
 
 void Terrain::GenerateModel() {
 	if ((*heightArray).empty()) {
-		model_data = new Model();
+		model_data = new Mesh();
 		return;
 	}
 
@@ -356,12 +356,12 @@ void Terrain::GenerateModel() {
 		vertexData[i].normal = glm::normalize(vertexData[i].normal);
 	}
 
-	if ((Model*)model_data) {
-		((Model*)model_data)->FreeData();
+	if ((Mesh*)model_data) {
+		((Mesh*)model_data)->FreeData();
 	}
 	else {
-		model_data = new Model();
+		model_data = new Mesh();
 	}
 	model_data->maxBounds = (terrainSize / 2.0f) * scaleX;
-	((Model*)model_data)->SetVertexData(&vertexData[0].vertex.x, vertexData.size(), &elementsIndexes[0].x, elementsIndexes.size() * 3);
+	((Mesh*)model_data)->SetVertexData(&vertexData[0].vertex.x, (int)vertexData.size(), &elementsIndexes[0].x, elementsIndexes.size() * 3);
 }	
