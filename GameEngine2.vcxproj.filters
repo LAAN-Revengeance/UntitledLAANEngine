@@ -38,10 +38,10 @@
     <ClCompile Include="Engine\Controller\AI\Message\MessageDispatcher.cpp" />
     <ClCompile Include="Engine\Controller\AI\AIManager.cpp" />
     <ClCompile Include="Engine\Controller\Timer.cpp" />
-    <ClCompile Include="Engine\Model\NPC.cpp" />
     <ClCompile Include="engine\Controller\SoundEngine.cpp" />
     <ClCompile Include="dependencies\include\jsoncpp.cpp" />
     <ClCompile Include="Engine\Controller\Serialization\SceneLoader.cpp" />
+    <ClCompile Include="engine\Model\NPC.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\Controller\GaemEngine.h" />
@@ -88,13 +88,13 @@
     <ClInclude Include="Engine\Controller\AI\AIManager.h" />
     <ClInclude Include="Engine\Controller\Timer.h" />
     <ClInclude Include="Engine\Controller\AI\States\global_states.h" />
-    <ClInclude Include="Engine\Model\NPC.h" />
     <ClInclude Include="Engine\View\Frustum.h" />
     <ClInclude Include="engine\Controller\SoundEngine.h" />
     <ClInclude Include="dependencies\include\json\json.h" />
     <ClInclude Include="dependencies\include\json\json-forwards.h" />
     <ClInclude Include="Engine\Controller\Serialization\SceneLoader.h" />
     <ClInclude Include="Engine\Controller\Physics\Collider.h" />
+    <ClInclude Include="engine\Model\NPC.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Model\Graphics\Shaders\Cube_map.frag" />

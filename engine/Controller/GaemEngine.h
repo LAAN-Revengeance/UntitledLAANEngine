@@ -89,8 +89,8 @@ public:
 		*	@brief Change the active windows type; such as borderless, fullscreen etc.
 		*	@param type type of window to be set to. Window types are:
 		*	<ul><li>WINDOW_TYPE_WINDOWED</li>
-		*		<li>WINDOW_TYPE_BORDERLESS</li>
-		*		<li>WINDOW_TYPE_FULLSCREEN</li></ul>
+		*	<li>WINDOW_TYPE_BORDERLESS</li>
+		*	<li>WINDOW_TYPE_FULLSCREEN</li></ul>
 		* 
 		*	@return void
 		*/

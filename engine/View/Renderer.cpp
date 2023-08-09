@@ -12,7 +12,6 @@ Renderer& Renderer::Get()
 
 void Renderer::Init(GLFWwindow* window) {
 
-
 	//glad required to access GL functions
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
@@ -39,16 +38,12 @@ void Renderer::Init(GLFWwindow* window) {
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	////Setup Post Processing resources////
 	//Frame Buffer Shader
-
 	postProcessShader = Shader("resources/shaders/screen/screen.vert", "resources/shaders/screen/screen.frag", "");
 
-
-	////FRAME BUFFER STUFF
 	glGenFramebuffers(1, &FBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-
-	//glDeleteFramebuffers(1, &FBO);  
 
 	//create frame buffer texture
 	glGenTextures(1, &textureColorBuff);
@@ -57,15 +52,15 @@ void Renderer::Init(GLFWwindow* window) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0);
+
 	//attatch texture to frame buffer
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorBuff, 0);
 
-	//rbo for depth/maybe stncil test if spicy
+	//rbo for depth
 	glGenRenderbuffers(1, &RBO);
 	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 500, 500);
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);//unbind the render buffer
-	//attatch renderbuffer(depth/stencil) to frame buffer
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) {
