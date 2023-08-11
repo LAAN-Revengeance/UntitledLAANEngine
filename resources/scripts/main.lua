@@ -40,7 +40,10 @@ function init()
 	terrain:GetDrawItem():SetShine(20);
 	terrain:SetTextureHeights({-30,-5,40});
 	scene:AddObject(terrain);
-	
+	lighting = scene:GetLights();
+	lighting:SetAmbient(0.3,0.3,0.3);
+	lighting:AddDirectionLight(NormalizeVector(vec3.new( 0,0.5,-1)),vec3.new( 0.0,0.67,0.8),vec3.new(0,1,1));
+
 	--setup camera 
 	camera = scene:GetCamera();
 	camera.farPlane = 10000;

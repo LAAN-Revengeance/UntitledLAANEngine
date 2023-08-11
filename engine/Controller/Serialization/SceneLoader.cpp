@@ -58,15 +58,7 @@ Scene& SceneLoader::LoadScene(const std::string inName)
      
         GameObject* go = nullptr;
 
-        //type specific data
-        if(jobj["type"].asString() == "npc"){
-            go = &res.CreateNPCObject(objects[i]["name"].asString(), objects[i]["model"].asString(), objects[i]["shader"].asString());
-            for (auto& member : jobj["data"].getMemberNames())
-            {
-                dynamic_cast<NPC*>(go)->AddData(member, jobj["data"][member].asFloat());
-            }
-        }
-        else if (jobj["type"].asString() == "terrain") {
+        if (jobj["type"].asString() == "terrain") {
           
             go = res.GetGameObject(jobj["name"].asString());
         }
@@ -304,18 +296,7 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
     if (obj->stateMachine.GetGlobalState())
         jobj["global_state"] = ai.GetStateKey(obj->stateMachine.GetGlobalState());
 
-    //idendify obj type.
-    if (dynamic_cast<NPC*>(obj)) {
-        NPC* npc = dynamic_cast<NPC*>(obj);
-        jobj["type"] = "npc";
-        
-        Json::Value data;
-        for (auto& it : npc->data) {
-            data[it.first] = it.second;
-        }
-        jobj["data"] = data;
-    }
-    else if (dynamic_cast<Terrain*>(obj)) {
+    if (dynamic_cast<Terrain*>(obj)) {
         Terrain* ter = dynamic_cast<Terrain*>(obj);
         jobj["type"] = "terrain";
         jobj["scaleX"] = ter->scaleX;

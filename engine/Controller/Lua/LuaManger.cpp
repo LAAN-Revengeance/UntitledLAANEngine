@@ -137,26 +137,12 @@ void LuaManager::Expose_Engine() {
 		"scaleZ", &Terrain::scaleZ
 		);
 
-	//expose NPC
-	Expose_CPPClass<NPC>("NPC",
-		sol::constructors<NPC()>(),
-		sol::base_classes, sol::bases<GameObject>(),
-		"AddData", &NPC::AddData,
-		"GetData", &NPC::GetData,
-		"HasData", &NPC::HasData,
-		"MoveTo2D", &NPC::MoveTo2D,
-		"MoveTo3D", &NPC::MoveTo3D,
-		"IsTargeting", &NPC::IsTargeting,
-		"StopMoving", &NPC::StopMoving
-		);
-
 	//expose resource manager class
 	Expose_CPPClass<ResourceManager>("ResourceManager",
 		sol::no_constructor,
 		"Get", &ResourceManager::Get,
 
 		"CreateGameObject", &ResourceManager::CreateGameObject,
-		"CreateNPCObject", &ResourceManager::CreateNPCObject,
 		"CreateTerrain", &ResourceManager::CreateTerrain,
 		"CreateWater", &ResourceManager::CreateWater,
 		"LoadTexture", &ResourceManager::LoadTexture,
@@ -190,8 +176,7 @@ void LuaManager::Expose_Engine() {
 		"SetSkybox", &Scene::SetSkybox,
 		"GetCamera", &Scene::GetCamera,
 		"GetLights", &Scene::GetLights,
-		"GetObject", &Scene::GetObject,
-		"GetNPC", &Scene::GetNPC
+		"GetObject", &Scene::GetObject
 		);
 
 	//expose camera

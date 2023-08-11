@@ -41,7 +41,6 @@
     <ClCompile Include="engine\Controller\SoundEngine.cpp" />
     <ClCompile Include="dependencies\include\jsoncpp.cpp" />
     <ClCompile Include="Engine\Controller\Serialization\SceneLoader.cpp" />
-    <ClCompile Include="engine\Model\NPC.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\Controller\GaemEngine.h" />
@@ -94,7 +93,6 @@
     <ClInclude Include="dependencies\include\json\json-forwards.h" />
     <ClInclude Include="Engine\Controller\Serialization\SceneLoader.h" />
     <ClInclude Include="Engine\Controller\Physics\Collider.h" />
-    <ClInclude Include="engine\Model\NPC.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Model\Graphics\Shaders\Cube_map.frag" />

@@ -2,7 +2,6 @@
 #include <ResourceManager.h>
 #include <AI/AIManager.h>
 #include <Scene.h>
-#include <NPC.h>
 #include <Terrain.h>
 #include <json/json.h>
 #include <fstream>
