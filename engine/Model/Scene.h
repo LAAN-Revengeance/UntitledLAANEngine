@@ -1,7 +1,6 @@
 #pragma once
 #include "GameObject.h"
 #include "Terrain.h"
-#include "NPC.h"
 #include "Lighting.h"
 #include <map>
 
@@ -71,13 +70,6 @@ public:
 		*	@return Game object with name objName
 		*/
 	GameObject& GetObject(std::string objName);
-
-		/**
-		*	@brief Get an npc in the scene based on its name
-		*	@param objName name of npc to be retrieved
-		*	@return npc with name objName
-		*/
-	NPC& GetNPC(std::string objName);
 
 		/**
 		*	@brief Get an object in the scene based on its ID

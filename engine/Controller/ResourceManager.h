@@ -4,7 +4,6 @@
 #include <Mesh.h>
 #include <MD2/MD2Reader.h>
 #include <Terrain.h>
-#include <NPC.h>
 
 /**
 *	@Class ResourceManager
@@ -34,15 +33,6 @@ public:
 		*	@return a game object created using the selected parameters
 		*/
 	GameObject& CreateGameObject(std::string objectName, std::string modelName, std::string shaderName);
-
-		/**
-		*	@brief Abstract factory method for creating NPC game objects
-		*	@param objectName name of created NPC object
-		*	@param modelName name key of model data
-		*	@param shaderName name key for shader data, use "" to use default shader
-		*	@return a NPC object created using the selected parameters
-		*/
-	NPC& CreateNPCObject(std::string objectName, std::string modelName, std::string shaderName);
 
 		/**
 		*	@brief Abstract factory method for creating terrain game objects
