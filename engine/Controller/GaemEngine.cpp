@@ -32,7 +32,6 @@ void GameEngine::ExposeToLua(){
 	luaManager.Expose_Engine();
 	luaManager.Expose_CPPReference("engine",*this);
 	luaManager.Expose_CPPReference("scene", *scene);
-	//luaManager.Expose_CPPReference("physics", scene->physics);
 	luaManager.Expose_CPPReference("renderer", renderer);
 	luaManager.Expose_CPPReference("GUI", guirenderer);
 }
@@ -56,13 +55,6 @@ GameEngine::GameEngine()
 		return;
 	}
 	glfwMakeContextCurrent(window);
-
-	//glad required to access GL functions
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		std::cout << "ERROR: Could not load glad" << std::endl;
-		return;
-	}
 
 	//scene camera settings
 	scene = new Scene;
@@ -95,7 +87,7 @@ GameEngine::~GameEngine() {
 
 //start main loop
 void GameEngine::Run() {
-	isRunning = true;
+
 	//main loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -103,13 +95,10 @@ void GameEngine::Run() {
 		double currentFrameTime = glfwGetTime();
 		deltaTime = currentFrameTime - previousFrameTime;
 		previousFrameTime = currentFrameTime;
-		//accumulator += deltaTime;
 		
 		inputMngr.KeyActions(deltaTime);
 
 		if (simIsRunning) {
-			//scene->physics.StepPhysics(deltaTime);
-			//scene->physics.UpdateGameObjects(scene->gameObjects);
 			aiManager.UpdateAgents(deltaTime);
 		}
 		else {
@@ -117,13 +106,11 @@ void GameEngine::Run() {
 		}
 
 		renderer.Draw(*scene, deltaTime);
-		//scene->physics.DrawDebug(&scene->camera, ResourceManager::Get().GetShader("physics"));
 		luaManager.RunUpdateMethod(deltaTime);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-	isRunning = false;
 
 	//cleanup
 	glfwDestroyWindow(window);
@@ -149,7 +136,6 @@ void GameEngine::ResizeCallback(GLFWwindow* window, int width, int height) {
 
 void GameEngine::Shutdown()
 {
-	isRunning = false;
 	glfwSetWindowShouldClose(window, GLFW_TRUE);
 }
 
@@ -169,7 +155,6 @@ void GameEngine::SwitchScenes(Scene& nscene)
 	delete scene;
 	scene = &nscene;
 	luaManager.Expose_CPPReference("scene", nscene);
-	//luaManager.Expose_CPPReference("physics", nscene.physics);
 	aiManager.Init(&nscene);
 }
 

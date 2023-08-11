@@ -89,8 +89,8 @@ public:
 		*	@brief Change the active windows type; such as borderless, fullscreen etc.
 		*	@param type type of window to be set to. Window types are:
 		*	<ul><li>WINDOW_TYPE_WINDOWED</li>
-		*		<li>WINDOW_TYPE_BORDERLESS</li>
-		*		<li>WINDOW_TYPE_FULLSCREEN</li></ul>
+		*	<li>WINDOW_TYPE_BORDERLESS</li>
+		*	<li>WINDOW_TYPE_FULLSCREEN</li></ul>
 		* 
 		*	@return void
 		*/
@@ -137,14 +137,10 @@ private:
 		//expose game engine windowing and special functions to lua
 	void ExposeToLua();
 
-		///time since last update
-	double accumulator = 0.0f;
 		///previous time between frames
 	double previousFrameTime = 0.0f;
 		///time since last frame
 	double deltaTime = 0.0f;
-		///whether main loop is running
-	bool isRunning = false;	
 		///whether AI and physics are being updated
 	bool simIsRunning = true;
 		///Default constructor. Private becuase singleton

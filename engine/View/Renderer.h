@@ -78,8 +78,6 @@ public:
 
 	void ToggleWireFrame();
 
-	void FrameBufferStuff();
-
 private:
 
 		///Default constructor. Private becuase singleton
@@ -106,11 +104,11 @@ private:
 	double lastTime = 0.0;
 
 
-	//quad VAO
-	unsigned int VAO;
+	//quad frame buffer is rendered onto
+	unsigned int screenQuad;
 
-	//frame buff shader
-	Shader screenShader;
+	//post processing shader
+	Shader postProcessShader;
 
 	//texture rendered to
 	unsigned int textureColorBuff;

@@ -207,7 +207,7 @@ void ResourceManager::LoadAnimatedModel(std::string resName, std::string fileNam
 void ResourceManager::LoadModel(std::string resName, std::string fileName, std::string diffName, std::string emisName, std::string specName) {
 	try
 	{
-		Model* model = new Model(fileName.c_str());
+		Mesh* model = new Mesh(fileName.c_str());
 		model->name = resName;
 		//textures
 		if (textures.find(diffName) != textures.end())

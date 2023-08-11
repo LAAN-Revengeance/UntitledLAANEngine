@@ -6,7 +6,7 @@
     <ClCompile Include="engine\Model\Camera.cpp" />
     <ClCompile Include="engine\View\Graphics\OpenGL\CubeMap.cpp" />
     <ClCompile Include="engine\View\Graphics\OpenGL\EBO.cpp" />
-    <ClCompile Include="engine\Model\Model.cpp" />
+    <ClCompile Include="engine\Model\Mesh.cpp" />
     <ClCompile Include="engine\Controller\OBJReader.cpp" />
     <ClCompile Include="engine\View\Graphics\OpenGL\Shader.cpp" />
     <ClCompile Include="engine\View\Graphics\OpenGL\stb_image.cpp" />
@@ -38,10 +38,10 @@
     <ClCompile Include="Engine\Controller\AI\Message\MessageDispatcher.cpp" />
     <ClCompile Include="Engine\Controller\AI\AIManager.cpp" />
     <ClCompile Include="Engine\Controller\Timer.cpp" />
-    <ClCompile Include="Engine\Model\NPC.cpp" />
     <ClCompile Include="engine\Controller\SoundEngine.cpp" />
     <ClCompile Include="dependencies\include\jsoncpp.cpp" />
     <ClCompile Include="Engine\Controller\Serialization\SceneLoader.cpp" />
+    <ClCompile Include="engine\Model\NPC.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\Controller\GaemEngine.h" />
@@ -52,7 +52,7 @@
     <ClInclude Include="engine\View\Graphics\OpenGL\CubeMap.h" />
     <ClInclude Include="engine\View\Graphics\OpenGL\EBO.h" />
     <ClInclude Include="engine\View\Graphics\OpenGL\GraphicsOpenGL.h" />
-    <ClInclude Include="engine\Model\Model.h" />
+    <ClInclude Include="engine\Model\Mesh.h" />
     <ClInclude Include="engine\Controller\OBJReader.h" />
     <ClInclude Include="engine\View\Graphics\OpenGL\Shader.h" />
     <ClInclude Include="engine\View\Graphics\OpenGL\Texture.h" />
@@ -88,13 +88,13 @@
     <ClInclude Include="Engine\Controller\AI\AIManager.h" />
     <ClInclude Include="Engine\Controller\Timer.h" />
     <ClInclude Include="Engine\Controller\AI\States\global_states.h" />
-    <ClInclude Include="Engine\Model\NPC.h" />
     <ClInclude Include="Engine\View\Frustum.h" />
     <ClInclude Include="engine\Controller\SoundEngine.h" />
     <ClInclude Include="dependencies\include\json\json.h" />
     <ClInclude Include="dependencies\include\json\json-forwards.h" />
     <ClInclude Include="Engine\Controller\Serialization\SceneLoader.h" />
     <ClInclude Include="Engine\Controller\Physics\Collider.h" />
+    <ClInclude Include="engine\Model\NPC.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Model\Graphics\Shaders\Cube_map.frag" />

@@ -65,7 +65,7 @@ class InputManager
 			*	@param float deltaTime
 			*	@return void
 			*/
-		void KeyActions(float deltatime);
+		void KeyActions(double deltatime);
 
 			/**
 			*	@brief the callback function to get the any key change of input from the keyboard

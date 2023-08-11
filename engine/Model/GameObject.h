@@ -1,6 +1,6 @@
 #pragma once
 #include <Graphics/Graphics.h>
-#include <Model.h>
+#include <Mesh.h>
 #include <AI/StateMachine.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>

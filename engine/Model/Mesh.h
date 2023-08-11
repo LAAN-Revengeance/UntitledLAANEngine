@@ -1,15 +1,12 @@
 #pragma once
 #include <Graphics/Graphics.h>
-
 #include "Camera.h"
 #include "Material.h"
-#include <iostream>
 #include "OBJReader.h"
-#include <lighting.h>
 #include <DrawItem.h>
 
 /**
-*	@Class Model
+*	@Class Mesh
 *	@brief Stores model and texture data for rendering objects in OpenGL.
 *   Provides a draw method to render this model to openGL's current buffer.
 *
@@ -17,28 +14,28 @@
 *	@version 2.0
 *	@date 15/04/2023
 */
-class Model : public DrawItem {
+class Mesh : public DrawItem {
 public:
         /**
         *	@brief default constructor
         */
-	Model();
+	Mesh();
         /*
         *   @brief default destructor, ensures textures and model data is freed
         */
-	~Model();
+	~Mesh();
         /**
         *	@brief constructor with inital obj file
         *   @param fileName path to file
         */
-	Model(const char* fileName);
+	Mesh(const char* fileName);
 
         /**
         *	@brief Constructor with instance matrix for instanced rendering.
         *   @param fileName path to .obj file
         *   @param nMatrix vector of transforms for instances of this model
         */
-    Model(const char* fileName, std::vector<glm::mat4> nMatrix);
+    Mesh(const char* fileName, std::vector<glm::mat4> nMatrix);
 
         /*
         *   @brief sets the model data based on obj file

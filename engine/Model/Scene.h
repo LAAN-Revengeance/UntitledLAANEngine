@@ -4,6 +4,7 @@
 #include "NPC.h"
 #include "Lighting.h"
 #include <map>
+
 /**
 *	@Class Scene
 *	@brief Stores all data required to render a scene. Also stores reference

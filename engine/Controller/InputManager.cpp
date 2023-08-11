@@ -38,7 +38,7 @@ void InputManager::RemoveAction(std::string action)
 	_ActionMap.erase(action);
 }
 
-void InputManager::KeyActions(float deltatime)
+void InputManager::KeyActions(double deltatime)
 {
 	for (auto action : _ActionList)
 	{
@@ -114,7 +114,7 @@ float InputManager::GetMouseY() {
 
 float InputManager::GetScrollOffset()
 {
-	double yOffset = scrollOffset;
+	float yOffset = scrollOffset;
 	scrollOffset = 0;
 	return yOffset;
 }
