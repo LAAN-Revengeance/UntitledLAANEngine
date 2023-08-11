@@ -43,13 +43,7 @@ function init()
 	lighting = scene:GetLights();
 	lighting:SetAmbient(0.3,0.3,0.3);
 	lighting:AddDirectionLight(NormalizeVector(vec3.new( 0,0.5,-1)),vec3.new( 0.0,0.67,0.8),vec3.new(0,1,1));
-	lighting:AddPointLight( vec3:new(1140,30,640),
-							vec3.new( 1,0,1),
-							vec3.new( 0.98,0.8789,0.695),
-							1.0,0.007,0.0002);
 
-
-	
 	--setup camera 
 	camera = scene:GetCamera();
 	camera.farPlane = 10000;
