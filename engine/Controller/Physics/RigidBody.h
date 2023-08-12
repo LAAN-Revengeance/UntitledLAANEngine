@@ -1,4 +1,7 @@
 #pragma once
+#include <reactphysics3d/reactphysics3d.h>
+#include <glm/glm.hpp>
+
 class CollisionListener : public rp3d::EventListener
 {
 public:
@@ -42,14 +45,27 @@ public:
 	RigidBody();
 	~RigidBody();
 
-
 	void ApplyForce(float x, float y, float z);
-	void ApplyTourque(float x, float y, float z);
+	void ApplyTorque(float x, float y, float z);
 
+	//get position and rotation of rigidbody
+	glm::vec3 GetPosition();
+	glm::vec3 GetRotation();
+
+	//set position and rotation of rigidbody
 	void SetPosition(float x, float y, float z);
 	void SetRotation(float x, float y, float z);
 
 
 private:
+	//position and rotation of the rigidbody
+	glm::vec3 position;
+	glm::vec3 rotation;
 
+	//mass of the rigidbody
+	float mass;
+
+	//drag and angular drag of the rigidbody
+	float drag;
+	float angularDrag;
 };
