@@ -36,7 +36,7 @@ function init()
 	);
 	
 	--load scene
-	terrain = resources:CreateTerrain("Terrain","heightMap",{"dirt","grass","rock"},"detailMap","detailMap","", 100 , 12,0.8,12);
+	terrain = resources:CreateTerrain("Terrain","heightMap",{"dirt","grass","rock"},"detailMap","detailMap","", 200 , 12,0.8,12);
 	terrain:GetDrawItem():SetShine(20);
 	terrain:SetTextureHeights({-30,-5,40});
 	scene:AddObject(terrain);
