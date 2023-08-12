@@ -48,7 +48,7 @@ void Renderer::Init(GLFWwindow* window) {
 	//create frame buffer texture
 	glGenTextures(1, &textureColorBuff);
 	glBindTexture(GL_TEXTURE_2D, textureColorBuff);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 500, 500, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, wWidth, wHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -59,7 +59,7 @@ void Renderer::Init(GLFWwindow* window) {
 	//rbo for depth
 	glGenRenderbuffers(1, &RBO);
 	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 500, 500);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, wWidth, wHeight);
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
 
@@ -278,6 +278,39 @@ Shader& Renderer::GetShader() {
 void Renderer::ToggleWireFrame()
 {
 	wireFrame = !wireFrame;
+}
+
+void Renderer::Resize(int width, int height)
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	//delete old frame buffer and texture
+	glDeleteTextures(1, &textureColorBuff);
+	glDeleteFramebuffers(1,&FBO);
+
+	//create new frame buffer
+	glGenFramebuffers(1, &FBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+
+	//create frame buffer texture
+	glGenTextures(1, &textureColorBuff);
+	glBindTexture(GL_TEXTURE_2D, textureColorBuff);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	//attatch texture to frame buffer
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorBuff, 0);
+
+	//rbo for depth
+	glGenRenderbuffers(1, &RBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
+	
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 double Renderer::GetFPS()
