@@ -100,6 +100,7 @@ void GameEngine::Run() {
 
 		if (simIsRunning) {
 			aiManager.UpdateAgents(deltaTime);
+			physicsManager.Update(deltaTime);
 		}
 		else {
 			deltaTime = 0.0f;

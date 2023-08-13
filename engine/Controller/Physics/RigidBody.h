@@ -2,48 +2,11 @@
 #include <reactphysics3d/reactphysics3d.h>
 #include <glm/glm.hpp>
 
-class CollisionListener : public rp3d::EventListener
+class PhysicsBody
 {
 public:
-	virtual void onContact(const CollisionCallback::CallbackData& callbackData) override
-	{
-		if (contactListenerState)
-		{
-			for (int p = 0; p < callbackData.getNbContactPairs(); p++) {
-
-				CollisionCallback::ContactPair contactPair = callbackData.getContactPair(p);
-
-				if (contactPair.getEventType() == CollisionCallback::ContactPair::EventType::ContactStart)
-				{
-					if (contactPair.getBody1()->getEntity().id == ID || contactPair.getBody2()->getEntity().id == ID) {
-						isContact = true;
-					}
-				}
-
-				if (contactPair.getEventType() == CollisionCallback::ContactPair::EventType::ContactExit)
-				{
-					if (contactPair.getBody1()->getEntity().id == ID || contactPair.getBody2()->getEntity().id == ID) {
-						isContact = false;
-					}
-				}
-			}
-		}
-	}
-
-	void ToggleState() { contactListenerState = !contactListenerState; }
-
-	bool isContact = false;
-	int ID = -1;
-private:
-	bool contactListenerState = false;
-
-};
-
-class RigidBody
-{
-public:
-	RigidBody();
-	~RigidBody();
+	PhysicsBody();
+	~PhysicsBody();
 
 	void ApplyForce(float x, float y, float z);
 	void ApplyTorque(float x, float y, float z);
@@ -56,16 +19,19 @@ public:
 	void SetPosition(float x, float y, float z);
 	void SetRotation(float x, float y, float z);
 
+	//get/set collider fucntions go here
 
 private:
-	//position and rotation of the rigidbody
-	glm::vec3 position;
-	glm::vec3 rotation;
+
+	//rp3d collision body, stores position and rotation in physics space.
+	//also stored rp3d collider objects
+	rp3d::CollisionBody* body;
+
+	
+	////position and rotation of the rigidbody
+	//glm::vec3 position;
+	//glm::vec3 rotation;
 
 	//mass of the rigidbody
 	float mass;
-
-	//drag and angular drag of the rigidbody
-	float drag;
-	float angularDrag;
 };

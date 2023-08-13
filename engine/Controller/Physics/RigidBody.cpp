@@ -1,44 +1,44 @@
 #include "RigidBody.h"
 
 
-RigidBody::RigidBody()
+PhysicsBody::PhysicsBody()
 {
 }
 
-RigidBody::~RigidBody()
+PhysicsBody::~PhysicsBody()
 {
 }
 
-void RigidBody::ApplyForce(float x, float y, float z)
+void PhysicsBody::ApplyForce(float x, float y, float z)
 {
 	
 }
 
-void RigidBody::ApplyTorque(float x, float y, float z)
+void PhysicsBody::ApplyTorque(float x, float y, float z)
 {
 
 }
 
-glm::vec3 RigidBody::GetPosition()
+glm::vec3 PhysicsBody::GetPosition()
 {
-	return position;
+	if (body)
+	{
+		rp3d::Vector3 worldPos = body->getTransform().getPosition();
+		return { worldPos.x, worldPos.y, worldPos.z};
+	}
+	return glm::vec3(0);
 }
 
-glm::vec3 RigidBody::GetRotation()
+glm::vec3 PhysicsBody::GetRotation()
 {
-	return rotation;
+	//TODO: Change to return quat? also get euler angles from body transform
+	return glm::vec3(0);
 }
 
-void RigidBody::SetPosition(float x, float y, float z)
+void PhysicsBody::SetPosition(float x, float y, float z)
 {
-	position.x = x;
-	position.y = y;
-	position.z = z;
 }
 
-void RigidBody::SetRotation(float x, float y, float z)
+void PhysicsBody::SetRotation(float x, float y, float z)
 {
-	rotation.x = x;
-	rotation.y = y;
-	rotation.z = z;
 }
