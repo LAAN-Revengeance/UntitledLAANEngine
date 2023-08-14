@@ -16,7 +16,6 @@ PhysicsManager::PhysicsManager()
 	
 	//rp3d physics world
 	rp3dWorld = rp3dPhysicsCommon.createPhysicsWorld();
-
 }
 
 PhysicsManager::~PhysicsManager()
@@ -32,6 +31,50 @@ void PhysicsManager::ResolveCollision(PhysicsBody& b1, PhysicsBody& b2)
 PhysicsBody& PhysicsManager::GetPhysicsBody(unsigned int id)
 {
 	return physicsBodies.at(id);
+}
+
+void PhysicsManager::DrawPhysicsWorld(Camera& camera)
+{
+	if(!debugShader)
+		debugShader = new Shader("resources/shaders/Physics_Debug/Physics.vert", "resources/shaders/Physics_Debug/Physics.frag", "");
+
+	// Enable debug rendering 
+	rp3dWorld->setIsDebugRenderingEnabled(true);
+	// Get a reference to the debug renderer 
+	DebugRenderer& debugRenderer = rp3dWorld->getDebugRenderer();
+	// Select the contact points and contact normals to be displayed 
+	debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::CONTACT_POINT, true);
+	debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::CONTACT_NORMAL, true);
+	debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::COLLISION_SHAPE, true);
+	debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::COLLIDER_AABB, true);
+	debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::COLLIDER_BROADPHASE_AABB, true);
+
+	int nLines = debugRenderer.getNbLines();
+	int nTri = debugRenderer.getNbTriangles();
+
+	if (nTri > 0) {
+
+		glDisable(GL_CULL_FACE);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+		//set model matrix uniforms
+		glm::mat4 modelMat(1.0f);
+
+		const reactphysics3d::DebugRenderer::DebugTriangle* tri = debugRenderer.getTrianglesArray();
+
+		if (debugMesh)
+			debugMesh->FreeData();
+
+		debugMesh = new Mesh();
+		debugShader->SetUniform("model", modelMat);
+
+		debugMesh->SetDebugVertexData((float*)&tri->point1.x, nTri * 3);
+		debugMesh->Render(&camera, debugShader, false, GL_TRIANGLES);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+	}
 }
 
 void PhysicsManager::Update(double deltaTime)
@@ -54,6 +97,7 @@ PhysicsBody& PhysicsManager::AddPhysicsBody(GameObject& go)
 	physicsBodies.insert({id,pb});
 
 	//assign rigidbody to gameobject
+	//maybe it should be the other way around? PhysicsBody has game object refernce?
 	go.rigidBody = &pb;
 
 	return physicsBodies.at(id);

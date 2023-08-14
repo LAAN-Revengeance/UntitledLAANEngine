@@ -107,7 +107,9 @@ void GameEngine::Run() {
 		}
 
 		renderer.Draw(*scene, deltaTime);
+		physicsManager.DrawPhysicsWorld(scene->camera);
 		luaManager.RunUpdateMethod(deltaTime);
+
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

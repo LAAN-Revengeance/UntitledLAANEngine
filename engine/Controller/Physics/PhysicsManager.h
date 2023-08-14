@@ -26,6 +26,8 @@ public:
 	void ResolveCollision(PhysicsBody& b1, PhysicsBody& b2);
 
 	PhysicsBody& GetPhysicsBody(unsigned int id);
+
+	void DrawPhysicsWorld(Camera& camera);
 private:
 
 	//singleton
@@ -41,6 +43,10 @@ private:
 	rp3d::PhysicsCommon rp3dPhysicsCommon;
 	rp3d::PhysicsWorld* rp3dWorld;
 	rp3dCollisionCallback mCallback;
+
+	//debug rendering
+	Mesh* debugMesh;
+	Shader* debugShader;
 };
 
 
