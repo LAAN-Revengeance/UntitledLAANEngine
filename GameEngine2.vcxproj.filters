@@ -43,7 +43,6 @@
     <ClCompile Include="Engine\Controller\Serialization\SceneLoader.cpp" />
     <ClCompile Include="engine\Controller\Physics\RigidBody.cpp" />
     <ClCompile Include="engine\Controller\Physics\PhysicsManager.cpp" />
-    <ClCompile Include="engine\Controller\Physics\ReactCallback.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\Controller\GaemEngine.h" />

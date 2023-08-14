@@ -37,8 +37,22 @@ glm::vec3 PhysicsBody::GetRotation()
 
 void PhysicsBody::SetPosition(float x, float y, float z)
 {
+	if (body)
+	{
+		body->setTransform(rp3d::Transform({ x,y,z }, body->getTransform().getOrientation()));
+	}
 }
 
 void PhysicsBody::SetRotation(float x, float y, float z)
 {
+
+}
+
+void PhysicsBody::SetID(unsigned int nID)
+{
+}
+
+unsigned int PhysicsBody::GetID()
+{
+	return ID;
 }

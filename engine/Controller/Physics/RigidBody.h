@@ -21,17 +21,17 @@ public:
 
 	//get/set collider fucntions go here
 
+	void SetID(unsigned int nID);
+	unsigned int GetID();
+
 private:
+
+	unsigned int ID = -1;
 
 	//rp3d collision body, stores position and rotation in physics space.
 	//also stored rp3d collider objects
 	rp3d::CollisionBody* body;
 
-	
-	////position and rotation of the rigidbody
-	//glm::vec3 position;
-	//glm::vec3 rotation;
-
 	//mass of the rigidbody
-	float mass;
+	float mass = 1;
 };
