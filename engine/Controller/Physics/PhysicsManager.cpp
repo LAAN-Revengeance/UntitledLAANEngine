@@ -53,6 +53,9 @@ PhysicsBody& PhysicsManager::AddPhysicsBody(GameObject& go)
 	pb.SetID(id);
 	physicsBodies.insert({id,pb});
 
+	//assign rigidbody to gameobject
+	go.rigidBody = &pb;
+
 	return physicsBodies.at(id);
 }
 

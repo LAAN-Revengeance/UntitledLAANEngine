@@ -7,6 +7,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/vector_angle.hpp>
 #include <glm/gtx/euler_angles.hpp>
+#include <Physics/RigidBody.h>
 
 /**
 *	@Class GameObject
@@ -104,7 +105,10 @@ public:
 
 		///Custom shader
 	Shader* shader = nullptr;
-		
+	
+		///
+	PhysicsBody* rigidBody = nullptr;
+
 		///Name of this object
 	std::string name;
 		///Return this objects ID
@@ -122,4 +126,5 @@ protected:
 	unsigned int ID = 0;
 
 	
+	friend class PhysicsManager;
 };
