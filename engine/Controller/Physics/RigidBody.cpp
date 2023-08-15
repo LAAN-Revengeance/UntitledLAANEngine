@@ -43,10 +43,6 @@ void PhysicsBody::SetPosition(float x, float y, float z)
 	}
 }
 
-rp3d::CollisionBody* PhysicsBody::GetBody()
-{
-	return body;
-}
 
 void PhysicsBody::SetRotation(float x, float y, float z)
 {

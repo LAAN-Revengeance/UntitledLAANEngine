@@ -20,8 +20,6 @@ public:
 	void SetRotation(float x, float y, float z);
 
 	//get/set collider fucntions go here
-	void AddCollider();
-	rp3d::CollisionBody* GetBody();
 
 
 	void SetID(unsigned int nID);
