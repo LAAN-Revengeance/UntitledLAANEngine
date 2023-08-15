@@ -36,7 +36,7 @@ function init()
 	);
 	
 	--load scene
-	terrain = resources:CreateTerrain("Terrain","heightMap",{"dirt","grass","rock"},"detailMap","detailMap","", 200 , 12,0.8,12);
+	terrain = resources:CreateTerrain("Terrain","heightMap",{"dirt","grass","rock"},"detailMap","detailMap","", 200 , 12,0.0,12);
 	terrain:GetDrawItem():SetShine(20);
 	terrain:SetTextureHeights({-30,-5,40});
 	scene:AddObject(terrain);
@@ -47,7 +47,13 @@ function init()
 	--setup camera 
 	camera = scene:GetCamera();
 	camera.farPlane = 10000;
+	camera.position.x = 0;
+	camera.position.y = 0;
+	camera.position.z = 0;
 
+	print(camera.position.x)
+	print(camera.position.y)
+	print(camera.position.z)
 	--setup skybox
 	scene:SetSkybox(resources:GetCubeMap("skybox"));
 

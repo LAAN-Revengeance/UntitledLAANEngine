@@ -4,9 +4,10 @@
 #include <GameObject.h>
 #include <map>
 
-enum colshape {
-	"sphere" = 1,
-	"cube" = 2
+enum colliderShape {
+	sphere = 1,
+	cube = 2,
+	capsule = 3
 };
 
 class rp3dCollisionCallback : public rp3d::CollisionCallback {
@@ -23,7 +24,7 @@ public:
 	static PhysicsManager& Get();
 
 	void Update(double deltaTime);
-	
+
 	//add physics body to physics world, assign it to a game object
 	PhysicsBody& AddPhysicsBody(GameObject& go);
 	void AddColliderShape(PhysicsBody& pb, int shape);
@@ -41,9 +42,9 @@ private:
 	~PhysicsManager();
 	PhysicsManager(const PhysicsManager&) = delete;
 	PhysicsManager& operator = (const PhysicsManager&) = delete;
-	
+
 	//ID to physics body map
-	std::map<unsigned int,PhysicsBody> physicsBodies;
+	std::map<unsigned int, PhysicsBody> physicsBodies;
 
 	//rp3d collision world
 	rp3d::PhysicsCommon rp3dPhysicsCommon;
@@ -51,8 +52,12 @@ private:
 	rp3dCollisionCallback mCallback;
 
 	//debug rendering
-	Mesh* debugMesh;
-	Shader* debugShader;
+	Mesh* debugMesh = nullptr;
+	Shader* debugShader = nullptr;
+
+
+	//friendship
+	friend class rp3dCollisionCallback;
 };
 
 

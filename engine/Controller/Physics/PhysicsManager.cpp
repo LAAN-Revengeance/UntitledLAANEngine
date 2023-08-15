@@ -3,13 +3,6 @@
 using namespace rp3d;
 
 
-enum colliderShape {
-	sphere = 1,
-	cube = 2,
-	capsule = 3
-};
-
-
 PhysicsManager& PhysicsManager::Get()
 {
 	static PhysicsManager p_instance;
@@ -18,10 +11,34 @@ PhysicsManager& PhysicsManager::Get()
 
 PhysicsManager::PhysicsManager()
 {
-	//rigidBodies.reserve(100);
-	
+	//rigidBodies.reserve(100
+
 	//rp3d physics world
 	rp3dWorld = rp3dPhysicsCommon.createPhysicsWorld();
+
+	//test
+	Vector3 position(0.0, 0.0, 0.0);
+	Quaternion orientation = Quaternion::identity();
+	Transform transform(position, orientation);
+	// Create a collision body in the world
+	CollisionBody* body;
+	body = rp3dWorld->createCollisionBody(transform);
+
+	float radius = 5.0f;
+	SphereShape* sphereShape = rp3dPhysicsCommon.createSphereShape(radius);
+	Collider* collider;
+	collider = body->addCollider(sphereShape, transform);
+
+	Vector3 position2(0.0, 4.9, 0.0);
+	Quaternion orientation2 = Quaternion::identity();
+	Transform transform2(position2, orientation2);
+	// Create a collision body in the world
+	CollisionBody* body2;
+	body2 = rp3dWorld->createCollisionBody(transform2);
+	
+	SphereShape* sphereShape2 = rp3dPhysicsCommon.createSphereShape(radius);
+	Collider* collider2;
+	collider2 = body2->addCollider(sphereShape2, transform2);
 }
 
 PhysicsManager::~PhysicsManager()
@@ -39,54 +56,33 @@ PhysicsBody& PhysicsManager::GetPhysicsBody(unsigned int id)
 	return physicsBodies.at(id);
 }
 
-void PhysicsManager::DrawPhysicsWorld(Camera& camera)
-{
-	if(!debugShader)
-		debugShader = new Shader("resources/shaders/Physics_Debug/Physics.vert", "resources/shaders/Physics_Debug/Physics.frag", "");
-
-	// Enable debug rendering 
-	rp3dWorld->setIsDebugRenderingEnabled(true);
-	// Get a reference to the debug renderer 
-	DebugRenderer& debugRenderer = rp3dWorld->getDebugRenderer();
-	// Select the contact points and contact normals to be displayed 
-	debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::CONTACT_POINT, true);
-	debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::CONTACT_NORMAL, true);
-	debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::COLLISION_SHAPE, true);
-	debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::COLLIDER_AABB, true);
-	debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::COLLIDER_BROADPHASE_AABB, true);
-
-	int nLines = debugRenderer.getNbLines();
-	int nTri = debugRenderer.getNbTriangles();
-
-	if (nTri > 0) {
-
-		glDisable(GL_CULL_FACE);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-		//set model matrix uniforms
-		glm::mat4 modelMat(1.0f);
-
-		const reactphysics3d::DebugRenderer::DebugTriangle* tri = debugRenderer.getTrianglesArray();
-
-		if (debugMesh)
-			debugMesh->FreeData();
-
-		debugMesh = new Mesh();
-		debugShader->SetUniform("model", modelMat);
-
-		debugMesh->SetDebugVertexData((float*)&tri->point1.x, nTri * 3);
-		debugMesh->Render(&camera, debugShader, false, GL_TRIANGLES);
-
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-	}
-}
-
 void PhysicsManager::Update(double deltaTime)
 {
 	//run rp3d collision detection callback
 	rp3dWorld->testCollision(mCallback);
+}
+
+void PhysicsManager::AddColliderShape(PhysicsBody& pb, int shape)
+{
+	//todo custom variables for shape scale
+
+	//create shape from physics common
+	ConvexShape* mShape;
+	switch (shape)
+	{
+	case 1:		//sphere
+		mShape = rp3dPhysicsCommon.createSphereShape(1);
+		pb.body->addCollider(mShape, Transform::identity());
+		break;
+	case 2:		//cube
+		mShape = rp3dPhysicsCommon.createBoxShape(Vector3(1, 1, 1));
+		pb.body->addCollider(mShape, Transform::identity());
+		break;
+	case 3:		//capsule
+		mShape = rp3dPhysicsCommon.createCapsuleShape(1, 1);
+		pb.body->addCollider(mShape, Transform::identity());
+		break;
+	}
 }
 
 PhysicsBody& PhysicsManager::AddPhysicsBody(GameObject& go)
@@ -109,28 +105,6 @@ PhysicsBody& PhysicsManager::AddPhysicsBody(GameObject& go)
 	return physicsBodies.at(id);
 }
 
-void PhysicsManager::AddColliderShape(PhysicsBody& pb, int shape)
-{
-	//todo custom variables for shape scale
-
-	//create shape from physics common
-	switch (shape)
-	{
-	case 1:		//sphere
-		SphereShape* sphere = rp3dPhysicsCommon.createSphereShape(1);
-		pb.body->addCollider(sphere, Transform::identity());
-		break;
-	case 2:		//cube
-		BoxShape * cube = rp3dPhysicsCommon.createBoxShape(Vector3(1,1,1));
-		pb.body->addCollider(cube, Transform::identity());
-		break;
-	case 3:		//capsule
-		CapsuleShape * capsule = rp3dPhysicsCommon.createCapsuleShape(1, 1);
-		pb.body->addCollider(capsule, Transform::identity());
-		break;
-	}
-}
-
 void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 {
 	PhysicsManager& pManager = PhysicsManager::Get();
@@ -138,7 +112,61 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 	for (int i = 0; i < callbackData.getNbContactPairs(); i++)
 	{
 		unsigned int id1 = callbackData.getContactPair(i).getBody1()->getEntity().id;
-		unsigned int id2 = callbackData.getContactPair(i).getBody1()->getEntity().id;
-		pManager.ResolveCollision(pManager.GetPhysicsBody(id1), pManager.GetPhysicsBody(id1));
+		unsigned int id2 = callbackData.getContactPair(i).getBody2()->getEntity().id;
+
+		std::cout << "body: " << id1 << " | " << "body: " << id2 << "\n";
+		auto rbMap = &pManager.physicsBodies;
+		if (rbMap->find(id1) != rbMap->end() && rbMap->find(id2) != rbMap->end()) {
+			pManager.ResolveCollision(pManager.GetPhysicsBody(id1), pManager.GetPhysicsBody(id2));
+		}
+	}
+}
+
+void PhysicsManager::DrawPhysicsWorld(Camera& camera)
+{
+
+
+	if (!debugShader)
+		debugShader = new Shader("resources/shaders/Physics_Debug/Physics.vert", "resources/shaders/Physics_Debug/Physics.frag", "");
+
+	// Enable debug rendering 
+	rp3dWorld->setIsDebugRenderingEnabled(true);
+
+	//needs an update to generate verts
+	rp3dWorld->update(0.1f);
+
+	// Get a reference to the debug renderer 
+	DebugRenderer& debugRenderer = rp3dWorld->getDebugRenderer();
+	// Select the contact points and contact normals to be displayed 
+	debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::CONTACT_POINT, true);
+	debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::CONTACT_NORMAL, true);
+	debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::COLLISION_SHAPE, true);
+	debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::COLLIDER_AABB, true);
+	debugRenderer.setIsDebugItemDisplayed(DebugRenderer::DebugItem::COLLIDER_BROADPHASE_AABB, true);
+
+	int nLines = debugRenderer.getNbLines();
+	int nTri = debugRenderer.getNbTriangles();
+
+	if (nTri > 0) {
+		glDisable(GL_CULL_FACE);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glClearColor(1, 0, 0, 0);
+		//set model matrix uniforms
+		glm::mat4 modelMat(1.0f);
+
+		const reactphysics3d::DebugRenderer::DebugTriangle* tri = debugRenderer.getTrianglesArray();
+
+		if (debugMesh)
+			debugMesh->FreeData();
+
+		debugMesh = new Mesh();
+		debugShader->SetUniform("model", modelMat);
+
+		debugMesh->SetDebugVertexData((float*)&tri->point1.x, nTri * 3);
+		debugMesh->Render(&camera, debugShader, false, GL_TRIANGLES);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
 	}
 }
