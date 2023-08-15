@@ -4,6 +4,11 @@
 #include <GameObject.h>
 #include <map>
 
+enum colshape {
+	"sphere" = 1,
+	"cube" = 2
+};
+
 class rp3dCollisionCallback : public rp3d::CollisionCallback {
 
 public:
@@ -21,6 +26,7 @@ public:
 	
 	//add physics body to physics world, assign it to a game object
 	PhysicsBody& AddPhysicsBody(GameObject& go);
+	void AddColliderShape(PhysicsBody& pb, int shape);
 
 	//TODO: find out all data needed to resolve a collision.
 	void ResolveCollision(PhysicsBody& b1, PhysicsBody& b2);

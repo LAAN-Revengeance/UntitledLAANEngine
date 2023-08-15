@@ -103,6 +103,26 @@ PhysicsBody& PhysicsManager::AddPhysicsBody(GameObject& go)
 	return physicsBodies.at(id);
 }
 
+void PhysicsManager::AddColliderShape(PhysicsBody& pb, int shape)
+{
+	int radius;
+
+	//create shape from physics common
+	switch (shape)
+	{
+	case 1:		//sphere
+		SphereShape* sphere = rp3dPhysicsCommon.createSphereShape(radius);
+		pb.GetBody()->addCollider(sphere, Transform::identity());
+		break;
+	case 2:		//cube
+		BoxShape * cube = rp3dPhysicsCommon.createBoxShape(Vector3(1,1,1));
+		pb.GetBody()->addCollider(cube, Transform::identity());
+		break;
+	}
+
+
+}
+
 void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 {
 	PhysicsManager& pManager = PhysicsManager::Get();
