@@ -90,9 +90,9 @@ void PhysicsManager::AddSphereCollider(PhysicsBody& pb, float radius)
 	pb.body->addCollider(shape, Transform::identity());
 }
 
-void PhysicsManager::AddCubeCollider(PhysicsBody& pb, Vector3 scale)
+void PhysicsManager::AddCubeCollider(PhysicsBody& pb, glm::vec3 scale)
 {
-	BoxShape* shape = rp3dPhysicsCommon.createBoxShape(scale);
+	BoxShape* shape = rp3dPhysicsCommon.createBoxShape(Vector3(scale.x, scale.y, scale.z));
 	pb.body->addCollider(shape, Transform::identity());
 }
 
