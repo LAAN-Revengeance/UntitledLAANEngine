@@ -3,6 +3,12 @@
 using namespace rp3d;
 
 
+enum colliderShape {
+	sphere = 1,
+	cube = 2,
+	capsule = 3
+};
+
 
 PhysicsManager& PhysicsManager::Get()
 {
@@ -105,22 +111,24 @@ PhysicsBody& PhysicsManager::AddPhysicsBody(GameObject& go)
 
 void PhysicsManager::AddColliderShape(PhysicsBody& pb, int shape)
 {
-	int radius;
+	//todo custom variables for shape scale
 
 	//create shape from physics common
 	switch (shape)
 	{
 	case 1:		//sphere
-		SphereShape* sphere = rp3dPhysicsCommon.createSphereShape(radius);
-		pb.GetBody()->addCollider(sphere, Transform::identity());
+		SphereShape* sphere = rp3dPhysicsCommon.createSphereShape(1);
+		pb.body->addCollider(sphere, Transform::identity());
 		break;
 	case 2:		//cube
 		BoxShape * cube = rp3dPhysicsCommon.createBoxShape(Vector3(1,1,1));
-		pb.GetBody()->addCollider(cube, Transform::identity());
+		pb.body->addCollider(cube, Transform::identity());
+		break;
+	case 3:		//capsule
+		CapsuleShape * capsule = rp3dPhysicsCommon.createCapsuleShape(1, 1);
+		pb.body->addCollider(capsule, Transform::identity());
 		break;
 	}
-
-
 }
 
 void rp3dCollisionCallback::onContact(const CallbackData& callbackData)

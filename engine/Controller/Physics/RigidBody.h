@@ -25,6 +25,8 @@ public:
 	void SetID(unsigned int nID);
 	unsigned int GetID();
 
+	friend class PhysicsManager;
+
 private:
 
 	unsigned int ID = -1;
