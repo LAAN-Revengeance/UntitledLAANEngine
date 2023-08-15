@@ -27,7 +27,11 @@ public:
 
 	//add physics body to physics world, assign it to a game object
 	PhysicsBody& AddPhysicsBody(GameObject& go);
-	void AddColliderShape(PhysicsBody& pb, int shape);
+
+	//add collider to supplied physics body
+	void AddSphereCollider(PhysicsBody& pb, float radius);
+	void AddCubeCollider(PhysicsBody& pb, Vector3 scale);
+	void AddCapsuleCollider(PhysicsBody& pb, float radius, float height);
 
 	//TODO: find out all data needed to resolve a collision.
 	void ResolveCollision(PhysicsBody& b1, PhysicsBody& b2);

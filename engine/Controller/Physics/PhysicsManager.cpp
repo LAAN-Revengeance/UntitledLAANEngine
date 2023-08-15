@@ -62,28 +62,7 @@ void PhysicsManager::Update(double deltaTime)
 	rp3dWorld->testCollision(mCallback);
 }
 
-void PhysicsManager::AddColliderShape(PhysicsBody& pb, int shape)
-{
-	//todo custom variables for shape scale
 
-	//create shape from physics common
-	ConvexShape* mShape;
-	switch (shape)
-	{
-	case 1:		//sphere
-		mShape = rp3dPhysicsCommon.createSphereShape(1);
-		pb.body->addCollider(mShape, Transform::identity());
-		break;
-	case 2:		//cube
-		mShape = rp3dPhysicsCommon.createBoxShape(Vector3(1, 1, 1));
-		pb.body->addCollider(mShape, Transform::identity());
-		break;
-	case 3:		//capsule
-		mShape = rp3dPhysicsCommon.createCapsuleShape(1, 1);
-		pb.body->addCollider(mShape, Transform::identity());
-		break;
-	}
-}
 
 PhysicsBody& PhysicsManager::AddPhysicsBody(GameObject& go)
 {
@@ -103,6 +82,24 @@ PhysicsBody& PhysicsManager::AddPhysicsBody(GameObject& go)
 	go.rigidBody = &pb;
 
 	return physicsBodies.at(id);
+}
+
+void PhysicsManager::AddSphereCollider(PhysicsBody& pb, float radius)
+{
+	SphereShape* shape = rp3dPhysicsCommon.createSphereShape(1);
+	pb.body->addCollider(shape, Transform::identity());
+}
+
+void PhysicsManager::AddCubeCollider(PhysicsBody& pb, Vector3 scale)
+{
+	BoxShape* shape = rp3dPhysicsCommon.createBoxShape(scale);
+	pb.body->addCollider(shape, Transform::identity());
+}
+
+void PhysicsManager::AddCapsuleCollider(PhysicsBody& pb, float radius, float height)
+{
+	CapsuleShape* shape = rp3dPhysicsCommon.createCapsuleShape(radius, height);
+	pb.body->addCollider(shape, Transform::identity());
 }
 
 void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
