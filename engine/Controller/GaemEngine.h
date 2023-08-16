@@ -4,11 +4,11 @@
 #include <GUIRenderer.h>
 #include <InputManager.h>
 #include <AI/AIManager.h>
-#include <AI/States/global_states.h>
 #include <SoundEngine.h>
 #include <Lua/LuaManager.h>
 #include <Serialization/SceneLoader.h>
 #include <AI/States/ScriptableState.h>
+#include <Physics/PhysicsManager.h>
 
 const int WINDOW_TYPE_WINDOWED	 = 1;
 const int WINDOW_TYPE_BORDERLESS = 2;
@@ -131,6 +131,8 @@ public:
 	AIManager& aiManager = AIManager::Get();
 		///Reference to SoundEngine
 	SoundEngine& soundEngine = SoundEngine::Get();
+		//Reference physics Manager
+	PhysicsManager& physicsManager = PhysicsManager::Get();
 
 private:
 

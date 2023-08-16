@@ -100,13 +100,16 @@ void GameEngine::Run() {
 
 		if (simIsRunning) {
 			aiManager.UpdateAgents(deltaTime);
+			physicsManager.Update(deltaTime);
 		}
 		else {
 			deltaTime = 0.0f;
 		}
 
 		renderer.Draw(*scene, deltaTime);
+		physicsManager.DrawPhysicsWorld(scene->camera);
 		luaManager.RunUpdateMethod(deltaTime);
+
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
