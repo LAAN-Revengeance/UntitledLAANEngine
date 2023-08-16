@@ -4,7 +4,6 @@
 #include <GUIRenderer.h>
 #include <InputManager.h>
 #include <AI/AIManager.h>
-#include <AI/States/global_states.h>
 #include <SoundEngine.h>
 #include <Lua/LuaManager.h>
 #include <Serialization/SceneLoader.h>

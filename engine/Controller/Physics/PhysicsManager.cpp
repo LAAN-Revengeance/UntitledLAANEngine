@@ -62,8 +62,6 @@ void PhysicsManager::Update(double deltaTime)
 	rp3dWorld->testCollision(mCallback);
 }
 
-
-
 PhysicsBody& PhysicsManager::AddPhysicsBody(GameObject& go)
 {
 	//add collision body to react and get its ID
@@ -79,7 +77,7 @@ PhysicsBody& PhysicsManager::AddPhysicsBody(GameObject& go)
 
 	//assign rigidbody to gameobject
 	//maybe it should be the other way around? PhysicsBody has game object refernce?
-	go.rigidBody = &pb;
+	go.physicsBody = &pb;
 
 	return physicsBodies.at(id);
 }
@@ -90,7 +88,7 @@ void PhysicsManager::AddSphereCollider(PhysicsBody& pb, float radius)
 	pb.body->addCollider(shape, Transform::identity());
 }
 
-void PhysicsManager::AddCubeCollider(PhysicsBody& pb, glm::vec3 scale)
+void PhysicsManager::AddBoxCollider(PhysicsBody& pb, glm::vec3 scale)
 {
 	BoxShape* shape = rp3dPhysicsCommon.createBoxShape(Vector3(scale.x, scale.y, scale.z));
 	pb.body->addCollider(shape, Transform::identity());
@@ -112,6 +110,7 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 		unsigned int id2 = callbackData.getContactPair(i).getBody2()->getEntity().id;
 
 		std::cout << "body: " << id1 << " | " << "body: " << id2 << "\n";
+		//if physics bodies exist, resolve collision.
 		auto rbMap = &pManager.physicsBodies;
 		if (rbMap->find(id1) != rbMap->end() && rbMap->find(id2) != rbMap->end()) {
 			pManager.ResolveCollision(pManager.GetPhysicsBody(id1), pManager.GetPhysicsBody(id2));
@@ -121,8 +120,6 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 
 void PhysicsManager::DrawPhysicsWorld(Camera& camera)
 {
-
-
 	if (!debugShader)
 		debugShader = new Shader("resources/shaders/Physics_Debug/Physics.vert", "resources/shaders/Physics_Debug/Physics.frag", "");
 

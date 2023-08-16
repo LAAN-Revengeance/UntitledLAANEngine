@@ -106,8 +106,8 @@ public:
 		///Custom shader
 	Shader* shader = nullptr;
 	
-		///
-	PhysicsBody* rigidBody = nullptr;
+		///physics body
+	PhysicsBody* physicsBody = nullptr;
 
 		///Name of this object
 	std::string name;

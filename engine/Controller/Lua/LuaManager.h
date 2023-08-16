@@ -1,6 +1,7 @@
 #include <sol/sol.hpp>
 #include <Scene.h>
 #include <GameObject.h>
+#include <Physics/PhysicsManager.h>
 #include <ResourceManager.h>
 #include <InputManager.h>
 #include <GUIRenderer.h>
@@ -8,7 +9,6 @@
 #include <AI/States/State.h>
 #include <SoundEngine.h>
 #include <Serialization/SceneLoader.h>
-#include <AI/States/global_states.h>
 
 /**
 *	@Class LuaManager

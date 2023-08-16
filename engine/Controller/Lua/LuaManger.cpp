@@ -77,7 +77,7 @@ void LuaManager::Expose_Engine() {
 		);
 
 
-	//expose aniation struct
+	//expose animation struct
 	Expose_CPPClass<animation>("animation",
 		sol::constructors<animation(), animation(int,int,int)>(),
 		"start",&animation::start,
@@ -86,7 +86,7 @@ void LuaManager::Expose_Engine() {
 	);
 
 
-	//expose draw item
+	//expose texture
 	Expose_CPPClass<Texture>("Texture",
 		sol::no_constructor
 		);
@@ -251,42 +251,31 @@ void LuaManager::Expose_Engine() {
 		);
 	luaState["input"] = &InputManager::Get();
 
-	/*
+	
 	//expose physics
-	Expose_CPPClass<Physics>("PhysicsManager",
+	Expose_CPPClass<PhysicsManager>("PhysicsManager",
 		sol::no_constructor,
-		"AddRigidBody", &Physics::AddRigidBody,
-		"AddRigidBodyColliderBox", &Physics::AddRigidBodyColliderBox,
-		"AddRigidBodyColliderSphere", &Physics::AddRigidBodyColliderSphere,
-		"AddRigidBodyColliderCapsule", &Physics::AddRigidBodyColliderCapsule,
-		"AddRigidBodyColliderHeightMap", &Physics::AddRigidBodyColliderHeightMap,
-		"SetTimeStep", &Physics::SetTimeStep,
-		"ToggleDebugDisplay", &Physics::ToggleDebugDisplay
+		"AddPhysicsBody", &PhysicsManager::AddPhysicsBody,
+		"AddSphereCollider", &PhysicsManager::AddSphereCollider,
+		"AddBoxCollider", &PhysicsManager::AddBoxCollider,
+		"AddCapsuleCollider", &PhysicsManager::AddCapsuleCollider,
+		"GetPhysicsBody", &PhysicsManager::GetPhysicsBody
+		);
+	luaState["physics"] = &PhysicsManager::Get();
+
+	Expose_CPPClass<PhysicsBody>("PhysicsBody",
+		sol::no_constructor,
+		"ApplyForce", &PhysicsBody::ApplyForce,
+		"ApplyTorque", &PhysicsBody::ApplyTorque,
+		"GetPosition", &PhysicsBody::GetPosition,
+		"GetRotation", &PhysicsBody::GetRotation,
+		"SetPosition", &PhysicsBody::SetPosition,
+		"SetRotation", &PhysicsBody::SetRotation,
+		"GetID", &PhysicsBody::GetID
 		);
 
-	Expose_CPPClass<Rigidbody>("RigidBody",
-		sol::no_constructor,
-		"ApplyForce", &Rigidbody::ApplyForce,
-		"ApplyForceLocal", &Rigidbody::ApplyForceLocal,
-		"ApplyTorqueLocal", &Rigidbody::ApplyTorqueLocal,
-		"SetPosition", &Rigidbody::SetPosition,
-		"GetPosition", &Rigidbody::GetPosition,
-		"ModType", &Rigidbody::ModType,
-		"SetUseGravity", &Rigidbody::SetUseGravity,
-		"SetAxisLinearFactor", &Rigidbody::SetAxisLinearFactor,
-		"SetAxisAngleFactor", &Rigidbody::SetAxisAngleFactor,
-		"SetMass", &Rigidbody::SetMass,
-		"SetCenterOfMass", &Rigidbody::SetCenterOfMass,
-		"SetDampeningAngle", &Rigidbody::SetDampeningAngle,
-		"SetDampeningLinear", &Rigidbody::SetDampeningLinear,
-		"ToggleColliderListener", &Rigidbody::ToggleContactListenState,
-		"GetIsContact", &Rigidbody::GetIsContact,
-		"GetLinearVelocity", &Rigidbody::GetLinearVelocty,
-		"GetAngularVelocity", &Rigidbody::GetAngularVelocity,
-		"SetLinearVelocity", &Rigidbody::SetLinearVelocity,
-		"SetAngularVelocity", &Rigidbody::SetAngularVelocity
-		);
-	*/
+
+	//expose GUI
 	Expose_CPPClass<GUIRenderer>("GUIRenderer",
 		sol::no_constructor,
 		"Start", &GUIRenderer::Start,

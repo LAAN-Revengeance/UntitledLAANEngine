@@ -30,7 +30,7 @@ public:
 
 	//add collider to supplied physics body
 	void AddSphereCollider(PhysicsBody& pb, float radius);
-	void AddCubeCollider(PhysicsBody& pb, glm::vec3 scale);
+	void AddBoxCollider(PhysicsBody& pb, glm::vec3 scale);
 	void AddCapsuleCollider(PhysicsBody& pb, float radius, float height);
 
 	//TODO: find out all data needed to resolve a collision.

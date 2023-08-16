@@ -203,7 +203,6 @@
     <ClInclude Include="Engine\Controller\AI\Message\Message.h" />
     <ClInclude Include="Engine\Controller\AI\Message\MessageDispatcher.h" />
     <ClInclude Include="Engine\Controller\AI\StateMachine.h" />
-    <ClInclude Include="Engine\Controller\AI\States\global_states.h" />
     <ClInclude Include="Engine\Controller\AI\States\ScriptableState.h" />
     <ClInclude Include="Engine\Controller\AI\States\State.h" />
     <ClInclude Include="engine\Controller\GaemEngine.h" />
