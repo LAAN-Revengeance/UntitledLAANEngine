@@ -9,6 +9,7 @@
 #include <Serialization/SceneLoader.h>
 #include <AI/States/ScriptableState.h>
 #include <Physics/PhysicsManager.h>
+#include <SceneEditor.h>
 
 const int WINDOW_TYPE_WINDOWED	 = 1;
 const int WINDOW_TYPE_BORDERLESS = 2;
