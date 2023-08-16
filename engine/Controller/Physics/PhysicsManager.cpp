@@ -17,28 +17,28 @@ PhysicsManager::PhysicsManager()
 	rp3dWorld = rp3dPhysicsCommon.createPhysicsWorld();
 
 	//test
-	Vector3 position(0.0, 0.0, 0.0);
-	Quaternion orientation = Quaternion::identity();
-	Transform transform(position, orientation);
-	// Create a collision body in the world
-	CollisionBody* body;
-	body = rp3dWorld->createCollisionBody(transform);
-
-	float radius = 5.0f;
-	SphereShape* sphereShape = rp3dPhysicsCommon.createSphereShape(radius);
-	Collider* collider;
-	collider = body->addCollider(sphereShape, transform);
-
-	Vector3 position2(0.0, 4.9, 0.0);
-	Quaternion orientation2 = Quaternion::identity();
-	Transform transform2(position2, orientation2);
-	// Create a collision body in the world
-	CollisionBody* body2;
-	body2 = rp3dWorld->createCollisionBody(transform2);
-	
-	SphereShape* sphereShape2 = rp3dPhysicsCommon.createSphereShape(radius);
-	Collider* collider2;
-	collider2 = body2->addCollider(sphereShape2, transform2);
+	//Vector3 position(0.0, 0.0, 0.0);
+	//Quaternion orientation = Quaternion::identity();
+	//Transform transform(position, orientation);
+	//// Create a collision body in the world
+	//CollisionBody* body;
+	//body = rp3dWorld->createCollisionBody(transform);
+	//
+	//float radius = 5.0f;
+	//SphereShape* sphereShape = rp3dPhysicsCommon.createSphereShape(radius);
+	//Collider* collider;
+	//collider = body->addCollider(sphereShape, transform);
+	//
+	//Vector3 position2(0.0, 4.9, 0.0);
+	//Quaternion orientation2 = Quaternion::identity();
+	//Transform transform2(position2, orientation2);
+	//// Create a collision body in the world
+	//CollisionBody* body2;
+	//body2 = rp3dWorld->createCollisionBody(transform2);
+	//
+	//SphereShape* sphereShape2 = rp3dPhysicsCommon.createSphereShape(radius);
+	//Collider* collider2;
+	//collider2 = body2->addCollider(sphereShape2, transform2);
 }
 
 PhysicsManager::~PhysicsManager()
@@ -72,19 +72,20 @@ PhysicsBody& PhysicsManager::AddPhysicsBody(GameObject& go)
 
 	//create a physics body and set ID.
 	PhysicsBody pb;
+	pb.body = bPtr;
 	pb.SetID(id);
 	physicsBodies.insert({id,pb});
 
 	//assign rigidbody to gameobject
 	//maybe it should be the other way around? PhysicsBody has game object refernce?
-	go.physicsBody = &pb;
+	go.physicsBody = &physicsBodies.at(id);
 
 	return physicsBodies.at(id);
 }
 
 void PhysicsManager::AddSphereCollider(PhysicsBody& pb, float radius)
 {
-	SphereShape* shape = rp3dPhysicsCommon.createSphereShape(1);
+	SphereShape* shape = rp3dPhysicsCommon.createSphereShape(radius);
 	pb.body->addCollider(shape, Transform::identity());
 }
 

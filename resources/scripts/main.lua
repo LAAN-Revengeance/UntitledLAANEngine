@@ -25,6 +25,9 @@ function init()
 	resources:LoadTexture("heightMap","resources/textures/heightmap/heightmap512_rivers.png");
 	resources:LoadTexture("detailMap","resources/textures/terrain/detail.png");
 
+	resources:LoadTexture("arcade","resources/models/untitled2022/Arcade.png");
+	resources:LoadModel("arcade","resources/models/untitled2022/Arcade.obj","arcade","","");
+
 	
 	resources:LoadCubemap("skybox",
 		"resources/textures/skybox/Synthwave3/Right.png",
@@ -43,6 +46,17 @@ function init()
 	lighting = scene:GetLights();
 	lighting:SetAmbient(0.3,0.3,0.3);
 	lighting:AddDirectionLight(NormalizeVector(vec3.new( 0,0.5,-1)),vec3.new( 0.0,0.67,0.8),vec3.new(0,1,1));
+
+	--add arcade with sphere collider
+	arcade = resources:CreateGameObject("arcade","arcade","");
+	scene:AddObject(arcade);
+	arcadeCollider = physics:AddPhysicsBody(arcade
+	physics:AddSphereCollider(arcadeCollider,1.0);
+
+
+	
+
+
 
 	--setup camera 
 	camera = scene:GetCamera();
