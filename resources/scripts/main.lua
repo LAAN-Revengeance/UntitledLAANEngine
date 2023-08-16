@@ -50,7 +50,7 @@ function init()
 	--add arcade with sphere collider
 	arcade = resources:CreateGameObject("arcade","arcade","");
 	scene:AddObject(arcade);
-	arcadeCollider = physics:AddPhysicsBody(arcade
+	arcadeCollider = physics:AddPhysicsBody(arcade);
 	physics:AddSphereCollider(arcadeCollider,1.0);
 
 
@@ -65,9 +65,6 @@ function init()
 	camera.position.y = 0;
 	camera.position.z = 0;
 
-	print(camera.position.x)
-	print(camera.position.y)
-	print(camera.position.z)
 	--setup skybox
 	scene:SetSkybox(resources:GetCubeMap("skybox"));
 

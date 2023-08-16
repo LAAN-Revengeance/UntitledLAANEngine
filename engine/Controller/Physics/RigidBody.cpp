@@ -49,10 +49,6 @@ void PhysicsBody::SetRotation(float x, float y, float z)
 
 }
 
-void PhysicsBody::SetID(unsigned int nID)
-{
-}
-
 unsigned int PhysicsBody::GetID()
 {
 	return ID;

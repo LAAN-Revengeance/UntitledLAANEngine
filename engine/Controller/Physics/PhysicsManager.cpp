@@ -73,7 +73,7 @@ PhysicsBody& PhysicsManager::AddPhysicsBody(GameObject& go)
 	//create a physics body and set ID.
 	PhysicsBody pb;
 	pb.body = bPtr;
-	pb.SetID(id);
+	pb.ID = id;
 	physicsBodies.insert({id,pb});
 
 	//assign rigidbody to gameobject
