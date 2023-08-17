@@ -37,7 +37,6 @@ void GameEngine::ExposeToLua(){
 }
 
 GameEngine::GameEngine()
-
 {
 	//init window and glfw.
 	glfwInit();
@@ -91,6 +90,7 @@ void GameEngine::Run(bool usingEditor) {
 	if (isEditor) {
 		editor.UseScene(scene);
 		simIsRunning = false;
+		inputMngr.SetMouseLock(true);
 	}
 		
 	//main loop
