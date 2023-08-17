@@ -1,5 +1,6 @@
 #pragma once
 #include <GUIRenderer.h>
+#include <Scene.h>
 
 /**
 *	@Class SceneEditor
@@ -16,14 +17,18 @@ public:
 
 	void Draw();
 
+	void UseScene(Scene* nscene);
+
 private:
 
-
 	void DrawInspector();
+	
+	Scene* scene = nullptr;
+
+	GUIRenderer& r = GUIRenderer::Get();
+
 	SceneEditor();
 	~SceneEditor();
 	SceneEditor(const SceneEditor&) = delete;
 	SceneEditor& operator = (const SceneEditor&) = delete;
-
-	GUIRenderer& r = GUIRenderer::Get();
 };

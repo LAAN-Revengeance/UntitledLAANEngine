@@ -78,7 +78,6 @@ GameEngine::GameEngine()
 	for (it; it != end; it++) {
 		Renderer::SetLightUniforms(scene->lights, *it->second);
 	}
-
 }
 
 GameEngine::~GameEngine() {
@@ -86,8 +85,14 @@ GameEngine::~GameEngine() {
 }
 
 //start main loop
-void GameEngine::Run() {
+void GameEngine::Run(bool usingEditor) {
 
+	isEditor = usingEditor;
+	if (isEditor) {
+		editor.UseScene(scene);
+		simIsRunning = false;
+	}
+		
 	//main loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -97,10 +102,10 @@ void GameEngine::Run() {
 		previousFrameTime = currentFrameTime;
 		
 		inputMngr.KeyActions(deltaTime);
-
 		if (simIsRunning) {
 			aiManager.UpdateAgents(deltaTime);
 			physicsManager.Update(deltaTime);
+			luaManager.RunUpdateMethod(deltaTime);
 		}
 		else {
 			deltaTime = 0.0f;
@@ -108,8 +113,8 @@ void GameEngine::Run() {
 
 		renderer.Draw(*scene, deltaTime);
 		physicsManager.DrawPhysicsWorld(scene->camera);
-		luaManager.RunUpdateMethod(deltaTime);
-		editor.Draw();
+		if(isEditor)
+			editor.Draw();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

@@ -2,5 +2,5 @@
 
 int main(void)
 {
-	GameEngine::Get().Run();
+	GameEngine::Get().Run(true);
 }
