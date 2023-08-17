@@ -18,15 +18,12 @@
 class GUIRenderer
 {
 public:
-		/**
-		*	@brief default constructor
-		*/
-	GUIRenderer();
 
 		/**
-		*	@brief destructor
+		*	@brief get the GUIRenderer singleton
+		*	@return gui renderer singleton
 		*/
-	~GUIRenderer();
+	static GUIRenderer& Get();
 
 		/**
 		*	@brief free up GUI resources
@@ -121,6 +118,16 @@ public:
 
 private:
 
+	///Default constructor. Private becuase singleton
+	GUIRenderer();
+	///Default Destructor.
+	~GUIRenderer();
+	///Assignment operator. Private becuase singleton
+	GUIRenderer& operator =(const Renderer&) = delete;
+	///Copy constructor. Private becuase singleton
+	GUIRenderer(const Renderer&) = delete;
+
+		//io pointer for imgui
 	ImGuiIO* io;
 
 		/**

@@ -12,12 +12,18 @@ class SceneEditor
 {
 public:
 
-	SceneEditor();
-	~SceneEditor();
+	static SceneEditor& Get();
 
 	void Draw();
 
-
 private:
 
+
+	void DrawInspector();
+	SceneEditor();
+	~SceneEditor();
+	SceneEditor(const SceneEditor&) = delete;
+	SceneEditor& operator = (const SceneEditor&) = delete;
+
+	GUIRenderer& r = GUIRenderer::Get();
 };

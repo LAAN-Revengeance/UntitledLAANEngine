@@ -30,6 +30,7 @@ public:
 		*	@return PhysicsManager class singleton
 		*/
 	static PhysicsManager& Get();
+
 		/**
 		*	@brief updates the physics world
 		*	@param deltaTime - time since last update

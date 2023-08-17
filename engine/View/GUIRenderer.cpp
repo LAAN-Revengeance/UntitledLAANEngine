@@ -12,6 +12,12 @@ GUIRenderer::~GUIRenderer() {
 	Shutdown();
 }
 
+GUIRenderer& GUIRenderer::Get()
+{
+	static GUIRenderer g_instance;
+	return g_instance;
+}
+
 void GUIRenderer::Shutdown()
 {
 	ImGui_ImplOpenGL3_Shutdown();

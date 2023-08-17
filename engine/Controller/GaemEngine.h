@@ -123,7 +123,7 @@ public:
 		///Main Renderer
 	Renderer& renderer = Renderer::Get();
 		///Main GUI Renderer
-	GUIRenderer guirenderer;
+	GUIRenderer& guirenderer = GUIRenderer::Get();
 		///Main Lua Manager
 	LuaManager& luaManager = LuaManager::Get();
 		///Reference to input manager
@@ -134,6 +134,8 @@ public:
 	SoundEngine& soundEngine = SoundEngine::Get();
 		//Reference physics Manager
 	PhysicsManager& physicsManager = PhysicsManager::Get();
+		//Reference scene editor
+	SceneEditor& editor = SceneEditor::Get();
 
 private:
 

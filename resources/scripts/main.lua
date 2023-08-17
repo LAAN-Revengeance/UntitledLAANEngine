@@ -15,6 +15,7 @@ function init()
 	input:BindKey("camD",KEY_LEFT_SHIFT);
 	input:BindKey("camL",KEY_A);
 	input:BindKey("camR",KEY_D);
+	input:BindKey("escape",KEY_ESCAPE);
 
 
 	--load resources
@@ -66,7 +67,6 @@ end
 
 --main update function, called every frame
 function update(deltaTime)
-	
 	keyInput(deltaTime)
 	mouseMoveFunc(deltaTime)
 end
@@ -101,6 +101,11 @@ function keyInput(dt)
 	if(input:GetKeyState("camR"))
 	then
 		camera.position = camera.position + camera.right:multiply(camSpeed);
+	end
+
+	if(input:GetKeyState("escape"))
+	then
+		engine:Shutdown();
 	end
 
 end

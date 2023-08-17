@@ -109,7 +109,7 @@ void GameEngine::Run() {
 		renderer.Draw(*scene, deltaTime);
 		physicsManager.DrawPhysicsWorld(scene->camera);
 		luaManager.RunUpdateMethod(deltaTime);
-
+		editor.Draw();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -134,6 +134,7 @@ void GameEngine::ResizeCallback(GLFWwindow* window, int width, int height) {
 	Scene& s = *GameEngine::Get().scene;
 	s.camera.aspectRatio = (float)width / (float)height;
 	glViewport(0, 0, width, height);
+	GameEngine::Get().renderer.Resize(width, height);
 	GameEngine::Get().renderer.Draw(s, GameEngine::Get().deltaTime);
 }
 

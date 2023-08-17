@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
+
 	/**
 	*	@struct vertex
 	*	@brief Used to store vertex information of
@@ -15,7 +16,6 @@ struct vertex {
 	glm::vec3 vertex;
 	glm::vec3 normal;
 	glm::vec2 texCoord;
-
 };
 	/**
 	*	@struct OBJData

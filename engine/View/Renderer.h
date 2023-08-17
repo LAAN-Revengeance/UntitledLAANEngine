@@ -18,6 +18,7 @@ public:
 		*	@return The singleton instance of Renderer
 		*/
 	static Renderer& Get();
+
 		/**
 		*	@brief initalize OpenGL
 		*	@param window window being drawn
@@ -78,6 +79,7 @@ public:
 
 	void ToggleWireFrame();
 
+	void Resize(int width, int height);
 private:
 
 		///Default constructor. Private becuase singleton

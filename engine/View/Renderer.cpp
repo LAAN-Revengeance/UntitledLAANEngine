@@ -42,53 +42,7 @@ void Renderer::Init(GLFWwindow* window) {
 	//Frame Buffer Shader
 	postProcessShader = Shader("resources/shaders/screen/screen.vert", "resources/shaders/screen/screen.frag", "");
 
-	glGenFramebuffers(1, &FBO);
-	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-
-	//create frame buffer texture
-	glGenTextures(1, &textureColorBuff);
-	glBindTexture(GL_TEXTURE_2D, textureColorBuff);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 500, 500, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	//attatch texture to frame buffer
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorBuff, 0);
-
-	//rbo for depth
-	glGenRenderbuffers(1, &RBO);
-	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 500, 500);
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
-
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) {
-		std::cout << "framebuffer OK" << std::endl;
-	}
-	//done setting up frame buffer so unbind
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	//Create a quad to render frame buffer to
-	float quadVertices[] = {
-		-1.0f,  1.0f,  0.0f,   0.0f, 1.0f,
-		-1.0f, -1.0f,  0.0f,   0.0f, 0.0f,
-		 1.0f, -1.0f,  0.0f,   1.0f, 0.0f,
-
-		-1.0f,  1.0f,  0.0f,   0.0f, 1.0f,
-		 1.0f, -1.0f,  0.0f,   1.0f, 0.0f,
-		 1.0f,  1.0f,  0.0f,   1.0f, 1.0f,
-	};
-	unsigned int VBO;
-	glGenVertexArrays(1, &screenQuad);
-	glGenBuffers(1, &VBO);
-	glBindVertexArray(screenQuad);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
+	Resize(wWidth, wHeight);
 }
 
 //may want to make several "draw queues" to seperate shaders and opacity
@@ -278,6 +232,62 @@ Shader& Renderer::GetShader() {
 void Renderer::ToggleWireFrame()
 {
 	wireFrame = !wireFrame;
+}
+
+void Renderer::Resize(int width, int height)
+{
+	//delete buffers
+	//glDeleteTextures(1, &textureColorBuff);
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	//glDeleteFramebuffers(1, &FBO);
+
+	//create buffers
+	glGenFramebuffers(1, &FBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+
+	//create frame buffer texture
+	glGenTextures(1, &textureColorBuff);
+	glBindTexture(GL_TEXTURE_2D, textureColorBuff);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	//attatch texture to frame buffer
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorBuff, 0);
+
+	//rbo for depth
+	glGenRenderbuffers(1, &RBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
+	//Create a quad to render frame buffer to
+	float quadVertices[] = {
+		-1.0f,  1.0f,  0.0f,   0.0f, 1.0f,
+		-1.0f, -1.0f,  0.0f,   0.0f, 0.0f,
+		 1.0f, -1.0f,  0.0f,   1.0f, 0.0f,
+
+		-1.0f,  1.0f,  0.0f,   0.0f, 1.0f,
+		 1.0f, -1.0f,  0.0f,   1.0f, 0.0f,
+		 1.0f,  1.0f,  0.0f,   1.0f, 1.0f,
+	};
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) {
+		std::cout << "framebuffer OK" << std::endl;
+	}
+	//done setting up frame buffer so unbind
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	unsigned int VBO;
+	glGenVertexArrays(1, &screenQuad);
+	glGenBuffers(1, &VBO);
+	glBindVertexArray(screenQuad);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), quadVertices, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 }
 
 double Renderer::GetFPS()
