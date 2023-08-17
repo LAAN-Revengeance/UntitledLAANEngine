@@ -50,9 +50,13 @@ public:
 		/**
 		*	@brief Start for GUI
 		*	@param background were or not render the GUI
+		*	@param width ratio width of window
+		*	@param height ratio height of window
+		*	@param posX ratio position on X axis
+		*	@param posY ratio position on Y axis
 		*	@return void
 		*/
-	void Start(bool background);
+	void Start(bool background, float width = 1, float height = 1, float posX = 0, float posY = 0);
 
 		/**
 		*	@brief ends GUI rendering

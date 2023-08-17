@@ -25,8 +25,13 @@ void SceneEditor::Draw()
 
 void SceneEditor::DrawInspector()
 {
-	r.Start(false);
+	
+	r.Start(true,0.5,0.5,0.0,0.5);
 	r.Text("hello world!",0.5);
 
 	r.End();
+	//r.Start(false);
+	//r.Text("hello world!", 0.2);
+	//
+	//r.End();
 }

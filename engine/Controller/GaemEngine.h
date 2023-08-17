@@ -112,9 +112,9 @@ public:
 	void SetWindowName(std::string path);
 
 		///Window width
-	int wWidth = 500;
+	int wWidth = 1920;
 		///Window height
-	int wHeight = 500;
+	int wHeight = 1080;
 		///Contains all data for rendering scene and stores world physics info
 	Scene* scene;
 		///Window being drawn to and being used for inputs

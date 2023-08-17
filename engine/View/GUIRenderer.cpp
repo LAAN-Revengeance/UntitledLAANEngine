@@ -59,16 +59,16 @@ void GUIRenderer::SetFont(std::string path)
 	io->Fonts->AddFontFromFileTTF(path.c_str(), 20.0f);
 }
 
-void GUIRenderer::Start(bool background)
+void GUIRenderer::Start(bool background, float width, float height, float posX, float posY)
 {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
-	static bool use_work_area = true;
 	const ImGuiViewport* viewport = ImGui::GetMainViewport();
-	ImGui::SetNextWindowPos(use_work_area ? viewport->WorkPos : viewport->Pos);
-	ImGui::SetNextWindowSize(use_work_area ? viewport->WorkSize : viewport->Size);
+	
+	ImGui::SetNextWindowPos({(float)(viewport->WorkSize.x * 0.5 * posX),(float)(viewport->WorkSize.y * 0.5 * posY)});
+	ImGui::SetNextWindowSize({ viewport->WorkSize.x * width,viewport->WorkSize.y * height });
 	
 	if (background) {
 		ImGui::Begin("window", nullptr, flags);
