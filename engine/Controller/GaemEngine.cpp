@@ -107,14 +107,12 @@ void GameEngine::Run(bool usingEditor) {
 			physicsManager.Update(deltaTime);
 			luaManager.RunUpdateMethod(deltaTime);
 		}
-		else {
-			deltaTime = 0.0f;
-		}
 
 		if (isEditor) {
 			renderer.Draw(editor.camera, *scene, deltaTime);
 			physicsManager.DrawPhysicsWorld(scene->camera);
 			editor.Draw();
+			editor.Update(deltaTime);
 		}
 		else {
 			renderer.Draw(scene->camera, *scene, deltaTime);
@@ -154,6 +152,9 @@ void GameEngine::Shutdown()
 
 void GameEngine::SetSimulation(bool isRun)
 {
+	if (!simIsRunning && isRun) {
+		deltaTime = 0.0f;
+	}
 	simIsRunning = isRun;
 }
 

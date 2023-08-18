@@ -172,3 +172,8 @@ bool InputManager::GetMouseLock()
 	
 	return false;
 }
+
+bool InputManager::GetKeyPressed(unsigned int key)
+{
+	return glfwGetKey(_Window, key);
+}

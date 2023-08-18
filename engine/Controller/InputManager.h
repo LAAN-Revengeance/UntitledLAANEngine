@@ -187,6 +187,13 @@ class InputManager
 			*	@return bool mouse lock state
 			*/
 		bool GetMouseLock();
+
+			/**
+			*	@brief return if key is pressed
+			*	@param key keycode
+			*	@return if key is pressed
+			*/
+		bool GetKeyPressed(unsigned int key);
 	private:
 			/**
 			*	@brief input manager construtor

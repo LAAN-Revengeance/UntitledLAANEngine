@@ -1,5 +1,6 @@
 #pragma once
 #include <GUIRenderer.h>
+#include <InputManager.h>
 #include <Scene.h>
 
 /**
@@ -16,6 +17,7 @@ public:
 	static SceneEditor& Get();
 
 	void Draw();
+	void Update(double deltaTime);
 
 	void UseScene(Scene* nscene);
 

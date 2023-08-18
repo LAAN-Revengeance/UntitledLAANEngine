@@ -4,7 +4,7 @@
 
 SceneEditor::SceneEditor()
 {
-	camera.farPlane = 1000.0f;
+	camera.farPlane = 10000.0f;
 }
 
 SceneEditor::~SceneEditor()
@@ -27,6 +27,40 @@ void SceneEditor::Draw()
 	r.EndGUI();
 }
 
+void SceneEditor::Update(double deltaTime)
+{
+	InputManager& input = InputManager::Get();
+	
+	float baseSpeed = 5;
+	float camSpeed = baseSpeed;
+	if (input.GetKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
+		camSpeed *= 10;
+	}
+
+
+	if (input.GetKeyPressed(GLFW_KEY_W)) {
+		camera.position += glm::normalize(glm::cross({0,1,0}, camera.right)) * camSpeed;
+	}
+	if (input.GetKeyPressed(GLFW_KEY_S)) {
+		camera.position -= glm::normalize(glm::cross({ 0,1,0 }, camera.right)) * camSpeed;
+	}
+	if (input.GetKeyPressed(GLFW_KEY_A)) {
+		camera.position -= camera.right * camSpeed;
+	}
+	if (input.GetKeyPressed(GLFW_KEY_D)) {
+		camera.position += camera.right * camSpeed;
+	}
+
+	if (input.GetKeyPressed(GLFW_KEY_SPACE)) {
+		camera.position += camera.up * camSpeed;
+	}
+	if (input.GetKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
+		camera.position -= camera.up * camSpeed;
+	}
+		
+
+}
+
 void SceneEditor::UseScene(Scene* nscene)
 {
 	if (nscene) {
@@ -37,14 +71,15 @@ void SceneEditor::UseScene(Scene* nscene)
 void SceneEditor::DrawHeighrarchy()
 {
 	float align = 0.0;
-
 	static ImGuiTreeNodeFlags baseFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
 
-	ImGui::Begin("Scene Objects");
+	r.StartWindow("Scene Objects", true, 0.2, 0.8, 0.0, 0.0);
 
 	int i = 0;
 	static int selectedNode = -1;
 
+
+	ImGui::CollapsingHeader("Scene Objects", ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Leaf);
 	for (auto& pair : scene->gameObjects)
 	{
 		ImGuiTreeNodeFlags tmpFlags = baseFlags;
@@ -71,7 +106,8 @@ void SceneEditor::DrawHeighrarchy()
 
 void SceneEditor::DrawInspector()
 {
-	ImGui::Begin("Inspector");
+	
+	r.StartWindow("Inspector",true,0.2,0.8,0.8,0.0);
 
 	static ImGuiTreeNodeFlags baseFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Leaf;
 
@@ -108,6 +144,9 @@ void SceneEditor::DrawInspector()
 
 		//PHYSICS SETTINGS
 		ImGui::SeparatorText("Physics");
+	}
+	else {
+		ImGui::CollapsingHeader("No Object Selected", baseFlags);
 	}
 
 	ImGui::End();
