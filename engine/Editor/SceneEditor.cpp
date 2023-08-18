@@ -73,23 +73,41 @@ void SceneEditor::DrawHeighrarchy()
 	}
 	ImGui::SeparatorText("Lights");
 	ResourceManager& res = ResourceManager::Get();
+	//Ambient Light
+	if (ImGui::ColorEdit3("Ambient Light", (float*)&scene->lights.ambient)) {
+		for (auto& shader : res.shaders) {
+			Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+		}
+	}
+
+	//Directional Lights
 	int deleteIndex = -1;
 	for (int i = 0; i < scene->lights.direction.size(); ++i)
 	{
-		if (ImGui::Button(std::string("x##" + std::to_string(i)).c_str())) {
-			deleteIndex = i;
-		}
-		ImGui::SameLine();
-
-		if (ImGui::ColorEdit3(std::string("Dir Light##" + std::to_string(i)).c_str(), (float*)&scene->lights.direction[i].diffuse)) {
-			
-			for (auto& shader : res.shaders) {
-				Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+		std::string dName = std::string("Dir Light##" + std::to_string(i));
+		if(ImGui::TreeNodeEx(dName.c_str())) {
+			if (ImGui::Button(std::string("Delete Light##" + std::to_string(i)).c_str())) {
+				deleteIndex = i;
 			}
-		};
+
+			bool dColor = ImGui::ColorEdit3(("Diffuse##"+dName).c_str(), (float*)&scene->lights.direction[i].diffuse);
+			bool dSpec = ImGui::ColorEdit3(("Specular##"+dName).c_str(), (float*)&scene->lights.direction[i].specular);
+			bool dPos = ImGui::InputFloat3 (("Direction##"+dName).c_str(), (float*)&scene->lights.direction[i].direction);
+			if (dColor || dPos || dSpec) {
+
+				for (auto& shader : res.shaders) {
+					Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+				}
+			};
+			ImGui::TreePop();
+		}
 	}
+
 	if (deleteIndex >= 0) {
 		scene->lights.direction.erase(scene->lights.direction.begin() + deleteIndex);
+		for (auto& shader : res.shaders) {
+			Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+		}
 	}
 
 	ImGui::End();

@@ -46,9 +46,6 @@ function init()
 	lighting = scene:GetLights();
 	lighting:SetAmbient(0.3,0.3,0.3);
 	lighting:AddDirectionLight(NormalizeVector(vec3.new(0,0.5,-1)),vec3.new( 0.0,0.67,0.8),vec3.new(0,1,1));
-	lighting:AddDirectionLight(NormalizeVector(vec3.new(0,0.5,-1)),vec3.new( 0.0,0.67,0.8),vec3.new(0,1,1));
-	lighting:AddDirectionLight(NormalizeVector(vec3.new(0,0.5,-1)),vec3.new( 0.0,0.67,0.8),vec3.new(0,1,1));
-	lighting:AddDirectionLight(NormalizeVector(vec3.new(0,0.5,-1)),vec3.new( 0.0,0.67,0.8),vec3.new(0,1,1));
 
 	--add arcade with sphere collider
 	arcade = resources:CreateGameObject("arcade","arcade","");
