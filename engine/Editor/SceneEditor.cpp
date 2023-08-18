@@ -108,10 +108,21 @@ void SceneEditor::DrawInspector()
 		ImGui::DragFloat("y rotation", &tmpRotY, 0.1f);
 		ImGui::DragFloat("z rotation", &tmpRotZ, 0.1f);
 
-		if (tmpRotX != inspectedObject->position.x || tmpRotY != inspectedObject->position.y || tmpRotZ != inspectedObject->position.z) {
+		if (tmpRotX != inspectedObject->rotation.x || tmpRotY != inspectedObject->rotation.y || tmpRotZ != inspectedObject->rotation.z) {
 			inspectedObject->SetRotation({ tmpRotX, tmpRotY, tmpRotZ });
 		}
 
+		float tmpSclX = inspectedObject->scale.x;
+		float tmpSclY = inspectedObject->scale.y;
+		float tmpSclZ = inspectedObject->scale.z;
+		ImGui::Text("Scale:");
+		ImGui::DragFloat("x scale", &tmpSclX, 0.1f);
+		ImGui::DragFloat("y scale", &tmpSclY, 0.1f);
+		ImGui::DragFloat("z scale", &tmpSclZ, 0.1f);
+
+		if (tmpSclX != inspectedObject->scale.x || tmpSclY != inspectedObject->scale.y || tmpSclZ != inspectedObject->scale.z) {
+			inspectedObject->SetScale({ tmpSclX, tmpSclY, tmpSclZ });
+		}
 
 		//PHYSICS SETTINGS
 		ImGui::SeparatorText("Physics");

@@ -55,7 +55,15 @@ public:
 		*	@return void
 		*/
 	void SetRotation(glm::vec3 nRot);
-	
+
+		/**
+		*	@brief Set the current scale in world space, also updates
+		*	the rigidbody scale data.
+		*	@param nSacle new scale ratio
+		*	@return void
+		*/
+	void SetScale(glm::vec3 nScale);
+
 		/**
 		*	@brief Sets any special uniform information for subclasses of GameObject
 		*	@return void

@@ -29,6 +29,11 @@ void GameObject::SetRotation(glm::vec3 nRot)
 	rotation = nRot;
 }
 
+void GameObject::SetScale(glm::vec3 nScale)
+{
+	scale = nScale;
+}
+
 void GameObject::SetUniforms()
 {
 }
