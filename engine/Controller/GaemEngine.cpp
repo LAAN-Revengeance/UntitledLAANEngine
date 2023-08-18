@@ -111,10 +111,14 @@ void GameEngine::Run(bool usingEditor) {
 			deltaTime = 0.0f;
 		}
 
-		renderer.Draw(*scene, deltaTime);
-		physicsManager.DrawPhysicsWorld(scene->camera);
-		if(isEditor)
+		if (isEditor) {
+			renderer.Draw(editor.camera, *scene, deltaTime);
+			physicsManager.DrawPhysicsWorld(scene->camera);
 			editor.Draw();
+		}
+		else {
+			renderer.Draw(scene->camera, *scene, deltaTime);
+		}		
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -140,7 +144,7 @@ void GameEngine::ResizeCallback(GLFWwindow* window, int width, int height) {
 	s.camera.aspectRatio = (float)width / (float)height;
 	glViewport(0, 0, width, height);
 	GameEngine::Get().renderer.Resize(width, height);
-	GameEngine::Get().renderer.Draw(s, GameEngine::Get().deltaTime);
+	GameEngine::Get().renderer.Draw(s.camera,s, GameEngine::Get().deltaTime);
 }
 
 void GameEngine::Shutdown()

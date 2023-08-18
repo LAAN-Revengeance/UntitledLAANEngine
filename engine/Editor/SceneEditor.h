@@ -19,12 +19,15 @@ public:
 
 	void UseScene(Scene* nscene);
 
+
+	
 private:
 
 	void DrawHeighrarchy();
 	void DrawInspector();
 	
 	Scene* scene = nullptr;
+	Camera camera;
 	GameObject* inspectedObject = nullptr;
 
 	GUIRenderer& r = GUIRenderer::Get();
@@ -33,4 +36,6 @@ private:
 	~SceneEditor();
 	SceneEditor(const SceneEditor&) = delete;
 	SceneEditor& operator = (const SceneEditor&) = delete;
+
+	friend class GameEngine;
 };

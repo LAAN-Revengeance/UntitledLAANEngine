@@ -4,6 +4,7 @@
 
 SceneEditor::SceneEditor()
 {
+	camera.farPlane = 1000.0f;
 }
 
 SceneEditor::~SceneEditor()

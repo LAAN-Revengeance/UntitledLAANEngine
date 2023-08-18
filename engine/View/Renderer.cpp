@@ -68,7 +68,7 @@ void Renderer::Init(GLFWwindow* window) {
 }
 
 //may want to make several "draw queues" to seperate shaders and opacity
-void Renderer::Draw(Scene& scene, double deltaTime) {
+void Renderer::Draw(Camera& cam, Scene& scene, double deltaTime) {
 
 	//Bind pre-post processing frame buffer
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
@@ -93,12 +93,12 @@ void Renderer::Draw(Scene& scene, double deltaTime) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	//caclulate camera view frustum planes
-	scene.camera.CreateViewFrustum();
-	Frustum& camFrustum = scene.camera.frustum;
+	cam.CreateViewFrustum();
+	Frustum& camFrustum = cam.frustum;
 
 	//draw skybox
 	if (scene.skybox)
-		scene.skybox->Render(&scene.camera);
+		scene.skybox->Render(&cam);
 
 	for (auto& it : scene.gameObjects) {
 		if (it.second) {
@@ -125,11 +125,11 @@ void Renderer::Draw(Scene& scene, double deltaTime) {
 
 			if (obj->shader) {
 				obj->shader->SetUniform("model", modelMat);
-				obj->model_data->Render(&scene.camera, obj->shader, true, GL_TRIANGLES);
+				obj->model_data->Render(&cam, obj->shader, true, GL_TRIANGLES);
 			}
 			else {
 				mainShader.SetUniform("model", modelMat);
-				obj->model_data->Render(&scene.camera, &mainShader, true, GL_TRIANGLES);
+				obj->model_data->Render(&cam, &mainShader, true, GL_TRIANGLES);
 			}
 
 			obj->model_data->Update(deltaTime);

@@ -31,7 +31,7 @@ public:
 		*	@param scene scene to be drawn
 		*	@return void
 		*/
-	void Draw(Scene& scene, double deltaTime);
+	void Draw(Camera& cam, Scene& scene, double deltaTime);
 
 		/**
 		*	@brief Set uniforms for All lights in a scene
