@@ -29,36 +29,7 @@ void SceneEditor::Draw()
 
 void SceneEditor::Update(double deltaTime)
 {
-	InputManager& input = InputManager::Get();
-	
-	float baseSpeed = 5;
-	float camSpeed = baseSpeed;
-	if (input.GetKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
-		camSpeed *= 10;
-	}
-
-
-	if (input.GetKeyPressed(GLFW_KEY_W)) {
-		camera.position += glm::normalize(glm::cross({0,1,0}, camera.right)) * camSpeed;
-	}
-	if (input.GetKeyPressed(GLFW_KEY_S)) {
-		camera.position -= glm::normalize(glm::cross({ 0,1,0 }, camera.right)) * camSpeed;
-	}
-	if (input.GetKeyPressed(GLFW_KEY_A)) {
-		camera.position -= camera.right * camSpeed;
-	}
-	if (input.GetKeyPressed(GLFW_KEY_D)) {
-		camera.position += camera.right * camSpeed;
-	}
-
-	if (input.GetKeyPressed(GLFW_KEY_SPACE)) {
-		camera.position += camera.up * camSpeed;
-	}
-	if (input.GetKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
-		camera.position -= camera.up * camSpeed;
-	}
-		
-
+	CameraControl(deltaTime);
 }
 
 void SceneEditor::UseScene(Scene* nscene)
@@ -150,4 +121,66 @@ void SceneEditor::DrawInspector()
 	}
 
 	ImGui::End();
+}
+
+void SceneEditor::CameraControl(double deltaTime)
+{
+	InputManager& input = InputManager::Get();
+	bool lock = input.GetMouseLock();
+	if (input.GetKeyPressed(GLFW_KEY_ESCAPE)) {
+
+		lock = !input.GetMouseLock();
+		input.SetMouseLock(lock);
+	}
+	if (lock)
+		return;
+
+
+
+	float baseSpeed = 5;
+	float camSpeed = baseSpeed;
+	if (input.GetKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
+		camSpeed *= 10;
+	}
+	if (input.GetKeyPressed(GLFW_KEY_W)) {
+		camera.position += glm::normalize(glm::cross({ 0,1,0 }, camera.right)) * camSpeed;
+	}
+	if (input.GetKeyPressed(GLFW_KEY_S)) {
+		camera.position -= glm::normalize(glm::cross({ 0,1,0 }, camera.right)) * camSpeed;
+	}
+	if (input.GetKeyPressed(GLFW_KEY_A)) {
+		camera.position -= camera.right * camSpeed;
+	}
+	if (input.GetKeyPressed(GLFW_KEY_D)) {
+		camera.position += camera.right * camSpeed;
+	}
+
+	if (input.GetKeyPressed(GLFW_KEY_SPACE)) {
+		camera.position += camera.up * camSpeed;
+	}
+	if (input.GetKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
+		camera.position -= camera.up * camSpeed;
+	}
+
+
+
+
+	//mouse controls
+	float xPos = input.GetMouseX();
+	float yPos = input.GetMouseY();
+
+	float xoffset = (xPos - lastX);
+	float yoffset = (lastY - yPos);
+
+	lastX = xPos;
+	lastY = yPos;
+
+	xoffset = xoffset * -mouseSensitivity * deltaTime;
+	yoffset = yoffset * -mouseSensitivity * deltaTime;
+
+	camera.Yaw = camera.Yaw - xoffset;
+	camera.Pitch = camera.Pitch - yoffset;
+
+	camera.UpdateCameraVectors();
+
 }

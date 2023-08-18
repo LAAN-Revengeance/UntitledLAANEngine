@@ -28,6 +28,13 @@ private:
 	void DrawHeighrarchy();
 	void DrawInspector();
 	
+	void CameraControl(double deltaTime);
+
+
+	float lastX = 0;
+	float lastY = 0;
+	float mouseSensitivity = 10.0f;
+
 	Scene* scene = nullptr;
 	Camera camera;
 	GameObject* inspectedObject = nullptr;
