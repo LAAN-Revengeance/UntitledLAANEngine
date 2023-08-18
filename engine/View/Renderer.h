@@ -121,4 +121,5 @@ private:
 	//RENDER BUFFER
 	unsigned int RBO;
 
+	friend class SceneEditor;
 };

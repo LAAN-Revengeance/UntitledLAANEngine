@@ -48,21 +48,33 @@ public:
 	//lua programmable GUI//
 
 		/**
-		*	@brief Start for GUI
-		*	@param background were or not render the GUI
+		*	@brief Starts a GUI to be rendered
+		*	@return void
+		*/
+	void StartGUI();
+
+		/**
+		*	@brief ends GUI rendering
+		*	@return void
+		*/
+	void EndGUI();
+
+		/**
+		*	@brief Start rendering a window
+		*	@param background were or not render the window
 		*	@param width ratio width of window
 		*	@param height ratio height of window
 		*	@param posX ratio position on X axis
 		*	@param posY ratio position on Y axis
 		*	@return void
 		*/
-	void Start(bool background, float width = 1, float height = 1, float posX = 0, float posY = 0);
+	void StartWindow(const std::string& wName, bool background, float width, float height, float posX, float posY);
 
 		/**
-		*	@brief ends GUI rendering
+		*	@brief ends rendering a window
 		*	@return void
 		*/
-	void End();
+	void EndWindow();
 
 		/**
 		*	@brief create text on gui

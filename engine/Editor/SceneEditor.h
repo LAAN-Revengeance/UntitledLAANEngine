@@ -21,9 +21,11 @@ public:
 
 private:
 
+	void DrawHeighrarchy();
 	void DrawInspector();
 	
 	Scene* scene = nullptr;
+	GameObject* inspectedObject = nullptr;
 
 	GUIRenderer& r = GUIRenderer::Get();
 
