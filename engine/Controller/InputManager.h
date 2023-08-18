@@ -194,6 +194,7 @@ class InputManager
 			*	@return if key is pressed
 			*/
 		bool GetKeyPressed(unsigned int key);
+		bool GetKeyPressedDown(unsigned int key);
 	private:
 			/**
 			*	@brief input manager construtor

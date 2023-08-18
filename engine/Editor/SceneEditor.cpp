@@ -23,7 +23,7 @@ void SceneEditor::Draw()
 
 	DrawInspector();
 	DrawHeighrarchy();
-	//ImGui::ShowDemoWindow();
+	ImGui::ShowDemoWindow();
 	r.EndGUI();
 }
 
@@ -51,6 +51,7 @@ void SceneEditor::DrawHeighrarchy()
 
 
 	ImGui::CollapsingHeader("Scene Objects", ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Leaf);
+	ImGui::SeparatorText("GameObjects");
 	for (auto& pair : scene->gameObjects)
 	{
 		ImGuiTreeNodeFlags tmpFlags = baseFlags;
@@ -70,7 +71,27 @@ void SceneEditor::DrawHeighrarchy()
 		}
 		i++;
 	}
-	
+	ImGui::SeparatorText("Lights");
+	ResourceManager& res = ResourceManager::Get();
+	int deleteIndex = -1;
+	for (int i = 0; i < scene->lights.direction.size(); ++i)
+	{
+		if (ImGui::Button(std::string("x##" + std::to_string(i)).c_str())) {
+			deleteIndex = i;
+		}
+		ImGui::SameLine();
+
+		if (ImGui::ColorEdit3(std::string("Dir Light##" + std::to_string(i)).c_str(), (float*)&scene->lights.direction[i].diffuse)) {
+			
+			for (auto& shader : res.shaders) {
+				Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+			}
+		};
+	}
+	if (deleteIndex >= 0) {
+		scene->lights.direction.erase(scene->lights.direction.begin() + deleteIndex);
+	}
+
 	ImGui::End();
 
 }
@@ -116,9 +137,9 @@ void SceneEditor::DrawInspector()
 		float tmpSclY = inspectedObject->scale.y;
 		float tmpSclZ = inspectedObject->scale.z;
 		ImGui::Text("Scale:");
-		ImGui::DragFloat("x scale", &tmpSclX, 0.1f);
-		ImGui::DragFloat("y scale", &tmpSclY, 0.1f);
-		ImGui::DragFloat("z scale", &tmpSclZ, 0.1f);
+		ImGui::DragFloat("x scale", &tmpSclX, 0.01f);
+		ImGui::DragFloat("y scale", &tmpSclY, 0.01f);
+		ImGui::DragFloat("z scale", &tmpSclZ, 0.01f);
 
 		if (tmpSclX != inspectedObject->scale.x || tmpSclY != inspectedObject->scale.y || tmpSclZ != inspectedObject->scale.z) {
 			inspectedObject->SetScale({ tmpSclX, tmpSclY, tmpSclZ });
@@ -136,12 +157,20 @@ void SceneEditor::DrawInspector()
 
 void SceneEditor::CameraControl(double deltaTime)
 {
+	static bool toggleCamPress = false;
 	InputManager& input = InputManager::Get();
 	bool lock = input.GetMouseLock();
-	if (input.GetKeyPressed(GLFW_KEY_ESCAPE)) {
 
+	if (input.GetKeyPressedDown(GLFW_KEY_ESCAPE) && !toggleCamPress) {
+		toggleCamPress = true;
 		lock = !input.GetMouseLock();
 		input.SetMouseLock(lock);
+	}
+	else if (input.GetKeyPressedDown(GLFW_KEY_ESCAPE)) {
+		toggleCamPress = true;
+	}
+	else {
+		toggleCamPress = false;
 	}
 	if (lock)
 		return;

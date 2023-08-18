@@ -39,7 +39,7 @@ public:
 		*	@param sShader shader to set uniforms for
 		*	@return void
 		*/
-	static void SetLightUniforms(Lights& sLights,Shader& sShader);
+	static void SetLightUniforms(Lights& sLights, Shader& sShader = Renderer::Get().mainShader);
 
 		/**
 		*	@brief Set uniforms for all  point lights in a scene
@@ -47,7 +47,7 @@ public:
 		*	@param sShader shader to set uniforms for
 		*	@return void
 		*/
-	static void SetPointLightUniforms(Lights& sLights, Shader& sShader);
+	static void SetPointLightUniforms(Lights& sLights, Shader& sShader = Renderer::Get().mainShader);
 
 		/**
 		*	@brief Set uniforms for all direction lights in a scene
@@ -55,7 +55,7 @@ public:
 		*	@param sShader shader to set uniforms for
 		*	@return void
 		*/
-	static void SetDirectionLightUniforms(Lights& sLights, Shader& sShader);
+	static void SetDirectionLightUniforms(Lights& sLights, Shader& sShader = Renderer::Get().mainShader);
 
 		/**
 		*	@brief Set uniforms for all spot lights in a scene
@@ -63,7 +63,7 @@ public:
 		*	@param sShader shader to set uniforms for
 		*	@return void
 		*/
-	static void SetSpotLightUniforms(Lights& sLights, Shader& sShader);
+	static void SetSpotLightUniforms(Lights& sLights, Shader& sShader = Renderer::Get().mainShader);
 
 		/**
 		*	@brief Returns the default shader

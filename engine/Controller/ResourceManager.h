@@ -216,5 +216,7 @@ private:
 	std::map<std::string, CubeMap*> cubemaps;
 		///gameobject storage
 	std::map<std::string, GameObject*> objects;
+
+	friend class SceneEditor;
 };
 

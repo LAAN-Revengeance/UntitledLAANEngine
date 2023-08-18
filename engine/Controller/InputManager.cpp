@@ -177,3 +177,8 @@ bool InputManager::GetKeyPressed(unsigned int key)
 {
 	return glfwGetKey(_Window, key);
 }
+
+bool InputManager::GetKeyPressedDown(unsigned int key)
+{
+	return glfwGetKey(_Window, key) == GLFW_PRESS;
+}
