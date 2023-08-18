@@ -23,7 +23,7 @@ void SceneEditor::Draw()
 
 	DrawInspector();
 	DrawHeighrarchy();
-
+	//ImGui::ShowDemoWindow();
 	r.EndGUI();
 }
 
@@ -70,7 +70,7 @@ void SceneEditor::DrawHeighrarchy()
 		}
 		i++;
 	}
-	ImGui::ShowDemoWindow();
+	
 	ImGui::End();
 
 }
@@ -156,10 +156,10 @@ void SceneEditor::CameraControl(double deltaTime)
 	}
 
 	if (input.GetKeyPressed(GLFW_KEY_SPACE)) {
-		camera.position += camera.up * camSpeed;
+		camera.position += glm::vec3(0,1,0) * camSpeed;
 	}
 	if (input.GetKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
-		camera.position -= camera.up * camSpeed;
+		camera.position -= glm::vec3(0, 1, 0) * camSpeed;
 	}
 
 
