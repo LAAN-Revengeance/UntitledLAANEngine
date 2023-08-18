@@ -39,14 +39,17 @@ function init()
 	);
 	
 	--load scene
-	terrain = resources:CreateTerrain("Terrain","heightMap",{"dirt","grass","rock"},"detailMap","detailMap","", 200 , 12,2,12);
+	terrain = resources:CreateTerrain("Terrain","heightMap",{"dirt","grass","rock"},"detailMap","detailMap","", 200 , 12,0.8,12);
 	terrain:GetDrawItem():SetShine(20);
 	terrain:SetTextureHeights({-30,-5,40});
 	scene:AddObject(terrain);
 	lighting = scene:GetLights();
 	lighting:SetAmbient(0.3,0.3,0.3);
 	lighting:AddDirectionLight(NormalizeVector(vec3.new(0,0.5,-1)),vec3.new( 0.0,0.67,0.8),vec3.new(0,1,1));
-
+	lighting:AddPointLight( vec3:new(1140,30,640),
+							vec3.new( 1,0,1),
+							vec3.new( 0.98,0.8789,0.695),
+							1.0,0.007,0.0002);
 	--add arcade with sphere collider
 	arcade = resources:CreateGameObject("arcade","arcade","");
 	scene:AddObject(arcade);

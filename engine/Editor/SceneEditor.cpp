@@ -102,13 +102,44 @@ void SceneEditor::DrawHeighrarchy()
 			ImGui::TreePop();
 		}
 	}
-
 	if (deleteIndex >= 0) {
 		scene->lights.direction.erase(scene->lights.direction.begin() + deleteIndex);
 		for (auto& shader : res.shaders) {
 			Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 		}
 	}
+	
+	//point Lights
+	deleteIndex = -1;
+	for (int i = 0; i < scene->lights.point.size(); ++i)
+	{
+		std::string dName = std::string("Point Light##" + std::to_string(i));
+		if (ImGui::TreeNodeEx(dName.c_str())) {
+			if (ImGui::Button(std::string("Delete Light##" + std::to_string(i)).c_str())) {
+				deleteIndex = i;
+			}
+		
+			bool dColor = ImGui::ColorEdit3(("Diffuse##" + dName).c_str(), (float*)&scene->lights.point[i].diffuse);
+			bool dSpec = ImGui::ColorEdit3(("Specular##" + dName).c_str(), (float*)&scene->lights.point[i].specular);
+			bool dPos = ImGui::InputFloat3(("Position##" + dName).c_str(), (float*)&scene->lights.point[i].position);
+			if (dColor || dSpec || dPos) {
+
+				for (auto& shader : res.shaders) {
+					Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+				}
+			};
+			ImGui::TreePop();
+		}
+	}
+	if (deleteIndex >= 0) {
+		scene->lights.point.erase(scene->lights.point.begin() + deleteIndex);
+		for (auto& shader : res.shaders) {
+			Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+		}
+	}
+
+
+
 
 	ImGui::End();
 
