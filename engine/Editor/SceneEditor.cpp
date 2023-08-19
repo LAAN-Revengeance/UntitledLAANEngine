@@ -204,51 +204,113 @@ void SceneEditor::DrawInspector()
 
 void SceneEditor::DrawMenu()
 {
+	static bool showChangeWindow = false;
+	static bool showDebug = false;
 	r.StartWindow("Menu", true, 1.0, 0.1, 0.0, 0.0);
-
 	if (ImGui::BeginMenuBar()) {
 		
 		if (ImGui::BeginMenu("File")) {
 			
-			ImGui::MenuItem("Save");
-			ImGui::MenuItem("Exit");
+			if (ImGui::MenuItem("Save")) { }
+			if (ImGui::MenuItem("Exit")) { }
 			
 			ImGui::EndMenu();
 		}
+
 		if (ImGui::BeginMenu("Edit")) {
 
-			ImGui::MenuItem("Window Title");
+			ImGui::MenuItem("Window Title",NULL, &showChangeWindow);
 			ImGui::MenuItem("Window Icon");
 
 			ImGui::EndMenu();
 		}
+
 		if (ImGui::BeginMenu("Help")) {
 
 			ImGui::MenuItem("About");
 			ImGui::MenuItem("Version");
+			ImGui::MenuItem("Debug",NULL,&showDebug);
 
 			ImGui::EndMenu();
 		}
-	
-	
 		ImGui::EndMenuBar();
 	}
 
-
+	const ImGuiViewport* viewport = ImGui::GetMainViewport();
+	float buttonWidth = 80;
+	ImGui::SetCursorPosX((viewport->WorkSize.x/2) - (((buttonWidth + ImGui::GetStyle().ItemSpacing.x) * 3)/2));
+	
+	ImGui::Button("Play", { buttonWidth,20 });
+	ImGui::SameLine();
+	ImGui::Button("Pause", { buttonWidth,20 }); 
+	ImGui::SameLine();
+	if (ImGui::Button("FreeCam", { buttonWidth,20 })) { InputManager::Get().SetMouseLock(false); }
 
 	r.EndWindow();
+
+	DrawWindowSettings(&showChangeWindow);
+	DrawDebug(&showDebug);
+}
+
+void SceneEditor::DrawWindowSettings(bool* showChangeWindow)
+{
+	if(!(*showChangeWindow))
+		return
+
+	ImGui::SetNextWindowSize({ 330,70 });
+	ImGui::Begin("Window Settings", showChangeWindow);
+	static char str0[128] = "";
+	if (ImGui::InputTextWithHint("Window Title", "Window Name", str0, IM_ARRAYSIZE(str0))) {
+		//TODO: SET window title in json file.
+	}
+
+	ImGui::End();
+}
+
+void SceneEditor::DrawDebug(bool* showDebug)
+{
+	if (!(*showDebug))
+		return;
+
+	ImGui::SetNextWindowSize({ 300,150 });
+	ImGui::Begin("Debug", showDebug);
+	
+	double fps = Renderer::Get().GetFPS();
+	ImGui::Text("Current FPS:");
+	ImGui::SameLine();
+	ImGui::Text(std::to_string(fps).c_str());
+
+	static float values[90] = {};
+	static int values_offset = 0;
+	
+	static float phase = 0.0f;
+	values[values_offset] = fps;
+	values_offset = (values_offset + 1) % IM_ARRAYSIZE(values);
+	phase += 0.10f * values_offset;
+	{
+		float average = 0.0f;
+		for (int n = 0; n < IM_ARRAYSIZE(values); n++)
+			average += values[n];
+		average /= (float)IM_ARRAYSIZE(values);
+		char overlay[32];
+		sprintf(overlay, "avg %f", average);
+		ImGui::PlotLines("##FPS", values, IM_ARRAYSIZE(values), values_offset, overlay, 0.0f, 200.0f, ImVec2(0, 80.0f));
+	}
+
+
+	ImGui::End();
+
 }
 
 void SceneEditor::CameraControl(double deltaTime)
 {
-	static bool toggleCamPress = false;
 	InputManager& input = InputManager::Get();
-	bool lock = input.GetMouseLock();
-
+	bool camlock = input.GetMouseLock();
+	static bool toggleCamPress = false;
 	if (input.GetKeyPressedDown(GLFW_KEY_ESCAPE) && !toggleCamPress) {
 		toggleCamPress = true;
-		lock = !input.GetMouseLock();
-		input.SetMouseLock(lock);
+		camlock = !input.GetMouseLock();
+		input.SetMouseLock(camlock);
 	}
 	else if (input.GetKeyPressedDown(GLFW_KEY_ESCAPE)) {
 		toggleCamPress = true;
@@ -256,7 +318,7 @@ void SceneEditor::CameraControl(double deltaTime)
 	else {
 		toggleCamPress = false;
 	}
-	if (lock)
+	if (camlock)
 		return;
 
 

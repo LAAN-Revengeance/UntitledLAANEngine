@@ -28,7 +28,9 @@ private:
 	void DrawHeighrarchy();
 	void DrawInspector();
 	void DrawMenu();
-	
+	void DrawWindowSettings(bool* showChangeWindow);
+	void DrawDebug(bool* showDebugMenu);
+
 	void CameraControl(double deltaTime);
 
 
