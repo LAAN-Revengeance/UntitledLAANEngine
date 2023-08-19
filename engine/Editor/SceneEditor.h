@@ -27,6 +27,7 @@ private:
 
 	void DrawHeighrarchy();
 	void DrawInspector();
+	void DrawMenu();
 	
 	void CameraControl(double deltaTime);
 

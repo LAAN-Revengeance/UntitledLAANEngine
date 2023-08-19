@@ -23,6 +23,7 @@ void SceneEditor::Draw()
 
 	DrawInspector();
 	DrawHeighrarchy();
+	DrawMenu();
 	ImGui::ShowDemoWindow();
 	r.EndGUI();
 }
@@ -44,7 +45,7 @@ void SceneEditor::DrawHeighrarchy()
 	float align = 0.0;
 	static ImGuiTreeNodeFlags baseFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
 
-	r.StartWindow("Scene Objects", true, 0.2, 0.8, 0.0, 0.0);
+	r.StartWindow("Scene Objects", true, 0.2, 0.9, 0.0, 0.1);
 
 	int i = 0;
 	static int selectedNode = -1;
@@ -138,9 +139,6 @@ void SceneEditor::DrawHeighrarchy()
 		}
 	}
 
-
-
-
 	ImGui::End();
 
 }
@@ -148,7 +146,7 @@ void SceneEditor::DrawHeighrarchy()
 void SceneEditor::DrawInspector()
 {
 	
-	r.StartWindow("Inspector",true,0.2,0.8,0.8,0.0);
+	r.StartWindow("Inspector",true,0.2,0.9,0.8,0.1);
 
 	static ImGuiTreeNodeFlags baseFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Leaf;
 
@@ -202,6 +200,43 @@ void SceneEditor::DrawInspector()
 	}
 
 	ImGui::End();
+}
+
+void SceneEditor::DrawMenu()
+{
+	r.StartWindow("Menu", true, 1.0, 0.1, 0.0, 0.0);
+
+	if (ImGui::BeginMenuBar()) {
+		
+		if (ImGui::BeginMenu("File")) {
+			
+			ImGui::MenuItem("Save");
+			ImGui::MenuItem("Exit");
+			
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Edit")) {
+
+			ImGui::MenuItem("Window Title");
+			ImGui::MenuItem("Window Icon");
+
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Help")) {
+
+			ImGui::MenuItem("About");
+			ImGui::MenuItem("Version");
+
+			ImGui::EndMenu();
+		}
+	
+	
+		ImGui::EndMenuBar();
+	}
+
+
+
+	r.EndWindow();
 }
 
 void SceneEditor::CameraControl(double deltaTime)
