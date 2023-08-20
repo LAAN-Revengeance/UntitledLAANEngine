@@ -144,7 +144,6 @@ void LuaManager::Expose_Engine() {
 
 		"CreateGameObject", &ResourceManager::CreateGameObject,
 		"CreateTerrain", &ResourceManager::CreateTerrain,
-		"CreateWater", &ResourceManager::CreateWater,
 		"LoadTexture", &ResourceManager::LoadTexture,
 		"LoadModel", &ResourceManager::LoadModel,
 		"LoadAnimatedModel", &ResourceManager::LoadAnimatedModel,

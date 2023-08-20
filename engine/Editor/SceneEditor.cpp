@@ -1,10 +1,80 @@
 #include "SceneEditor.h"
 
+void SceneEditor::Run()
+{
+	//main loop
+	while (!glfwWindowShouldClose(window))
+	{
+		// timer
+		double currentFrameTime = glfwGetTime();
+		deltaTime = currentFrameTime - previousFrameTime;
+		previousFrameTime = currentFrameTime;
 
+		Update(deltaTime);
+
+		renderer.Draw(camera, *scene, deltaTime);
+		Draw(deltaTime);
+
+
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+	}
+
+	//cleanup
+	glfwDestroyWindow(window);
+	glfwTerminate();
+
+}
 
 SceneEditor::SceneEditor()
 {
 	camera.farPlane = 10000.0f;
+	//init window and glfw.
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_SAMPLES, 4);
+
+	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+	int wWidth = mode->width;
+	int wHeight = mode->height;
+
+	window = glfwCreateWindow(wWidth, wHeight, "Engine", NULL, NULL);
+
+	if (!window)
+	{
+		std::cout << "ERROR Could not initalize window." << std::endl;
+		glfwTerminate();
+		return;
+	}
+	glfwMakeContextCurrent(window);
+
+	//scene camera settings
+	scene = new Scene;
+	scene->camera.aspectRatio = (float)wWidth / (float)wHeight;
+
+	InputManager::Get().Init(window);
+	GUIRenderer::Get().Init(window);
+	renderer.Init(window);
+	//aiManager.Init(scene);
+
+	//callbacks
+	glfwSetFramebufferSizeCallback(window, ResizeCallback);
+
+	//expose to lua
+	//ExposeToLua();
+	//luaManager.RunInitMethod();
+
+	//set light uniforms
+	auto it = ResourceManager::Get().ShaderBegin();
+	auto end = ResourceManager::Get().ShaderEnd();
+	for (it; it != end; it++) {
+		Renderer::SetLightUniforms(scene->lights, *it->second);
+	}
+
+	if (!scene)
+		scene = new Scene;
 }
 
 SceneEditor::~SceneEditor()
@@ -17,7 +87,7 @@ SceneEditor& SceneEditor::Get()
 	return s_instance;
 }
 
-void SceneEditor::Draw()
+void SceneEditor::Draw(double deltaTime)
 {
 	r.StartGUI();
 
@@ -33,11 +103,25 @@ void SceneEditor::Update(double deltaTime)
 	CameraControl(deltaTime);
 }
 
+void SceneEditor::LoadSceneFromFile(const char* path)
+{
+	scene = &SceneLoader::LoadScene(path);
+}
+
 void SceneEditor::UseScene(Scene* nscene)
 {
 	if (nscene) {
 		scene = nscene;
 	}
+}
+
+void SceneEditor::ResizeCallback(GLFWwindow* window, int width, int height)
+{
+	SceneEditor& editor = SceneEditor::Get();
+	editor.camera.aspectRatio = (float)width / (float)height;
+	glViewport(0, 0, width, height);
+	editor.renderer.Resize(width, height);
+	editor.renderer.Draw(editor.camera, *editor.scene, editor.deltaTime);
 }
 
 void SceneEditor::DrawHeighrarchy()
@@ -72,6 +156,41 @@ void SceneEditor::DrawHeighrarchy()
 		}
 		i++;
 	}
+
+	ImGui::SeparatorText("Skybox");
+	if (!scene->skybox) {
+
+
+		/*
+		cm["right"] 
+		cm["left"] =
+		cm["top"] = 
+		cm["bottom"]
+		cm["front"] 
+		cm["back"] =
+		*/
+		static char cmSides[6][128];
+
+		ImGui::InputTextWithHint("##cmright",	"Face right",	cmSides[0], IM_ARRAYSIZE(cmSides[0]));
+		ImGui::InputTextWithHint("##cmleft",	"Face left",	cmSides[1], IM_ARRAYSIZE(cmSides[1]));
+		ImGui::InputTextWithHint("##cmtop",		"Face top",		cmSides[2], IM_ARRAYSIZE(cmSides[2]));
+		ImGui::InputTextWithHint("##cmbottom",	"Face bottom",	cmSides[3], IM_ARRAYSIZE(cmSides[3]));
+		ImGui::InputTextWithHint("##cmfront",	"Face front",	cmSides[4], IM_ARRAYSIZE(cmSides[4]));
+		ImGui::InputTextWithHint("##cmback",	"Face back",	cmSides[5], IM_ARRAYSIZE(cmSides[5]));
+
+		if (ImGui::Button("SetSkybox")) {
+			ResourceManager& res = ResourceManager::Get();
+			res.LoadCubemap(cmSides[0], cmSides[0], cmSides[1], cmSides[2], cmSides[3], cmSides[4], cmSides[5]);
+			scene->SetSkybox(res.GetCubeMap(cmSides[0]));
+		}
+	}
+	else {
+		if (ImGui::Button("Remove Skybox")) {
+			scene->skybox = nullptr;
+		}
+	}
+
+
 	ImGui::SeparatorText("Lights");
 	ResourceManager& res = ResourceManager::Get();
 	//Ambient Light
@@ -206,12 +325,16 @@ void SceneEditor::DrawMenu()
 {
 	static bool showChangeWindow = false;
 	static bool showDebug = false;
+	static bool showOpenFile = false;
+	static bool showSaveFile = false;
 	r.StartWindow("Menu", true, 1.0, 0.1, 0.0, 0.0);
 	if (ImGui::BeginMenuBar()) {
 		
 		if (ImGui::BeginMenu("File")) {
 			
-			if (ImGui::MenuItem("Save")) { }
+			if (ImGui::MenuItem("New")) { scene = new Scene; }
+			if (ImGui::MenuItem("Save",NULL, &showSaveFile)) { }
+			if (ImGui::MenuItem("Open",NULL,&showOpenFile)) { }
 			if (ImGui::MenuItem("Exit")) { }
 			
 			ImGui::EndMenu();
@@ -250,6 +373,8 @@ void SceneEditor::DrawMenu()
 
 	DrawWindowSettings(&showChangeWindow);
 	DrawDebug(&showDebug);
+	DrawOpenFile(&showOpenFile);
+	DrawSaveFile(&showSaveFile);
 }
 
 void SceneEditor::DrawWindowSettings(bool* showChangeWindow)
@@ -280,7 +405,7 @@ void SceneEditor::DrawDebug(bool* showDebug)
 	ImGui::SameLine();
 	ImGui::Text(std::to_string(fps).c_str());
 
-	static float values[90] = {};
+	static float values[1080] = {};
 	static int values_offset = 0;
 	
 	static float phase = 0.0f;
@@ -300,6 +425,43 @@ void SceneEditor::DrawDebug(bool* showDebug)
 
 	ImGui::End();
 
+}
+
+void SceneEditor::DrawOpenFile(bool* showOpenFile)
+{
+	if (!(*showOpenFile))
+		return;
+
+	ImGui::SetNextWindowSize({ 300,150 });
+	ImGui::Begin("Open Scene", showOpenFile);
+	static char filePath[256] = "";
+	if (ImGui::InputTextWithHint("##openfilePath", "FilePath", filePath, IM_ARRAYSIZE(filePath))) {
+		
+	}
+	if (ImGui::Button("Select##openFile")) {
+		scene = &SceneLoader::LoadScene(filePath);
+	}
+	
+	ImGui::End();
+}
+
+void SceneEditor::DrawSaveFile(bool* showSaveFile)
+{
+	if (!(*showSaveFile))
+		return;
+
+	ImGui::SetNextWindowSize({ 300,150 });
+	ImGui::Begin("Save Scene", showSaveFile);
+	static char filePath[256] = "";
+	if (ImGui::InputTextWithHint("##savefilePath", "FilePath", filePath, IM_ARRAYSIZE(filePath))) {
+
+	}
+	if (ImGui::Button("Save##saveFile")) {
+		if(scene)
+			SceneLoader::SaveScene(scene, filePath);
+	}
+
+	ImGui::End();
 }
 
 void SceneEditor::CameraControl(double deltaTime)

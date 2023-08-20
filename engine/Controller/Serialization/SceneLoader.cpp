@@ -12,13 +12,81 @@ SceneLoader::~SceneLoader()
 
 void SceneLoader::SaveScene(Scene* scene, const std::string outName)
 {
+    if (!scene)
+        return;
     std::ofstream out(outName);
 
     Json::Value root;
     Json::Value objects;
+    Json::Value resources;
+
+    //save resouce paths
+    ResourceManager& res = ResourceManager::Get();
+
+    Json::Value cubemaps;
+    for (auto& it : res.cubemapPaths)
+    {
+        Json::Value cm;
+        cm["right"]     .append(it.second[0]);
+        cm["left"]      .append(it.second[1]);
+        cm["top"]       .append(it.second[2]);
+        cm["bottom"]    .append(it.second[3]);
+        cm["front"]     .append(it.second[4]);
+        cm["back"]      .append(it.second[5]);
+
+        cubemaps[it.first] = cm;
+    }
+    resources["cubemaps"] = cubemaps;
+
+    Json::Value textures;
+    for (auto& it : res.texturePaths)
+    {
+        Json::Value tex;
+        tex["path"].append(it.second);
+        textures[it.first] = tex;
+    }
+    resources["textures"] = textures;
+    
+    Json::Value shaders;
+    for (auto& it : res.shadersPaths)
+    {
+        Json::Value sha;
+    
+        sha["vert"].append(it.second[0]);
+        sha["frag"].append(it.second[1]);
+        sha["geom"].append(it.second[2]);
+
+        shaders[it.first] = sha;
+    }
+    resources["shaders"] = shaders;
+    
+    Json::Value models;
+    for (auto& it : res.modelPaths)
+    {
+        Json::Value mod;
+    
+        DrawItem* drawItem = res.models.at(it.first);
+    
+        mod["path"] = it.second;
+    
+        if(drawItem->GetDiffuseTexture(0))
+            mod["diff"].append(drawItem->GetDiffuseTexture(0)->name);
+    
+        if (drawItem->GetEmissionTexture(0))
+            mod["emis"].append(drawItem->GetEmissionTexture(0)->name);
+    
+        if (drawItem->GetSpecularTexture(0))
+            mod["spec"].append(drawItem->GetSpecularTexture(0)->name);
+    
+        models[it.first] = mod;
+    }
+    resources["models"] = models;
+
+    root["resources"] = resources;
 
     //skybox
-    root["skybox"] = scene->skybox->name;
+    if(scene->skybox)
+        root["skybox"] = scene->skybox->name;
     
     //lights
 
@@ -38,7 +106,7 @@ void SceneLoader::SaveScene(Scene* scene, const std::string outName)
 
 }
 
-Scene& SceneLoader::LoadScene(const std::string inName)
+Scene& SceneLoader::LoadScene(const char* inName)
 {
     Scene* scene = new Scene();
 
@@ -80,86 +148,6 @@ Scene& SceneLoader::LoadScene(const std::string inName)
         go->rotation.y = jobj["rotation"][1].asFloat();
         go->rotation.z = jobj["rotation"][2].asFloat();
 
-        //state information
-        AIManager& ai = AIManager::Get();
-        if(!jobj["state"].empty())
-            go->stateMachine.ChangeState(*ai.GetState(jobj["state"].asString()));
-        if (!jobj["previous_state"].empty())
-            go->stateMachine.ChangePreviousState(*ai.GetState(jobj["previous_state"].asString()));
-        if (!jobj["global_state"].empty())
-            go->stateMachine.ChangeGlobalState(*ai.GetState(jobj["global_state"].asString()));
-
-        //physics properties
-
-        /*
-        Json::Value rb = jobj["rigidbody"];
-        Json::Value rbcollider = rb["collider"];
-        
-        //scene->physics.AddRigidBody(*go, rb["mod"].asInt());
-
-        if(rb["contact_listen"].asBool())
-            go->rigidBody.ToggleContactListenState();
-
-        go->rigidBody.SetMass(rb["mass"].asFloat());
-        go->rigidBody.SetDampeningLinear(rb["damp_linear"].asFloat());
-        go->rigidBody.SetDampeningAngle(rb["damp_angle"].asFloat());
-
-        go->rigidBody.SetCenterOfMass    ({ rb["mass_center"][0].asFloat() ,rb["mass_center"][1].asFloat() ,rb["mass_center"][2].asFloat() });
-        
-        go->rigidBody.SetAxisLinearFactor( rb["axis_linear_factor"][0].asFloat() ,rb["axis_linear_factor"][1].asFloat() ,rb["axis_linear_factor"][2].asFloat() );
-
-        go->rigidBody.SetAxisAngleFactor(rb["axis_angle_factor"][0].asFloat(), rb["axis_angle_factor"][1].asFloat(), rb["axis_angle_factor"][2].asFloat());
-        
-        if (rbcollider["type"].asInt() != COLLIDER_INVALID)
-        {
-            float mass = rbcollider["mass"].asFloat();
-            float bounce = rbcollider["bounce"].asFloat();
-            float friction = rbcollider["friction"].asFloat();
-            glm::vec3 offset(rbcollider["offset"][0].asFloat(), rbcollider["offset"][1].asFloat(), rbcollider["offset"][2].asFloat());
-            glm::vec3 rotation(rbcollider["rotation"][0].asFloat(), rbcollider["rotation"][1].asFloat(), rbcollider["rotation"][2].asFloat());
-
-            float radius;
-            float height;
-            int rows;
-            int columns;
-            float min;
-            float max;
-            switch (rbcollider["type"].asInt())
-            {
-            case COLLIDER_BOX:
-                glm::vec3 scale(rb["scale"][0].asFloat(), rb["scale"][1].asFloat(), rb["scale"][2].asFloat());
-                //scene->physics.AddRigidBodyColliderBox(*go,scale,offset,mass,bounce ,friction);
-                break;
-            case COLLIDER_SPHERE:
-                radius = rb["radius"].asFloat();
-                //scene->physics.AddRigidBodyColliderSphere(*go,radius,offset,mass,bounce,friction);
-                break;
-            case COLLIDER_CAPSULE:
-                radius = rb["radius"].asFloat();
-                height = rb["height"].asFloat();
-                //scene->physics.AddRigidBodyColliderCapsule(*go,radius,height,offset,rotation,mass,bounce,friction);
-                break;
-            case COLLIDER_TERRAIN:
-                rows = rb["rows"].asInt();
-                columns = rb["columns"].asInt();
-                min = rb["min"].asFloat();
-                max = rb["max"].asFloat();
-                if(rb["heights"].asBool())
-                    //scene->physics.AddRigidBodyColliderHeightMap(*static_cast<Terrain*>(go));
-                
-                break;
-            case COLLIDER_INVALID:
-                break;
-            default:
-                break;
-            }
-            go->rigidBody.SetLinearVelocity(rb["linear_velocity"][0].asFloat(), rb["linear_velocity"][1].asFloat(), rb["linear_velocity"][2].asFloat());
-            go->rigidBody.SetAngularVelocity(rb["angular_velocity"][0].asFloat(), rb["angular_velocity"][1].asFloat(), rb["angular_velocity"][2].asFloat());
-            go->SetRotation({ jobj["rotation"][0].asFloat(), jobj["rotation"][1].asFloat(), jobj["rotation"][2].asFloat() });
-
-        }
-        //end phyiscs
-        */
         res.StoreGameObject(go);
         scene->AddObject(*go);
     }

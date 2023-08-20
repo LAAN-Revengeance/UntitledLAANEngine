@@ -84,14 +84,7 @@ GameEngine::~GameEngine() {
 }
 
 //start main loop
-void GameEngine::Run(bool usingEditor) {
-
-	isEditor = usingEditor;
-	if (isEditor) {
-		editor.UseScene(scene);
-		simIsRunning = false;
-		inputMngr.SetMouseLock(true);
-	}
+void GameEngine::Run() {
 		
 	//main loop
 	while (!glfwWindowShouldClose(window))
@@ -108,15 +101,7 @@ void GameEngine::Run(bool usingEditor) {
 			luaManager.RunUpdateMethod(deltaTime);
 		}
 
-		if (isEditor) {
-			renderer.Draw(editor.camera, *scene, deltaTime);
-			physicsManager.DrawPhysicsWorld(scene->camera);
-			editor.Draw();
-			editor.Update(deltaTime);
-		}
-		else {
-			renderer.Draw(scene->camera, *scene, deltaTime);
-		}		
+		renderer.Draw(scene->camera, *scene, deltaTime);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

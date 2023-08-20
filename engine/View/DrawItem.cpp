@@ -33,9 +33,21 @@ void DrawItem::SetEmissionTexture(const char* fileName) {
 	material.emissionMap.push_back(new Texture(fileName));
 }
 
-Texture* DrawItem::GetDiffuseTexture(int index)  { return material.diffuseTexture[index]; }
-Texture* DrawItem::GetSpecularTexture(int index) { return material.specularMap	 [index]; }
-Texture* DrawItem::GetEmissionTexture(int index) { return material.emissionMap	 [index]; }
+Texture* DrawItem::GetDiffuseTexture(int index)  { 
+	if (material.diffuseTexture.size() <= 0)
+		return nullptr;
+	return material.diffuseTexture[index]; 
+}
+Texture* DrawItem::GetSpecularTexture(int index) {
+	if (material.specularMap.size() <= 0)
+		return nullptr;
+	return material.specularMap	 [index];
+}
+Texture* DrawItem::GetEmissionTexture(int index) {
+	if (material.emissionMap.size() <= 0)
+		return nullptr;
+	return material.emissionMap	 [index];
+}
 
 void DrawItem::SetShine(float nShine)
 {

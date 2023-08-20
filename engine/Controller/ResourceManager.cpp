@@ -100,60 +100,13 @@ Terrain& ResourceManager::CreateTerrain(std::string terrainName, std::string hei
 	return *terrain;
 }
 
-Terrain& ResourceManager::CreateTerrainFromModel(std::string terrainName, std::string modelName, std::string heightMapName, int Size, float texScale, float scaleX, float scaleY, float scaleZ)
-{
-	Terrain* terrain = new Terrain;
-	terrain->scaleX = scaleX;
-	terrain->scaleY = scaleY;
-	terrain->scaleZ = scaleZ;
-
-	if(textures.find(heightMapName) != textures.end())
-		terrain->SetHeightTexture(textures.at(heightMapName));
-
-	terrain->CreateHeightArray();
-	terrain->model_data = models.at(modelName);
-
-
-	if (shaders.find("terrain") != shaders.end())
-		terrain->shader = shaders.at("terrain");
-	
-	terrain->name = terrainName;
-	terrain->SetID(IDIndex);
-	IDIndex++;
-
-	objects.insert({ terrainName, terrain });
-	return *terrain;
-}
-
-Terrain& ResourceManager::CreateWater(std::string waterName, int Size, std::vector<std::string> layerTextures, float texScale, float scaleX, float scaleY, float scaleZ)
-{
-	Terrain* terrain = new Terrain(Size, scaleX, scaleZ,texScale);
-
-	if (shaders.find("Water") != shaders.end()) 
-		terrain->shader = shaders.at("Water");
-
-	std::vector<Texture*> layers;
-	for (int i = 0; i < layerTextures.size(); i++)
-		layers.emplace_back(textures.at(layerTextures[i]));
-
-	terrain->SetMaterailTextures(layers);
-
-	terrain->name = waterName;
-	terrain->SetID(IDIndex);
-	IDIndex++;
-
-	terrain->model_data->name = waterName;
-	models.insert({ std::string(waterName),terrain->model_data });
-	objects.insert({ waterName, terrain });
-	return *terrain;
-}
-
 void ResourceManager::LoadTexture(std::string resName, std::string fileName) {
 	try
 	{
 		Texture* nTex = new Texture(fileName.c_str());
 		nTex->name = resName;
 		textures.emplace(resName, nTex);
+		texturePaths.emplace(resName, fileName);
 	}
 	catch (const std::exception&)
 	{
@@ -178,6 +131,7 @@ void ResourceManager::LoadAnimatedModel(std::string resName, std::string fileNam
 		//model
 		model->name = resName;
 		models.emplace(resName, model);
+		modelPaths.emplace(resName, fileName);
 	}
 	catch (const std::exception&)
 	{
@@ -200,8 +154,7 @@ void ResourceManager::LoadModel(std::string resName, std::string fileName, std::
 
 		//model
 		models.emplace(resName, model);
-
-		
+		modelPaths.emplace(resName, fileName);
 	}
 	catch (const std::exception&)
 	{
@@ -215,6 +168,9 @@ void ResourceManager::LoadShader(std::string resName, std::string vertPath, std:
 		Shader* nshader = new Shader(vertPath.c_str(), fragPath.c_str(), geomPath.c_str());
 		nshader->name = resName;
 		shaders.emplace(resName, nshader);
+
+		std::array<std::string, 3> paths = {vertPath,fragPath,geomPath};
+		shadersPaths.emplace(resName, paths);
 	}
 	catch (const std::exception&)
 	{
@@ -230,6 +186,8 @@ void ResourceManager::LoadCubemap(std::string resName, std::string right, std::s
 		CubeMap* nCubemap = new CubeMap(sides);
 		nCubemap->name = resName;
 		cubemaps.emplace(resName, nCubemap);
+		std::array<std::string,6> paths = {right, left, top, bottom, front, back};
+		cubemapPaths.emplace(resName, paths);
 	}
 	catch (const std::exception&)
 	{

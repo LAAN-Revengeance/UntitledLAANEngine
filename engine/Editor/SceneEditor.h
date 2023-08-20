@@ -1,7 +1,7 @@
 #pragma once
 #include <GUIRenderer.h>
 #include <InputManager.h>
-#include <Scene.h>
+#include <Serialization/SceneLoader.h>
 
 /**
 *	@Class SceneEditor
@@ -13,30 +13,42 @@
 class SceneEditor
 {
 public:
-
+	
 	static SceneEditor& Get();
 
-	void Draw();
+	void Run();
+
+	void Draw(double deltaTime);
 	void Update(double deltaTime);
 
+	void LoadSceneFromFile(const char* path);
 	void UseScene(Scene* nscene);
 
-
-	
+	static void ResizeCallback(GLFWwindow* window, int width, int height);
 private:
 
+	//GUI Functions
 	void DrawHeighrarchy();
 	void DrawInspector();
 	void DrawMenu();
 	void DrawWindowSettings(bool* showChangeWindow);
 	void DrawDebug(bool* showDebugMenu);
-
+	void DrawOpenFile(bool* showOpenFile);
+	void DrawSaveFile(bool* showSaveFile);
 	void CameraControl(double deltaTime);
 
+	//renderer
+	GLFWwindow* window = nullptr;
+	Renderer& renderer = Renderer::Get();
 
+	//mouse controls
 	float lastX = 0;
 	float lastY = 0;
 	float mouseSensitivity = 10.0f;
+
+	//timestep
+	double deltaTime = 0.0;
+	double previousFrameTime = 0.0;
 
 	Scene* scene = nullptr;
 	Camera camera;

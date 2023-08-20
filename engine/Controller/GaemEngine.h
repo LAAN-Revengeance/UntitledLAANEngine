@@ -9,7 +9,6 @@
 #include <Serialization/SceneLoader.h>
 #include <AI/States/ScriptableState.h>
 #include <Physics/PhysicsManager.h>
-#include <SceneEditor.h>
 
 const int WINDOW_TYPE_WINDOWED	 = 1;
 const int WINDOW_TYPE_BORDERLESS = 2;
@@ -38,7 +37,7 @@ public:
 		*	@brief Runs the main game loop
 		*	@return void
 		*/
-	void Run(bool usingEditor = false);
+	void Run();
 
 		/**
 		*	@brief returns current game time
@@ -134,15 +133,11 @@ public:
 	SoundEngine& soundEngine = SoundEngine::Get();
 		//Reference physics Manager
 	PhysicsManager& physicsManager = PhysicsManager::Get();
-		//Reference scene editor
-	SceneEditor& editor = SceneEditor::Get();
 
 private:
 
 		//expose game engine windowing and special functions to lua
 	void ExposeToLua();
-
-	bool isEditor = false;
 		///previous time between frames
 	double previousFrameTime = 0.0f;
 		///time since last frame

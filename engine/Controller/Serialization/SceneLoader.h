@@ -35,21 +35,21 @@ public:
 		*	@param outName file path to save scene JSON file 
 		*	@return void
 		*/
-	void SaveScene(Scene* scene, const std::string outName);
+	static void SaveScene(Scene* scene, const std::string outName);
 
 		/**
 		*	@brief loads a scene from a JSON file
 		*	@param inName filePath of save file
 		*	@return Scene referne to newly created scene
 		*/
-	Scene& LoadScene(const std::string inName);
+	static Scene& LoadScene(const char* inName);
 
 		/**
 		*	@brief Returns names of all saves in a folder
 		*	@param path path to folder containing saves
 		*	@return std::vector<std::string> vector of save names
 		*/
-	std::vector<std::string> GetSaves(const std::string path);
+	static std::vector<std::string> GetSaves(const std::string path);
 
 private:
 
@@ -58,13 +58,13 @@ private:
 		*	@param obj object to be serialized
 		*	@return Json::Value obj as json object
 		*/
-	Json::Value ObjectToJson(GameObject* obj);
+	static Json::Value ObjectToJson(GameObject* obj);
 
 		/**
 		*	@brief Serializes lighting
 		*	@param lights Lights object to be serialized
 		*	@return Json::Value lights as json object
 		*/
-	Json::Value LightsToJson(Lights* lights);
+	static Json::Value LightsToJson(Lights* lights);
 
 };
