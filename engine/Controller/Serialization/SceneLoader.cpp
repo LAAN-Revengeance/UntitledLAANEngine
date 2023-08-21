@@ -104,8 +104,13 @@ void SceneLoader::SaveScene(Scene* scene, const std::string outName)
     
     //lights
     Json::Value Lighting;
+    Json::Value AmibientLight;
     Json::Value DirLights;
     Json::Value PointLights;
+
+    AmibientLight.append(scene->lights.ambient.x);
+    AmibientLight.append(scene->lights.ambient.y);
+    AmibientLight.append(scene->lights.ambient.z);
 
     for (auto& it : scene->lights.direction) {
         Json::Value dirLight;
@@ -147,6 +152,7 @@ void SceneLoader::SaveScene(Scene* scene, const std::string outName)
         PointLights.append(pntLight);
     }
 
+    Lighting["Ambient"] = AmibientLight;
     Lighting["DirectionLights"] = DirLights;
     Lighting["PointLights"] = PointLights;
     root["Lighting"] = Lighting;
@@ -231,6 +237,9 @@ Scene& SceneLoader::LoadScene(const char* inName)
     //load lighting data
     Json::Value DirLights =   sceneJSON["Lighting"]["DirectionLights"];
     Json::Value PntLights =       sceneJSON["Lighting"]["PointLights"];
+    Json::Value AmbientLight = sceneJSON["Lighting"]["Ambient"];
+    scene->lights.ambient = { AmbientLight[0].asFloat(),AmbientLight[1].asFloat() ,AmbientLight[2].asFloat() };
+
     for (int i = 0; i < DirLights.size(); i++)
     {
         glm::vec3 dir = { DirLights[i]["direction"][0].asFloat(),DirLights[i]["direction"][1].asFloat(), DirLights[i]["direction"][2].asFloat()};
