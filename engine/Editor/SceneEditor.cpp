@@ -107,6 +107,10 @@ void SceneEditor::Update(double deltaTime)
 void SceneEditor::LoadSceneFromFile(const char* path)
 {
 	scene = &SceneLoader::LoadScene(path);
+	
+	for (auto& shader : ResourceManager::Get().shaders) {
+		Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+	}
 }
 
 void SceneEditor::UseScene(Scene* nscene)
@@ -679,7 +683,7 @@ void SceneEditor::DrawOpenFile(bool* showOpenFile)
 		
 	}
 	if (ImGui::Button("Select##openFile")) {
-		scene = &SceneLoader::LoadScene(filePath);
+		LoadSceneFromFile(filePath);
 	}
 	
 	ImGui::End();
