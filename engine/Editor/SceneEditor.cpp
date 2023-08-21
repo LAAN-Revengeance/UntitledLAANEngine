@@ -94,6 +94,7 @@ void SceneEditor::Draw(double deltaTime)
 	DrawInspector();
 	DrawHeighrarchy();
 	DrawMenu();
+	DrawResources();
 	ImGui::ShowDemoWindow();
 	r.EndGUI();
 }
@@ -129,14 +130,30 @@ void SceneEditor::DrawHeighrarchy()
 	float align = 0.0;
 	static ImGuiTreeNodeFlags baseFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
 
-	r.StartWindow("Scene Objects", true, 0.2, 0.9, 0.0, 0.1);
+	r.StartWindow("Scene Objects", true, 0.2, 0.94, 0.0, 0.06);
 
+	ResourceManager& res = ResourceManager::Get();
 	int i = 0;
 	static int selectedNode = -1;
 
-
 	ImGui::CollapsingHeader("Scene Objects", ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Leaf);
 	ImGui::SeparatorText("GameObjects");
+
+	if (ImGui::Button("Add Object")) {
+		
+		std::string name = "new object";
+		std::string nName = name;
+		int nSuffix = 1;
+		while (res.objects.find(nName) != res.objects.end())
+		{ 
+			nName = name;
+			nName.append(std::to_string(nSuffix));
+			++nSuffix;
+		}
+		GameObject& go = res.CreateGameObject(nName,"","");
+		scene->AddObject(go);
+	}
+
 	for (auto& pair : scene->gameObjects)
 	{
 		ImGuiTreeNodeFlags tmpFlags = baseFlags;
@@ -160,15 +177,6 @@ void SceneEditor::DrawHeighrarchy()
 	ImGui::SeparatorText("Skybox");
 	if (!scene->skybox) {
 
-
-		/*
-		cm["right"] 
-		cm["left"] =
-		cm["top"] = 
-		cm["bottom"]
-		cm["front"] 
-		cm["back"] =
-		*/
 		static char cmSides[6][128];
 
 		ImGui::InputTextWithHint("##cmright",	"Face right",	cmSides[0], IM_ARRAYSIZE(cmSides[0]));
@@ -179,7 +187,7 @@ void SceneEditor::DrawHeighrarchy()
 		ImGui::InputTextWithHint("##cmback",	"Face back",	cmSides[5], IM_ARRAYSIZE(cmSides[5]));
 
 		if (ImGui::Button("SetSkybox")) {
-			ResourceManager& res = ResourceManager::Get();
+			
 			res.LoadCubemap(cmSides[0], cmSides[0], cmSides[1], cmSides[2], cmSides[3], cmSides[4], cmSides[5]);
 			scene->SetSkybox(res.GetCubeMap(cmSides[0]));
 		}
@@ -192,7 +200,6 @@ void SceneEditor::DrawHeighrarchy()
 
 
 	ImGui::SeparatorText("Lights");
-	ResourceManager& res = ResourceManager::Get();
 	//Ambient Light
 	if (ImGui::ColorEdit3("Ambient Light", (float*)&scene->lights.ambient)) {
 		for (auto& shader : res.shaders) {
@@ -264,13 +271,32 @@ void SceneEditor::DrawHeighrarchy()
 
 void SceneEditor::DrawInspector()
 {
-	
-	r.StartWindow("Inspector",true,0.2,0.9,0.8,0.1);
+	r.StartWindow("Inspector",true,0.2,0.94,0.8,0.06);
 
 	static ImGuiTreeNodeFlags baseFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Leaf;
+	ResourceManager& res = ResourceManager::Get();
+	static GameObject* lastObject = nullptr;
 
 	if (inspectedObject) {
+		
+		if (!lastObject)
+			lastObject = inspectedObject;
+
+		static bool changeObject = false;
+		if (strcmp(inspectedObject->name.c_str(), lastObject->name.c_str()) != 0) {
+			lastObject = inspectedObject;
+			changeObject = true;
+		}
+
 		ImGui::CollapsingHeader(inspectedObject->name.c_str(), baseFlags);
+
+		//NAME SETTINGS
+		static char cmObjName[128];
+		ImGui::InputTextWithHint("##changeObjectName", "Object Name", cmObjName, IM_ARRAYSIZE(cmObjName));
+		ImGui::SameLine();
+		if (ImGui::Button("Change Name") && strlen(cmObjName) > 0) {
+			inspectedObject->name = cmObjName;
+		}
 
 		//TRANSFORM SETTINGS
 		ImGui::SeparatorText("Transform");
@@ -311,8 +337,52 @@ void SceneEditor::DrawInspector()
 			inspectedObject->SetScale({ tmpSclX, tmpSclY, tmpSclZ });
 		}
 
+		//Rendering SETTINGS
+		ImGui::SeparatorText("Rendering");
+		static std::string selectedShader;
+		static std::string selectedMesh;
+
+		if (changeObject) {
+			selectedShader = "";
+			if (inspectedObject->shader)
+				selectedShader = inspectedObject->shader->name;
+			selectedMesh = "";
+			if (inspectedObject->model_data)
+				selectedMesh = inspectedObject->model_data->name;
+		}
+
+		ImGui::Text("Shader:");
+		if (ImGui::BeginCombo("##objectShader", selectedShader.c_str()))
+		{
+			for (auto it : res.shaders)
+			{
+				if (ImGui::Selectable(it.first.c_str())) {
+					selectedShader = it.first;
+					inspectedObject->shader = it.second;
+				}
+			}
+			ImGui::EndCombo();
+		}
+		ImGui::Text("Mesh:");
+		
+		if (ImGui::BeginCombo("##modelMesh", selectedMesh.c_str()))
+		{
+			for (auto it : res.models)
+			{
+				if (ImGui::Selectable(it.first.c_str())) {
+					selectedMesh = it.first;
+					inspectedObject->model_data = it.second;
+				}
+			}
+			ImGui::EndCombo();
+		}
+
+
 		//PHYSICS SETTINGS
 		ImGui::SeparatorText("Physics");
+
+
+		changeObject = false;
 	}
 	else {
 		ImGui::CollapsingHeader("No Object Selected", baseFlags);
@@ -327,7 +397,7 @@ void SceneEditor::DrawMenu()
 	static bool showDebug = false;
 	static bool showOpenFile = false;
 	static bool showSaveFile = false;
-	r.StartWindow("Menu", true, 1.0, 0.1, 0.0, 0.0);
+	r.StartWindow("Menu", true, 1.0, 0.06, 0.0, 0.0);
 	if (ImGui::BeginMenuBar()) {
 		
 		if (ImGui::BeginMenu("File")) {
@@ -375,6 +445,161 @@ void SceneEditor::DrawMenu()
 	DrawDebug(&showDebug);
 	DrawOpenFile(&showOpenFile);
 	DrawSaveFile(&showSaveFile);
+}
+
+void SceneEditor::DrawResources()
+{
+	float windowWidth = 0.6;
+	float resourceWidth = 64;
+	r.StartWindow("Resource Inspector", true, windowWidth, 0.3, 0.2, 0.7);
+	ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
+	ResourceManager& res = ResourceManager::Get();
+
+	if (ImGui::BeginTabBar("resourceTabs", tab_bar_flags))
+	{
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImGuiStyle& style = ImGui::GetStyle();
+	
+		//TEXTURES TAB
+		if (ImGui::BeginTabItem("Textures"))
+		{
+			//Add textures
+			static char texturePath[256] = "";
+			static char textureName[256] = "";
+			ImGui::InputTextWithHint("##texturefilePathInput", "File Path", texturePath, IM_ARRAYSIZE(texturePath));
+			ImGui::InputTextWithHint("##textureNameInput", "Texture Name", textureName, IM_ARRAYSIZE(textureName));
+
+			if (ImGui::Button("Add Texture"))
+			{
+				res.LoadTexture(textureName,texturePath);
+				texturePath[0] = '\0';
+				textureName[0] = '\0';
+			}
+	
+			int colCount = (viewport->Size.x * windowWidth) / (resourceWidth + (style.ItemSpacing.x * 2));
+			ImGui::Columns(colCount, "texCols", false);
+
+			//show all textures loaded
+			for (auto it : res.textures)
+			{
+				ImGui::Image((void*)(intptr_t)it.second->ID, ImVec2(resourceWidth, resourceWidth));
+				ImGui::Text(it.first.c_str());
+				ImGui::NextColumn();
+			}
+			ImGui::EndTabItem();
+		}
+		ImGui::Columns(1);
+
+		//SHADERS TAB
+		if (ImGui::BeginTabItem("Shaders"))
+		{
+			//Add shaders
+			static char shaderPathVert[256] = "";
+			static char shaderPathFrag[256] = "";
+			static char shaderPathGeom[256] = "";
+			static char shaderName[256] = "";
+
+			ImGui::PushItemWidth((viewport->Size.x * windowWidth)/3);
+			ImGui::InputTextWithHint("##shaderPathVert", "Vertex Shader Path", shaderPathVert, IM_ARRAYSIZE(shaderPathVert));	ImGui::SameLine();
+			ImGui::InputTextWithHint("##shaderPathFrag", "Fragment Shader Path", shaderPathFrag, IM_ARRAYSIZE(shaderPathFrag));	ImGui::SameLine();
+			ImGui::InputTextWithHint("##shaderPathGeom", "Geometry Shader Path", shaderPathGeom, IM_ARRAYSIZE(shaderPathGeom));
+			ImGui::InputTextWithHint("##shaderName",	 "Shader Name", shaderName,	 IM_ARRAYSIZE(shaderName));
+			ImGui::PopItemWidth();
+			if (ImGui::Button("Add Shader"))
+			{
+				res.LoadShader(shaderName, shaderPathVert, shaderPathFrag, shaderPathGeom);
+				shaderPathVert[0] = '\0';
+				shaderPathFrag[0] = '\0';
+				shaderPathGeom[0] = '\0';
+				shaderName[0] = '\0';
+			}
+
+			int colCount = (viewport->Size.x * windowWidth) / (resourceWidth + (style.ItemSpacing.x * 2));
+			ImGui::Columns(colCount, "texCols", false);
+
+			Texture* shaderIcon = res.GetTexture("default");
+
+			//show all shaders loaded
+			for (auto it : res.shaders)
+			{
+				ImGui::Image((void*)(intptr_t)shaderIcon->ID, ImVec2(resourceWidth, resourceWidth));
+				ImGui::Text(it.first.c_str());
+				ImGui::NextColumn();
+			}
+
+			ImGui::EndTabItem();
+		}
+		ImGui::Columns(1);
+
+		//MODEL TAB
+		if (ImGui::BeginTabItem("3D Models"))
+		{
+			ImGui::Columns(2, "texCols", false);
+			//textures
+			ImGui::Text("Material:");
+			ImGui::PushItemWidth((viewport->Size.x * windowWidth) / 4);
+			static std::string difTexPreview;
+			if (ImGui::BeginCombo("Diffuse##modelTexture", difTexPreview.c_str()))
+			{
+				for (auto  it : res.textures)
+				{
+					if (ImGui::Selectable(it.first.c_str())) {
+						difTexPreview = it.first;
+					}
+				}
+				ImGui::EndCombo();
+			}
+			static std::string specTexPreview;
+			if (ImGui::BeginCombo("Specular##modelTexture", specTexPreview.c_str()))
+			{
+				for (auto it : res.textures)
+				{
+					if (ImGui::Selectable(it.first.c_str())) {
+						specTexPreview = it.first;
+					}
+				}
+				ImGui::EndCombo();
+			}
+			static std::string emisTexPreview;
+			if (ImGui::BeginCombo("Emissive##modelTexture", emisTexPreview.c_str()))
+			{
+				for (auto it : res.textures)
+				{
+					if (ImGui::Selectable(it.first.c_str())) {
+						emisTexPreview = it.first;
+					}
+				}
+				ImGui::EndCombo();
+			}
+
+
+			ImGui::Text("Model File and Name:");
+			static char modelName[256] = "";
+			static char modelPath[256] = "";
+			ImGui::InputTextWithHint("##modelPath", ".obj file path", modelPath, IM_ARRAYSIZE(modelPath));
+			ImGui::InputTextWithHint("##modelName", "Model Name", modelName, IM_ARRAYSIZE(modelName));
+
+			if (ImGui::Button("Add Model")) {
+				res.LoadModel(modelName, modelPath, difTexPreview, emisTexPreview, specTexPreview);
+			}
+
+			Texture* shaderIcon = res.GetTexture("default");
+			ImGui::NextColumn();
+			for (auto it : res.models)
+			{
+				ImGui::Image((void*)(intptr_t)shaderIcon->ID, ImVec2(resourceWidth, resourceWidth));
+				ImGui::Text(it.first.c_str());
+				ImGui::NextColumn();
+			}
+
+
+			ImGui::Columns(1);
+			ImGui::EndTabItem();
+		}
+		ImGui::EndTabBar();
+	}
+
+	r.EndWindow();
 }
 
 void SceneEditor::DrawWindowSettings(bool* showChangeWindow)
@@ -485,7 +710,7 @@ void SceneEditor::CameraControl(double deltaTime)
 
 
 
-	float baseSpeed = 5;
+	float baseSpeed = 0.5;
 	float camSpeed = baseSpeed;
 	if (input.GetKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
 		camSpeed *= 10;

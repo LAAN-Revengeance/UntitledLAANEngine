@@ -115,8 +115,8 @@ void Renderer::Draw(Camera& cam, Scene& scene, double deltaTime) {
 			obj->shader->SetUniform("_Time", (float) glfwGetTime());
 			//set model matrix uniforms
 			glm::mat4 modelMat(1.0f);
-			modelMat = glm::translate(modelMat, obj->position);
 			modelMat = glm::scale(modelMat, obj->scale);
+			modelMat = glm::translate(modelMat, obj->position);
 		
 			//pitch roll and yaw rotationss
 			modelMat = glm::rotate(modelMat, glm::radians(obj->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));

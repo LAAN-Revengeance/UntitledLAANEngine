@@ -31,6 +31,7 @@ private:
 	void DrawHeighrarchy();
 	void DrawInspector();
 	void DrawMenu();
+	void DrawResources();
 	void DrawWindowSettings(bool* showChangeWindow);
 	void DrawDebug(bool* showDebugMenu);
 	void DrawOpenFile(bool* showOpenFile);

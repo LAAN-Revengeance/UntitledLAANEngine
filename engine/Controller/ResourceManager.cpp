@@ -104,6 +104,10 @@ void ResourceManager::LoadTexture(std::string resName, std::string fileName) {
 	try
 	{
 		Texture* nTex = new Texture(fileName.c_str());
+		if (!nTex->GetImageData()) {
+			delete nTex;
+			return;
+		}
 		nTex->name = resName;
 		textures.emplace(resName, nTex);
 		texturePaths.emplace(resName, fileName);
@@ -163,19 +167,27 @@ void ResourceManager::LoadModel(std::string resName, std::string fileName, std::
 }
 
 void ResourceManager::LoadShader(std::string resName, std::string vertPath, std::string fragPath, std::string geomPath) {
+	
+	Shader* nshader;
+
 	try
 	{
-		Shader* nshader = new Shader(vertPath.c_str(), fragPath.c_str(), geomPath.c_str());
-		nshader->name = resName;
-		shaders.emplace(resName, nshader);
+		nshader = new Shader(vertPath.c_str(), fragPath.c_str(), geomPath.c_str());
+		if (!nshader->GetIsValid()) {
+			delete nshader;
+			return;
+		}
 
-		std::array<std::string, 3> paths = {vertPath,fragPath,geomPath};
-		shadersPaths.emplace(resName, paths);
 	}
 	catch (const std::exception&)
 	{
 		std::cout << "Error: Could not create: " << resName << std::endl;
+		return;
 	}
+	nshader->name = resName;
+	shaders.emplace(resName, nshader);
+	std::array<std::string, 3> paths = { vertPath,fragPath,geomPath };
+	shadersPaths.emplace(resName, paths);
 }
 
 void ResourceManager::LoadCubemap(std::string resName, std::string right, std::string left, std::string top, std::string bottom, std::string front, std::string back) {

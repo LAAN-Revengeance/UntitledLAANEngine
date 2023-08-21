@@ -27,14 +27,15 @@ void SceneLoader::SaveScene(Scene* scene, const std::string outName)
     for (auto& it : res.cubemapPaths)
     {
         Json::Value cm;
-        cm["right"]     .append(it.second[0]);
-        cm["left"]      .append(it.second[1]);
-        cm["top"]       .append(it.second[2]);
-        cm["bottom"]    .append(it.second[3]);
-        cm["front"]     .append(it.second[4]);
-        cm["back"]      .append(it.second[5]);
+        cm["name"   ]   = it.first;
+        cm["right"  ]  = it.second[0];
+        cm["left"   ]   = it.second[1];
+        cm["top"    ]    = it.second[2];
+        cm["bottom" ] = it.second[3];
+        cm["front"  ]  = it.second[4];
+        cm["back"   ]   = it.second[5];
 
-        cubemaps[it.first] = cm;
+        cubemaps.append(cm);
     }
     resources["cubemaps"] = cubemaps;
 
@@ -42,8 +43,9 @@ void SceneLoader::SaveScene(Scene* scene, const std::string outName)
     for (auto& it : res.texturePaths)
     {
         Json::Value tex;
-        tex["path"].append(it.second);
-        textures[it.first] = tex;
+        tex["path"] = it.second;
+        tex["name"] = it.first;
+        textures.append(tex);
     }
     resources["textures"] = textures;
     
@@ -51,12 +53,13 @@ void SceneLoader::SaveScene(Scene* scene, const std::string outName)
     for (auto& it : res.shadersPaths)
     {
         Json::Value sha;
-    
-        sha["vert"].append(it.second[0]);
-        sha["frag"].append(it.second[1]);
-        sha["geom"].append(it.second[2]);
+        
+        sha["name"] = it.first;
+        sha["vert"] = it.second[0];
+        sha["frag"] = it.second[1];
+        sha["geom"] = it.second[2];
 
-        shaders[it.first] = sha;
+        shaders.append(sha);
     }
     resources["shaders"] = shaders;
     
@@ -68,17 +71,28 @@ void SceneLoader::SaveScene(Scene* scene, const std::string outName)
         DrawItem* drawItem = res.models.at(it.first);
     
         mod["path"] = it.second;
-    
+        mod["name"] = it.first;
+
         if(drawItem->GetDiffuseTexture(0))
-            mod["diff"].append(drawItem->GetDiffuseTexture(0)->name);
+            mod["diff"] = drawItem->GetDiffuseTexture(0)->name;
     
         if (drawItem->GetEmissionTexture(0))
-            mod["emis"].append(drawItem->GetEmissionTexture(0)->name);
+            mod["emis"] = drawItem->GetEmissionTexture(0)->name;
     
         if (drawItem->GetSpecularTexture(0))
-            mod["spec"].append(drawItem->GetSpecularTexture(0)->name);
+            mod["spec"] = drawItem->GetSpecularTexture(0)->name;
     
-        models[it.first] = mod;
+        std::string type = "";
+
+        if (dynamic_cast<md2_model_t*>(drawItem))
+            type = "md2";
+        if (dynamic_cast<Mesh*>(drawItem))
+            type = "mesh";
+
+        mod["type"] = type;
+
+
+        models.append(mod);
     }
     resources["models"] = models;
 
@@ -116,16 +130,67 @@ Scene& SceneLoader::LoadScene(const char* inName)
     reader.parse(file, sceneJSON);
 
     ResourceManager& res = ResourceManager::Get();
+    //load resources
+    Json::Value jCubemaps = sceneJSON["resources"]["cubemaps"];
+    Json::Value jTextures = sceneJSON["resources"]["textures"];
+    Json::Value jShaders  = sceneJSON["resources"]["shaders"];
+    Json::Value jModels   = sceneJSON["resources"]["models"];
 
+    
+    for (int i = 0; i < jCubemaps.size(); i++)
+    {
+        std::string name =      jCubemaps[i]["name"].asString();
+        std::string right =     jCubemaps[i]["right"].asString();
+        std::string left =      jCubemaps[i]["left"].asString();
+        std::string top =       jCubemaps[i]["top"].asString();
+        std::string bottom =    jCubemaps[i]["bottom"].asString();
+        std::string front =     jCubemaps[i]["front"].asString();
+        std::string back =      jCubemaps[i]["back"].asString();
+        res.LoadCubemap(name, right, left, top, bottom, front, back);
+    }
+
+    for (int i = 0; i < jTextures.size(); i++)
+    {
+        std::string name = jTextures[i]["name"].asString();
+        std::string path = jTextures[i]["path"].asString();
+        res.LoadTexture(name,path);
+    }
+
+    for (int i = 0; i < jShaders.size(); i++)
+    {
+        std::string name = jShaders[i]["name"].asString();
+        std::string vert = jShaders[i]["vert"].asString();
+        std::string frag = jShaders[i]["frag"].asString();
+        std::string geom = jShaders[i]["geom"].asString();
+        res.LoadShader(name, vert, frag, geom);
+    }
+
+    for (int i = 0; i < jModels.size(); i++)
+    {
+        std::string name = jModels[i]["name"].asString();
+        std::string path = jModels[i]["path"].asString();
+        std::string diff = jModels[i]["diff"].asString();
+        std::string spec = jModels[i]["spec"].asString();
+        std::string emis = jModels[i]["emis"].asString();
+        std::string type = jModels[i]["type"].asString();
+
+        if (type.compare("mesh") == 0) {
+            res.LoadModel(name,path,diff,emis,spec);
+        }
+        else {
+            res.LoadAnimatedModel(name, path, diff, emis, spec);
+        }
+    }
+
+    //populate scene
     scene->skybox = res.GetCubeMap(sceneJSON["skybox"].asString());
-
     Json::Value objects = sceneJSON["objects"];
     for (unsigned int i = 0; i < objects.size(); i++)
     {
         Json::Value jobj = objects[i];
      
         GameObject* go = nullptr;
-
+    
         if (jobj["type"].asString() == "terrain") {
           
             go = res.GetGameObject(jobj["name"].asString());
@@ -139,15 +204,15 @@ Scene& SceneLoader::LoadScene(const char* inName)
         go->position.x = jobj["position"][0].asFloat();
         go->position.y = jobj["position"][1].asFloat();
         go->position.z = jobj["position"][2].asFloat();
-
+    
         go->scale.x = jobj["scale"][0].asFloat();
         go->scale.y = jobj["scale"][1].asFloat();
         go->scale.z = jobj["scale"][2].asFloat();
-
+    
         go->rotation.x = jobj["rotation"][0].asFloat();
         go->rotation.y = jobj["rotation"][1].asFloat();
         go->rotation.z = jobj["rotation"][2].asFloat();
-
+    
         res.StoreGameObject(go);
         scene->AddObject(*go);
     }
