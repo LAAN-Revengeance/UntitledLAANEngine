@@ -54,6 +54,7 @@ private:
 	Scene* scene = nullptr;
 	Camera camera;
 	GameObject* inspectedObject = nullptr;
+	GameObject* lastObject = nullptr;
 
 	GUIRenderer& r = GUIRenderer::Get();
 

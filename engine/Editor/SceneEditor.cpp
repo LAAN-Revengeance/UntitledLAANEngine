@@ -106,8 +106,10 @@ void SceneEditor::Update(double deltaTime)
 
 void SceneEditor::LoadSceneFromFile(const char* path)
 {
+	inspectedObject = nullptr;
+	lastObject = nullptr;
 	scene = &SceneLoader::LoadScene(path);
-	
+		
 	for (auto& shader : ResourceManager::Get().shaders) {
 		Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 	}
@@ -222,6 +224,10 @@ void SceneEditor::DrawHeighrarchy()
 
 	if (ImGui::Button("Add Direction Light")) {
 		scene->lights.AddDirectionLight({ 0,1,0 }, { 1,1,1 }, { 1,1,1 });
+
+		for (auto& shader : ResourceManager::Get().shaders) {
+			Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+		}
 	}
 
 	for (int i = 0; i < scene->lights.direction.size(); ++i)
@@ -256,6 +262,9 @@ void SceneEditor::DrawHeighrarchy()
 
 	if (ImGui::Button("Add Point Light")) {
 		scene->lights.AddPointLight({ 0,0,0 }, { 1,1,1 }, {1,1,1}, 1.0, 0.007, 0.0002);
+		for (auto& shader : ResourceManager::Get().shaders) {
+			Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+		}
 	}
 
 	for (int i = 0; i < scene->lights.point.size(); ++i)
@@ -295,7 +304,7 @@ void SceneEditor::DrawInspector()
 
 	static ImGuiTreeNodeFlags baseFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Leaf;
 	ResourceManager& res = ResourceManager::Get();
-	static GameObject* lastObject = nullptr;
+	
 
 	if (inspectedObject) {
 		
@@ -559,7 +568,7 @@ void SceneEditor::DrawResources()
 		//MODEL TAB
 		if (ImGui::BeginTabItem("3D Models"))
 		{
-			ImGui::Columns(2, "texCols", false);
+			ImGui::Columns(3, "texCols", true);
 			//textures
 			ImGui::Text("Material:");
 			ImGui::PushItemWidth((viewport->Size.x * windowWidth) / 4);
