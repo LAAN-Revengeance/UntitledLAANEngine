@@ -5,8 +5,7 @@ GUIRenderer::GUIRenderer() : window(nullptr) {
 	flags = ImGuiWindowFlags_NoDecoration |
 		ImGuiWindowFlags_NoMove |
 		ImGuiWindowFlags_NoSavedSettings |
-		ImGuiWindowFlags_NoTitleBar | 
-		ImGuiWindowFlags_MenuBar;
+		ImGuiWindowFlags_NoTitleBar;
 }
 
 GUIRenderer::~GUIRenderer() {

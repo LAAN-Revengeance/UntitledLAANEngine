@@ -209,6 +209,11 @@ void SceneEditor::DrawHeighrarchy()
 
 	//Directional Lights
 	int deleteIndex = -1;
+
+	if (ImGui::Button("Add Direction Light")) {
+		scene->lights.AddDirectionLight({ 0,1,0 }, { 1,1,1 }, { 1,1,1 });
+	}
+
 	for (int i = 0; i < scene->lights.direction.size(); ++i)
 	{
 		std::string dName = std::string("Dir Light##" + std::to_string(i));
@@ -238,6 +243,11 @@ void SceneEditor::DrawHeighrarchy()
 	
 	//point Lights
 	deleteIndex = -1;
+
+	if (ImGui::Button("Add Point Light")) {
+		scene->lights.AddPointLight({ 0,0,0 }, { 1,1,1 }, {1,1,1}, 1.0, 0.007, 0.0002);
+	}
+
 	for (int i = 0; i < scene->lights.point.size(); ++i)
 	{
 		std::string dName = std::string("Point Light##" + std::to_string(i));
@@ -311,7 +321,6 @@ void SceneEditor::DrawInspector()
 		if (tmpPosX != inspectedObject->position.x || tmpPosY != inspectedObject->position.y || tmpPosZ != inspectedObject->position.z) {
 			inspectedObject->SetPosition({ tmpPosX, tmpPosY, tmpPosZ });
 		}
-
 		
 		float tmpRotX = inspectedObject->rotation.x;
 		float tmpRotY = inspectedObject->rotation.y;
@@ -397,7 +406,14 @@ void SceneEditor::DrawMenu()
 	static bool showDebug = false;
 	static bool showOpenFile = false;
 	static bool showSaveFile = false;
-	r.StartWindow("Menu", true, 1.0, 0.06, 0.0, 0.0);
+	//r.StartWindow("Menu", true, 1.0, 0.06, 0.0, 0.0);
+	float width = 1.0; float height = 0.06; float posY = 0.0; float posX = 0.0;
+	const ImGuiViewport* viewport = ImGui::GetMainViewport();
+
+	ImGui::SetNextWindowPos({ (float)(viewport->WorkSize.x * posX),(float)(viewport->WorkSize.y * posY) });
+	ImGui::SetNextWindowSize({ viewport->WorkSize.x * width,viewport->WorkSize.y * height });
+	ImGui::Begin("Menu", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings |ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_MenuBar);
+
 	if (ImGui::BeginMenuBar()) {
 		
 		if (ImGui::BeginMenu("File")) {
@@ -429,7 +445,6 @@ void SceneEditor::DrawMenu()
 		ImGui::EndMenuBar();
 	}
 
-	const ImGuiViewport* viewport = ImGui::GetMainViewport();
 	float buttonWidth = 80;
 	ImGui::SetCursorPosX((viewport->WorkSize.x/2) - (((buttonWidth + ImGui::GetStyle().ItemSpacing.x) * 3)/2));
 	

@@ -103,7 +103,53 @@ void SceneLoader::SaveScene(Scene* scene, const std::string outName)
         root["skybox"] = scene->skybox->name;
     
     //lights
+    Json::Value Lighting;
+    Json::Value DirLights;
+    Json::Value PointLights;
 
+    for (auto& it : scene->lights.direction) {
+        Json::Value dirLight;
+
+        dirLight["direction"].append(it.direction.x);
+        dirLight["direction"].append(it.direction.y);
+        dirLight["direction"].append(it.direction.z);
+
+        dirLight["diffuse"].append(it.diffuse.x);
+        dirLight["diffuse"].append(it.diffuse.y);
+        dirLight["diffuse"].append(it.diffuse.z);
+
+        dirLight["specular"].append(it.specular.x);
+        dirLight["specular"].append(it.specular.y);
+        dirLight["specular"].append(it.specular.z);
+
+        DirLights.append(dirLight);
+    }
+
+    for (auto& it : scene->lights.point) {
+        Json::Value pntLight;
+
+        pntLight["position"].append(it.position.x);
+        pntLight["position"].append(it.position.y);
+        pntLight["position"].append(it.position.z);
+
+        pntLight["diffuse"].append(it.diffuse.x);
+        pntLight["diffuse"].append(it.diffuse.y);
+        pntLight["diffuse"].append(it.diffuse.z);
+
+        pntLight["specular"].append(it.specular.x);
+        pntLight["specular"].append(it.specular.y);
+        pntLight["specular"].append(it.specular.z);
+
+        pntLight["constant"] = it.constant;
+        pntLight["linear"] = it.linear;
+        pntLight["quadratic"] = it.quadratic;
+
+        PointLights.append(pntLight);
+    }
+
+    Lighting["DirectionLights"] = DirLights;
+    Lighting["PointLights"] = PointLights;
+    root["Lighting"] = Lighting;
 
     //serialize game objects
     for (auto& it : scene->gameObjects)
@@ -180,6 +226,30 @@ Scene& SceneLoader::LoadScene(const char* inName)
         else {
             res.LoadAnimatedModel(name, path, diff, emis, spec);
         }
+    }
+
+    //load lighting data
+    Json::Value DirLights =   sceneJSON["Lighting"]["DirectionLights"];
+    Json::Value PntLights =       sceneJSON["Lighting"]["PointLights"];
+    for (int i = 0; i < DirLights.size(); i++)
+    {
+        glm::vec3 dir = { DirLights[i]["direction"][0].asFloat(),DirLights[i]["direction"][1].asFloat(), DirLights[i]["direction"][2].asFloat()};
+        glm::vec3 dif = { DirLights[i]["diffuse"][0].asFloat(),DirLights[i]["diffuse"][1].asFloat(), DirLights[i]["diffuse"][2].asFloat()};
+        glm::vec3 spe = { DirLights[i]["specular"][0].asFloat(),DirLights[i]["specular"][1].asFloat(), DirLights[i]["specular"][2].asFloat()};
+        scene->lights.AddDirectionLight(dir,dif,spe);
+    }
+
+    for (int i = 0; i < PntLights.size(); i++)
+    {
+        glm::vec3 pos = { PntLights[i]["position"][0].asFloat(),PntLights[i]["position"][1].asFloat(), PntLights[i]["position"][2].asFloat() };
+        glm::vec3 dif = { PntLights[i]["diffuse"][0].asFloat(),PntLights[i]["diffuse"][1].asFloat(), PntLights[i]["diffuse"][2].asFloat() };
+        glm::vec3 spe = { PntLights[i]["specular"][0].asFloat(),PntLights[i]["specular"][1].asFloat(), PntLights[i]["specular"][2].asFloat() };
+
+        float constant = PntLights[i]["constant"].asFloat();
+        float linear = PntLights[i]["linear"].asFloat();
+        float quadratic = PntLights[i]["quadratic"].asFloat();
+
+        scene->lights.AddPointLight(pos,dif,spe,constant,linear,quadratic);
     }
 
     //populate scene
