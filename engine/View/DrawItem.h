@@ -97,6 +97,13 @@ public:
     Texture* GetSpecularTexture(int index);
     Texture* GetEmissionTexture(int index);
 
+    void SetDiffuseTexture (int index, Texture* nTexture);
+    void SetSpecularTexture(int index, Texture* nTexture);
+    void SetEmissionTexture(int index, Texture* nTexture);
+
+    void ResetDiffuseTexture ();
+    void ResetSpecularTexture();
+    void ResetEmissionTexture();
         /*
         *   @brief set how shiny this object is
         *   @param nShine new shine value

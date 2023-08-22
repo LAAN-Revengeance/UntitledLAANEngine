@@ -575,6 +575,8 @@ void SceneEditor::DrawResources()
 			static std::string difTexPreview;
 			if (ImGui::BeginCombo("Diffuse##modelTexture", difTexPreview.c_str()))
 			{
+				if (ImGui::Selectable("--None--"))
+					difTexPreview = "";
 				for (auto  it : res.textures)
 				{
 					if (ImGui::Selectable(it.first.c_str())) {
@@ -586,6 +588,8 @@ void SceneEditor::DrawResources()
 			static std::string specTexPreview;
 			if (ImGui::BeginCombo("Specular##modelTexture", specTexPreview.c_str()))
 			{
+				if (ImGui::Selectable("--None--"))
+					specTexPreview = "";
 				for (auto it : res.textures)
 				{
 					if (ImGui::Selectable(it.first.c_str())) {
@@ -597,6 +601,8 @@ void SceneEditor::DrawResources()
 			static std::string emisTexPreview;
 			if (ImGui::BeginCombo("Emissive##modelTexture", emisTexPreview.c_str()))
 			{
+				if (ImGui::Selectable("--None--"))
+					emisTexPreview = "";
 				for (auto it : res.textures)
 				{
 					if (ImGui::Selectable(it.first.c_str())) {
@@ -619,11 +625,69 @@ void SceneEditor::DrawResources()
 
 			Texture* shaderIcon = res.GetTexture("default");
 			ImGui::NextColumn();
+
+			static DrawItem* inspectedModel = nullptr;
 			for (auto it : res.models)
 			{
-				ImGui::Image((void*)(intptr_t)shaderIcon->ID, ImVec2(resourceWidth, resourceWidth));
+				if (ImGui::ImageButton(std::string("##"+ it.first).c_str(), (void*)(intptr_t)shaderIcon->ID, ImVec2(resourceWidth, resourceWidth))) {
+					inspectedModel = it.second;
+				}
 				ImGui::Text(it.first.c_str());
-				ImGui::NextColumn();
+				
+			}
+			ImGui::NextColumn();
+
+			if (inspectedModel) {
+				ImGui::Text(inspectedModel->name.c_str());
+
+				std::string diffName = "";
+				if(inspectedModel->GetDiffuseTexture(0))
+					diffName = inspectedModel->GetDiffuseTexture(0)->name;
+				if (ImGui::BeginCombo("Diffuse##dinspectedModel", diffName.c_str()))
+				{
+					if (ImGui::Selectable("--None--"))
+						inspectedModel->ResetDiffuseTexture();
+					for (auto it : res.textures)
+					{
+						if (ImGui::Selectable(it.first.c_str())) {
+							inspectedModel->SetDiffuseTexture(0,it.second);
+						}
+					}
+					ImGui::EndCombo();
+				}
+				std::string specName = "";
+				if (inspectedModel->GetSpecularTexture(0))
+					specName = inspectedModel->GetSpecularTexture(0)->name;
+				if (ImGui::BeginCombo("Specular##sinspectedModel", specName.c_str()))
+				{
+					if (ImGui::Selectable("--None--"))
+						inspectedModel->ResetSpecularTexture();
+					for (auto it : res.textures)
+					{
+						if (ImGui::Selectable(it.first.c_str())) {
+							inspectedModel->SetSpecularTexture(0, it.second);
+						}
+					}
+					ImGui::EndCombo();
+				}
+				std::string EmissName = "";
+				if (inspectedModel->GetEmissionTexture(0))
+					EmissName = inspectedModel->GetEmissionTexture(0)->name;
+				if (ImGui::BeginCombo("Emission##einspectedModel", EmissName.c_str()))
+				{
+					if (ImGui::Selectable("--None--"))
+						inspectedModel->ResetEmissionTexture();
+					for (auto it : res.textures)
+					{
+						if (ImGui::Selectable(it.first.c_str())) {
+							inspectedModel->SetEmissionTexture(0, it.second);
+						}
+					}
+					ImGui::EndCombo();
+				}
+
+				
+				
 			}
 
 
