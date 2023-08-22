@@ -616,16 +616,25 @@ void SceneEditor::DrawResources()
 			ImGui::Text("Model File and Name:");
 			static char modelName[256] = "";
 			static char modelPath[256] = "";
-			ImGui::InputTextWithHint("##modelPath", ".obj file path", modelPath, IM_ARRAYSIZE(modelPath));
+			ImGui::InputTextWithHint("##modelPath", "File path" , modelPath, IM_ARRAYSIZE(modelPath));
 			ImGui::InputTextWithHint("##modelName", "Model Name", modelName, IM_ARRAYSIZE(modelName));
 
 			if (ImGui::Button("Add Model")) {
-				res.LoadModel(modelName, modelPath, difTexPreview, emisTexPreview, specTexPreview);
+				std::string::size_type idx = std::string(modelPath).rfind('.');
+				std::string extension = std::string(modelPath).substr(idx + 1);
+
+				if(extension.compare("obj") == 0){
+					res.LoadModel(modelName, modelPath, difTexPreview, emisTexPreview, specTexPreview);
+				}
+				else if (extension.compare("md2") == 0) {
+					res.LoadAnimatedModel(modelName, modelPath, difTexPreview, emisTexPreview, specTexPreview);
+				}
 			}
 
 			Texture* shaderIcon = res.GetTexture("default");
 			ImGui::NextColumn();
 
+			ImGui::BeginChild("##modelsCol");
 			static DrawItem* inspectedModel = nullptr;
 			for (auto it : res.models)
 			{
@@ -635,7 +644,10 @@ void SceneEditor::DrawResources()
 				ImGui::Text(it.first.c_str());
 				
 			}
+			ImGui::EndChild();
 			ImGui::NextColumn();
+
+			ImGui::BeginChild("##inspectmodelsCol");
 
 			if (inspectedModel) {
 				ImGui::Text(inspectedModel->name.c_str());
@@ -686,10 +698,65 @@ void SceneEditor::DrawResources()
 					ImGui::EndCombo();
 				}
 
-				
-				
-			}
+				if (dynamic_cast<md2_model_t*>(inspectedModel)) {
+					md2_model_t* inspectedMD2 = dynamic_cast<md2_model_t*>(inspectedModel);
+					
+					ImGui::SeparatorText("Animaiton Data");
+					static char nAnimName[256];
+					static int startAnim = 0;
+					static int endAnim = 0;
+					static float animSpeed = 5;
+					ImGui::InputTextWithHint("##md2Name", "Animation Name", nAnimName, IM_ARRAYSIZE(nAnimName));
+					ImGui::Text("Start/End Frame:");
+					int colCount = (viewport->Size.x * windowWidth) / (resourceWidth + (style.ItemSpacing.x * 2));
+					float colWidth = ((viewport->Size.x * windowWidth) / 3);
+					ImGui::PushItemWidth((colWidth / 4) - style.ItemSpacing.x);
+					ImGui::DragInt("##Start Frame", &startAnim, 1, 0, inspectedMD2->header.num_frames); ImGui::SameLine();
+					ImGui::DragInt("##End Frame", &endAnim, 1,0,inspectedMD2->header.num_frames); ImGui::SameLine();
+					ImGui::DragFloat("##Frame Speed", &animSpeed, 0.1); ImGui::SameLine();
 
+					if (ImGui::Button("Add")) {
+						inspectedMD2->SetAnimation(nAnimName,startAnim,endAnim,animSpeed);
+					}
+
+					ImGui::PopItemWidth();
+
+					
+		
+					ImGui::PushItemWidth((colWidth / 5) - style.ItemSpacing.x);
+					ImGui::Text("Current Animations:");
+					ImGui::Columns(5, "saved anims", false);
+
+					ImGui::Text("name"); ImGui::NextColumn();
+					ImGui::Text("start"); ImGui::NextColumn();
+					ImGui::Text("end"); ImGui::NextColumn();
+					ImGui::Text("speed"); ImGui::NextColumn();
+					ImGui::NextColumn();
+
+					std::string delteItem = "";
+					for (auto& it : inspectedMD2->animations) {
+
+						ImGui::Text(it.first.c_str());
+						ImGui::NextColumn();
+						ImGui::DragInt  (std::string("##strAnim"+it.first).c_str(), &it.second.start  , 1, 0, inspectedMD2->header.num_frames); ImGui::NextColumn();
+						ImGui::DragInt  (std::string("##endAnim"+it.first).c_str(), &it.second.end    , 1, 0, inspectedMD2->header.num_frames); ImGui::NextColumn();
+						ImGui::DragFloat(std::string("##spdAnim"+it.first).c_str(), &it.second.speed  , 1, 0, inspectedMD2->header.num_frames); ImGui::NextColumn();
+						if (ImGui::Button((std::string("Delete##") + it.first).c_str())) {
+							std::cout << delteItem << std::endl;
+							delteItem = it.first;
+						}
+						ImGui::NextColumn();
+					}
+					if (delteItem.compare("") != 0) {
+						std::cout << delteItem << std::endl;
+						inspectedMD2->animations.erase(delteItem);
+					}
+
+					ImGui::PopItemWidth();
+					ImGui::Columns(1);
+				}
+			}
+			ImGui::EndChild();
 
 			ImGui::Columns(1);
 			ImGui::EndTabItem();

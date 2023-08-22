@@ -115,8 +115,6 @@ private:
 	//liner interpolation function
 	float lerp(float start, float end, float factor);	
 
-	std::map<std::string,animation> animations;
-
 	md2Header header;
 	md2_texCoord_t* texcoords;
 	md2_triangle_t* triangles;
@@ -128,6 +126,8 @@ private:
 	float curInterpolation = 0.0f;
 	int startFrame = 0;
 	int endFrame = 200;
+	std::map<std::string, animation> animations;
+
 
 	//current interpolated verts
 	pos_normal_vert* currentVerts;
@@ -136,4 +136,6 @@ private:
 	VBO vertvbo;
 	VBO uvvbo;
 	EBO ebo;
+
+	friend class SceneEditor;
 };
