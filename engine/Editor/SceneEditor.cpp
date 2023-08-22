@@ -635,15 +635,19 @@ void SceneEditor::DrawResources()
 			ImGui::NextColumn();
 
 			ImGui::BeginChild("##modelsCol");
+
 			static DrawItem* inspectedModel = nullptr;
+			int colCount = ((viewport->Size.x * windowWidth) / 3) / (resourceWidth + (style.ItemSpacing.x * 3));
+			ImGui::Columns(colCount, "modCols", false);
 			for (auto it : res.models)
 			{
 				if (ImGui::ImageButton(std::string("##"+ it.first).c_str(), (void*)(intptr_t)shaderIcon->ID, ImVec2(resourceWidth, resourceWidth))) {
 					inspectedModel = it.second;
 				}
 				ImGui::Text(it.first.c_str());
-				
+				ImGui::NextColumn();
 			}
+			ImGui::Columns(1);
 			ImGui::EndChild();
 			ImGui::NextColumn();
 

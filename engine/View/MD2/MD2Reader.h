@@ -138,4 +138,5 @@ private:
 	EBO ebo;
 
 	friend class SceneEditor;
+	friend class SceneLoader;
 };

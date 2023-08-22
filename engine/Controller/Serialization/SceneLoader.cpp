@@ -84,10 +84,26 @@ void SceneLoader::SaveScene(Scene* scene, const std::string outName)
     
         std::string type = "";
 
-        if (dynamic_cast<md2_model_t*>(drawItem))
-            type = "md2";
         if (dynamic_cast<Mesh*>(drawItem))
             type = "mesh";
+
+        if (dynamic_cast<md2_model_t*>(drawItem)) {
+            type = "md2";
+
+            Json::Value animations;
+            for (auto& it : dynamic_cast<md2_model_t*>(drawItem)->animations)
+            {
+                Json::Value anim;
+                anim["name"] = it.first.c_str();
+                anim["start"] = it.second.start;
+                anim["end"] = it.second.end;
+                anim["speed"] = it.second.speed;
+
+                animations.append(anim);
+            }
+            mod["animations"] = animations;
+
+        }
 
         mod["type"] = type;
 
@@ -229,8 +245,17 @@ Scene& SceneLoader::LoadScene(const char* inName)
         if (type.compare("mesh") == 0) {
             res.LoadModel(name,path,diff,emis,spec);
         }
-        else {
+        else if(type.compare("md2") == 0) {
             res.LoadAnimatedModel(name, path, diff, emis, spec);
+            md2_model_t* md2Model = dynamic_cast<md2_model_t*>(res.models.at(name));
+
+            Json::Value animations = jModels[i]["animations"];
+            for (int j = 0; j < animations.size(); j++)
+            {
+                md2Model->SetAnimation(animations[j]["name"].asString(), animations[j]["start"].asInt(), animations[j]["end"].asInt(), animations[j]["speed"].asFloat());
+            }
+
+
         }
     }
 
