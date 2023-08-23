@@ -36,7 +36,9 @@ private:
 	void DrawDebug(bool* showDebugMenu);
 	void DrawOpenFile(bool* showOpenFile);
 	void DrawSaveFile(bool* showSaveFile);
+	void Draw3DWidget();
 	void CameraControl(double deltaTime);
+	
 
 	//renderer
 	GLFWwindow* window = nullptr;

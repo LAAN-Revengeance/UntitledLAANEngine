@@ -90,12 +90,14 @@ SceneEditor& SceneEditor::Get()
 void SceneEditor::Draw(double deltaTime)
 {
 	r.StartGUI();
-
+	Draw3DWidget();
 	DrawInspector();
 	DrawHeighrarchy();
 	DrawMenu();
 	DrawResources();
-	ImGui::ShowDemoWindow();
+	
+
+	//ImGui::ShowDemoWindow();
 	r.EndGUI();
 }
 
@@ -856,6 +858,50 @@ void SceneEditor::DrawSaveFile(bool* showSaveFile)
 	}
 
 	ImGui::End();
+}
+
+void SceneEditor::Draw3DWidget()
+{
+	static float matrixTranslation[16] = {
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f
+	};
+
+
+	const ImGuiViewport* viewport = ImGui::GetMainViewport();
+
+	//r.StartWindow("gizmodo", false, 0.6, 0.64, 0.2, 0.06);
+
+	r.StartWindow("gizmodo", true, 1, 1, 0, 0);
+	//ImGui::SeparatorText("deezr");
+	ImGuizmo::SetOrthographic(false);
+	ImGuizmo::SetDrawlist();
+	ImGuizmo::SetRect(0,0, ImGui::GetWindowWidth(), ImGui::GetWindowHeight());
+
+
+	
+	if (ImGuizmo::Manipulate(glm::value_ptr(camera.GetView()), glm::value_ptr(camera.GetProjection()),
+		ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::MODE::LOCAL, matrixTranslation)) {
+		std::cout << "YEET!2" << std::endl;
+
+	
+	}
+	ImGuizmo::Enable(true);
+
+	if (ImGuizmo::Manipulate(glm::value_ptr(camera.GetView()), glm::value_ptr(camera.GetProjection()),
+		ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::MODE::WORLD, matrixTranslation)) {
+		std::cout << "YEET!2" << std::endl;
+
+
+	}
+
+
+
+	r.EndWindow();
+
+
 }
 
 void SceneEditor::CameraControl(double deltaTime)

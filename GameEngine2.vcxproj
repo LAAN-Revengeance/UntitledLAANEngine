@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(solutiondir)dependencies\include;$(solutiondir)Engine\Controller;$(solutiondir)Engine\Model;$(solutiondir)Engine\View;$(solutiondir)dependencies\include\lua;$(solutiondir)Engine\View\Graphics;$(solutiondir)Engine\Editor;$(IncludePath)</IncludePath>
+    <IncludePath>$(solutiondir)dependencies\include;$(solutiondir)Engine\Controller;$(solutiondir)Engine\Model;$(solutiondir)Engine\View;$(solutiondir)dependencies\include\lua;$(solutiondir)Engine\View\Graphics;$(solutiondir)Engine\Editor;$(solutiondir)dependencies\include\ImGuizmo;$(solutiondir)dependencies\include\imgui;$(IncludePath)</IncludePath>
     <LibraryPath>$(solutiondir)dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -189,6 +189,12 @@
     <ClCompile Include="engine\Controller\SoundEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dependencies\include\ImGuizmo\GraphEditor.h" />
+    <ClInclude Include="dependencies\include\ImGuizmo\ImCurveEdit.h" />
+    <ClInclude Include="dependencies\include\ImGuizmo\ImGradient.h" />
+    <ClInclude Include="dependencies\include\ImGuizmo\ImGuizmo.h" />
+    <ClInclude Include="dependencies\include\ImGuizmo\ImSequencer.h" />
+    <ClInclude Include="dependencies\include\ImGuizmo\ImZoomSlider.h" />
     <ClInclude Include="dependencies\include\imgui\imconfig.h" />
     <ClInclude Include="dependencies\include\imgui\imgui.h" />
     <ClInclude Include="dependencies\include\imgui\imgui_impl_glfw.h" />

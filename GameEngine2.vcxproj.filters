@@ -98,6 +98,12 @@
     <ClInclude Include="engine\Controller\Physics\RigidBody.h" />
     <ClInclude Include="engine\Controller\Physics\PhysicsManager.h" />
     <ClInclude Include="engine\Editor\SceneEditor.h" />
+    <ClInclude Include="dependencies\include\ImGuizmo\GraphEditor.h" />
+    <ClInclude Include="dependencies\include\ImGuizmo\ImCurveEdit.h" />
+    <ClInclude Include="dependencies\include\ImGuizmo\ImGradient.h" />
+    <ClInclude Include="dependencies\include\ImGuizmo\ImGuizmo.h" />
+    <ClInclude Include="dependencies\include\ImGuizmo\ImSequencer.h" />
+    <ClInclude Include="dependencies\include\ImGuizmo\ImZoomSlider.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Model\Graphics\Shaders\Cube_map.frag" />

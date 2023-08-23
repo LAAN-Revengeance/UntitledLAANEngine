@@ -1,4 +1,5 @@
 #pragma once
+
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
@@ -7,6 +8,8 @@
 #include <Renderer.h>
 #include <map>
 #include <string>
+#include <ImGuizmo.h>
+
 /**
 *	@Class GUIRenderer
 *	@brief Used to draw gui elements to the screen

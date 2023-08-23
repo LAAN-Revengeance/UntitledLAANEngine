@@ -62,6 +62,8 @@ void GUIRenderer::StartGUI()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
+	ImGuizmo::BeginFrame();
+	//ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
 }
 
 void GUIRenderer::EndGUI()

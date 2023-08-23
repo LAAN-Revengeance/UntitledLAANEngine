@@ -254,8 +254,6 @@ Scene& SceneLoader::LoadScene(const char* inName)
             {
                 md2Model->SetAnimation(animations[j]["name"].asString(), animations[j]["start"].asInt(), animations[j]["end"].asInt(), animations[j]["speed"].asFloat());
             }
-
-
         }
     }
 

@@ -101,6 +101,8 @@ public:
 		*/
 	void LookAt(glm::vec3 lookvec);
 
+	glm::mat4 GetTransformMatrix();
+
 		///Position in worldspace
 	glm::vec3 position = {0,0,0};
 		///Scale along each axis
