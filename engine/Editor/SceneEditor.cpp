@@ -872,35 +872,26 @@ void SceneEditor::Draw3DWidget()
 
 	const ImGuiViewport* viewport = ImGui::GetMainViewport();
 
-	//r.StartWindow("gizmodo", false, 0.6, 0.64, 0.2, 0.06);
-
-	r.StartWindow("gizmodo", true, 1, 1, 0, 0);
-	//ImGui::SeparatorText("deezr");
-	ImGuizmo::SetOrthographic(false);
-	ImGuizmo::SetDrawlist();
-	ImGuizmo::SetRect(0,0, ImGui::GetWindowWidth(), ImGui::GetWindowHeight());
-
+	r.StartWindow("transformWidget", false, 0.6, 0.64, 0.2, 0.06);
 
 	
-	if (ImGuizmo::Manipulate(glm::value_ptr(camera.GetView()), glm::value_ptr(camera.GetProjection()),
-		ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::MODE::LOCAL, matrixTranslation)) {
-		std::cout << "YEET!2" << std::endl;
+	if (inspectedObject) {
+		//ImGui::SeparatorText("deezr");
+		ImGuizmo::SetOrthographic(false);
+		ImGuizmo::SetDrawlist();
+		ImGuizmo::SetRect(0, 0, viewport->WorkSize.x, viewport->WorkSize.y);
 
+		glm::mat4 inspectTrans = inspectedObject->GetTransformMatrix();
+
+		if (ImGuizmo::Manipulate(glm::value_ptr(camera.GetView()), glm::value_ptr(camera.GetProjection()),
+			ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::MODE::LOCAL, glm::value_ptr(inspectTrans))) {
+			glm::vec3 position = glm::vec3(inspectTrans[3]);
+			inspectedObject->SetPosition(position);
+		}
 	
 	}
-	ImGuizmo::Enable(true);
-
-	if (ImGuizmo::Manipulate(glm::value_ptr(camera.GetView()), glm::value_ptr(camera.GetProjection()),
-		ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::MODE::WORLD, matrixTranslation)) {
-		std::cout << "YEET!2" << std::endl;
-
-
-	}
-
-
 
 	r.EndWindow();
-
 
 }
 

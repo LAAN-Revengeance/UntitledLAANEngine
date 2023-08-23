@@ -276,7 +276,9 @@
     <Library Include="dependencies\lib\glfw3.lib" />
     <Library Include="dependencies\lib\glfw3dll.lib" />
     <Library Include="dependencies\lib\glfw3_mt.lib" />
+    <Library Include="dependencies\lib\imguizmo.lib" />
     <Library Include="dependencies\lib\liblua54.a" />
+    <Library Include="dependencies\lib\reactphysics3d_release.lib" />
     <Library Include="liblua54.a" />
     <Library Include="dependencies\lib\reactphysics3d.lib" />
   </ItemGroup>
