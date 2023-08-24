@@ -42,6 +42,33 @@ void Renderer::Init(GLFWwindow* window) {
 	//Frame Buffer Shader
 	postProcessShader = Shader("resources/shaders/screen/screen.vert", "resources/shaders/screen/screen.frag", "");
 
+	glGenFramebuffers(1, &FBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+
+	//create frame buffer texture
+	glGenTextures(1, &textureColorBuff);
+	glBindTexture(GL_TEXTURE_2D, textureColorBuff);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, wWidth, wHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	//attatch texture to frame buffer
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorBuff, 0);
+
+	//rbo for depth
+	glGenRenderbuffers(1, &RBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, wWidth, wHeight);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) {
+		std::cout << "framebuffer OK" << std::endl;
+	}
+	//done setting up frame buffer so unbind
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 	//Create a quad to render frame buffer to
 	float quadVertices[] = {
 		-1.0f,  1.0f,  0.0f,   0.0f, 1.0f,
@@ -286,6 +313,7 @@ void Renderer::Resize(int width, int height)
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
 
 	//done setting up frame buffer so unbind
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 

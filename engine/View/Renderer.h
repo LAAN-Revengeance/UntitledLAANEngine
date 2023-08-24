@@ -80,6 +80,7 @@ public:
 	void ToggleWireFrame();
 
 	void Resize(int width, int height);
+
 private:
 
 		///Default constructor. Private becuase singleton
