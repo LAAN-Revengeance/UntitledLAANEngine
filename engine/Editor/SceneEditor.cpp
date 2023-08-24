@@ -227,6 +227,7 @@ void SceneEditor::DrawHeighrarchy()
 		}
 	}
 
+
 	//Directional Lights
 	int deleteIndex = -1;
 
@@ -255,6 +256,18 @@ void SceneEditor::DrawHeighrarchy()
 					Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 				}
 			};
+		
+			glm::vec3 lightDir = -(scene->lights.direction[i].direction);
+			// get/setLigth get/setRotation are helper funcs that you have ideally defined to manage your global/member objs
+			if (ImGui::gizmo3D("##gizmo1", lightDir /*, size,  mode */)) {
+				scene->lights.direction[i].direction = -(lightDir);
+				for (auto& shader : res.shaders) {
+					Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+				}
+			}
+
+
+
 			ImGui::TreePop();
 		}
 	}
