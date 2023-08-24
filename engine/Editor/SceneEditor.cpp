@@ -95,8 +95,6 @@ void SceneEditor::Draw(double deltaTime)
 	DrawHeighrarchy();
 	DrawMenu();
 	DrawResources();
-	
-
 	//ImGui::ShowDemoWindow();
 	r.EndGUI();
 }
@@ -104,6 +102,7 @@ void SceneEditor::Draw(double deltaTime)
 void SceneEditor::Update(double deltaTime)
 {
 	CameraControl(deltaTime);
+	CheckKeys();
 }
 
 void SceneEditor::LoadSceneFromFile(const char* path)
@@ -111,7 +110,9 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 	inspectedObject = nullptr;
 	lastObject = nullptr;
 	scene = &SceneLoader::LoadScene(path);
-		
+	
+	if (!scene)
+		return;
 	for (auto& shader : ResourceManager::Get().shaders) {
 		Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 	}
@@ -427,7 +428,6 @@ void SceneEditor::DrawMenu()
 	static bool showDebug = false;
 	static bool showOpenFile = false;
 	static bool showSaveFile = false;
-	//r.StartWindow("Menu", true, 1.0, 0.06, 0.0, 0.0);
 	float width = 1.0; float height = 0.06; float posY = 0.0; float posX = 0.0;
 	const ImGuiViewport* viewport = ImGui::GetMainViewport();
 
@@ -440,9 +440,8 @@ void SceneEditor::DrawMenu()
 		if (ImGui::BeginMenu("File")) {
 			
 			if (ImGui::MenuItem("New")) { scene = new Scene; }
-			if (ImGui::MenuItem("Save",NULL, &showSaveFile)) { }
+			if (ImGui::MenuItem("Save", "Ctrl+S", &showSaveFile)) {}
 			if (ImGui::MenuItem("Open",NULL,&showOpenFile)) { }
-			if (ImGui::MenuItem("Exit")) { }
 			
 			ImGui::EndMenu();
 		}
@@ -457,8 +456,24 @@ void SceneEditor::DrawMenu()
 
 		if (ImGui::BeginMenu("Help")) {
 
-			ImGui::MenuItem("About");
-			ImGui::MenuItem("Version");
+			if (ImGui::BeginMenu("About")) {
+
+				ImGui::SeparatorText("About");
+				ImGui::Text("Developed By");
+				ImGui::Text("Team LAAN: Revengeance:");
+				ImGui::Text("- Andres Comeros-Ochtman");
+				ImGui::Text("- Nathan Choo");
+				ImGui::Text("- Aidan O'Connor");
+				ImGui::Text("- Lochlyn Edward");
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::BeginMenu("Version")) {
+				auto ver = "Engine Version: " + std::to_string(LAAN_ENGINE_VERSION);
+				ImGui::Text(ver.c_str());
+
+				ImGui::EndMenu();
+			}
 			ImGui::MenuItem("Debug",NULL,&showDebug);
 
 			ImGui::EndMenu();
@@ -570,7 +585,7 @@ void SceneEditor::DrawResources()
 		//MODEL TAB
 		if (ImGui::BeginTabItem("3D Models"))
 		{
-			ImGui::Columns(3, "texCols", true);
+			ImGui::Columns(3, "texCols", false);
 			//textures
 			ImGui::Text("Material:");
 			ImGui::PushItemWidth((viewport->Size.x * windowWidth) / 4);
@@ -613,7 +628,6 @@ void SceneEditor::DrawResources()
 				}
 				ImGui::EndCombo();
 			}
-
 
 			ImGui::Text("Model File and Name:");
 			static char modelName[256] = "";
@@ -726,8 +740,6 @@ void SceneEditor::DrawResources()
 					}
 
 					ImGui::PopItemWidth();
-
-					
 		
 					ImGui::PushItemWidth((colWidth / 5) - style.ItemSpacing.x);
 					ImGui::Text("Current Animations:");
@@ -848,13 +860,12 @@ void SceneEditor::DrawSaveFile(bool* showSaveFile)
 
 	ImGui::SetNextWindowSize({ 300,150 });
 	ImGui::Begin("Save Scene", showSaveFile);
-	static char filePath[256] = "";
-	if (ImGui::InputTextWithHint("##savefilePath", "FilePath", filePath, IM_ARRAYSIZE(filePath))) {
+	if (ImGui::InputTextWithHint("##savefilePath", "FilePath", saveFilePath, IM_ARRAYSIZE(saveFilePath))) {
 
 	}
 	if (ImGui::Button("Save##saveFile")) {
 		if(scene)
-			SceneLoader::SaveScene(scene, filePath);
+			SceneLoader::SaveScene(scene, saveFilePath);
 	}
 
 	ImGui::End();
@@ -868,12 +879,19 @@ void SceneEditor::Draw3DWidget()
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f
 	};
+	ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration |
+		ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoSavedSettings |
+		ImGuiWindowFlags_NoTitleBar | 
+		ImGuiWindowFlags_NoBackground | 
+		ImGuiWindowFlags_NoBringToFrontOnFocus;
 
-
+	float posX = 0.2; float posY = 0.06; float width = 0.6; float height = 0.64;
 	const ImGuiViewport* viewport = ImGui::GetMainViewport();
+	ImGui::SetNextWindowPos({ (float)(viewport->WorkSize.x * posX),(float)(viewport->WorkSize.y * posY) });
+	ImGui::SetNextWindowSize({ viewport->WorkSize.x * width,viewport->WorkSize.y * height });
 
-	r.StartWindow("transformWidget", false, 0.6, 0.64, 0.2, 0.06);
-
+	ImGui::Begin("transformWidget", nullptr, flags);
 	
 	if (inspectedObject) {
 		//ImGui::SeparatorText("deezr");
@@ -961,5 +979,33 @@ void SceneEditor::CameraControl(double deltaTime)
 	camera.Pitch = camera.Pitch - yoffset;
 
 	camera.UpdateCameraVectors();
+
+}
+
+void SceneEditor::CheckKeys()
+{
+	InputManager& input = InputManager::Get();
+
+	static bool saveDown = false;
+
+	bool savePressed = input.GetKeyPressedDown(GLFW_KEY_LEFT_CONTROL) && input.GetKeyPressedDown(GLFW_KEY_S);
+
+	if (saveDown) {
+		if (!savePressed) {
+			saveDown = false;
+		}
+	}
+
+	if (savePressed) {
+		if(!saveDown)
+			if (std::strlen(saveFilePath) > 0 && scene) {
+				SceneLoader::SaveScene(scene, saveFilePath);
+			}
+			else if(scene){
+				strcpy(saveFilePath,"untitled_Save.json");
+				SceneLoader::SaveScene(scene, saveFilePath);
+			}
+		saveDown = true;
+	}
 
 }

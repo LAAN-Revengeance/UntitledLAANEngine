@@ -10,6 +10,9 @@
 *	@version 1.0
 *	@date 16/08/2023
 */
+
+static int LAAN_ENGINE_VERSION = 1;
+
 class SceneEditor
 {
 public:
@@ -38,7 +41,7 @@ private:
 	void DrawSaveFile(bool* showSaveFile);
 	void Draw3DWidget();
 	void CameraControl(double deltaTime);
-	
+	void CheckKeys();
 
 	//renderer
 	GLFWwindow* window = nullptr;
@@ -52,6 +55,9 @@ private:
 	//timestep
 	double deltaTime = 0.0;
 	double previousFrameTime = 0.0;
+
+	//save file path
+	char saveFilePath[256] = "";
 
 	Scene* scene = nullptr;
 	Camera camera;

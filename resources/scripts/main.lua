@@ -1,14 +1,11 @@
-
 dofile("resources/scripts/keybinds.lua")
-dofile("resources/scripts/load_resources.lua")
 
 --main init function, called once before update
 function init()
 
 	-- set window properties
-	engine:SetWindowIcon("resources/textures/icon.png");
-	engine:SetWindowName("InitalZ");
-	GUI:SetFont("resources/fonts/Excluded-z8XrX.ttf");
+	--engine:SetWindowIcon("resources/textures/icon.png");
+	--engine:SetWindowName("InitalZ");
 
 	--set inputs
 	input:SetMouseLock(false);
@@ -18,27 +15,61 @@ function init()
 	input:BindKey("camD",KEY_LEFT_SHIFT);
 	input:BindKey("camL",KEY_A);
 	input:BindKey("camR",KEY_D);
+	input:BindKey("escape",KEY_ESCAPE);
 
 
 	--load resources
-	load_resources();
+	resources:LoadTexture("grass","resources/textures/terrain/grass.png");
+	resources:LoadTexture("rock","resources/textures/terrain/rock.png");
+	resources:LoadTexture("dirt","resources/textures/terrain/dirt.png");
+	resources:LoadTexture("heightMap","resources/textures/heightmap/heightmap512_rivers.png");
+	resources:LoadTexture("detailMap","resources/textures/terrain/detail.png");
+
+	resources:LoadTexture("arcade","resources/models/untitled2022/Arcade.png");
+	resources:LoadModel("arcade","resources/models/untitled2022/Arcade.obj","arcade","","");
+
+	
+	resources:LoadCubemap("skybox",
+		"resources/textures/skybox/Synthwave3/Right.png",
+		"resources/textures/skybox/Synthwave3/Left.png",
+		"resources/textures/skybox/Synthwave3/Top.png",
+		"resources/textures/skybox/Synthwave3/Bottom.png",
+		"resources/textures/skybox/Synthwave3/Front.png",
+		"resources/textures/skybox/Synthwave3/Back.png"
+	);
 	
 	--load scene
-	terrain = resources:CreateTerrain("Terrain","heightMap",{"dirt","grass","rock"},"detailMap","detailMap","", 100 , 12,0.8,12);
+	terrain = resources:CreateTerrain("Terrain","heightMap",{"dirt","grass","rock"},"detailMap","detailMap","", 200 , 12,0.8,12);
 	terrain:GetDrawItem():SetShine(20);
 	terrain:SetTextureHeights({-30,-5,40});
 	scene:AddObject(terrain);
-	
+	lighting = scene:GetLights();
+	lighting:SetAmbient(0.3,0.3,0.3);
+	lighting:AddDirectionLight(NormalizeVector(vec3.new(0,0.5,-1)),vec3.new( 0.0,0.67,0.8),vec3.new(0,1,1));
+	lighting:AddPointLight( vec3:new(1140,30,640),
+							vec3.new( 1,0,1),
+							vec3.new( 0.98,0.8789,0.695),
+							1.0,0.007,0.0002);
+	--add arcade with sphere collider
+	arcade = resources:CreateGameObject("arcade","arcade","");
+	scene:AddObject(arcade);
+	arcadeCollider = physics:AddPhysicsBody(arcade);
+	--physics:AddSphereCollider(arcadeCollider,1.0);
+
 	--setup camera 
 	camera = scene:GetCamera();
 	camera.farPlane = 10000;
-	--scene:SetSkybox(resources:GetCubeMap("skybox"));
+	camera.position.x = 0;
+	camera.position.y = 0;
+	camera.position.z = 0;
+
+	--setup skybox
+	scene:SetSkybox(resources:GetCubeMap("skybox"));
 
 end
 
 --main update function, called every frame
 function update(deltaTime)
-	
 	keyInput(deltaTime)
 	mouseMoveFunc(deltaTime)
 end
@@ -73,6 +104,11 @@ function keyInput(dt)
 	if(input:GetKeyState("camR"))
 	then
 		camera.position = camera.position + camera.right:multiply(camSpeed);
+	end
+
+	if(input:GetKeyState("escape"))
+	then
+		engine:Shutdown();
 	end
 
 end
