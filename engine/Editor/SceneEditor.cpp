@@ -1,7 +1,11 @@
 #include "SceneEditor.h"
 
-void SceneEditor::Run()
+void SceneEditor::Run(const char* filePath)
 {
+	if (std::strlen(filePath) > 0) {
+		LoadSceneFromFile(filePath);
+	}
+
 	//main loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -110,7 +114,8 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 	inspectedObject = nullptr;
 	lastObject = nullptr;
 	scene = &SceneLoader::LoadScene(path);
-	
+	strcpy(saveFilePath, path);
+
 	if (!scene)
 		return;
 	for (auto& shader : ResourceManager::Get().shaders) {
@@ -922,6 +927,8 @@ void SceneEditor::CameraControl(double deltaTime)
 		toggleCamPress = true;
 		camlock = !input.GetMouseLock();
 		input.SetMouseLock(camlock);
+		lastX = input.GetMouseX();
+		lastY = input.GetMouseY();
 	}
 	else if (input.GetKeyPressedDown(GLFW_KEY_ESCAPE)) {
 		toggleCamPress = true;
@@ -934,7 +941,7 @@ void SceneEditor::CameraControl(double deltaTime)
 
 
 
-	float baseSpeed = 0.5;
+	float baseSpeed = 0.2;
 	float camSpeed = baseSpeed;
 	if (input.GetKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
 		camSpeed *= 10;
@@ -958,8 +965,6 @@ void SceneEditor::CameraControl(double deltaTime)
 	if (input.GetKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
 		camera.position -= glm::vec3(0, 1, 0) * camSpeed;
 	}
-
-
 
 
 	//mouse controls

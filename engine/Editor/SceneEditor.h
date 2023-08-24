@@ -19,7 +19,7 @@ public:
 	
 	static SceneEditor& Get();
 
-	void Run();
+	void Run(const char* filePath = "");
 
 	void Draw(double deltaTime);
 	void Update(double deltaTime);
@@ -30,7 +30,7 @@ public:
 	static void ResizeCallback(GLFWwindow* window, int width, int height);
 private:
 
-	//GUI Functions
+	//Draw GUI Functions
 	void DrawHeighrarchy();
 	void DrawInspector();
 	void DrawMenu();
