@@ -90,7 +90,7 @@ public:
 	void Update(float deltaTime);
 
 	//render the current verts
-	void Render(Camera* camera, Shader* shader, bool isElements, unsigned int primative);
+	void Render(glm::mat4 projection, glm::mat4 view, Shader* shader, bool isElements, unsigned int primative = GL_TRIANGLES);
 	
 	//print the header data
 	void PrintHeader();

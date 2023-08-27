@@ -3,7 +3,7 @@
 
 #include "DrawItem.h"
 
-void DrawItem::Render(Camera* camera, Shader* shader, bool isElements, unsigned int primative)
+void DrawItem::Render(glm::mat4 projection, glm::mat4 view, Shader* shader, bool isElements, unsigned int primative)
 {
 }
 
@@ -110,11 +110,11 @@ void DrawItem::SetAnimationSpeed(float speed)
 
 void DrawItem::BindMaterial(Shader* shader)
 {
-	unsigned int curTexture = GL_TEXTURE0;
-	int curIndex = 0;
-	int diff = 0;
-	int spec = 0;
-	int emis = 0;
+	unsigned int curTexture = GL_TEXTURE1;
+	int curIndex = 1;
+	int diff = 1;
+	int spec = 1;
+	int emis = 1;
 
 	diff = curIndex;
 	if (!material.diffuseTexture.empty()) {

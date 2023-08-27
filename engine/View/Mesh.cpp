@@ -122,16 +122,9 @@ void Mesh::SetVertexElements(unsigned int* vertIndexes, int numIndex) {
 }
 
 //isElements specifies if using glDrawElements instead of arrays. 
-void Mesh::Render(Camera* camera, Shader* shader,bool isElements = true,unsigned int primative = GL_TRIANGLES) {
+void Mesh::Render(glm::mat4 projection, glm::mat4 view, Shader* shader, bool isElements, unsigned int primative) {
 
 	BindMaterial(shader);
-
-	glm::mat4 view = camera->GetView();
-	glm::mat4 projection = camera->GetProjection();
-
-	//Set camera position
-	shader->SetUniform("cameraPos", camera->position);
-
 	//Set view and projection matricies
 	shader->SetUniform("view", view);
 	shader->SetUniform("projection", projection);

@@ -79,13 +79,14 @@ public:
     void SetVertexElements(unsigned int* vertIndexes, int numIndex);
         /*
         *   @brief draw this model using specified camera and shader
-        *   @param camera camera data to modify vertecies by in shader
+        *   @param view camera data to modify vertecies by in shader
+        *   @param projection camera data to modify vertecies by in shader
         *   @param shader shader program used to render the geometry
         *   @param isElements whether an EBO is used to render this object
         *   @param primative which openGL primative to draw using the vertecies
         *   @return void
         */
-	void Render(Camera* camera, Shader* shader, bool isElements, unsigned int primative);
+	void Render(glm::mat4 projection, glm::mat4 view, Shader* shader, bool isElements, unsigned int primative = GL_TRIANGLES);
 
         /*
         *   @brief set instance data

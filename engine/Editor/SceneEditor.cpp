@@ -100,6 +100,14 @@ void SceneEditor::Draw(double deltaTime)
 	DrawMenu();
 	DrawResources();
 	//ImGui::ShowDemoWindow();
+
+	r.StartWindow("light debug",true,0.3,0.3,0.2,0.7);
+
+	;
+	ImGui::Image((void*)(intptr_t)Renderer::Get().dirDepthMap, ImVec2(300, 300));
+
+	r.EndWindow();
+
 	r.EndGUI();
 }
 
@@ -258,15 +266,12 @@ void SceneEditor::DrawHeighrarchy()
 			};
 		
 			glm::vec3 lightDir = -(scene->lights.direction[i].direction);
-			// get/setLigth get/setRotation are helper funcs that you have ideally defined to manage your global/member objs
-			if (ImGui::gizmo3D("##gizmo1", lightDir /*, size,  mode */)) {
+			if (ImGui::gizmo3D("##gizmo1", lightDir)) {
 				scene->lights.direction[i].direction = -(lightDir);
 				for (auto& shader : res.shaders) {
 					Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 				}
 			}
-
-
 
 			ImGui::TreePop();
 		}

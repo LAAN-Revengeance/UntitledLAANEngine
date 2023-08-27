@@ -36,13 +36,14 @@ class DrawItem {
 public:
         /*
         *   @brief Render to the current buffer
-        *   @param camera perspective being drawn from
+        *   @param view perspective matrix
+        *   @param projection matrix
         *   @param shader shader to use to draw object
         *   @param isElements if using element buffer
         *   @param primative draw primative used to render
         *   @return void
         */
-    virtual  void Render(Camera* camera, Shader* shader, bool isElements, unsigned int primative);
+    virtual  void Render(glm::mat4 projection, glm::mat4 view, Shader* shader, bool isElements, unsigned int primative);
 
         /*
         *   @brief Generic update method for drawitems that need to change visuals in relation to time

@@ -68,18 +68,12 @@ int md2_model_t::ReadMD2Model(const char* filename)
     return 1;
 }
 
-void md2_model_t::Render(Camera* camera, Shader* shader, bool isElements = false, unsigned int primative = GL_TRIANGLES)
+void md2_model_t::Render(glm::mat4 projection, glm::mat4 view, Shader* shader, bool isElements, unsigned int primative)
 {
     if (!visible)
         return;
 
     BindMaterial(shader);
-
-    glm::mat4 view = camera->GetView();
-    glm::mat4 projection = camera->GetProjection();
-
-    //Set camera position
-	shader->SetUniform("cameraPos", camera->position);
 
     //basic postion matricies
     shader->SetUniform("view", view);

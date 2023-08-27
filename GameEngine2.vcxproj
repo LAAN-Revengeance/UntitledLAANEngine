@@ -276,6 +276,8 @@
     <None Include="resources\shaders\hologram\Holo.frag" />
     <None Include="resources\shaders\screen\screen.vert" />
     <None Include="resources\shaders\screen\screen.frag" />
+    <None Include="resources\shaders\shadow\shadow.frag" />
+    <None Include="resources\shaders\shadow\shadow.vert" />
     <None Include="resources\shaders\Terrain\Terrain.frag" />
   </ItemGroup>
   <ItemGroup>
