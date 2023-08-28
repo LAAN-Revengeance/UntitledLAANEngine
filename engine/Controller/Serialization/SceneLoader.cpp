@@ -73,14 +73,14 @@ void SceneLoader::SaveScene(Scene* scene, const std::string outName)
         mod["path"] = it.second;
         mod["name"] = it.first;
 
-        if(drawItem->GetDiffuseTexture(0))
-            mod["diff"] = drawItem->GetDiffuseTexture(0)->name;
-    
-        if (drawItem->GetEmissionTexture(0))
-            mod["emis"] = drawItem->GetEmissionTexture(0)->name;
-    
-        if (drawItem->GetSpecularTexture(0))
-            mod["spec"] = drawItem->GetSpecularTexture(0)->name;
+        //if(drawItem->GetDiffuseTexture(0))
+        //    mod["diff"] = drawItem->GetDiffuseTexture(0)->name;
+        //
+        //if (drawItem->GetEmissionTexture(0))
+        //    mod["emis"] = drawItem->GetEmissionTexture(0)->name;
+        //
+        //if (drawItem->GetSpecularTexture(0))
+        //    mod["spec"] = drawItem->GetSpecularTexture(0)->name;
     
         std::string type = "";
 
@@ -243,10 +243,10 @@ Scene& SceneLoader::LoadScene(const char* inName)
         std::string type = jModels[i]["type"].asString();
 
         if (type.compare("mesh") == 0) {
-            res.LoadModel(name,path,diff,emis,spec);
+            res.LoadModel(name,path);
         }
         else if(type.compare("md2") == 0) {
-            res.LoadAnimatedModel(name, path, diff, emis, spec);
+            res.LoadAnimatedModel(name, path);
             md2_model_t* md2Model = dynamic_cast<md2_model_t*>(res.models.at(name));
 
             Json::Value animations = jModels[i]["animations"];

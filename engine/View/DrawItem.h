@@ -52,66 +52,6 @@ public:
         */
     virtual void Update(float deltaTime);
 
-        /*
-        *   @brief set Diffuse Texture
-        *   @param nTexture, pointer to texture object being used,
-        *   @return void
-        */
-    void SetDiffuseTexture(Texture* nTexture);
-
-        /*
-        *   @brief set Specular Texture
-        *   @param nTexture, pointer to texture object being used,
-        *   @return void
-        */
-    void SetSpecularTexture(Texture* nTexture);
-
-        /*
-        *   @brief set Emission Texture
-        *   @param nTexture, pointer to texture object being used,
-        *   @return void
-        */
-    void SetEmissionTexture(Texture* nTexture);
-
-        /*
-        *   @brief set Diffuse Texture
-        *   @param fileName, pointer to texture file
-        *   @return void
-        */
-    void SetDiffuseTexture(const char* fileName);
-
-        /*
-        *   @brief set Specular Texture
-        *   @param fileName, pointer to texture file
-        *   @return void
-        */
-    void SetSpecularTexture(const char* fileName);
-
-        /*
-        *   @brief set Emission Texture
-        *   @param fileName, pointer to texture file
-        *   @return void
-        */
-    void SetEmissionTexture(const char* fileName);
-
-    Texture* GetDiffuseTexture(int index);
-    Texture* GetSpecularTexture(int index);
-    Texture* GetEmissionTexture(int index);
-
-    void SetDiffuseTexture (int index, Texture* nTexture);
-    void SetSpecularTexture(int index, Texture* nTexture);
-    void SetEmissionTexture(int index, Texture* nTexture);
-
-    void ResetDiffuseTexture ();
-    void ResetSpecularTexture();
-    void ResetEmissionTexture();
-        /*
-        *   @brief set how shiny this object is
-        *   @param nShine new shine value
-        *   @return void
-        */
-    void SetShine(float nShine);
-
         //Set an animation cycle and its name
     virtual void SetAnimation(const std::string& animName, int start, int end, float speed);
 
@@ -127,13 +67,4 @@ public:
 
     std::string name;
 protected:
-        /*
-        *   @brief Binds current material
-        *   @return void
-        */
-    void BindMaterial(Shader* shader);
-
-    Material material;
-
-
 };

@@ -62,22 +62,16 @@ public:
 		*	@brief loads a md2 file into storage
 		*	@param	resName name key to assign to this resource
 		*	@param	fileName file path of this resource
-		*	@param	diffName name of diffuse texture to use
-		*	@param	emisName name of emissive texture to use
-		*	@param	specName name of specular texture to use
 		*	@return void
 		*/
-	void LoadAnimatedModel(std::string resName, std::string fileName, std::string diffName, std::string emisName, std::string specName);
+	void LoadAnimatedModel(std::string resName, std::string fileName);
 		/**
 		*	@brief loads a model into storage
 		*	@param	resName name key to assign to this resource
 		*	@param	fileName file path of this resource
-		*	@param	diffName name of diffuse texture to use
-		*	@param	emisName name of emissive texture to use
-		*	@param	specName name of specular texture to use
 		*	@return void 
 		*/
-	void LoadModel(std::string resName, std::string fileName, std::string diffName, std::string emisName, std::string specName);
+	void LoadModel(std::string resName, std::string fileName);
 
 		/**
 		*	@brief loads a shader into storage

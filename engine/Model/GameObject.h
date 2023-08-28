@@ -128,9 +128,11 @@ public:
 		///FSM for AI and sending/receiving messages
 	StateMachine stateMachine;
 
-		//retuns a reference to model data
+		//Retuns a reference to model data
 	DrawItem& GetDrawItem();
-
+		
+		//Material properties
+	Material material;
 protected:
 		///Unique identifier
 	unsigned int ID = 0;

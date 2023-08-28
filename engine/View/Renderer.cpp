@@ -1,5 +1,73 @@
 #include "Renderer.h"
 
+void Renderer::BindMaterial(Material& material, Shader* shader)
+{
+	unsigned int curTexture = GL_TEXTURE1;
+	int curIndex = 1;
+	int diff = 1;
+	int spec = 1;
+	int emis = 1;
+
+	diff = curIndex;
+	if (!material.diffuseTexture.empty()) {
+
+		for (int i = 0; i < material.diffuseTexture.size(); i++)
+		{
+			material.diffuseTexture[i]->Bind(curTexture);
+			curIndex++;
+			curTexture++;
+		}
+	}
+	else {
+		glActiveTexture(curTexture);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		curIndex++;
+		curTexture++;
+	}
+
+	spec = curIndex;
+	if (!material.specularMap.empty()) {
+
+		for (int i = 0; i < material.specularMap.size(); i++)
+		{
+			material.specularMap[i]->Bind(curTexture);
+			curIndex++;
+			curTexture++;
+		}
+	}
+	else {
+		glActiveTexture(curTexture);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		curIndex++;
+		curTexture++;
+	}
+
+	emis = curIndex;
+	if (!material.emissionMap.empty()) {
+
+		for (int i = 0; i < material.emissionMap.size(); i++)
+		{
+			material.emissionMap[i]->Bind(curTexture);
+			curIndex++;
+			curTexture++;
+		}
+	}
+	else {
+		glActiveTexture(curTexture);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		curIndex++;
+		curTexture++;
+	}
+
+	//Set texure unit numbers
+	shader->SetUniform("material.diffuseTexture", diff);
+	shader->SetUniform("material.specularMap", spec);
+	shader->SetUniform("material.emissionMap", emis);
+	shader->SetUniform("material.alpha", material.shine);
+
+
+}
+
 Renderer::Renderer() {}
 
 Renderer::~Renderer() {}
@@ -242,6 +310,9 @@ void Renderer::Draw(Camera& cam, Scene& scene, double deltaTime) {
 				continue;
       
 			GameObject* obj = it.second;
+
+			//set materials
+
 			//set special uniforms
 			obj->SetUniforms();
 			obj->shader->SetUniform("wireframe", wireFrame);
@@ -258,10 +329,12 @@ void Renderer::Draw(Camera& cam, Scene& scene, double deltaTime) {
 			modelMat = glm::rotate(modelMat, glm::radians(obj->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
 
 			if (obj->shader) {
+				BindMaterial(obj->material,obj->shader);
 				obj->shader->SetUniform("model", modelMat);
 				obj->model_data->Render(proj, view, obj->shader, true, GL_TRIANGLES);
 			}
 			else {
+				BindMaterial(obj->material, &mainShader);
 				mainShader.SetUniform("model", modelMat);
 				obj->model_data->Render(proj, view, &mainShader, true, GL_TRIANGLES);
 			}

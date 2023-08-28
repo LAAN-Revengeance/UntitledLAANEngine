@@ -73,8 +73,6 @@ void md2_model_t::Render(glm::mat4 projection, glm::mat4 view, Shader* shader, b
     if (!visible)
         return;
 
-    BindMaterial(shader);
-
     //basic postion matricies
     shader->SetUniform("view", view);
     shader->SetUniform("projection", projection);

@@ -17,4 +17,7 @@ struct Material {
 	std::vector<Texture*> normalMap;
 
 	float shine = 1;
+
+
+
 };

@@ -198,13 +198,31 @@ void SceneEditor::DrawHeighrarchy()
 	if (!scene->skybox) {
 
 		static char cmSides[6][128];
-
-		ImGui::InputTextWithHint("##cmright",	"Face right",	cmSides[0], IM_ARRAYSIZE(cmSides[0]));
-		ImGui::InputTextWithHint("##cmleft",	"Face left",	cmSides[1], IM_ARRAYSIZE(cmSides[1]));
-		ImGui::InputTextWithHint("##cmtop",		"Face top",		cmSides[2], IM_ARRAYSIZE(cmSides[2]));
-		ImGui::InputTextWithHint("##cmbottom",	"Face bottom",	cmSides[3], IM_ARRAYSIZE(cmSides[3]));
-		ImGui::InputTextWithHint("##cmfront",	"Face front",	cmSides[4], IM_ARRAYSIZE(cmSides[4]));
-		ImGui::InputTextWithHint("##cmback",	"Face back",	cmSides[5], IM_ARRAYSIZE(cmSides[5]));
+		std::string path;
+		ImGui::InputTextWithHint("##cmright",	"Face right",	cmSides[0], IM_ARRAYSIZE(cmSides[0])); ImGui::SameLine(); if(ImGui::Button("Open File##sbRt")){ 
+			path = FileOpener::OpenFileDialogue();
+			if (path.size() >= 1) {strcpy(cmSides[0], path.c_str());}
+		}
+		ImGui::InputTextWithHint("##cmleft",	"Face left",	cmSides[1], IM_ARRAYSIZE(cmSides[1])); ImGui::SameLine(); if(ImGui::Button("Open File##sbLf")){
+			path = FileOpener::OpenFileDialogue();
+			if (path.size() >= 1) { strcpy(cmSides[1], path.c_str()); }
+		}
+		ImGui::InputTextWithHint("##cmtop",		"Face top",		cmSides[2], IM_ARRAYSIZE(cmSides[2])); ImGui::SameLine(); if(ImGui::Button("Open File##sbTp")){
+			path = FileOpener::OpenFileDialogue();
+			if (path.size() >= 1) { strcpy(cmSides[2], path.c_str()); }
+		}
+		ImGui::InputTextWithHint("##cmbottom",	"Face bottom",	cmSides[3], IM_ARRAYSIZE(cmSides[3])); ImGui::SameLine(); if(ImGui::Button("Open File##sbBt")){
+			path = FileOpener::OpenFileDialogue();
+			if (path.size() >= 1) { strcpy(cmSides[3], path.c_str()); }
+		}
+		ImGui::InputTextWithHint("##cmfront",	"Face front",	cmSides[4], IM_ARRAYSIZE(cmSides[4])); ImGui::SameLine(); if(ImGui::Button("Open File##sbFt")){
+			path = FileOpener::OpenFileDialogue();
+			if (path.size() >= 1) { strcpy(cmSides[4], path.c_str()); }
+		}
+		ImGui::InputTextWithHint("##cmback",	"Face back",	cmSides[5], IM_ARRAYSIZE(cmSides[5])); ImGui::SameLine(); if(ImGui::Button("Open File##sbBk")){
+			path = FileOpener::OpenFileDialogue();
+			if (path.size() >= 1) { strcpy(cmSides[5], path.c_str()); }
+		}
 
 		if (ImGui::Button("SetSkybox")) {
 			
@@ -421,6 +439,69 @@ void SceneEditor::DrawInspector()
 			}
 			ImGui::EndCombo();
 		}
+		ImGui::Text("Material:");
+		std::string diffName = "";
+		if (!inspectedObject->material.diffuseTexture.empty())
+			diffName = inspectedObject->material.diffuseTexture[0]->name;
+		if (ImGui::BeginCombo("Diffuse##dinspectedModel", diffName.c_str()))
+		{
+			if (ImGui::Selectable("--None--"))
+				inspectedObject->material.diffuseTexture.clear();
+			for (auto it : res.textures)
+			{
+				if (ImGui::Selectable(it.first.c_str())) {
+					if (inspectedObject->material.diffuseTexture.empty()) {
+						inspectedObject->material.diffuseTexture.push_back(it.second);
+					}
+					else {
+						inspectedObject->material.diffuseTexture[0] = it.second;
+					}
+				}
+			}
+			ImGui::EndCombo();
+		}
+		std::string specName = "";
+		if (!inspectedObject->material.specularMap.empty())
+			specName = inspectedObject->material.specularMap[0]->name;
+		if (ImGui::BeginCombo("Specular##dinspectedModel", specName.c_str()))
+		{
+			if (ImGui::Selectable("--None--"))
+				inspectedObject->material.specularMap.clear();
+			for (auto it : res.textures)
+			{
+				if (ImGui::Selectable(it.first.c_str())) {
+					if (inspectedObject->material.specularMap.empty()) {
+						inspectedObject->material.specularMap.push_back(it.second);
+					}
+					else {
+						inspectedObject->material.specularMap[0] = it.second;
+					}
+				}
+			}
+			ImGui::EndCombo();
+		}
+
+		std::string emissName = "";
+		if (!inspectedObject->material.emissionMap.empty())
+			emissName = inspectedObject->material.emissionMap[0]->name;
+		if (ImGui::BeginCombo("Emissive##dinspectedModel", emissName.c_str()))
+		{
+			if (ImGui::Selectable("--None--"))
+				inspectedObject->material.emissionMap.clear();
+			for (auto it : res.textures)
+			{
+				if (ImGui::Selectable(it.first.c_str())) {
+					if (inspectedObject->material.emissionMap.empty()) {
+						inspectedObject->material.emissionMap.push_back(it.second);
+					}
+					else {
+						inspectedObject->material.emissionMap[0] = it.second;
+					}
+				}
+			}
+			ImGui::EndCombo();
+		}
+		ImGui::DragFloat("Shine##materialShine", &inspectedObject->material.shine);
 
 
 		//PHYSICS SETTINGS
@@ -615,48 +696,7 @@ void SceneEditor::DrawResources()
 		if (ImGui::BeginTabItem("3D Models"))
 		{
 			ImGui::Columns(3, "texCols", false);
-			//textures
-			ImGui::Text("Material:");
-			ImGui::PushItemWidth((viewport->Size.x * windowWidth) / 4);
-			static std::string difTexPreview;
-			if (ImGui::BeginCombo("Diffuse##modelTexture", difTexPreview.c_str()))
-			{
-				if (ImGui::Selectable("--None--"))
-					difTexPreview = "";
-				for (auto  it : res.textures)
-				{
-					if (ImGui::Selectable(it.first.c_str())) {
-						difTexPreview = it.first;
-					}
-				}
-				ImGui::EndCombo();
-			}
-			static std::string specTexPreview;
-			if (ImGui::BeginCombo("Specular##modelTexture", specTexPreview.c_str()))
-			{
-				if (ImGui::Selectable("--None--"))
-					specTexPreview = "";
-				for (auto it : res.textures)
-				{
-					if (ImGui::Selectable(it.first.c_str())) {
-						specTexPreview = it.first;
-					}
-				}
-				ImGui::EndCombo();
-			}
-			static std::string emisTexPreview;
-			if (ImGui::BeginCombo("Emissive##modelTexture", emisTexPreview.c_str()))
-			{
-				if (ImGui::Selectable("--None--"))
-					emisTexPreview = "";
-				for (auto it : res.textures)
-				{
-					if (ImGui::Selectable(it.first.c_str())) {
-						emisTexPreview = it.first;
-					}
-				}
-				ImGui::EndCombo();
-			}
+	
 
 			ImGui::Text("Model File and Name:");
 			static char modelName[512] = "";
@@ -678,10 +718,10 @@ void SceneEditor::DrawResources()
 				std::string extension = std::string(modelPath).substr(idx + 1);
 
 				if(extension.compare("obj") == 0){
-					res.LoadModel(modelName, modelPath, difTexPreview, emisTexPreview, specTexPreview);
+					res.LoadModel(modelName, modelPath);
 				}
 				else if (extension.compare("md2") == 0) {
-					res.LoadAnimatedModel(modelName, modelPath, difTexPreview, emisTexPreview, specTexPreview);
+					res.LoadAnimatedModel(modelName, modelPath);
 				}
 			}
 
@@ -709,52 +749,6 @@ void SceneEditor::DrawResources()
 
 			if (inspectedModel) {
 				ImGui::Text(inspectedModel->name.c_str());
-
-				std::string diffName = "";
-				if(inspectedModel->GetDiffuseTexture(0))
-					diffName = inspectedModel->GetDiffuseTexture(0)->name;
-				if (ImGui::BeginCombo("Diffuse##dinspectedModel", diffName.c_str()))
-				{
-					if (ImGui::Selectable("--None--"))
-						inspectedModel->ResetDiffuseTexture();
-					for (auto it : res.textures)
-					{
-						if (ImGui::Selectable(it.first.c_str())) {
-							inspectedModel->SetDiffuseTexture(0,it.second);
-						}
-					}
-					ImGui::EndCombo();
-				}
-				std::string specName = "";
-				if (inspectedModel->GetSpecularTexture(0))
-					specName = inspectedModel->GetSpecularTexture(0)->name;
-				if (ImGui::BeginCombo("Specular##sinspectedModel", specName.c_str()))
-				{
-					if (ImGui::Selectable("--None--"))
-						inspectedModel->ResetSpecularTexture();
-					for (auto it : res.textures)
-					{
-						if (ImGui::Selectable(it.first.c_str())) {
-							inspectedModel->SetSpecularTexture(0, it.second);
-						}
-					}
-					ImGui::EndCombo();
-				}
-				std::string EmissName = "";
-				if (inspectedModel->GetEmissionTexture(0))
-					EmissName = inspectedModel->GetEmissionTexture(0)->name;
-				if (ImGui::BeginCombo("Emission##einspectedModel", EmissName.c_str()))
-				{
-					if (ImGui::Selectable("--None--"))
-						inspectedModel->ResetEmissionTexture();
-					for (auto it : res.textures)
-					{
-						if (ImGui::Selectable(it.first.c_str())) {
-							inspectedModel->SetEmissionTexture(0, it.second);
-						}
-					}
-					ImGui::EndCombo();
-				}
 
 				if (dynamic_cast<md2_model_t*>(inspectedModel)) {
 					md2_model_t* inspectedMD2 = dynamic_cast<md2_model_t*>(inspectedModel);
