@@ -2,6 +2,7 @@
 #include <GUIRenderer.h>
 #include <InputManager.h>
 #include <Serialization/SceneLoader.h>
+#include "FileExplorer.h"
 
 /**
 *	@Class SceneEditor

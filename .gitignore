@@ -40,4 +40,5 @@ def
 x64
 .vs
 *.json
+*.ini
 

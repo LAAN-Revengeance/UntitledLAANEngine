@@ -218,7 +218,6 @@ void SceneEditor::DrawHeighrarchy()
 		}
 	}
 
-
 	ImGui::SeparatorText("Lights");
 	//Ambient Light
 	if (ImGui::ColorEdit3("Ambient Light", (float*)&scene->lights.ambient)) {
@@ -456,7 +455,13 @@ void SceneEditor::DrawMenu()
 			
 			if (ImGui::MenuItem("New")) { scene = new Scene; }
 			if (ImGui::MenuItem("Save", "Ctrl+S", &showSaveFile)) {}
-			if (ImGui::MenuItem("Open",NULL,&showOpenFile)) { }
+			if (ImGui::MenuItem("Open",NULL,&showOpenFile)) {
+				
+				std::string filePath = FileOpener::OpenFileDialogue();
+				if (filePath.size() >= 1) {
+					LoadSceneFromFile(filePath.c_str());
+				}
+			}
 			
 			ImGui::EndMenu();
 		}
@@ -509,7 +514,7 @@ void SceneEditor::DrawMenu()
 
 	DrawWindowSettings(&showChangeWindow);
 	DrawDebug(&showDebug);
-	DrawOpenFile(&showOpenFile);
+	//DrawOpenFile(&showOpenFile);
 	DrawSaveFile(&showSaveFile);
 }
 
@@ -530,9 +535,18 @@ void SceneEditor::DrawResources()
 		if (ImGui::BeginTabItem("Textures"))
 		{
 			//Add textures
-			static char texturePath[256] = "";
-			static char textureName[256] = "";
-			ImGui::InputTextWithHint("##texturefilePathInput", "File Path", texturePath, IM_ARRAYSIZE(texturePath));
+			static char texturePath[512] = "";
+			static char textureName[512] = "";
+			ImGui::InputTextWithHint("##texturefilePathInput", "File Path", texturePath, IM_ARRAYSIZE(texturePath)); 
+			ImGui::SameLine();
+			if (ImGui::Button("Open File##openTextureFile"))
+			{
+				std::string tPath = FileOpener::OpenFileDialogue();
+				if (tPath.size() >= 1) {
+					strcpy(texturePath, tPath.c_str());
+				}
+
+			}
 			ImGui::InputTextWithHint("##textureNameInput", "Texture Name", textureName, IM_ARRAYSIZE(textureName));
 
 			if (ImGui::Button("Add Texture"))
@@ -645,9 +659,18 @@ void SceneEditor::DrawResources()
 			}
 
 			ImGui::Text("Model File and Name:");
-			static char modelName[256] = "";
-			static char modelPath[256] = "";
+			static char modelName[512] = "";
+			static char modelPath[512] = "";
 			ImGui::InputTextWithHint("##modelPath", "File path" , modelPath, IM_ARRAYSIZE(modelPath));
+			ImGui::SameLine();
+			if (ImGui::Button("Open File##openTextureFile"))
+			{
+				std::string mPath = FileOpener::OpenFileDialogue();
+				if (mPath.size() >= 1) {
+					strcpy(modelPath, mPath.c_str());
+				}
+
+			}
 			ImGui::InputTextWithHint("##modelName", "Model Name", modelName, IM_ARRAYSIZE(modelName));
 
 			if (ImGui::Button("Add Model")) {
