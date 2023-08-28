@@ -7,6 +7,8 @@ GameObject::~GameObject() {}
 
 bool GameObject::CheckInFrustum(Frustum& frustum)
 {
+	if (!model_data)
+		return false;
 	float boundingRadius = model_data->maxBounds * std::max(std::max(scale.x,scale.y),scale.z);
 	return
 	(frustum.top.	CalcSignedDistance(position) > -boundingRadius &&
@@ -27,6 +29,11 @@ void GameObject::SetRotation(glm::vec3 nRot)
 {
 	//rigidBody.SetRotation(nRot);
 	rotation = nRot;
+}
+
+void GameObject::SetScale(glm::vec3 nScale)
+{
+	scale = nScale;
 }
 
 void GameObject::SetUniforms()
@@ -77,6 +84,20 @@ void GameObject::LookAt(glm::vec3 lookvec)
 	newRot.x = glm::degrees(asin(dir.y));
 
 	SetRotation(newRot);
+}
+
+glm::mat4 GameObject::GetTransformMatrix()
+{
+	glm::mat4 modelMat(1.0f);
+	//modelMat = glm::scale(modelMat, scale);
+	modelMat = glm::translate(modelMat, position);
+
+	//pitch roll and yaw rotationss
+	modelMat = glm::rotate(modelMat, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+	modelMat = glm::rotate(modelMat, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+	modelMat = glm::rotate(modelMat, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+
+	return modelMat;
 }
 
 DrawItem& GameObject::GetDrawItem()

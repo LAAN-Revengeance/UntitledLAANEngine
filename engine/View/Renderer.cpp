@@ -79,6 +79,7 @@ void Renderer::Init(GLFWwindow* window) {
 		 1.0f, -1.0f,  0.0f,   1.0f, 0.0f,
 		 1.0f,  1.0f,  0.0f,   1.0f, 1.0f,
 	};
+
 	unsigned int VBO;
 	glGenVertexArrays(1, &screenQuad);
 	glGenBuffers(1, &VBO);
@@ -89,10 +90,12 @@ void Renderer::Init(GLFWwindow* window) {
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+
+	Resize(wWidth, wHeight);
 }
 
 //may want to make several "draw queues" to seperate shaders and opacity
-void Renderer::Draw(Scene& scene, double deltaTime) {
+void Renderer::Draw(Camera& cam, Scene& scene, double deltaTime) {
 
 	//Bind pre-post processing frame buffer
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
@@ -117,12 +120,12 @@ void Renderer::Draw(Scene& scene, double deltaTime) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	//caclulate camera view frustum planes
-	scene.camera.CreateViewFrustum();
-	Frustum& camFrustum = scene.camera.frustum;
+	cam.CreateViewFrustum();
+	Frustum& camFrustum = cam.frustum;
 
 	//draw skybox
 	if (scene.skybox)
-		scene.skybox->Render(&scene.camera);
+		scene.skybox->Render(&cam);
 
 	for (auto& it : scene.gameObjects) {
 		if (it.second) {
@@ -139,8 +142,8 @@ void Renderer::Draw(Scene& scene, double deltaTime) {
 			obj->shader->SetUniform("_Time", (float) glfwGetTime());
 			//set model matrix uniforms
 			glm::mat4 modelMat(1.0f);
-			modelMat = glm::translate(modelMat, obj->position);
 			modelMat = glm::scale(modelMat, obj->scale);
+			modelMat = glm::translate(modelMat, obj->position);
 		
 			//pitch roll and yaw rotationss
 			modelMat = glm::rotate(modelMat, glm::radians(obj->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
@@ -149,11 +152,11 @@ void Renderer::Draw(Scene& scene, double deltaTime) {
 
 			if (obj->shader) {
 				obj->shader->SetUniform("model", modelMat);
-				obj->model_data->Render(&scene.camera, obj->shader, true, GL_TRIANGLES);
+				obj->model_data->Render(&cam, obj->shader, true, GL_TRIANGLES);
 			}
 			else {
 				mainShader.SetUniform("model", modelMat);
-				obj->model_data->Render(&scene.camera, &mainShader, true, GL_TRIANGLES);
+				obj->model_data->Render(&cam, &mainShader, true, GL_TRIANGLES);
 			}
 
 			obj->model_data->Update(deltaTime);
@@ -282,13 +285,12 @@ void Renderer::ToggleWireFrame()
 
 void Renderer::Resize(int width, int height)
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	//delete old frame buffer and texture
+	//delete buffers
 	glDeleteTextures(1, &textureColorBuff);
-	glDeleteFramebuffers(1,&FBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glDeleteFramebuffers(1, &FBO);
 
-	//create new frame buffer
+	//create buffers
 	glGenFramebuffers(1, &FBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 
@@ -309,7 +311,9 @@ void Renderer::Resize(int width, int height)
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
-	
+
+	//done setting up frame buffer so unbind
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 

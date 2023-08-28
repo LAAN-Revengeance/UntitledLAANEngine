@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(solutiondir)dependencies\include;$(solutiondir)Engine\Controller;$(solutiondir)Engine\Model;$(solutiondir)Engine\View;$(solutiondir)dependencies\include\lua;$(solutiondir)Engine\View\Graphics;$(IncludePath)</IncludePath>
+    <IncludePath>$(solutiondir)dependencies\include;$(solutiondir)Engine\Controller;$(solutiondir)Engine\Model;$(solutiondir)Engine\View;$(solutiondir)dependencies\include\lua;$(solutiondir)Engine\View\Graphics;$(solutiondir)Engine\Editor;$(solutiondir)dependencies\include\ImGuizmo;$(solutiondir)dependencies\include\imgui;$(IncludePath)</IncludePath>
     <LibraryPath>$(solutiondir)dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -165,6 +165,7 @@
     <ClCompile Include="engine\Controller\Physics\RigidBody.cpp" />
     <ClCompile Include="Engine\Controller\ResourceManager.cpp" />
     <ClCompile Include="Engine\Controller\Serialization\SceneLoader.cpp" />
+    <ClCompile Include="engine\Editor\SceneEditor.cpp" />
     <ClCompile Include="engine\Model\GameObject.cpp" />
     <ClCompile Include="engine\Model\Camera.cpp" />
     <ClCompile Include="engine\View\MD2\MD2Reader.cpp" />
@@ -188,6 +189,12 @@
     <ClCompile Include="engine\Controller\SoundEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dependencies\include\ImGuizmo\GraphEditor.h" />
+    <ClInclude Include="dependencies\include\ImGuizmo\ImCurveEdit.h" />
+    <ClInclude Include="dependencies\include\ImGuizmo\ImGradient.h" />
+    <ClInclude Include="dependencies\include\ImGuizmo\ImGuizmo.h" />
+    <ClInclude Include="dependencies\include\ImGuizmo\ImSequencer.h" />
+    <ClInclude Include="dependencies\include\ImGuizmo\ImZoomSlider.h" />
     <ClInclude Include="dependencies\include\imgui\imconfig.h" />
     <ClInclude Include="dependencies\include\imgui\imgui.h" />
     <ClInclude Include="dependencies\include\imgui\imgui_impl_glfw.h" />
@@ -215,6 +222,7 @@
     <ClInclude Include="Engine\Controller\ResourceManager.h" />
     <ClInclude Include="Engine\Controller\Serialization\SceneLoader.h" />
     <ClInclude Include="Engine\Controller\Timer.h" />
+    <ClInclude Include="engine\Editor\SceneEditor.h" />
     <ClInclude Include="Engine\Model\GameObject.h" />
     <ClInclude Include="engine\Model\Lighting.h" />
     <ClInclude Include="engine\Model\Material.h" />
@@ -268,7 +276,9 @@
     <Library Include="dependencies\lib\glfw3.lib" />
     <Library Include="dependencies\lib\glfw3dll.lib" />
     <Library Include="dependencies\lib\glfw3_mt.lib" />
+    <Library Include="dependencies\lib\imguizmo.lib" />
     <Library Include="dependencies\lib\liblua54.a" />
+    <Library Include="dependencies\lib\reactphysics3d_release.lib" />
     <Library Include="liblua54.a" />
     <Library Include="dependencies\lib\reactphysics3d.lib" />
   </ItemGroup>

@@ -12,16 +12,166 @@ SceneLoader::~SceneLoader()
 
 void SceneLoader::SaveScene(Scene* scene, const std::string outName)
 {
+    if (!scene)
+        return;
     std::ofstream out(outName);
 
     Json::Value root;
     Json::Value objects;
+    Json::Value resources;
+
+    //save resouce paths
+    ResourceManager& res = ResourceManager::Get();
+
+    Json::Value cubemaps;
+    for (auto& it : res.cubemapPaths)
+    {
+        Json::Value cm;
+        cm["name"   ]   = it.first;
+        cm["right"  ]  = it.second[0];
+        cm["left"   ]   = it.second[1];
+        cm["top"    ]    = it.second[2];
+        cm["bottom" ] = it.second[3];
+        cm["front"  ]  = it.second[4];
+        cm["back"   ]   = it.second[5];
+
+        cubemaps.append(cm);
+    }
+    resources["cubemaps"] = cubemaps;
+
+    Json::Value textures;
+    for (auto& it : res.texturePaths)
+    {
+        Json::Value tex;
+        tex["path"] = it.second;
+        tex["name"] = it.first;
+        textures.append(tex);
+    }
+    resources["textures"] = textures;
+    
+    Json::Value shaders;
+    for (auto& it : res.shadersPaths)
+    {
+        Json::Value sha;
+        
+        sha["name"] = it.first;
+        sha["vert"] = it.second[0];
+        sha["frag"] = it.second[1];
+        sha["geom"] = it.second[2];
+
+        shaders.append(sha);
+    }
+    resources["shaders"] = shaders;
+    
+    Json::Value models;
+    for (auto& it : res.modelPaths)
+    {
+        Json::Value mod;
+    
+        DrawItem* drawItem = res.models.at(it.first);
+    
+        mod["path"] = it.second;
+        mod["name"] = it.first;
+
+        if(drawItem->GetDiffuseTexture(0))
+            mod["diff"] = drawItem->GetDiffuseTexture(0)->name;
+    
+        if (drawItem->GetEmissionTexture(0))
+            mod["emis"] = drawItem->GetEmissionTexture(0)->name;
+    
+        if (drawItem->GetSpecularTexture(0))
+            mod["spec"] = drawItem->GetSpecularTexture(0)->name;
+    
+        std::string type = "";
+
+        if (dynamic_cast<Mesh*>(drawItem))
+            type = "mesh";
+
+        if (dynamic_cast<md2_model_t*>(drawItem)) {
+            type = "md2";
+
+            Json::Value animations;
+            for (auto& it : dynamic_cast<md2_model_t*>(drawItem)->animations)
+            {
+                Json::Value anim;
+                anim["name"] = it.first.c_str();
+                anim["start"] = it.second.start;
+                anim["end"] = it.second.end;
+                anim["speed"] = it.second.speed;
+
+                animations.append(anim);
+            }
+            mod["animations"] = animations;
+
+        }
+
+        mod["type"] = type;
+
+
+        models.append(mod);
+    }
+    resources["models"] = models;
+
+    root["resources"] = resources;
 
     //skybox
-    root["skybox"] = scene->skybox->name;
+    if(scene->skybox)
+        root["skybox"] = scene->skybox->name;
     
     //lights
+    Json::Value Lighting;
+    Json::Value AmibientLight;
+    Json::Value DirLights;
+    Json::Value PointLights;
 
+    AmibientLight.append(scene->lights.ambient.x);
+    AmibientLight.append(scene->lights.ambient.y);
+    AmibientLight.append(scene->lights.ambient.z);
+
+    for (auto& it : scene->lights.direction) {
+        Json::Value dirLight;
+
+        dirLight["direction"].append(it.direction.x);
+        dirLight["direction"].append(it.direction.y);
+        dirLight["direction"].append(it.direction.z);
+
+        dirLight["diffuse"].append(it.diffuse.x);
+        dirLight["diffuse"].append(it.diffuse.y);
+        dirLight["diffuse"].append(it.diffuse.z);
+
+        dirLight["specular"].append(it.specular.x);
+        dirLight["specular"].append(it.specular.y);
+        dirLight["specular"].append(it.specular.z);
+
+        DirLights.append(dirLight);
+    }
+
+    for (auto& it : scene->lights.point) {
+        Json::Value pntLight;
+
+        pntLight["position"].append(it.position.x);
+        pntLight["position"].append(it.position.y);
+        pntLight["position"].append(it.position.z);
+
+        pntLight["diffuse"].append(it.diffuse.x);
+        pntLight["diffuse"].append(it.diffuse.y);
+        pntLight["diffuse"].append(it.diffuse.z);
+
+        pntLight["specular"].append(it.specular.x);
+        pntLight["specular"].append(it.specular.y);
+        pntLight["specular"].append(it.specular.z);
+
+        pntLight["constant"] = it.constant;
+        pntLight["linear"] = it.linear;
+        pntLight["quadratic"] = it.quadratic;
+
+        PointLights.append(pntLight);
+    }
+
+    Lighting["Ambient"] = AmibientLight;
+    Lighting["DirectionLights"] = DirLights;
+    Lighting["PointLights"] = PointLights;
+    root["Lighting"] = Lighting;
 
     //serialize game objects
     for (auto& it : scene->gameObjects)
@@ -38,7 +188,7 @@ void SceneLoader::SaveScene(Scene* scene, const std::string outName)
 
 }
 
-Scene& SceneLoader::LoadScene(const std::string inName)
+Scene& SceneLoader::LoadScene(const char* inName)
 {
     Scene* scene = new Scene();
 
@@ -48,16 +198,101 @@ Scene& SceneLoader::LoadScene(const std::string inName)
     reader.parse(file, sceneJSON);
 
     ResourceManager& res = ResourceManager::Get();
+    //load resources
+    Json::Value jCubemaps = sceneJSON["resources"]["cubemaps"];
+    Json::Value jTextures = sceneJSON["resources"]["textures"];
+    Json::Value jShaders  = sceneJSON["resources"]["shaders"];
+    Json::Value jModels   = sceneJSON["resources"]["models"];
 
+    
+    for (int i = 0; i < jCubemaps.size(); i++)
+    {
+        std::string name =      jCubemaps[i]["name"].asString();
+        std::string right =     jCubemaps[i]["right"].asString();
+        std::string left =      jCubemaps[i]["left"].asString();
+        std::string top =       jCubemaps[i]["top"].asString();
+        std::string bottom =    jCubemaps[i]["bottom"].asString();
+        std::string front =     jCubemaps[i]["front"].asString();
+        std::string back =      jCubemaps[i]["back"].asString();
+        res.LoadCubemap(name, right, left, top, bottom, front, back);
+    }
+
+    for (int i = 0; i < jTextures.size(); i++)
+    {
+        std::string name = jTextures[i]["name"].asString();
+        std::string path = jTextures[i]["path"].asString();
+        res.LoadTexture(name,path);
+    }
+
+    for (int i = 0; i < jShaders.size(); i++)
+    {
+        std::string name = jShaders[i]["name"].asString();
+        std::string vert = jShaders[i]["vert"].asString();
+        std::string frag = jShaders[i]["frag"].asString();
+        std::string geom = jShaders[i]["geom"].asString();
+        res.LoadShader(name, vert, frag, geom);
+    }
+
+    for (int i = 0; i < jModels.size(); i++)
+    {
+        std::string name = jModels[i]["name"].asString();
+        std::string path = jModels[i]["path"].asString();
+        std::string diff = jModels[i]["diff"].asString();
+        std::string spec = jModels[i]["spec"].asString();
+        std::string emis = jModels[i]["emis"].asString();
+        std::string type = jModels[i]["type"].asString();
+
+        if (type.compare("mesh") == 0) {
+            res.LoadModel(name,path,diff,emis,spec);
+        }
+        else if(type.compare("md2") == 0) {
+            res.LoadAnimatedModel(name, path, diff, emis, spec);
+            md2_model_t* md2Model = dynamic_cast<md2_model_t*>(res.models.at(name));
+
+            Json::Value animations = jModels[i]["animations"];
+            for (int j = 0; j < animations.size(); j++)
+            {
+                md2Model->SetAnimation(animations[j]["name"].asString(), animations[j]["start"].asInt(), animations[j]["end"].asInt(), animations[j]["speed"].asFloat());
+            }
+        }
+    }
+
+    //load lighting data
+    Json::Value DirLights =   sceneJSON["Lighting"]["DirectionLights"];
+    Json::Value PntLights =       sceneJSON["Lighting"]["PointLights"];
+    Json::Value AmbientLight = sceneJSON["Lighting"]["Ambient"];
+    scene->lights.ambient = { AmbientLight[0].asFloat(),AmbientLight[1].asFloat() ,AmbientLight[2].asFloat() };
+
+    for (int i = 0; i < DirLights.size(); i++)
+    {
+        glm::vec3 dir = { DirLights[i]["direction"][0].asFloat(),DirLights[i]["direction"][1].asFloat(), DirLights[i]["direction"][2].asFloat()};
+        glm::vec3 dif = { DirLights[i]["diffuse"][0].asFloat(),DirLights[i]["diffuse"][1].asFloat(), DirLights[i]["diffuse"][2].asFloat()};
+        glm::vec3 spe = { DirLights[i]["specular"][0].asFloat(),DirLights[i]["specular"][1].asFloat(), DirLights[i]["specular"][2].asFloat()};
+        scene->lights.AddDirectionLight(dir,dif,spe);
+    }
+
+    for (int i = 0; i < PntLights.size(); i++)
+    {
+        glm::vec3 pos = { PntLights[i]["position"][0].asFloat(),PntLights[i]["position"][1].asFloat(), PntLights[i]["position"][2].asFloat() };
+        glm::vec3 dif = { PntLights[i]["diffuse"][0].asFloat(),PntLights[i]["diffuse"][1].asFloat(), PntLights[i]["diffuse"][2].asFloat() };
+        glm::vec3 spe = { PntLights[i]["specular"][0].asFloat(),PntLights[i]["specular"][1].asFloat(), PntLights[i]["specular"][2].asFloat() };
+
+        float constant = PntLights[i]["constant"].asFloat();
+        float linear = PntLights[i]["linear"].asFloat();
+        float quadratic = PntLights[i]["quadratic"].asFloat();
+
+        scene->lights.AddPointLight(pos,dif,spe,constant,linear,quadratic);
+    }
+
+    //populate scene
     scene->skybox = res.GetCubeMap(sceneJSON["skybox"].asString());
-
     Json::Value objects = sceneJSON["objects"];
     for (unsigned int i = 0; i < objects.size(); i++)
     {
         Json::Value jobj = objects[i];
      
         GameObject* go = nullptr;
-
+    
         if (jobj["type"].asString() == "terrain") {
           
             go = res.GetGameObject(jobj["name"].asString());
@@ -71,95 +306,15 @@ Scene& SceneLoader::LoadScene(const std::string inName)
         go->position.x = jobj["position"][0].asFloat();
         go->position.y = jobj["position"][1].asFloat();
         go->position.z = jobj["position"][2].asFloat();
-
+    
         go->scale.x = jobj["scale"][0].asFloat();
         go->scale.y = jobj["scale"][1].asFloat();
         go->scale.z = jobj["scale"][2].asFloat();
-
+    
         go->rotation.x = jobj["rotation"][0].asFloat();
         go->rotation.y = jobj["rotation"][1].asFloat();
         go->rotation.z = jobj["rotation"][2].asFloat();
-
-        //state information
-        AIManager& ai = AIManager::Get();
-        if(!jobj["state"].empty())
-            go->stateMachine.ChangeState(*ai.GetState(jobj["state"].asString()));
-        if (!jobj["previous_state"].empty())
-            go->stateMachine.ChangePreviousState(*ai.GetState(jobj["previous_state"].asString()));
-        if (!jobj["global_state"].empty())
-            go->stateMachine.ChangeGlobalState(*ai.GetState(jobj["global_state"].asString()));
-
-        //physics properties
-
-        /*
-        Json::Value rb = jobj["rigidbody"];
-        Json::Value rbcollider = rb["collider"];
-        
-        //scene->physics.AddRigidBody(*go, rb["mod"].asInt());
-
-        if(rb["contact_listen"].asBool())
-            go->rigidBody.ToggleContactListenState();
-
-        go->rigidBody.SetMass(rb["mass"].asFloat());
-        go->rigidBody.SetDampeningLinear(rb["damp_linear"].asFloat());
-        go->rigidBody.SetDampeningAngle(rb["damp_angle"].asFloat());
-
-        go->rigidBody.SetCenterOfMass    ({ rb["mass_center"][0].asFloat() ,rb["mass_center"][1].asFloat() ,rb["mass_center"][2].asFloat() });
-        
-        go->rigidBody.SetAxisLinearFactor( rb["axis_linear_factor"][0].asFloat() ,rb["axis_linear_factor"][1].asFloat() ,rb["axis_linear_factor"][2].asFloat() );
-
-        go->rigidBody.SetAxisAngleFactor(rb["axis_angle_factor"][0].asFloat(), rb["axis_angle_factor"][1].asFloat(), rb["axis_angle_factor"][2].asFloat());
-        
-        if (rbcollider["type"].asInt() != COLLIDER_INVALID)
-        {
-            float mass = rbcollider["mass"].asFloat();
-            float bounce = rbcollider["bounce"].asFloat();
-            float friction = rbcollider["friction"].asFloat();
-            glm::vec3 offset(rbcollider["offset"][0].asFloat(), rbcollider["offset"][1].asFloat(), rbcollider["offset"][2].asFloat());
-            glm::vec3 rotation(rbcollider["rotation"][0].asFloat(), rbcollider["rotation"][1].asFloat(), rbcollider["rotation"][2].asFloat());
-
-            float radius;
-            float height;
-            int rows;
-            int columns;
-            float min;
-            float max;
-            switch (rbcollider["type"].asInt())
-            {
-            case COLLIDER_BOX:
-                glm::vec3 scale(rb["scale"][0].asFloat(), rb["scale"][1].asFloat(), rb["scale"][2].asFloat());
-                //scene->physics.AddRigidBodyColliderBox(*go,scale,offset,mass,bounce ,friction);
-                break;
-            case COLLIDER_SPHERE:
-                radius = rb["radius"].asFloat();
-                //scene->physics.AddRigidBodyColliderSphere(*go,radius,offset,mass,bounce,friction);
-                break;
-            case COLLIDER_CAPSULE:
-                radius = rb["radius"].asFloat();
-                height = rb["height"].asFloat();
-                //scene->physics.AddRigidBodyColliderCapsule(*go,radius,height,offset,rotation,mass,bounce,friction);
-                break;
-            case COLLIDER_TERRAIN:
-                rows = rb["rows"].asInt();
-                columns = rb["columns"].asInt();
-                min = rb["min"].asFloat();
-                max = rb["max"].asFloat();
-                if(rb["heights"].asBool())
-                    //scene->physics.AddRigidBodyColliderHeightMap(*static_cast<Terrain*>(go));
-                
-                break;
-            case COLLIDER_INVALID:
-                break;
-            default:
-                break;
-            }
-            go->rigidBody.SetLinearVelocity(rb["linear_velocity"][0].asFloat(), rb["linear_velocity"][1].asFloat(), rb["linear_velocity"][2].asFloat());
-            go->rigidBody.SetAngularVelocity(rb["angular_velocity"][0].asFloat(), rb["angular_velocity"][1].asFloat(), rb["angular_velocity"][2].asFloat());
-            go->SetRotation({ jobj["rotation"][0].asFloat(), jobj["rotation"][1].asFloat(), jobj["rotation"][2].asFloat() });
-
-        }
-        //end phyiscs
-        */
+    
         res.StoreGameObject(go);
         scene->AddObject(*go);
     }

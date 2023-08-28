@@ -31,9 +31,13 @@ public:
 	void SetUniform(const std::string &uName, bool uValue);
 	void SetUniform(const std::string &uName, glm::mat4 &uValue);
 	
+	bool GetIsValid();
+
 	std::string name;
 
 private:
+
+	bool isValid = false;
 
 	unsigned int CreateVertexShader(const char* filePath);
 	unsigned int CreateFragmentShader(const char* filePath);

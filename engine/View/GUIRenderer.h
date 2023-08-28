@@ -1,4 +1,5 @@
 #pragma once
+
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
@@ -7,6 +8,8 @@
 #include <Renderer.h>
 #include <map>
 #include <string>
+#include <ImGuizmo.h>
+
 /**
 *	@Class GUIRenderer
 *	@brief Used to draw gui elements to the screen
@@ -18,15 +21,12 @@
 class GUIRenderer
 {
 public:
-		/**
-		*	@brief default constructor
-		*/
-	GUIRenderer();
 
 		/**
-		*	@brief destructor
+		*	@brief get the GUIRenderer singleton
+		*	@return gui renderer singleton
 		*/
-	~GUIRenderer();
+	static GUIRenderer& Get();
 
 		/**
 		*	@brief free up GUI resources
@@ -51,17 +51,33 @@ public:
 	//lua programmable GUI//
 
 		/**
-		*	@brief Start for GUI
-		*	@param background were or not render the GUI
+		*	@brief Starts a GUI to be rendered
 		*	@return void
 		*/
-	void Start(bool background);
+	void StartGUI();
 
 		/**
 		*	@brief ends GUI rendering
 		*	@return void
 		*/
-	void End();
+	void EndGUI();
+
+		/**
+		*	@brief Start rendering a window
+		*	@param background were or not render the window
+		*	@param width ratio width of window
+		*	@param height ratio height of window
+		*	@param posX ratio position on X axis
+		*	@param posY ratio position on Y axis
+		*	@return void
+		*/
+	void StartWindow(const std::string& wName, bool background, float width, float height, float posX, float posY);
+
+		/**
+		*	@brief ends rendering a window
+		*	@return void
+		*/
+	void EndWindow();
 
 		/**
 		*	@brief create text on gui
@@ -121,6 +137,16 @@ public:
 
 private:
 
+	///Default constructor. Private becuase singleton
+	GUIRenderer();
+	///Default Destructor.
+	~GUIRenderer();
+	///Assignment operator. Private becuase singleton
+	GUIRenderer& operator =(const Renderer&) = delete;
+	///Copy constructor. Private becuase singleton
+	GUIRenderer(const Renderer&) = delete;
+
+		//io pointer for imgui
 	ImGuiIO* io;
 
 		/**

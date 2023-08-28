@@ -37,7 +37,6 @@ void GameEngine::ExposeToLua(){
 }
 
 GameEngine::GameEngine()
-
 {
 	//init window and glfw.
 	glfwInit();
@@ -78,7 +77,6 @@ GameEngine::GameEngine()
 	for (it; it != end; it++) {
 		Renderer::SetLightUniforms(scene->lights, *it->second);
 	}
-
 }
 
 GameEngine::~GameEngine() {
@@ -87,7 +85,7 @@ GameEngine::~GameEngine() {
 
 //start main loop
 void GameEngine::Run() {
-
+		
 	//main loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -97,19 +95,13 @@ void GameEngine::Run() {
 		previousFrameTime = currentFrameTime;
 		
 		inputMngr.KeyActions(deltaTime);
-
 		if (simIsRunning) {
 			aiManager.UpdateAgents(deltaTime);
 			physicsManager.Update(deltaTime);
-		}
-		else {
-			deltaTime = 0.0f;
+			luaManager.RunUpdateMethod(deltaTime);
 		}
 
-		renderer.Draw(*scene, deltaTime);
-		physicsManager.DrawPhysicsWorld(scene->camera);
-		luaManager.RunUpdateMethod(deltaTime);
-
+		renderer.Draw(scene->camera, *scene, deltaTime);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -134,9 +126,8 @@ void GameEngine::ResizeCallback(GLFWwindow* window, int width, int height) {
 	Scene& s = *GameEngine::Get().scene;
 	s.camera.aspectRatio = (float)width / (float)height;
 	glViewport(0, 0, width, height);
-
-	GameEngine::Get().renderer.Resize(width,height);
-	GameEngine::Get().renderer.Draw(s, GameEngine::Get().deltaTime);
+	GameEngine::Get().renderer.Resize(width, height);
+	GameEngine::Get().renderer.Draw(s.camera,s, GameEngine::Get().deltaTime);
 }
 
 void GameEngine::Shutdown()
@@ -146,6 +137,9 @@ void GameEngine::Shutdown()
 
 void GameEngine::SetSimulation(bool isRun)
 {
+	if (!simIsRunning && isRun) {
+		deltaTime = 0.0f;
+	}
 	simIsRunning = isRun;
 }
 

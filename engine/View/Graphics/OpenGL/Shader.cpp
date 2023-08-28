@@ -39,6 +39,9 @@ Shader::Shader(const char *vertShader, const char *fragShader, const char* geomS
 		glGetProgramInfoLog(ID, 512, NULL, infoLog);
 		std::cout << "FAILED TO LINK SHADER PROGRAM:\n" << infoLog << std::endl;
 	}
+	else {
+		isValid = true;
+	}
 
 	//already linked so can delete
 	if (vertShader)
@@ -117,6 +120,11 @@ void Shader::SetUniform(const std::string& uName, bool uValue){
 void Shader::SetUniform(const std::string& uName, glm::mat4 &uValue) {
 	Use();
 	glUniformMatrix4fv(glGetUniformLocation(ID, uName.c_str()), 1,GL_FALSE,glm::value_ptr(uValue));
+}
+
+bool Shader::GetIsValid()
+{
+	return isValid;
 }
 
 

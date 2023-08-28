@@ -144,7 +144,6 @@ void LuaManager::Expose_Engine() {
 
 		"CreateGameObject", &ResourceManager::CreateGameObject,
 		"CreateTerrain", &ResourceManager::CreateTerrain,
-		"CreateWater", &ResourceManager::CreateWater,
 		"LoadTexture", &ResourceManager::LoadTexture,
 		"LoadModel", &ResourceManager::LoadModel,
 		"LoadAnimatedModel", &ResourceManager::LoadAnimatedModel,
@@ -278,8 +277,8 @@ void LuaManager::Expose_Engine() {
 	//expose GUI
 	Expose_CPPClass<GUIRenderer>("GUIRenderer",
 		sol::no_constructor,
-		"Start", &GUIRenderer::Start,
-		"End", &GUIRenderer::End,
+		"Start", &GUIRenderer::StartWindow,
+		"End", &GUIRenderer::EndWindow,
 		"Text", &GUIRenderer::Text,
 		"Button", &GUIRenderer::Button,
 		"Image", &GUIRenderer::Image,

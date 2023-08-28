@@ -101,24 +101,6 @@ void PhysicsManager::AddCapsuleCollider(PhysicsBody& pb, float radius, float hei
 	pb.body->addCollider(shape, Transform::identity());
 }
 
-void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
-{
-	PhysicsManager& pManager = PhysicsManager::Get();
-
-	for (int i = 0; i < callbackData.getNbContactPairs(); i++)
-	{
-		unsigned int id1 = callbackData.getContactPair(i).getBody1()->getEntity().id;
-		unsigned int id2 = callbackData.getContactPair(i).getBody2()->getEntity().id;
-
-		std::cout << "body: " << id1 << " | " << "body: " << id2 << "\n";
-		//if physics bodies exist, resolve collision.
-		auto rbMap = &pManager.physicsBodies;
-		if (rbMap->find(id1) != rbMap->end() && rbMap->find(id2) != rbMap->end()) {
-			pManager.ResolveCollision(pManager.GetPhysicsBody(id1), pManager.GetPhysicsBody(id2));
-		}
-	}
-}
-
 void PhysicsManager::DrawPhysicsWorld(Camera& camera)
 {
 	if (!debugShader)
@@ -163,5 +145,24 @@ void PhysicsManager::DrawPhysicsWorld(Camera& camera)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
+	}
+}
+
+
+void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
+{
+	PhysicsManager& pManager = PhysicsManager::Get();
+
+	for (int i = 0; i < callbackData.getNbContactPairs(); i++)
+	{
+		unsigned int id1 = callbackData.getContactPair(i).getBody1()->getEntity().id;
+		unsigned int id2 = callbackData.getContactPair(i).getBody2()->getEntity().id;
+
+		std::cout << "body: " << id1 << " | " << "body: " << id2 << "\n";
+		//if physics bodies exist, resolve collision.
+		auto rbMap = &pManager.physicsBodies;
+		if (rbMap->find(id1) != rbMap->end() && rbMap->find(id2) != rbMap->end()) {
+			pManager.ResolveCollision(pManager.GetPhysicsBody(id1), pManager.GetPhysicsBody(id2));
+		}
 	}
 }

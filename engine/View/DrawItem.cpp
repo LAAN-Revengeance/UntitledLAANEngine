@@ -33,9 +33,63 @@ void DrawItem::SetEmissionTexture(const char* fileName) {
 	material.emissionMap.push_back(new Texture(fileName));
 }
 
-Texture* DrawItem::GetDiffuseTexture(int index)  { return material.diffuseTexture[index]; }
-Texture* DrawItem::GetSpecularTexture(int index) { return material.specularMap	 [index]; }
-Texture* DrawItem::GetEmissionTexture(int index) { return material.emissionMap	 [index]; }
+Texture* DrawItem::GetDiffuseTexture(int index)  { 
+	if (material.diffuseTexture.size() <= 0)
+		return nullptr;
+	return material.diffuseTexture[index]; 
+}
+Texture* DrawItem::GetSpecularTexture(int index) {
+	if (material.specularMap.size() <= 0)
+		return nullptr;
+	return material.specularMap	 [index];
+}
+Texture* DrawItem::GetEmissionTexture(int index) {
+	if (material.emissionMap.size() <= 0)
+		return nullptr;
+	return material.emissionMap	 [index];
+}
+
+void DrawItem::SetDiffuseTexture(int index, Texture* nTexture)
+{
+	if (material.diffuseTexture.empty())
+		material.diffuseTexture.push_back(nTexture);
+	if (!nTexture || material.diffuseTexture.size() <= index || index < 0)
+		return;
+	material.diffuseTexture[index] = nTexture;
+}
+
+void DrawItem::SetSpecularTexture(int index, Texture* nTexture)
+{
+	if (material.specularMap.empty())
+		material.specularMap.push_back(nTexture);
+	if (!nTexture || material.specularMap.size() <= index || index < 0)
+		return;
+	material.specularMap[index] = nTexture;
+}
+
+void DrawItem::SetEmissionTexture(int index, Texture* nTexture)
+{
+	if (material.emissionMap.empty())
+		material.emissionMap.push_back(nTexture);
+	if (!nTexture || material.emissionMap.size() <= index || index < 0)
+		return;
+	material.emissionMap[index] = nTexture;
+}
+
+void DrawItem::ResetDiffuseTexture()
+{
+	material.diffuseTexture.clear();
+}
+
+void DrawItem::ResetSpecularTexture()
+{
+	material.specularMap.clear();
+}
+
+void DrawItem::ResetEmissionTexture()
+{
+	material.emissionMap.clear();
+}
 
 void DrawItem::SetShine(float nShine)
 {
