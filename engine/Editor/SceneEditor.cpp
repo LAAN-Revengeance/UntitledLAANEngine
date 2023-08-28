@@ -187,9 +187,8 @@ void SceneEditor::DrawHeighrarchy()
 			camera.LookAt(inspectedObject->position);
 		}
 
-
 		if (nodeOpen) {
-			ImGui::Text("Children go here");
+			//ImGui::Text("Children go here");
 			ImGui::TreePop();
 		}
 		i++;
