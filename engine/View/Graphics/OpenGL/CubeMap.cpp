@@ -49,7 +49,7 @@ CubeMap::CubeMap() {
     VBO nVBO(cubeVerts,sizeof(cubeVerts));
     vao.AddAttribute(nVBO, 0, 3, GL_FLOAT, 3 * sizeof(float), (void*)0);
 
-    Shader nShader("resources/shaders/Cube_map.vert","resources/shaders/Cube_map.frag","");
+    Shader nShader("./resources/shaders/Cube_map.vert","./resources/shaders/Cube_map.frag","");
     shader = nShader;
     ID = 0;
     height = 0;

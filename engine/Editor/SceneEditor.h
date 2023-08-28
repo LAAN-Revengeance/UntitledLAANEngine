@@ -4,6 +4,7 @@
 #include <Serialization/SceneLoader.h>
 #include "FileExplorer.h"
 
+
 /**
 *	@Class SceneEditor
 *	@brief Render GUI used for editing a scene

@@ -72,15 +72,6 @@ void SceneLoader::SaveScene(Scene* scene, const std::string outName)
     
         mod["path"] = it.second;
         mod["name"] = it.first;
-
-        //if(drawItem->GetDiffuseTexture(0))
-        //    mod["diff"] = drawItem->GetDiffuseTexture(0)->name;
-        //
-        //if (drawItem->GetEmissionTexture(0))
-        //    mod["emis"] = drawItem->GetEmissionTexture(0)->name;
-        //
-        //if (drawItem->GetSpecularTexture(0))
-        //    mod["spec"] = drawItem->GetSpecularTexture(0)->name;
     
         std::string type = "";
 
@@ -314,7 +305,15 @@ Scene& SceneLoader::LoadScene(const char* inName)
         go->rotation.x = jobj["rotation"][0].asFloat();
         go->rotation.y = jobj["rotation"][1].asFloat();
         go->rotation.z = jobj["rotation"][2].asFloat();
-    
+        
+        //material properties
+        if(jobj.isMember("diff"))
+            go->material.diffuseTexture.push_back(res.GetTexture(jobj["diff"].asString()));
+        if (jobj.isMember("spec"))
+            go->material.diffuseTexture.push_back(res.GetTexture(jobj["spec"].asString()));
+        if (jobj.isMember("emis"))
+            go->material.diffuseTexture.push_back(res.GetTexture(jobj["emis"].asString()));
+
         res.StoreGameObject(go);
         scene->AddObject(*go);
     }
@@ -361,6 +360,14 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
     if (obj->shader)
         jobj["shader"] = obj->shader->name;
     
+    //material
+    if(!obj->material.diffuseTexture.empty())
+        jobj["diff"] = obj->material.diffuseTexture[0]->name;
+    if (!obj->material.specularMap.empty())
+        jobj["spec"] = obj->material.specularMap[0]->name;
+    if (!obj->material.emissionMap.empty())
+        jobj["emis"] = obj->material.emissionMap[0]->name;
+
     /*
     //rigidbody
     Json::Value rb;
