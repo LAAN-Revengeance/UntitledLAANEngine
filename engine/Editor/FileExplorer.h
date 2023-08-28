@@ -3,7 +3,6 @@
 #include <windows.h>
 #include <commdlg.h>
 #include <iostream>
-#include <vector>
 
 class FileOpener
 {
@@ -21,5 +20,3 @@ private:
 	FileOpener(const FileOpener&) = delete;
 	FileOpener& operator = (const FileOpener&) = delete;
 };
-
-

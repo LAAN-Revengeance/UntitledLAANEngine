@@ -178,14 +178,15 @@ void SceneEditor::DrawHeighrarchy()
 		bool nodeOpen = ImGui::TreeNodeEx(pair.second->name.c_str(), tmpFlags);
 		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
 			inspectedObject = pair.second;
-			
-			camera.position = { inspectedObject->position.x,inspectedObject->position.y,inspectedObject->position.z - 10};
+			selectedNode = i;
+		}
+		if (ImGui::IsMouseDoubleClicked(0) && ImGui::IsItemHovered() && inspectedObject) {
+			camera.position = { inspectedObject->position.x,inspectedObject->position.y,inspectedObject->position.z - 10 };
 			camera.up = { 0,1,0 };
 			camera.right = { 0.0, 0.0, -1.0 };
 			camera.LookAt(inspectedObject->position);
-
-			selectedNode = i;
 		}
+
 
 		if (nodeOpen) {
 			ImGui::Text("Children go here");
