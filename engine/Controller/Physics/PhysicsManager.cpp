@@ -137,10 +137,13 @@ void PhysicsManager::DrawPhysicsWorld(Camera& camera)
 			debugMesh->FreeData();
 
 		debugMesh = new Mesh();
+		glm::mat4 proj = camera.GetProjection();
+		glm::mat4 view = camera.GetView();
+
 		debugShader->SetUniform("model", modelMat);
 
 		debugMesh->SetDebugVertexData((float*)&tri->point1.x, nTri * 3);
-		debugMesh->Render(&camera, debugShader, false, GL_TRIANGLES);
+		debugMesh->Render(proj, view, debugShader, false, GL_TRIANGLES);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glEnable(GL_CULL_FACE);

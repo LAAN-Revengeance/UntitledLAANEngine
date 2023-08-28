@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="dependencies\include\imGuIZMO.quat\imGuIZMOquat.cpp" />
     <ClCompile Include="dependencies\include\imgui\imgui.cpp" />
     <ClCompile Include="dependencies\include\imgui\imgui_demo.cpp" />
     <ClCompile Include="dependencies\include\imgui\imgui_draw.cpp" />
@@ -189,6 +190,11 @@
     <ClCompile Include="engine\Controller\SoundEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dependencies\include\imGuIZMO.quat\imGuIZMOquat.h" />
+    <ClInclude Include="dependencies\include\imGuIZMO.quat\vgConfig.h" />
+    <ClInclude Include="dependencies\include\imGuIZMO.quat\vGizmo.h" />
+    <ClInclude Include="dependencies\include\imGuIZMO.quat\vGizmoMath.h" />
+    <ClInclude Include="dependencies\include\imGuIZMO.quat\vgMath.h" />
     <ClInclude Include="dependencies\include\ImGuizmo\GraphEditor.h" />
     <ClInclude Include="dependencies\include\ImGuizmo\ImCurveEdit.h" />
     <ClInclude Include="dependencies\include\ImGuizmo\ImGradient.h" />
@@ -270,6 +276,8 @@
     <None Include="resources\shaders\hologram\Holo.frag" />
     <None Include="resources\shaders\screen\screen.vert" />
     <None Include="resources\shaders\screen\screen.frag" />
+    <None Include="resources\shaders\shadow\shadow.frag" />
+    <None Include="resources\shaders\shadow\shadow.vert" />
     <None Include="resources\shaders\Terrain\Terrain.frag" />
   </ItemGroup>
   <ItemGroup>

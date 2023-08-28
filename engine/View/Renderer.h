@@ -99,6 +99,7 @@ private:
 		///default shader
 	Shader mainShader;
 
+	int windowWidth, windowHeight;
 		//frames since last fps check
 	int numFrames = 0;
 		//current frame rate
@@ -113,14 +114,30 @@ private:
 	//post processing shader
 	Shader postProcessShader;
 
-	//texture rendered to
-	unsigned int textureColorBuff;
+	//##-Shadow Data-##//
+	//direction light fbo
 
+	const unsigned int shadowWidth = 2048;
+	const unsigned int shadowHeight = 2048;
+
+	unsigned int dirFBO;//Directional light fbo
+	unsigned int dirDepthMap;//directional light depth buffer(bound as texture so can be read in shader)
+
+	Shader dirShadowShader;
+
+	void InitShadowsMaps();
+	void DrawShadowMaps(Camera &cam, Scene& scene);
+
+
+	//##-Frame buffer data-##//
 	//FRAME BUFFER
 	unsigned int FBO;
 
 	//RENDER BUFFER
 	unsigned int RBO;
+
+	//texture rendered to
+	unsigned int textureColorBuff;
 
 	friend class SceneEditor;
 };

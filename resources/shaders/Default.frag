@@ -48,6 +48,7 @@ struct DirectionLight{
 in vec2 textureCoord;
 in vec3 normal;
 in vec3 fragPos;
+in vec4 fragPosLightSpace;
 
 //uniforms
 uniform vec3 cameraPos;
@@ -55,6 +56,8 @@ uniform Material material;
 uniform vec4 color;
 uniform int wireframe;
 uniform samplerCube cubemap;
+
+uniform sampler2D shadowMap;
 
 uniform vec3 ambient_Light;
 
@@ -73,13 +76,14 @@ out vec4 FragColor;
 vec3 calcPointLight(PointLight light,vec3 fragNormal,vec3 viewDirection);
 vec3 calcSpotLight(SpotLight light,vec3 fragNormal,vec3 viewDirection);
 vec3 calcDirectionLight(DirectionLight light,vec3 fragNormal,vec3 viewDirection);
+float calcShadows(vec4 fragPosLightSpace);
 
 vec4 reflection;
-
+vec3  norm;
 void main()
 {
 
-	vec3 norm = normalize(normal);
+	norm = normalize(normal);
 	vec3 viewDir = normalize(cameraPos - fragPos);
 	vec3 result = vec3(0);
 	
@@ -88,6 +92,7 @@ void main()
     vec3 R = reflect(I, normalize(normal));
     reflection = vec4(texture(cubemap, R).rgb, 1.0);
 	result += reflection.xyz * vec3(texture(material.specularMap,textureCoord) * material.alpha);
+
 
 	//add all spotlights
 	for(int i = 0; i < min(numSpotLights,MAX_SPOT_LIGHTS);i++)
@@ -101,12 +106,14 @@ void main()
 	for(int i = 0; i < min(numDirectionLights,MAX_DIRECTION_LIGHTS);i++)
 		result += calcDirectionLight(directionLights[i] ,norm ,viewDir);
 	
+	//shadows
+	result *= (1.0 - calcShadows(fragPosLightSpace));
+
 	//add ambient light
 	result += ambient_Light;
 	
 	vec4 diffTexture = texture(material.diffuseTexture,textureCoord);
-	
-	
+
 	if(wireframe == 0){
 		FragColor = (diffTexture * vec4(result,0.0) + (texture(material.emissionMap,textureCoord)));
 	}else{
@@ -114,8 +121,35 @@ void main()
 	}
 }
 
-
 //function implemetnations
+float calcShadows(vec4 fragPosLightSpace){
+
+    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+    projCoords = projCoords * 0.5 + 0.5;
+    float closestDepth = texture(shadowMap, projCoords.xy).r; 
+    float currentDepth = projCoords.z;
+	float bias = max(0.025f * (1.0f - dot(norm,directionLights[0].direction)),0.0005f);
+    float shadow = 0;
+
+	vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+	for(int x = -1; x <= 1; ++x)
+	{
+		for(int y = -1; y <= 1; ++y)
+		{
+			float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r; 
+			shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;        
+		}    
+	}
+	shadow /= 9.0;
+
+	if(projCoords.z > 1.0)
+		shadow = 0.0;
+
+    return shadow;
+
+}
+
+
 vec3 calcPointLight(PointLight light,vec3 fragNormal,vec3 viewDirection){
 
 	vec3 lightDir = normalize(light.position - fragPos);

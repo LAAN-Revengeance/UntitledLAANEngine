@@ -4,5 +4,5 @@
 int main(void)
 {
 	//GameEngine::Get().Run();
-	SceneEditor::Get().Run();
+	SceneEditor::Get().Run("Test.json");
 }
