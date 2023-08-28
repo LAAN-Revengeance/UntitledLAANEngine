@@ -100,14 +100,6 @@ void SceneEditor::Draw(double deltaTime)
 	DrawMenu();
 	DrawResources();
 	//ImGui::ShowDemoWindow();
-
-	r.StartWindow("light debug",true,0.3,0.3,0.2,0.7);
-
-	;
-	ImGui::Image((void*)(intptr_t)Renderer::Get().dirDepthMap, ImVec2(300, 300));
-
-	r.EndWindow();
-
 	r.EndGUI();
 }
 

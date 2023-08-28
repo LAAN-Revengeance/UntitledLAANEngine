@@ -29,19 +29,15 @@ void Renderer::InitShadowsMaps()
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 }
 
 void Renderer::DrawShadowMaps(Camera& cam, Scene& scene)
 {
-	
-
-
 	glViewport(0, 0, shadowWidth, shadowHeight);
 	glBindFramebuffer(GL_FRAMEBUFFER, dirFBO);
 	glEnable(GL_DEPTH_TEST);
 	glClear(GL_DEPTH_BUFFER_BIT);
-	glCullFace(GL_FRONT);
+	//glCullFace(GL_FRONT);
 
 	if (scene.GetLights().direction.size() < 1) {
 
@@ -135,7 +131,7 @@ void Renderer::Init(GLFWwindow* window) {
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	//glEnable(GL_MULTISAMPLE);
+	glEnable(GL_MULTISAMPLE);
 
 	glfwGetWindowSize(window, &windowWidth, &windowHeight);
 	glViewport(0, 0, windowWidth, windowHeight);
@@ -144,8 +140,6 @@ void Renderer::Init(GLFWwindow* window) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	////Setup Post Processing resources////
-
-
 	glGenFramebuffers(1, &FBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 
@@ -195,7 +189,6 @@ void Renderer::Init(GLFWwindow* window) {
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
-
 
 	InitShadowsMaps();
 	Resize(windowWidth, windowHeight);
