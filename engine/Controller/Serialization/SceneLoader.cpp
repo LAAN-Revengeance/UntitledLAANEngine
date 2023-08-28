@@ -310,9 +310,9 @@ Scene& SceneLoader::LoadScene(const char* inName)
         if(jobj.isMember("diff"))
             go->material.diffuseTexture.push_back(res.GetTexture(jobj["diff"].asString()));
         if (jobj.isMember("spec"))
-            go->material.diffuseTexture.push_back(res.GetTexture(jobj["spec"].asString()));
+            go->material.specularMap.push_back(res.GetTexture(jobj["spec"].asString()));
         if (jobj.isMember("emis"))
-            go->material.diffuseTexture.push_back(res.GetTexture(jobj["emis"].asString()));
+            go->material.emissionMap.push_back(res.GetTexture(jobj["emis"].asString()));
 
         res.StoreGameObject(go);
         scene->AddObject(*go);
