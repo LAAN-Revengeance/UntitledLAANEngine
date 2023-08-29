@@ -50,7 +50,8 @@ GameObject& ResourceManager::CreateGameObject(std::string objectName, std::strin
 	gameObject->SetID(IDIndex);
 	IDIndex++;
 
-	gameObject->model_data = GetModel(modelName);
+	if(!modelName.empty())
+		gameObject->model_data = GetModel(modelName);
 
 	if (!shaderName.empty()) {
 		gameObject->shader = GetShader(shaderName);
