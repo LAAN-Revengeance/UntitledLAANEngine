@@ -1,4 +1,4 @@
-#include <GaemEngine.h>
+//#include <GaemEngine.h>
 #include <SceneEditor.h>
 
 int main(void)

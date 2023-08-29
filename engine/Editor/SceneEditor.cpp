@@ -16,6 +16,14 @@ void SceneEditor::Run(const char* filePath)
 
 		Update(deltaTime);
 
+		//inputMngr.KeyActions(deltaTime);
+		if (isRunning) {
+			aiManager.UpdateAgents(deltaTime);
+			physicsManager.Update(deltaTime);
+			luaManager.RunUpdateMethod(deltaTime);
+		}
+
+
 		renderer.Draw(camera, *scene, deltaTime);
 		Draw(deltaTime);
 
@@ -608,9 +616,25 @@ void SceneEditor::DrawMenu()
 	float buttonWidth = 80;
 	ImGui::SetCursorPosX((viewport->WorkSize.x/2) - (((buttonWidth + ImGui::GetStyle().ItemSpacing.x) * 3)/2));
 	
-	ImGui::Button("Play", { buttonWidth,20 });
+
+	static ImVec4 baseCol = ImGui::GetStyle().Colors[ImGuiCol_Button];
+	static ImVec4 selectedCol = ImGui::GetStyle().Colors[ImGuiCol_Header];
+	static ImVec4 pButtonCol = baseCol;
+
+	if (isRunning)
+		pButtonCol = selectedCol;
+	else
+		pButtonCol = baseCol;
+
+	ImGui::PushStyleColor(ImGuiCol_Button,pButtonCol);
+	if (ImGui::Button("Play", { buttonWidth,20 })) { 
+		isRunning = !isRunning;
+	}
+	ImGui::PopStyleColor();
+
+
 	ImGui::SameLine();
-	ImGui::Button("Pause", { buttonWidth,20 }); 
+	if (ImGui::Button("Pause", { buttonWidth,20 })) { isRunning = false; }
 	ImGui::SameLine();
 	if (ImGui::Button("FreeCam", { buttonWidth,20 })) { InputManager::Get().SetMouseLock(false); }
 
