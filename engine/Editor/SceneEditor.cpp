@@ -580,6 +580,9 @@ void SceneEditor::DrawMenu()
 
 		if (ImGui::BeginMenu("Edit")) {
 
+			if (ImGui::MenuItem("Change LUA file")) {
+				
+			}
 			ImGui::MenuItem("Window Title",NULL, &showChangeWindow);
 			ImGui::MenuItem("Window Icon");
 

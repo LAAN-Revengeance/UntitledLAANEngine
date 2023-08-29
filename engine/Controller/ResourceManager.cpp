@@ -59,15 +59,6 @@ GameObject& ResourceManager::CreateGameObject(std::string objectName, std::strin
 		gameObject->shader = shaders.at("default");
 	}
 
-	//textures
-	//if (textures.find(diffName) != textures.end())
-	//	model->SetDiffuseTexture(textures.at(diffName));
-	//if (textures.find(emisName) != textures.end())
-	//	model->SetEmissionTexture(textures.at(emisName));
-	//if (textures.find(specName) != textures.end())
-	//	model->SetSpecularTexture(textures.at(specName));
-
-
 	if (objects.find(objectName) != objects.end()) {
 		delete objects[objectName];
 		objects[objectName] = gameObject;

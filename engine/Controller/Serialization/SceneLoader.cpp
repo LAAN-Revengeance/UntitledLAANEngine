@@ -205,14 +205,18 @@ Scene& SceneLoader::LoadScene(const char* inName)
         std::string bottom =    jCubemaps[i]["bottom"].asString();
         std::string front =     jCubemaps[i]["front"].asString();
         std::string back =      jCubemaps[i]["back"].asString();
-        res.LoadCubemap(name, right, left, top, bottom, front, back);
+   
+        if(res.cubemaps.find(name) == res.cubemaps.end())
+            res.LoadCubemap(name, right, left, top, bottom, front, back);
     }
 
     for (int i = 0; i < jTextures.size(); i++)
     {
         std::string name = jTextures[i]["name"].asString();
         std::string path = jTextures[i]["path"].asString();
-        res.LoadTexture(name,path);
+
+        if (res.textures.find(name) == res.textures.end())
+            res.LoadTexture(name,path);
     }
 
     for (int i = 0; i < jShaders.size(); i++)
@@ -221,7 +225,8 @@ Scene& SceneLoader::LoadScene(const char* inName)
         std::string vert = jShaders[i]["vert"].asString();
         std::string frag = jShaders[i]["frag"].asString();
         std::string geom = jShaders[i]["geom"].asString();
-        res.LoadShader(name, vert, frag, geom);
+        if (res.shaders.find(name) == res.shaders.end())
+            res.LoadShader(name, vert, frag, geom);
     }
 
     for (int i = 0; i < jModels.size(); i++)
@@ -232,6 +237,9 @@ Scene& SceneLoader::LoadScene(const char* inName)
         std::string spec = jModels[i]["spec"].asString();
         std::string emis = jModels[i]["emis"].asString();
         std::string type = jModels[i]["type"].asString();
+
+        if (res.models.find(name) != res.models.end())
+            continue;
 
         if (type.compare("mesh") == 0) {
             res.LoadModel(name,path);
