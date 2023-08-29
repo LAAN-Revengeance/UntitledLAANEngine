@@ -117,6 +117,24 @@ void SceneEditor::Update(double deltaTime)
 	CheckKeys();
 }
 
+void SceneEditor::SaveProject(const char* path)
+{
+	if (scene) {
+		SceneLoader::SaveScene(scene, path);
+	}
+
+	Json::Value root;
+	std::ifstream jsonFile(path);
+	jsonFile >> root;
+	jsonFile.close();
+
+	root["luaMain"] = luaFilePath;
+
+	std::ofstream updatedJsonFile(path);
+	updatedJsonFile << root;
+	updatedJsonFile.close();
+}
+
 void SceneEditor::LoadSceneFromFile(const char* path)
 {
 	inspectedObject = nullptr;
@@ -129,6 +147,13 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 	for (auto& shader : ResourceManager::Get().shaders) {
 		Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 	}
+
+	Json::Value root;
+	std::ifstream jsonFile(path);
+	jsonFile >> root;
+	jsonFile.close();
+	std::string luaMain = root["luaMain"].asString();
+	luaManager.SetLuaFile(luaMain.c_str());
 }
 
 void SceneEditor::UseScene(Scene* nscene)
@@ -546,24 +571,25 @@ void SceneEditor::DrawMenu()
 				delete scene;
 				scene = new Scene;
 				saveFilePath[0] = '\0';
+				strcpy(luaFilePath, "resources/scripts/main.lua");
 			}
 			if (ImGui::MenuItem("Save", "Ctrl+S")) {
 				if (strlen(saveFilePath) < 1)
 				{
 					std::string savePath = FileOpener::OpenFileDialogue(SAVE_FILE);
 					if (scene && !savePath.empty()) {
-						SceneLoader::SaveScene(scene, savePath.c_str());
+						SaveProject(savePath.c_str());
 						strcpy(saveFilePath, savePath.c_str());
 					}
 				}
 				else if(scene){
-					SceneLoader::SaveScene(scene, saveFilePath);
+					SaveProject(saveFilePath);
 				}
 			}
 			if (ImGui::MenuItem("Save As",NULL)) {
 				std::string savePath = FileOpener::OpenFileDialogue(SAVE_FILE);
 				if (scene) {
-					SceneLoader::SaveScene(scene, savePath.c_str());
+					SaveProject(savePath.c_str());
 					strcpy(saveFilePath, savePath.c_str());
 				}
 			}
@@ -572,6 +598,7 @@ void SceneEditor::DrawMenu()
 				std::string filePath = FileOpener::OpenFileDialogue();
 				if (filePath.size() >= 1) {
 					LoadSceneFromFile(filePath.c_str());
+					
 				}
 			}
 			
@@ -582,6 +609,15 @@ void SceneEditor::DrawMenu()
 
 			if (ImGui::MenuItem("Change LUA file")) {
 				
+				std::string lpath = FileOpener::OpenFileDialogue(OPEN_FILE);
+				if (!lpath.empty()) {
+					luaManager.SetLuaFile(lpath.c_str());
+					strcpy(luaFilePath, lpath.c_str());
+				}
+				else {
+					std::cout << "ERROR: Could not load lua file " << lpath << std::endl;
+				}
+
 			}
 			ImGui::MenuItem("Window Title",NULL, &showChangeWindow);
 			ImGui::MenuItem("Window Icon");
@@ -1081,11 +1117,11 @@ void SceneEditor::CheckKeys()
 	if (savePressed) {
 		if(!saveDown)
 			if (std::strlen(saveFilePath) > 0 && scene) {
-				SceneLoader::SaveScene(scene, saveFilePath);
+				SaveProject(saveFilePath);
 			}
 			else if(scene){
 				strcpy(saveFilePath,"untitled_Save.json");
-				SceneLoader::SaveScene(scene, saveFilePath);
+				SaveProject(saveFilePath);
 			}
 		saveDown = true;
 	}

@@ -28,6 +28,8 @@ public:
 	void Draw(double deltaTime);
 	void Update(double deltaTime);
 
+	void SaveProject(const char* path);
+
 	void LoadSceneFromFile(const char* path);
 	void UseScene(Scene* nscene);
 
@@ -62,6 +64,7 @@ private:
 
 	//save file path
 	char saveFilePath[256] = "";
+	char luaFilePath [256] = "resources/scripts/main.lua";
 
 	Scene* scene = nullptr;
 	Camera camera;

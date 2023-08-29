@@ -47,6 +47,12 @@ public:
 	void Expose_Engine();
 
 		/**
+		*	@brief Sets a new main.lua file
+		*	@return void
+		*/
+	void SetLuaFile(const char* path);
+
+		/**
 		*	@brief Loads a lua scrpit file into the main luastate 
 		*	@param fileName file path of lua script
 		*	@return void
@@ -124,6 +130,8 @@ private:
 	sol::function update;
 		///Init function extracted from main.lua
 	sol::function init;
+
+	
 };
 
 template<typename T>

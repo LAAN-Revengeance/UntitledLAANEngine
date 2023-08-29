@@ -176,7 +176,6 @@ void SceneLoader::SaveScene(Scene* scene, const std::string outName)
     const std::string json_file = Json::writeString(builder, root);
     out << json_file << std::endl;
     out.close();
-
 }
 
 Scene& SceneLoader::LoadScene(const char* inName)
