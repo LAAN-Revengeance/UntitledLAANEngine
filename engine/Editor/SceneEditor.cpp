@@ -101,14 +101,14 @@ SceneEditor& SceneEditor::Get()
 
 void SceneEditor::Draw(double deltaTime)
 {
-	r.StartGUI();
+	guirenderer.StartGUI();
 	Draw3DWidget();
 	DrawInspector();
 	DrawHeighrarchy();
 	DrawMenu();
 	DrawResources();
 	//ImGui::ShowDemoWindow();
-	r.EndGUI();
+	guirenderer.EndGUI();
 }
 
 void SceneEditor::Update(double deltaTime)
@@ -154,6 +154,13 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 	jsonFile.close();
 	std::string luaMain = root["luaMain"].asString();
 	luaManager.SetLuaFile(luaMain.c_str());
+	
+	//luaManager.Expose_CPPReference("engine", *this);
+	luaManager.Expose_CPPReference("scene", *scene);
+	luaManager.Expose_CPPReference("renderer", renderer);
+	luaManager.Expose_CPPReference("GUI", guirenderer);
+
+	luaManager.RunInitMethod();
 }
 
 void SceneEditor::UseScene(Scene* nscene)
@@ -177,7 +184,7 @@ void SceneEditor::DrawHeighrarchy()
 	float align = 0.0;
 	static ImGuiTreeNodeFlags baseFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
 
-	r.StartWindow("Scene Objects", true, 0.2, 0.94, 0.0, 0.06);
+	guirenderer.StartWindow("Scene Objects", true, 0.2, 0.94, 0.0, 0.06);
 
 	ResourceManager& res = ResourceManager::Get();
 	int i = 0;
@@ -368,7 +375,7 @@ void SceneEditor::DrawHeighrarchy()
 
 void SceneEditor::DrawInspector()
 {
-	r.StartWindow("Inspector",true,0.2,0.94,0.8,0.06);
+	guirenderer.StartWindow("Inspector",true,0.2,0.94,0.8,0.06);
 
 	static ImGuiTreeNodeFlags baseFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Leaf;
 	ResourceManager& res = ResourceManager::Get();
@@ -392,7 +399,10 @@ void SceneEditor::DrawInspector()
 		ImGui::InputTextWithHint("##changeObjectName", "Object Name", cmObjName, IM_ARRAYSIZE(cmObjName));
 		ImGui::SameLine();
 		if (ImGui::Button("Change Name") && strlen(cmObjName) > 0) {
+			//res.objects.find(inspectedObject->name);
+			res.objects.erase(inspectedObject->name);
 			inspectedObject->name = cmObjName;
+			res.StoreGameObject(inspectedObject);
 		}
 
 		//TRANSFORM SETTINGS
@@ -613,6 +623,10 @@ void SceneEditor::DrawMenu()
 				if (!lpath.empty()) {
 					luaManager.SetLuaFile(lpath.c_str());
 					strcpy(luaFilePath, lpath.c_str());
+
+					luaManager.Expose_CPPReference("scene", *scene);
+					luaManager.RunInitMethod();
+
 				}
 				else {
 					std::cout << "ERROR: Could not load lua file " << lpath << std::endl;
@@ -677,7 +691,7 @@ void SceneEditor::DrawMenu()
 	ImGui::SameLine();
 	if (ImGui::Button("FreeCam", { buttonWidth,20 })) { InputManager::Get().SetMouseLock(false); }
 
-	r.EndWindow();
+	guirenderer.EndWindow();
 
 	DrawWindowSettings(&showChangeWindow);
 	DrawDebug(&showDebug);
@@ -689,7 +703,7 @@ void SceneEditor::DrawResources()
 {
 	float windowWidth = 0.6;
 	float resourceWidth = 64;
-	r.StartWindow("Resource Inspector", true, windowWidth, 0.3, 0.2, 0.7);
+	guirenderer.StartWindow("Resource Inspector", true, windowWidth, 0.3, 0.2, 0.7);
 	ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
 	ResourceManager& res = ResourceManager::Get();
 
@@ -900,7 +914,7 @@ void SceneEditor::DrawResources()
 		ImGui::EndTabBar();
 	}
 
-	r.EndWindow();
+	guirenderer.EndWindow();
 }
 
 void SceneEditor::DrawWindowSettings(bool* showChangeWindow)
@@ -1027,7 +1041,7 @@ void SceneEditor::Draw3DWidget()
 	
 	}
 
-	r.EndWindow();
+	guirenderer.EndWindow();
 
 }
 

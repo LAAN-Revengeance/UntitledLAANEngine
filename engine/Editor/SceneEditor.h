@@ -15,7 +15,7 @@
 *	@date 16/08/2023
 */
 
-static int LAAN_ENGINE_VERSION = 1;
+const int LAAN_ENGINE_VERSION = 1;
 
 class SceneEditor
 {
@@ -71,8 +71,6 @@ private:
 	GameObject* inspectedObject = nullptr;
 	GameObject* lastObject = nullptr;
 
-	GUIRenderer& r = GUIRenderer::Get();
-
 	SceneEditor();
 	~SceneEditor();
 	SceneEditor(const SceneEditor&) = delete;
@@ -81,17 +79,17 @@ private:
 	//references to managers
 		///Main Renderer
 	Renderer& renderer = Renderer::Get();
-	///Main GUI Renderer
+		///Main GUI Renderer
 	GUIRenderer& guirenderer = GUIRenderer::Get();
-	///Main Lua Manager
+		///Main Lua Manager
 	LuaManager& luaManager = LuaManager::Get();
-	///Reference to input manager
+		///Reference to input manager
 	InputManager& inputMngr = InputManager::Get();
-	///Reference to AI manager
+		///Reference to AI manager
 	AIManager& aiManager = AIManager::Get();
-	///Reference to SoundEngine
+		///Reference to SoundEngine
 	SoundEngine& soundEngine = SoundEngine::Get();
-	//Reference physics Manager
+		//Reference physics Manager
 	PhysicsManager& physicsManager = PhysicsManager::Get();
 
 
