@@ -1,0 +1,202 @@
+{
+	"Lighting" : 
+	{
+		"Ambient" : 
+		[
+			0.11764705181121826,
+			0.11764705181121826,
+			0.11764705181121826
+		],
+		"DirectionLights" : 
+		[
+			{
+				"diffuse" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				],
+				"direction" : 
+				[
+					-0.65116310119628906,
+					0.61801528930664062,
+					-0.44050398468971252
+				],
+				"specular" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				]
+			}
+		],
+		"PointLights" : null
+	},
+	"objects" : 
+	[
+		{
+			"diff" : "default",
+			"model" : "quad",
+			"name" : "new object",
+			"position" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"scale" : 
+			[
+				10.0,
+				1.0,
+				10.0
+			],
+			"shader" : "default",
+			"type" : "base"
+		},
+		{
+			"model" : "quad",
+			"name" : "new object1",
+			"position" : 
+			[
+				0.0,
+				1.3147526979446411,
+				0.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.0,
+				1.0,
+				1.0
+			],
+			"shader" : "default",
+			"type" : "base"
+		},
+		{
+			"name" : "new object2",
+			"position" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.0,
+				1.0,
+				1.0
+			],
+			"shader" : "default",
+			"type" : "base"
+		},
+		{
+			"name" : "new object3",
+			"position" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.0,
+				1.0,
+				1.0
+			],
+			"shader" : "default",
+			"type" : "base"
+		},
+		{
+			"name" : "new object4",
+			"position" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.0,
+				1.0,
+				1.0
+			],
+			"shader" : "default",
+			"type" : "base"
+		}
+	],
+	"resources" : 
+	{
+		"cubemaps" : null,
+		"models" : 
+		[
+			{
+				"name" : "quad",
+				"path" : "C:\\Users\\Andres\\Documents\\GitHub\\ICT398Engine\\resources\\models\\quad.obj",
+				"type" : "mesh"
+			}
+		],
+		"shaders" : 
+		[
+			{
+				"frag" : "resources/shaders/Water.frag",
+				"geom" : "",
+				"name" : "Water",
+				"vert" : "resources/shaders/Water.vert"
+			},
+			{
+				"frag" : "resources/shaders/Default.frag",
+				"geom" : "",
+				"name" : "default",
+				"vert" : "resources/shaders/Default.vert"
+			},
+			{
+				"frag" : "resources/shaders/Physics_Debug/Physics.frag",
+				"geom" : "",
+				"name" : "physics",
+				"vert" : "resources/shaders/Physics_Debug/Physics.vert"
+			},
+			{
+				"frag" : "resources/shaders/terrain/Terrain.frag",
+				"geom" : "",
+				"name" : "terrain",
+				"vert" : "resources/shaders/Default.vert"
+			}
+		],
+		"textures" : 
+		[
+			{
+				"name" : "default",
+				"path" : "resources/textures/default.png"
+			}
+		]
+	}
+}

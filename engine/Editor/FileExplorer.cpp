@@ -18,7 +18,7 @@ FileOpener& FileOpener::Get()
     return f_instance;
 }
 
-std::string FileOpener::OpenFileDialogue()
+std::string FileOpener::OpenFileDialogue(unsigned int type)
 {
     Get();
     OPENFILENAME ofn;
@@ -32,9 +32,13 @@ std::string FileOpener::OpenFileDialogue()
     ofn.nFilterIndex = 1;
     ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
-    if (GetOpenFileName(&ofn) == TRUE) {
-
+    if (type == OPEN_FILE) {
+        GetOpenFileName(&ofn);
     }
+    else {
+        GetSaveFileName(&ofn);
+    }
+ 
     SetCurrentDirectory(Get().baseDirectory.c_str());
     return std::string(szFile);
 }

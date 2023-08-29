@@ -534,9 +534,32 @@ void SceneEditor::DrawMenu()
 		
 		if (ImGui::BeginMenu("File")) {
 			
-			if (ImGui::MenuItem("New")) { scene = new Scene; }
-			if (ImGui::MenuItem("Save", "Ctrl+S", &showSaveFile)) {}
-			if (ImGui::MenuItem("Open",NULL,&showOpenFile)) {
+			if (ImGui::MenuItem("New")) { 
+				delete scene;
+				scene = new Scene;
+				saveFilePath[0] = '\0';
+			}
+			if (ImGui::MenuItem("Save", "Ctrl+S")) {
+				if (strlen(saveFilePath) < 1)
+				{
+					std::string savePath = FileOpener::OpenFileDialogue(SAVE_FILE);
+					if (scene && !savePath.empty()) {
+						SceneLoader::SaveScene(scene, savePath.c_str());
+						strcpy(saveFilePath, savePath.c_str());
+					}
+				}
+				else if(scene){
+					SceneLoader::SaveScene(scene, saveFilePath);
+				}
+			}
+			if (ImGui::MenuItem("Save As",NULL)) {
+				std::string savePath = FileOpener::OpenFileDialogue(SAVE_FILE);
+				if (scene) {
+					SceneLoader::SaveScene(scene, savePath.c_str());
+					strcpy(saveFilePath, savePath.c_str());
+				}
+			}
+			if (ImGui::MenuItem("Open",NULL)) {
 				
 				std::string filePath = FileOpener::OpenFileDialogue();
 				if (filePath.size() >= 1) {
