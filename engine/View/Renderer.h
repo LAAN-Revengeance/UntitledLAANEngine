@@ -81,6 +81,11 @@ public:
 
 	void Resize(int width, int height);
 
+		/*
+		*   @brief Binds a material
+		*   @return void
+		*/
+	void BindMaterial(Material& material, Shader* shader);
 private:
 
 		///Default constructor. Private becuase singleton

@@ -166,6 +166,7 @@
     <ClCompile Include="engine\Controller\Physics\RigidBody.cpp" />
     <ClCompile Include="Engine\Controller\ResourceManager.cpp" />
     <ClCompile Include="Engine\Controller\Serialization\SceneLoader.cpp" />
+    <ClCompile Include="engine\Editor\FileExplorer.cpp" />
     <ClCompile Include="engine\Editor\SceneEditor.cpp" />
     <ClCompile Include="engine\Model\GameObject.cpp" />
     <ClCompile Include="engine\Model\Camera.cpp" />
@@ -228,6 +229,7 @@
     <ClInclude Include="Engine\Controller\ResourceManager.h" />
     <ClInclude Include="Engine\Controller\Serialization\SceneLoader.h" />
     <ClInclude Include="Engine\Controller\Timer.h" />
+    <ClInclude Include="engine\Editor\FileExplorer.h" />
     <ClInclude Include="engine\Editor\SceneEditor.h" />
     <ClInclude Include="Engine\Model\GameObject.h" />
     <ClInclude Include="engine\Model\Lighting.h" />

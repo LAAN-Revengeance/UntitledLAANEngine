@@ -50,7 +50,8 @@ GameObject& ResourceManager::CreateGameObject(std::string objectName, std::strin
 	gameObject->SetID(IDIndex);
 	IDIndex++;
 
-	gameObject->model_data = GetModel(modelName);
+	if(!modelName.empty())
+		gameObject->model_data = GetModel(modelName);
 
 	if (!shaderName.empty()) {
 		gameObject->shader = GetShader(shaderName);
@@ -76,9 +77,9 @@ Terrain& ResourceManager::CreateTerrain(std::string terrainName, std::string hei
 	Terrain* terrain = new Terrain(textures.at(heightMapName),scaleX,scaleY,scaleZ,texScale);
 	
 	if(textures.find(emissiveName) != textures.end())
-		terrain->model_data->SetEmissionTexture(GetTexture(emissiveName));
+		terrain->material.emissionMap.push_back(GetTexture(emissiveName));
 	if(textures.find(specularName) != textures.end())
-		terrain->model_data->SetSpecularTexture(GetTexture(specularName));
+		terrain->material.specularMap.push_back(GetTexture(specularName));
 	
 	if (shaders.find("terrain") != shaders.end())
 		terrain->shader = shaders.at("terrain");
@@ -118,19 +119,12 @@ void ResourceManager::LoadTexture(std::string resName, std::string fileName) {
 	}
 }
 
-void ResourceManager::LoadAnimatedModel(std::string resName, std::string fileName, std::string diffName, std::string emisName, std::string specName)
+void ResourceManager::LoadAnimatedModel(std::string resName, std::string fileName)
 {
 	try
 	{
 		md2_model_t* model = new md2_model_t(fileName.c_str());
 
-		//textures
-		if (textures.find(diffName) != textures.end())
-			model->SetDiffuseTexture(textures.at(diffName));
-		if (textures.find(emisName) != textures.end())
-			model->SetEmissionTexture(textures.at(emisName));
-		if (textures.find(specName) != textures.end())
-			model->SetSpecularTexture(textures.at(specName));
 
 		//model
 		model->name = resName;
@@ -143,18 +137,11 @@ void ResourceManager::LoadAnimatedModel(std::string resName, std::string fileNam
 	}
 }
 
-void ResourceManager::LoadModel(std::string resName, std::string fileName, std::string diffName, std::string emisName, std::string specName) {
+void ResourceManager::LoadModel(std::string resName, std::string fileName) {
 	try
 	{
 		Mesh* model = new Mesh(fileName.c_str());
 		model->name = resName;
-		//textures
-		if (textures.find(diffName) != textures.end())
-			model->SetDiffuseTexture(textures.at(diffName));
-		if (textures.find(emisName) != textures.end())
-			model->SetEmissionTexture(textures.at(emisName));
-		if (textures.find(specName) != textures.end())
-			model->SetSpecularTexture(textures.at(specName));
 
 		//model
 		models.emplace(resName, model);

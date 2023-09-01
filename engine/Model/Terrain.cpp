@@ -143,12 +143,12 @@ void Terrain::SetTextures(std::vector<Texture*> textures, Texture* detailMap) {
 		
 	int i;
 	for (i = 0; i < textures.size(); i++) {
-		model_data->SetDiffuseTexture(textures[i]);
+		material.diffuseTexture.push_back(textures[i]);
 		tUnits.push_back(i);
 		tCount++;
 	}
 
-	model_data->SetDiffuseTexture(detailMap);
+	material.diffuseTexture.push_back(detailMap);
 	tUnits.push_back(i);
 
 	//need to use all texture units in shader or GLSL will only use one texture
@@ -167,7 +167,7 @@ void Terrain::SetMaterailTextures(std::vector<Texture*> textures) {
 
 	int i;
 	for (i = 0; i < textures.size(); i++) {
-		model_data->SetDiffuseTexture(textures[i]);
+		material.diffuseTexture.push_back(textures[i]);
 		tUnits.push_back(i);
 		tCount++;
 	}

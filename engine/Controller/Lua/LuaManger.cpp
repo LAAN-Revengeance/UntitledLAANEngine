@@ -96,11 +96,7 @@ void LuaManager::Expose_Engine() {
 		sol::no_constructor,
 		"SetAnimationSpeed", &DrawItem::SetAnimationSpeed,
 		"SetAnimation", &DrawItem::SetAnimation,
-		"Animate", &DrawItem::Animate,
-		"SetShine", &DrawItem::SetShine,
-		"SetEmissionTexture", sol::overload(
-			static_cast<void (DrawItem::*)(Texture*)>(&DrawItem::SetEmissionTexture),
-			static_cast<void (DrawItem::*)(const char*)>(&DrawItem::SetEmissionTexture))
+		"Animate", &DrawItem::Animate
 		);
 
 	//expose game object
@@ -349,16 +345,29 @@ void LuaManager::Expose_Engine() {
 		"GetSaves", &SceneLoader::GetSaves
 		);
 
-
-
 	static SceneLoader loader;
 	Expose_CPPReference("loader",loader);
 
-	LoadScript("resources/scripts/main.lua");
+	//LoadScript("resources/scripts/main.lua");
+	//update = GetFunction("update");
+	//init = GetFunction("init");
+}
+
+void LuaManager::SetLuaFile(const char* path)
+{
+	luaState.collect_garbage();
+	luaState.stack_clear();
+
+	luaState.open_libraries(sol::lib::base);
+	luaState.open_libraries(sol::lib::math);
+	luaState.open_libraries(sol::lib::os);
+
+	//luaState
+	Expose_Engine();
+	LoadScript(path);
 	update = GetFunction("update");
 	init = GetFunction("init");
 }
-
 
 void LuaManager::LoadScript(const std::string& fileName) {
 	try
@@ -367,7 +376,7 @@ void LuaManager::LoadScript(const std::string& fileName) {
 	}
 	catch (const sol::error e)
 	{
-		std::cout << "ERROR: Could not load Loading Script File!" << e.what() << std::endl;
+		std::cout << "ERROR: Could not load script File:\n" << e.what() << std::endl;
 	}
 }
 

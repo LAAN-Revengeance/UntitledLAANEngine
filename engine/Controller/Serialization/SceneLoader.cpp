@@ -72,15 +72,6 @@ void SceneLoader::SaveScene(Scene* scene, const std::string outName)
     
         mod["path"] = it.second;
         mod["name"] = it.first;
-
-        if(drawItem->GetDiffuseTexture(0))
-            mod["diff"] = drawItem->GetDiffuseTexture(0)->name;
-    
-        if (drawItem->GetEmissionTexture(0))
-            mod["emis"] = drawItem->GetEmissionTexture(0)->name;
-    
-        if (drawItem->GetSpecularTexture(0))
-            mod["spec"] = drawItem->GetSpecularTexture(0)->name;
     
         std::string type = "";
 
@@ -185,7 +176,6 @@ void SceneLoader::SaveScene(Scene* scene, const std::string outName)
     const std::string json_file = Json::writeString(builder, root);
     out << json_file << std::endl;
     out.close();
-
 }
 
 Scene& SceneLoader::LoadScene(const char* inName)
@@ -214,14 +204,18 @@ Scene& SceneLoader::LoadScene(const char* inName)
         std::string bottom =    jCubemaps[i]["bottom"].asString();
         std::string front =     jCubemaps[i]["front"].asString();
         std::string back =      jCubemaps[i]["back"].asString();
-        res.LoadCubemap(name, right, left, top, bottom, front, back);
+   
+        if(res.cubemaps.find(name) == res.cubemaps.end())
+            res.LoadCubemap(name, right, left, top, bottom, front, back);
     }
 
     for (int i = 0; i < jTextures.size(); i++)
     {
         std::string name = jTextures[i]["name"].asString();
         std::string path = jTextures[i]["path"].asString();
-        res.LoadTexture(name,path);
+
+        if (res.textures.find(name) == res.textures.end())
+            res.LoadTexture(name,path);
     }
 
     for (int i = 0; i < jShaders.size(); i++)
@@ -230,7 +224,8 @@ Scene& SceneLoader::LoadScene(const char* inName)
         std::string vert = jShaders[i]["vert"].asString();
         std::string frag = jShaders[i]["frag"].asString();
         std::string geom = jShaders[i]["geom"].asString();
-        res.LoadShader(name, vert, frag, geom);
+        if (res.shaders.find(name) == res.shaders.end())
+            res.LoadShader(name, vert, frag, geom);
     }
 
     for (int i = 0; i < jModels.size(); i++)
@@ -242,11 +237,14 @@ Scene& SceneLoader::LoadScene(const char* inName)
         std::string emis = jModels[i]["emis"].asString();
         std::string type = jModels[i]["type"].asString();
 
+        if (res.models.find(name) != res.models.end())
+            continue;
+
         if (type.compare("mesh") == 0) {
-            res.LoadModel(name,path,diff,emis,spec);
+            res.LoadModel(name,path);
         }
         else if(type.compare("md2") == 0) {
-            res.LoadAnimatedModel(name, path, diff, emis, spec);
+            res.LoadAnimatedModel(name, path);
             md2_model_t* md2Model = dynamic_cast<md2_model_t*>(res.models.at(name));
 
             Json::Value animations = jModels[i]["animations"];
@@ -314,7 +312,15 @@ Scene& SceneLoader::LoadScene(const char* inName)
         go->rotation.x = jobj["rotation"][0].asFloat();
         go->rotation.y = jobj["rotation"][1].asFloat();
         go->rotation.z = jobj["rotation"][2].asFloat();
-    
+        
+        //material properties
+        if(jobj.isMember("diff"))
+            go->material.diffuseTexture.push_back(res.GetTexture(jobj["diff"].asString()));
+        if (jobj.isMember("spec"))
+            go->material.specularMap.push_back(res.GetTexture(jobj["spec"].asString()));
+        if (jobj.isMember("emis"))
+            go->material.emissionMap.push_back(res.GetTexture(jobj["emis"].asString()));
+
         res.StoreGameObject(go);
         scene->AddObject(*go);
     }
@@ -361,6 +367,14 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
     if (obj->shader)
         jobj["shader"] = obj->shader->name;
     
+    //material
+    if(!obj->material.diffuseTexture.empty())
+        jobj["diff"] = obj->material.diffuseTexture[0]->name;
+    if (!obj->material.specularMap.empty())
+        jobj["spec"] = obj->material.specularMap[0]->name;
+    if (!obj->material.emissionMap.empty())
+        jobj["emis"] = obj->material.emissionMap[0]->name;
+
     /*
     //rigidbody
     Json::Value rb;

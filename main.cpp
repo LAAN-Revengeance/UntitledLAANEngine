@@ -1,8 +1,9 @@
-#include <GaemEngine.h>
+//#include <GaemEngine.h>
 #include <SceneEditor.h>
 
 int main(void)
 {
 	//GameEngine::Get().Run();
-	SceneEditor::Get().Run("Test.json");
+	SceneEditor::Get().Run();
+    return 0;
 }

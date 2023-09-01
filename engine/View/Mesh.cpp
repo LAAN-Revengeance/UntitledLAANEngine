@@ -124,7 +124,6 @@ void Mesh::SetVertexElements(unsigned int* vertIndexes, int numIndex) {
 //isElements specifies if using glDrawElements instead of arrays. 
 void Mesh::Render(glm::mat4 projection, glm::mat4 view, Shader* shader, bool isElements, unsigned int primative) {
 
-	BindMaterial(shader);
 	//Set view and projection matricies
 	shader->SetUniform("view", view);
 	shader->SetUniform("projection", projection);

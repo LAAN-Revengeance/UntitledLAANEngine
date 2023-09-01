@@ -16,6 +16,14 @@ void SceneEditor::Run(const char* filePath)
 
 		Update(deltaTime);
 
+		//inputMngr.KeyActions(deltaTime);
+		if (isRunning) {
+			aiManager.UpdateAgents(deltaTime);
+			physicsManager.Update(deltaTime);
+			luaManager.RunUpdateMethod(deltaTime);
+		}
+
+
 		renderer.Draw(camera, *scene, deltaTime);
 		Draw(deltaTime);
 
@@ -93,20 +101,38 @@ SceneEditor& SceneEditor::Get()
 
 void SceneEditor::Draw(double deltaTime)
 {
-	r.StartGUI();
+	guirenderer.StartGUI();
 	Draw3DWidget();
 	DrawInspector();
 	DrawHeighrarchy();
 	DrawMenu();
 	DrawResources();
 	//ImGui::ShowDemoWindow();
-	r.EndGUI();
+	guirenderer.EndGUI();
 }
 
 void SceneEditor::Update(double deltaTime)
 {
 	CameraControl(deltaTime);
 	CheckKeys();
+}
+
+void SceneEditor::SaveProject(const char* path)
+{
+	if (scene) {
+		SceneLoader::SaveScene(scene, path);
+	}
+
+	Json::Value root;
+	std::ifstream jsonFile(path);
+	jsonFile >> root;
+	jsonFile.close();
+
+	root["luaMain"] = luaFilePath;
+
+	std::ofstream updatedJsonFile(path);
+	updatedJsonFile << root;
+	updatedJsonFile.close();
 }
 
 void SceneEditor::LoadSceneFromFile(const char* path)
@@ -121,6 +147,20 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 	for (auto& shader : ResourceManager::Get().shaders) {
 		Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 	}
+
+	Json::Value root;
+	std::ifstream jsonFile(path);
+	jsonFile >> root;
+	jsonFile.close();
+	std::string luaMain = root["luaMain"].asString();
+	luaManager.SetLuaFile(luaMain.c_str());
+	
+	//luaManager.Expose_CPPReference("engine", *this);
+	luaManager.Expose_CPPReference("scene", *scene);
+	luaManager.Expose_CPPReference("renderer", renderer);
+	luaManager.Expose_CPPReference("GUI", guirenderer);
+
+	luaManager.RunInitMethod();
 }
 
 void SceneEditor::UseScene(Scene* nscene)
@@ -144,7 +184,7 @@ void SceneEditor::DrawHeighrarchy()
 	float align = 0.0;
 	static ImGuiTreeNodeFlags baseFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
 
-	r.StartWindow("Scene Objects", true, 0.2, 0.94, 0.0, 0.06);
+	guirenderer.StartWindow("Scene Objects", true, 0.2, 0.94, 0.0, 0.06);
 
 	ResourceManager& res = ResourceManager::Get();
 	int i = 0;
@@ -178,17 +218,17 @@ void SceneEditor::DrawHeighrarchy()
 		bool nodeOpen = ImGui::TreeNodeEx(pair.second->name.c_str(), tmpFlags);
 		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
 			inspectedObject = pair.second;
-			
-			camera.position = { inspectedObject->position.x,inspectedObject->position.y,inspectedObject->position.z - 10};
+			selectedNode = i;
+		}
+		if (ImGui::IsMouseDoubleClicked(0) && ImGui::IsItemHovered() && inspectedObject) {
+			camera.position = { inspectedObject->position.x,inspectedObject->position.y,inspectedObject->position.z - 10 };
 			camera.up = { 0,1,0 };
 			camera.right = { 0.0, 0.0, -1.0 };
 			camera.LookAt(inspectedObject->position);
-
-			selectedNode = i;
 		}
 
 		if (nodeOpen) {
-			ImGui::Text("Children go here");
+			//ImGui::Text("Children go here");
 			ImGui::TreePop();
 		}
 		i++;
@@ -198,13 +238,31 @@ void SceneEditor::DrawHeighrarchy()
 	if (!scene->skybox) {
 
 		static char cmSides[6][128];
-
-		ImGui::InputTextWithHint("##cmright",	"Face right",	cmSides[0], IM_ARRAYSIZE(cmSides[0]));
-		ImGui::InputTextWithHint("##cmleft",	"Face left",	cmSides[1], IM_ARRAYSIZE(cmSides[1]));
-		ImGui::InputTextWithHint("##cmtop",		"Face top",		cmSides[2], IM_ARRAYSIZE(cmSides[2]));
-		ImGui::InputTextWithHint("##cmbottom",	"Face bottom",	cmSides[3], IM_ARRAYSIZE(cmSides[3]));
-		ImGui::InputTextWithHint("##cmfront",	"Face front",	cmSides[4], IM_ARRAYSIZE(cmSides[4]));
-		ImGui::InputTextWithHint("##cmback",	"Face back",	cmSides[5], IM_ARRAYSIZE(cmSides[5]));
+		std::string path;
+		ImGui::InputTextWithHint("##cmright",	"Face right",	cmSides[0], IM_ARRAYSIZE(cmSides[0])); ImGui::SameLine(); if(ImGui::Button("Open File##sbRt")){ 
+			path = FileOpener::OpenFileDialogue();
+			if (path.size() >= 1) {strcpy(cmSides[0], path.c_str());}
+		}
+		ImGui::InputTextWithHint("##cmleft",	"Face left",	cmSides[1], IM_ARRAYSIZE(cmSides[1])); ImGui::SameLine(); if(ImGui::Button("Open File##sbLf")){
+			path = FileOpener::OpenFileDialogue();
+			if (path.size() >= 1) { strcpy(cmSides[1], path.c_str()); }
+		}
+		ImGui::InputTextWithHint("##cmtop",		"Face top",		cmSides[2], IM_ARRAYSIZE(cmSides[2])); ImGui::SameLine(); if(ImGui::Button("Open File##sbTp")){
+			path = FileOpener::OpenFileDialogue();
+			if (path.size() >= 1) { strcpy(cmSides[2], path.c_str()); }
+		}
+		ImGui::InputTextWithHint("##cmbottom",	"Face bottom",	cmSides[3], IM_ARRAYSIZE(cmSides[3])); ImGui::SameLine(); if(ImGui::Button("Open File##sbBt")){
+			path = FileOpener::OpenFileDialogue();
+			if (path.size() >= 1) { strcpy(cmSides[3], path.c_str()); }
+		}
+		ImGui::InputTextWithHint("##cmfront",	"Face front",	cmSides[4], IM_ARRAYSIZE(cmSides[4])); ImGui::SameLine(); if(ImGui::Button("Open File##sbFt")){
+			path = FileOpener::OpenFileDialogue();
+			if (path.size() >= 1) { strcpy(cmSides[4], path.c_str()); }
+		}
+		ImGui::InputTextWithHint("##cmback",	"Face back",	cmSides[5], IM_ARRAYSIZE(cmSides[5])); ImGui::SameLine(); if(ImGui::Button("Open File##sbBk")){
+			path = FileOpener::OpenFileDialogue();
+			if (path.size() >= 1) { strcpy(cmSides[5], path.c_str()); }
+		}
 
 		if (ImGui::Button("SetSkybox")) {
 			
@@ -217,7 +275,6 @@ void SceneEditor::DrawHeighrarchy()
 			scene->skybox = nullptr;
 		}
 	}
-
 
 	ImGui::SeparatorText("Lights");
 	//Ambient Light
@@ -318,7 +375,7 @@ void SceneEditor::DrawHeighrarchy()
 
 void SceneEditor::DrawInspector()
 {
-	r.StartWindow("Inspector",true,0.2,0.94,0.8,0.06);
+	guirenderer.StartWindow("Inspector",true,0.2,0.94,0.8,0.06);
 
 	static ImGuiTreeNodeFlags baseFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Leaf;
 	ResourceManager& res = ResourceManager::Get();
@@ -342,7 +399,10 @@ void SceneEditor::DrawInspector()
 		ImGui::InputTextWithHint("##changeObjectName", "Object Name", cmObjName, IM_ARRAYSIZE(cmObjName));
 		ImGui::SameLine();
 		if (ImGui::Button("Change Name") && strlen(cmObjName) > 0) {
+			//res.objects.find(inspectedObject->name);
+			res.objects.erase(inspectedObject->name);
 			inspectedObject->name = cmObjName;
+			res.StoreGameObject(inspectedObject);
 		}
 
 		//TRANSFORM SETTINGS
@@ -422,6 +482,69 @@ void SceneEditor::DrawInspector()
 			}
 			ImGui::EndCombo();
 		}
+		ImGui::Text("Material:");
+		std::string diffName = "";
+		if (!inspectedObject->material.diffuseTexture.empty())
+			diffName = inspectedObject->material.diffuseTexture[0]->name;
+		if (ImGui::BeginCombo("Diffuse##dinspectedModel", diffName.c_str()))
+		{
+			if (ImGui::Selectable("--None--"))
+				inspectedObject->material.diffuseTexture.clear();
+			for (auto it : res.textures)
+			{
+				if (ImGui::Selectable(it.first.c_str())) {
+					if (inspectedObject->material.diffuseTexture.empty()) {
+						inspectedObject->material.diffuseTexture.push_back(it.second);
+					}
+					else {
+						inspectedObject->material.diffuseTexture[0] = it.second;
+					}
+				}
+			}
+			ImGui::EndCombo();
+		}
+		std::string specName = "";
+		if (!inspectedObject->material.specularMap.empty())
+			specName = inspectedObject->material.specularMap[0]->name;
+		if (ImGui::BeginCombo("Specular##dinspectedModel", specName.c_str()))
+		{
+			if (ImGui::Selectable("--None--"))
+				inspectedObject->material.specularMap.clear();
+			for (auto it : res.textures)
+			{
+				if (ImGui::Selectable(it.first.c_str())) {
+					if (inspectedObject->material.specularMap.empty()) {
+						inspectedObject->material.specularMap.push_back(it.second);
+					}
+					else {
+						inspectedObject->material.specularMap[0] = it.second;
+					}
+				}
+			}
+			ImGui::EndCombo();
+		}
+
+		std::string emissName = "";
+		if (!inspectedObject->material.emissionMap.empty())
+			emissName = inspectedObject->material.emissionMap[0]->name;
+		if (ImGui::BeginCombo("Emissive##dinspectedModel", emissName.c_str()))
+		{
+			if (ImGui::Selectable("--None--"))
+				inspectedObject->material.emissionMap.clear();
+			for (auto it : res.textures)
+			{
+				if (ImGui::Selectable(it.first.c_str())) {
+					if (inspectedObject->material.emissionMap.empty()) {
+						inspectedObject->material.emissionMap.push_back(it.second);
+					}
+					else {
+						inspectedObject->material.emissionMap[0] = it.second;
+					}
+				}
+			}
+			ImGui::EndCombo();
+		}
+		ImGui::DragFloat("Shine##materialShine", &inspectedObject->material.shine);
 
 
 		//PHYSICS SETTINGS
@@ -454,15 +577,62 @@ void SceneEditor::DrawMenu()
 		
 		if (ImGui::BeginMenu("File")) {
 			
-			if (ImGui::MenuItem("New")) { scene = new Scene; }
-			if (ImGui::MenuItem("Save", "Ctrl+S", &showSaveFile)) {}
-			if (ImGui::MenuItem("Open",NULL,&showOpenFile)) { }
+			if (ImGui::MenuItem("New")) { 
+				delete scene;
+				scene = new Scene;
+				saveFilePath[0] = '\0';
+				strcpy(luaFilePath, "resources/scripts/main.lua");
+			}
+			if (ImGui::MenuItem("Save", "Ctrl+S")) {
+				if (strlen(saveFilePath) < 1)
+				{
+					std::string savePath = FileOpener::OpenFileDialogue(SAVE_FILE);
+					if (scene && !savePath.empty()) {
+						SaveProject(savePath.c_str());
+						strcpy(saveFilePath, savePath.c_str());
+					}
+				}
+				else if(scene){
+					SaveProject(saveFilePath);
+				}
+			}
+			if (ImGui::MenuItem("Save As",NULL)) {
+				std::string savePath = FileOpener::OpenFileDialogue(SAVE_FILE);
+				if (scene) {
+					SaveProject(savePath.c_str());
+					strcpy(saveFilePath, savePath.c_str());
+				}
+			}
+			if (ImGui::MenuItem("Open",NULL)) {
+				
+				std::string filePath = FileOpener::OpenFileDialogue();
+				if (filePath.size() >= 1) {
+					LoadSceneFromFile(filePath.c_str());
+					
+				}
+			}
 			
 			ImGui::EndMenu();
 		}
 
 		if (ImGui::BeginMenu("Edit")) {
 
+			if (ImGui::MenuItem("Change LUA file")) {
+				
+				std::string lpath = FileOpener::OpenFileDialogue(OPEN_FILE);
+				if (!lpath.empty()) {
+					luaManager.SetLuaFile(lpath.c_str());
+					strcpy(luaFilePath, lpath.c_str());
+
+					luaManager.Expose_CPPReference("scene", *scene);
+					luaManager.RunInitMethod();
+
+				}
+				else {
+					std::cout << "ERROR: Could not load lua file " << lpath << std::endl;
+				}
+
+			}
 			ImGui::MenuItem("Window Title",NULL, &showChangeWindow);
 			ImGui::MenuItem("Window Icon");
 
@@ -499,17 +669,33 @@ void SceneEditor::DrawMenu()
 	float buttonWidth = 80;
 	ImGui::SetCursorPosX((viewport->WorkSize.x/2) - (((buttonWidth + ImGui::GetStyle().ItemSpacing.x) * 3)/2));
 	
-	ImGui::Button("Play", { buttonWidth,20 });
+
+	static ImVec4 baseCol = ImGui::GetStyle().Colors[ImGuiCol_Button];
+	static ImVec4 selectedCol = ImGui::GetStyle().Colors[ImGuiCol_Header];
+	static ImVec4 pButtonCol = baseCol;
+
+	if (isRunning)
+		pButtonCol = selectedCol;
+	else
+		pButtonCol = baseCol;
+
+	ImGui::PushStyleColor(ImGuiCol_Button,pButtonCol);
+	if (ImGui::Button("Play", { buttonWidth,20 })) { 
+		isRunning = !isRunning;
+	}
+	ImGui::PopStyleColor();
+
+
 	ImGui::SameLine();
-	ImGui::Button("Pause", { buttonWidth,20 }); 
+	if (ImGui::Button("Pause", { buttonWidth,20 })) { isRunning = false; }
 	ImGui::SameLine();
 	if (ImGui::Button("FreeCam", { buttonWidth,20 })) { InputManager::Get().SetMouseLock(false); }
 
-	r.EndWindow();
+	guirenderer.EndWindow();
 
 	DrawWindowSettings(&showChangeWindow);
 	DrawDebug(&showDebug);
-	DrawOpenFile(&showOpenFile);
+	//DrawOpenFile(&showOpenFile);
 	DrawSaveFile(&showSaveFile);
 }
 
@@ -517,7 +703,7 @@ void SceneEditor::DrawResources()
 {
 	float windowWidth = 0.6;
 	float resourceWidth = 64;
-	r.StartWindow("Resource Inspector", true, windowWidth, 0.3, 0.2, 0.7);
+	guirenderer.StartWindow("Resource Inspector", true, windowWidth, 0.3, 0.2, 0.7);
 	ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
 	ResourceManager& res = ResourceManager::Get();
 
@@ -530,9 +716,18 @@ void SceneEditor::DrawResources()
 		if (ImGui::BeginTabItem("Textures"))
 		{
 			//Add textures
-			static char texturePath[256] = "";
-			static char textureName[256] = "";
-			ImGui::InputTextWithHint("##texturefilePathInput", "File Path", texturePath, IM_ARRAYSIZE(texturePath));
+			static char texturePath[512] = "";
+			static char textureName[512] = "";
+			ImGui::InputTextWithHint("##texturefilePathInput", "File Path", texturePath, IM_ARRAYSIZE(texturePath)); 
+			ImGui::SameLine();
+			if (ImGui::Button("Open File##openTextureFile"))
+			{
+				std::string tPath = FileOpener::OpenFileDialogue();
+				if (tPath.size() >= 1) {
+					strcpy(texturePath, tPath.c_str());
+				}
+
+			}
 			ImGui::InputTextWithHint("##textureNameInput", "Texture Name", textureName, IM_ARRAYSIZE(textureName));
 
 			if (ImGui::Button("Add Texture"))
@@ -601,53 +796,21 @@ void SceneEditor::DrawResources()
 		if (ImGui::BeginTabItem("3D Models"))
 		{
 			ImGui::Columns(3, "texCols", false);
-			//textures
-			ImGui::Text("Material:");
-			ImGui::PushItemWidth((viewport->Size.x * windowWidth) / 4);
-			static std::string difTexPreview;
-			if (ImGui::BeginCombo("Diffuse##modelTexture", difTexPreview.c_str()))
-			{
-				if (ImGui::Selectable("--None--"))
-					difTexPreview = "";
-				for (auto  it : res.textures)
-				{
-					if (ImGui::Selectable(it.first.c_str())) {
-						difTexPreview = it.first;
-					}
-				}
-				ImGui::EndCombo();
-			}
-			static std::string specTexPreview;
-			if (ImGui::BeginCombo("Specular##modelTexture", specTexPreview.c_str()))
-			{
-				if (ImGui::Selectable("--None--"))
-					specTexPreview = "";
-				for (auto it : res.textures)
-				{
-					if (ImGui::Selectable(it.first.c_str())) {
-						specTexPreview = it.first;
-					}
-				}
-				ImGui::EndCombo();
-			}
-			static std::string emisTexPreview;
-			if (ImGui::BeginCombo("Emissive##modelTexture", emisTexPreview.c_str()))
-			{
-				if (ImGui::Selectable("--None--"))
-					emisTexPreview = "";
-				for (auto it : res.textures)
-				{
-					if (ImGui::Selectable(it.first.c_str())) {
-						emisTexPreview = it.first;
-					}
-				}
-				ImGui::EndCombo();
-			}
+	
 
 			ImGui::Text("Model File and Name:");
-			static char modelName[256] = "";
-			static char modelPath[256] = "";
+			static char modelName[512] = "";
+			static char modelPath[512] = "";
 			ImGui::InputTextWithHint("##modelPath", "File path" , modelPath, IM_ARRAYSIZE(modelPath));
+			ImGui::SameLine();
+			if (ImGui::Button("Open File##openTextureFile"))
+			{
+				std::string mPath = FileOpener::OpenFileDialogue();
+				if (mPath.size() >= 1) {
+					strcpy(modelPath, mPath.c_str());
+				}
+
+			}
 			ImGui::InputTextWithHint("##modelName", "Model Name", modelName, IM_ARRAYSIZE(modelName));
 
 			if (ImGui::Button("Add Model")) {
@@ -655,10 +818,10 @@ void SceneEditor::DrawResources()
 				std::string extension = std::string(modelPath).substr(idx + 1);
 
 				if(extension.compare("obj") == 0){
-					res.LoadModel(modelName, modelPath, difTexPreview, emisTexPreview, specTexPreview);
+					res.LoadModel(modelName, modelPath);
 				}
 				else if (extension.compare("md2") == 0) {
-					res.LoadAnimatedModel(modelName, modelPath, difTexPreview, emisTexPreview, specTexPreview);
+					res.LoadAnimatedModel(modelName, modelPath);
 				}
 			}
 
@@ -686,52 +849,6 @@ void SceneEditor::DrawResources()
 
 			if (inspectedModel) {
 				ImGui::Text(inspectedModel->name.c_str());
-
-				std::string diffName = "";
-				if(inspectedModel->GetDiffuseTexture(0))
-					diffName = inspectedModel->GetDiffuseTexture(0)->name;
-				if (ImGui::BeginCombo("Diffuse##dinspectedModel", diffName.c_str()))
-				{
-					if (ImGui::Selectable("--None--"))
-						inspectedModel->ResetDiffuseTexture();
-					for (auto it : res.textures)
-					{
-						if (ImGui::Selectable(it.first.c_str())) {
-							inspectedModel->SetDiffuseTexture(0,it.second);
-						}
-					}
-					ImGui::EndCombo();
-				}
-				std::string specName = "";
-				if (inspectedModel->GetSpecularTexture(0))
-					specName = inspectedModel->GetSpecularTexture(0)->name;
-				if (ImGui::BeginCombo("Specular##sinspectedModel", specName.c_str()))
-				{
-					if (ImGui::Selectable("--None--"))
-						inspectedModel->ResetSpecularTexture();
-					for (auto it : res.textures)
-					{
-						if (ImGui::Selectable(it.first.c_str())) {
-							inspectedModel->SetSpecularTexture(0, it.second);
-						}
-					}
-					ImGui::EndCombo();
-				}
-				std::string EmissName = "";
-				if (inspectedModel->GetEmissionTexture(0))
-					EmissName = inspectedModel->GetEmissionTexture(0)->name;
-				if (ImGui::BeginCombo("Emission##einspectedModel", EmissName.c_str()))
-				{
-					if (ImGui::Selectable("--None--"))
-						inspectedModel->ResetEmissionTexture();
-					for (auto it : res.textures)
-					{
-						if (ImGui::Selectable(it.first.c_str())) {
-							inspectedModel->SetEmissionTexture(0, it.second);
-						}
-					}
-					ImGui::EndCombo();
-				}
 
 				if (dynamic_cast<md2_model_t*>(inspectedModel)) {
 					md2_model_t* inspectedMD2 = dynamic_cast<md2_model_t*>(inspectedModel);
@@ -797,7 +914,7 @@ void SceneEditor::DrawResources()
 		ImGui::EndTabBar();
 	}
 
-	r.EndWindow();
+	guirenderer.EndWindow();
 }
 
 void SceneEditor::DrawWindowSettings(bool* showChangeWindow)
@@ -924,7 +1041,7 @@ void SceneEditor::Draw3DWidget()
 	
 	}
 
-	r.EndWindow();
+	guirenderer.EndWindow();
 
 }
 
@@ -1014,11 +1131,11 @@ void SceneEditor::CheckKeys()
 	if (savePressed) {
 		if(!saveDown)
 			if (std::strlen(saveFilePath) > 0 && scene) {
-				SceneLoader::SaveScene(scene, saveFilePath);
+				SaveProject(saveFilePath);
 			}
 			else if(scene){
 				strcpy(saveFilePath,"untitled_Save.json");
-				SceneLoader::SaveScene(scene, saveFilePath);
+				SaveProject(saveFilePath);
 			}
 		saveDown = true;
 	}
