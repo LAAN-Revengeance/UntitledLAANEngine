@@ -571,7 +571,6 @@ void SceneEditor::DrawInspector()
 			physicsManager.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f,2.0f);
 		}
 
-
 		static const char* colliderNames[4] = {"Box Collider","Sphere Collider", "Capsule Collider", "Terrain Collider"};
 		if (inspectedObject->physicsBody) {
 

@@ -81,6 +81,11 @@ public:
 	PhysicsCollider GetCollider(unsigned int colliderIndex);
 
 		/**
+		*	@brief return number of colliders
+		*	@return number of colliders this physicsBody has
+		*/
+	unsigned int GetNumColliders();
+		/**
 		*	@brief return physicsbody ID in physics world
 		*	@return ID of physics body
 		*/

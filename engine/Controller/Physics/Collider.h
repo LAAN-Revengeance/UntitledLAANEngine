@@ -17,7 +17,6 @@ public:
 		bounce(0.5),
 		friction(0.3)
 	{
-		type = COLLIDER_INVALID;
 	}
 
 	float mass;
@@ -66,9 +65,9 @@ public:
 	}
 
 protected:
-	rp3d::Collider* rp3dCollider;
+	rp3d::Collider* rp3dCollider = nullptr;
 
-	int type;
+	int type = COLLIDER_INVALID;
 
 	friend class PhysicsManager;
 	friend class SceneEditor;
