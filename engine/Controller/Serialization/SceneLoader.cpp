@@ -321,6 +321,53 @@ Scene& SceneLoader::LoadScene(const char* inName)
         if (jobj.isMember("emis"))
             go->material.emissionMap.push_back(res.GetTexture(jobj["emis"].asString()));
 
+        //physics properties
+        PhysicsManager& physicsManager = PhysicsManager::Get();
+
+        PhysicsBody pb = physicsManager.AddPhysicsBody(*go);
+        for (int i = 0; i < jobj["physics"].size(); i++)
+        {
+            glm::vec3 nOffset;
+            nOffset.x = jobj["physics"][i]["offset"][0].asFloat();
+            nOffset.y = jobj["physics"][i]["offset"][1].asFloat();
+            nOffset.z = jobj["physics"][i]["offset"][2].asFloat();
+
+            glm::vec3 nRotation;
+            nRotation.x = jobj["physics"][i]["rotation"][0].asFloat();
+            nRotation.y = jobj["physics"][i]["rotation"][1].asFloat();
+            nRotation.z = jobj["physics"][i]["rotation"][2].asFloat();
+
+            int nType = jobj["physics"][i]["type"].asInt();
+            float nRadius;
+            float nHeight;
+            switch (nType)
+            {
+            case COLLIDER_BOX:
+                glm::vec3 nScale;
+                nScale.x = jobj["physics"][i]["scale"][0].asFloat();
+                nScale.y = jobj["physics"][i]["scale"][1].asFloat();
+                nScale.z = jobj["physics"][i]["scale"][2].asFloat();
+                physicsManager.AddBoxCollider(pb,nScale);
+                break;
+            case COLLIDER_SPHERE:
+                nRadius = jobj["physics"][i]["radius"].asFloat();
+                physicsManager.AddSphereCollider(pb,nRadius);
+                break;
+            case COLLIDER_CAPSULE:
+                nRadius = jobj["physics"][i]["radius"].asFloat();
+                nHeight = jobj["physics"][i]["height"].asFloat();
+                physicsManager.AddCapsuleCollider(pb, nRadius, nHeight);
+                break;
+
+            default:
+                break;
+            }
+
+            pb.GetCollider(i).SetOffset(nOffset);
+            pb.GetCollider(i).SetRotation(nRotation);
+        }
+        
+
         res.StoreGameObject(go);
         scene->AddObject(*go);
     }
