@@ -46,7 +46,8 @@ void PhysicsBody::SetPosition(float x, float y, float z)
 
 void PhysicsBody::SetRotation(float x, float y, float z)
 {
-	
+	rp3d::Transform nTransform(body->getTransform().getPosition(), rp3d::Quaternion().fromEulerAngles(x, y, z));
+	body->setTransform(nTransform);
 }
 
 PhysicsCollider PhysicsBody::GetCollider(unsigned int colliderIndex)

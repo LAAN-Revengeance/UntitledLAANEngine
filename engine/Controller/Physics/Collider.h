@@ -32,16 +32,17 @@ public:
 		rp3d::Quaternion rp3dquat = rp3dCollider->getLocalToBodyTransform().getOrientation();
 
 		glm::quat glmquat(rp3dquat.w, rp3dquat.x, rp3dquat.y, rp3dquat.z);
-		glm::vec3 rVec = glm::eulerAngles(glmquat);
+		glm::vec3 rVec = glm::degrees(glm::eulerAngles(glmquat));
 		return rVec;
 	}
 
 	void SetRotation(glm::vec3 nRot) {
 
+		glm::vec3 nRotRad = glm::radians(nRot);
 		if (rp3dCollider) {
 			rp3d::CollisionBody* body = rp3dCollider->getBody();
 			rp3d::CollisionShape* shape = rp3dCollider->getCollisionShape();
-			rp3d::Transform nTransform(rp3dCollider->getLocalToBodyTransform().getPosition(), rp3d::Quaternion().fromEulerAngles(nRot.x,nRot.y,nRot.z));
+			rp3d::Transform nTransform(rp3dCollider->getLocalToBodyTransform().getPosition(), rp3d::Quaternion().fromEulerAngles(nRotRad.x, nRotRad.y, nRotRad.z));
 
 			body->removeCollider(rp3dCollider);
 			body->addCollider(shape, nTransform);

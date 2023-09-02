@@ -21,13 +21,13 @@ bool GameObject::CheckInFrustum(Frustum& frustum)
 
 void GameObject::SetPosition(glm::vec3 nPos)
 {
-	//rigidBody.SetPosition(nPos);
+	physicsBody->SetPosition(nPos.x,nPos.y,nPos.z);
 	position = nPos;
 }
 
 void GameObject::SetRotation(glm::vec3 nRot)
 {
-	//rigidBody.SetRotation(nRot);
+	physicsBody->SetRotation(nRot.x, nRot.y, nRot.z);
 	rotation = nRot;
 }
 
