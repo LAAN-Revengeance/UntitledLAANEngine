@@ -86,19 +86,31 @@ PhysicsBody& PhysicsManager::AddPhysicsBody(GameObject& go)
 void PhysicsManager::AddSphereCollider(PhysicsBody& pb, float radius)
 {
 	SphereShape* shape = rp3dPhysicsCommon.createSphereShape(radius);
-	pb.body->addCollider(shape, Transform::identity());
+	rp3d::Collider* rpCollider = pb.body->addCollider(shape, Transform::identity());
+
+	SphereCollider collider;
+	collider.rp3dCollider = rpCollider;
+	pb.colliders.push_back(collider);
 }
 
 void PhysicsManager::AddBoxCollider(PhysicsBody& pb, glm::vec3 scale)
 {
 	BoxShape* shape = rp3dPhysicsCommon.createBoxShape(Vector3(scale.x, scale.y, scale.z));
-	pb.body->addCollider(shape, Transform::identity());
+	rp3d::Collider* rpCollider = pb.body->addCollider(shape, Transform::identity());
+
+	BoxCollider collider;
+	collider.rp3dCollider = rpCollider;
+	pb.colliders.push_back(collider);
 }
 
 void PhysicsManager::AddCapsuleCollider(PhysicsBody& pb, float radius, float height)
 {
 	CapsuleShape* shape = rp3dPhysicsCommon.createCapsuleShape(radius, height);
-	pb.body->addCollider(shape, Transform::identity());
+	rp3d::Collider* rpCollider = pb.body->addCollider(shape, Transform::identity());
+
+	CapsuleCollider collider;
+	collider.rp3dCollider = rpCollider;
+	pb.colliders.push_back(collider);
 }
 
 void PhysicsManager::DrawPhysicsWorld(Camera& camera)

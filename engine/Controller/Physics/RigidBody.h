@@ -1,6 +1,6 @@
 #pragma once
 #include <reactphysics3d/reactphysics3d.h>
-#include <glm/glm.hpp>
+#include "Collider.h"
 
 /**
 *	@Class PhysicsBody
@@ -74,6 +74,18 @@ public:
 	void SetRotation(float x, float y, float z);
 
 		/**
+		*	@brief return collider infor
+		*	@param colliderIndex index of this collder.
+		*	@return collider info at colliderIndex
+		*/
+	PhysicsCollider GetCollider(unsigned int colliderIndex);
+
+		/**
+		*	@brief return number of colliders
+		*	@return number of colliders this physicsBody has
+		*/
+	unsigned int GetNumColliders();
+		/**
 		*	@brief return physicsbody ID in physics world
 		*	@return ID of physics body
 		*/
@@ -85,10 +97,14 @@ private:
 
 	unsigned int ID = -1;
 
+
+	std::vector<PhysicsCollider> colliders;
 	//rp3d collision body, stores position and rotation in physics space.
 	//also stored rp3d collider objects
 	rp3d::CollisionBody* body = nullptr;
 
 	//mass of the rigidbody
 	float mass = 1;
+
+	friend class SceneEditor;
 };

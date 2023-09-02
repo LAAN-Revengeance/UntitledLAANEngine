@@ -321,6 +321,53 @@ Scene& SceneLoader::LoadScene(const char* inName)
         if (jobj.isMember("emis"))
             go->material.emissionMap.push_back(res.GetTexture(jobj["emis"].asString()));
 
+        //physics properties
+        PhysicsManager& physicsManager = PhysicsManager::Get();
+
+        PhysicsBody pb = physicsManager.AddPhysicsBody(*go);
+        for (int i = 0; i < jobj["physics"].size(); i++)
+        {
+            glm::vec3 nOffset;
+            nOffset.x = jobj["physics"][i]["offset"][0].asFloat();
+            nOffset.y = jobj["physics"][i]["offset"][1].asFloat();
+            nOffset.z = jobj["physics"][i]["offset"][2].asFloat();
+
+            glm::vec3 nRotation;
+            nRotation.x = jobj["physics"][i]["rotation"][0].asFloat();
+            nRotation.y = jobj["physics"][i]["rotation"][1].asFloat();
+            nRotation.z = jobj["physics"][i]["rotation"][2].asFloat();
+
+            int nType = jobj["physics"][i]["type"].asInt();
+            float nRadius;
+            float nHeight;
+            switch (nType)
+            {
+            case COLLIDER_BOX:
+                glm::vec3 nScale;
+                nScale.x = jobj["physics"][i]["scale"][0].asFloat();
+                nScale.y = jobj["physics"][i]["scale"][1].asFloat();
+                nScale.z = jobj["physics"][i]["scale"][2].asFloat();
+                physicsManager.AddBoxCollider(pb,nScale);
+                break;
+            case COLLIDER_SPHERE:
+                nRadius = jobj["physics"][i]["radius"].asFloat();
+                physicsManager.AddSphereCollider(pb,nRadius);
+                break;
+            case COLLIDER_CAPSULE:
+                nRadius = jobj["physics"][i]["radius"].asFloat();
+                nHeight = jobj["physics"][i]["height"].asFloat();
+                physicsManager.AddCapsuleCollider(pb, nRadius, nHeight);
+                break;
+
+            default:
+                break;
+            }
+
+            pb.GetCollider(i).SetOffset(nOffset);
+            pb.GetCollider(i).SetRotation(nRotation);
+        }
+        
+
         res.StoreGameObject(go);
         scene->AddObject(*go);
     }
@@ -375,84 +422,51 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
     if (!obj->material.emissionMap.empty())
         jobj["emis"] = obj->material.emissionMap[0]->name;
 
-    /*
+    
     //rigidbody
-    Json::Value rb;
+    Json::Value jphysicsBody;
+    PhysicsBody* physicsBody = obj->physicsBody;
 
-    rb["contact_listen"] = obj->rigidBody.GetIsContactListen();
-    rb["mass"] = obj->rigidBody.GetMass();
-    rb["mod"] = obj->rigidBody.GetModType();
-    rb["damp_linear"] = obj->rigidBody.GetDampeningLinear();
-    rb["damp_angle"] = obj->rigidBody.GetDampeningAngle();
-
-    rb["mass_center"].append(obj->rigidBody.GetCenterOfMass().x);
-    rb["mass_center"].append(obj->rigidBody.GetCenterOfMass().y);
-    rb["mass_center"].append(obj->rigidBody.GetCenterOfMass().z);
-
-    rb["axis_linear_factor"].append(obj->rigidBody.GetAxisLinearFactor().x);
-    rb["axis_linear_factor"].append(obj->rigidBody.GetAxisLinearFactor().y);
-    rb["axis_linear_factor"].append(obj->rigidBody.GetAxisLinearFactor().z);
-
-    rb["axis_angle_factor"].append(obj->rigidBody.GetAxisAngleFactor().x);
-    rb["axis_angle_factor"].append(obj->rigidBody.GetAxisAngleFactor().y);
-    rb["axis_angle_factor"].append(obj->rigidBody.GetAxisAngleFactor().z);
-
-    rb["linear_velocity"].append(obj->rigidBody.GetLinearVelocty().x);
-    rb["linear_velocity"].append(obj->rigidBody.GetLinearVelocty().y);
-    rb["linear_velocity"].append(obj->rigidBody.GetLinearVelocty().z);
-
-    rb["angular_velocity"].append(obj->rigidBody.GetAngularVelocity().x);
-    rb["angular_velocity"].append(obj->rigidBody.GetAngularVelocity().y);
-    rb["angular_velocity"].append(obj->rigidBody.GetAngularVelocity().z);
-
-    Json::Value rbcollider;
-    PhysicsCollider* collider = obj->rigidBody.GetCollider();
-
-    rbcollider["type"] = collider->GetType();
-    if (collider->GetType() != COLLIDER_INVALID)
+    if(physicsBody)
+    for (int i = 0; i < physicsBody->GetNumColliders(); ++i)
     {
-        rbcollider["mass"] = collider->mass;
-        rbcollider["bounce"] = collider->bounce;
-        rbcollider["friction"] = collider->friction;
-        rbcollider["offset"].append(collider->offset.x);
-        rbcollider["offset"].append(collider->offset.y);
-        rbcollider["offset"].append(collider->offset.z);
+        Json::Value jcollider;
+        PhysicsCollider physicsCollider = physicsBody->GetCollider(i);
+        jcollider["type"]       = physicsCollider.GetType();
 
-        rbcollider["rotation"].append(collider->rotation.x);
-        rbcollider["rotation"].append(collider->rotation.y);
-        rbcollider["rotation"].append(collider->rotation.z);
+        jcollider["offset"].append(physicsCollider.GetOffset().x);
+        jcollider["offset"].append(physicsCollider.GetOffset().y);
+        jcollider["offset"].append(physicsCollider.GetOffset().z);
+
+        jcollider["rotation"].append(physicsCollider.GetRotation().x);
+        jcollider["rotation"].append(physicsCollider.GetRotation().y);
+        jcollider["rotation"].append(physicsCollider.GetRotation().z);
+
+        switch (physicsBody->GetCollider(i).GetType())
+        {
+        case COLLIDER_BOX:
+            jcollider["scale"].append(static_cast<BoxCollider*>(&physicsCollider)->GetScale().x);
+            jcollider["scale"].append(static_cast<BoxCollider*>(&physicsCollider)->GetScale().y);
+            jcollider["scale"].append(static_cast<BoxCollider*>(&physicsCollider)->GetScale().z);
+            break;
+
+        case COLLIDER_SPHERE:
+            jcollider["radius"] = (static_cast<SphereCollider*>(&physicsCollider)->GetRadius());
+            break;
+
+        case COLLIDER_CAPSULE:
+            jcollider["radius"] = (static_cast<CapsuleCollider*>(&physicsCollider)->GetRadius());
+            jcollider["height"] = (static_cast<CapsuleCollider*>(&physicsCollider)->GetHeight());
+            break;
+        default:
+            break;
+        }
+        jphysicsBody.append(jcollider);
     }
 
-    switch (collider->GetType())
-    {
-    case COLLIDER_BOX:
-        rb["scale"].append(static_cast<BoxCollider*>(collider)->scale.x);
-        rb["scale"].append(static_cast<BoxCollider*>(collider)->scale.y);
-        rb["scale"].append(static_cast<BoxCollider*>(collider)->scale.z);
-        break;
-    case COLLIDER_SPHERE:
-        rb["radius"] = static_cast<SphereCollider*>(collider)->radius;
-        break;
-    case COLLIDER_CAPSULE:
-        rb["radius"] = static_cast<CapsuleCollider*>(collider)->radius;
-        rb["height"] = static_cast<CapsuleCollider*>(collider)->height;
-        break;
-    case COLLIDER_TERRAIN:
-        rb["rows"] = static_cast<TerrainCollider*>(collider)->rows;
-        rb["columns"] = static_cast<TerrainCollider*>(collider)->columns;
-        rb["min"] = static_cast<TerrainCollider*>(collider)->min;
-        rb["max"] = static_cast<TerrainCollider*>(collider)->max;
-        rb["heights"] = static_cast<TerrainCollider*>(collider)->heights;
-        break;
-    case COLLIDER_INVALID:
-        break;
-    default:
-        break;
-    }
-    rb["collider"] = rbcollider;
-    jobj["rigidbody"] = rb;
-    //end rigidbody
-    */
+    jobj["physics"] = jphysicsBody;
+    //end physicsbody
+    
     //state machine info
     AIManager& ai = AIManager::Get();
 

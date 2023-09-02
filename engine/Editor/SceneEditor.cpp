@@ -23,10 +23,10 @@ void SceneEditor::Run(const char* filePath)
 			luaManager.RunUpdateMethod(deltaTime);
 		}
 
-
 		renderer.Draw(camera, *scene, deltaTime);
-		Draw(deltaTime);
+		physicsManager.DrawPhysicsWorld(camera);
 
+		Draw(deltaTime);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -550,6 +550,92 @@ void SceneEditor::DrawInspector()
 		//PHYSICS SETTINGS
 		ImGui::SeparatorText("Physics");
 
+		//Box
+		if (ImGui::Button("Add Box Collider##box")){
+			if (!inspectedObject->physicsBody)
+				physicsManager.AddPhysicsBody(*inspectedObject);
+			physicsManager.AddBoxCollider(*inspectedObject->physicsBody, {1.0f,1.0f,1.0f});
+		}
+
+		//Sphere
+		if (ImGui::Button("Add Sphere Collider##sphere")) {
+			if (!inspectedObject->physicsBody)
+				physicsManager.AddPhysicsBody(*inspectedObject);
+			physicsManager.AddSphereCollider(*inspectedObject->physicsBody, 1.0f);
+		}
+
+		//Capsule
+		if (ImGui::Button("Add Capsule Collider##capsule")) {
+			if (!inspectedObject->physicsBody)
+				physicsManager.AddPhysicsBody(*inspectedObject);
+			physicsManager.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f,2.0f);
+		}
+
+		static const char* colliderNames[4] = {"Box Collider","Sphere Collider", "Capsule Collider", "Terrain Collider"};
+		if (inspectedObject->physicsBody) {
+
+			PhysicsBody* pb = inspectedObject->physicsBody;
+			unsigned int i = 0;
+			for (auto& it : pb->colliders)
+			{
+
+				std::string nodeName = std::string("##") + std::to_string(i);
+				if (ImGui::TreeNodeEx((std::string(colliderNames[it.GetType() - 1]) + nodeName).c_str())) {
+					glm::vec3 nOffset = it.GetOffset();
+					if (ImGui::DragFloat3((std::string("position") + nodeName).c_str(), &nOffset.x, 0.01f))
+					{
+						it.SetOffset(nOffset);
+					}
+
+					glm::vec3 nRotation = it.GetRotation();
+					if (ImGui::DragFloat3((std::string("rotation") + nodeName).c_str(), &nRotation.x, 0.01f))
+					{
+						it.SetRotation(nRotation);
+					}
+					
+					if (it.GetType() == COLLIDER_BOX) {
+
+						glm::vec3 nScale = static_cast<BoxCollider*>(&it)->GetScale();
+						if (ImGui::DragFloat3((std::string("scale") + nodeName).c_str(), &nScale.x, 0.01f))
+						{
+							static_cast<BoxCollider*>(&it)->SetScale(nScale);
+						}
+					}
+
+					if (it.GetType() == COLLIDER_SPHERE) {
+
+						float nRadius = static_cast<SphereCollider*>(&it)->GetRadius();
+						if (ImGui::DragFloat((std::string("Radius") + nodeName).c_str(), &nRadius, 0.01f))
+						{
+							if (nRadius > 0)
+							static_cast<SphereCollider*>(&it)->SetRadius(nRadius);
+						}
+					}
+
+					if (it.GetType() == COLLIDER_CAPSULE) {
+
+						float nRadius = static_cast<CapsuleCollider*>(&it)->GetRadius();
+						float nHeight = static_cast<CapsuleCollider*>(&it)->GetHeight();
+						if (ImGui::DragFloat((std::string("Radius") + nodeName).c_str(), &nRadius, 0.01f))
+						{
+							if (nRadius > 0)
+							static_cast<CapsuleCollider*>(&it)->SetRadius(nRadius);
+						}
+						if (ImGui::DragFloat((std::string("Height") + nodeName).c_str(), &nHeight, 0.01f))
+						{
+							if(nHeight > 0)
+							static_cast<CapsuleCollider*>(&it)->SetHeight(nHeight);
+						}
+					}
+
+					ImGui::TreePop();
+				}
+				++i;
+			}
+		}
+		
+		//std::string dName = std::string("Dir Light##" + std::to_string(i));
+	
 
 		changeObject = false;
 	}
