@@ -551,35 +551,24 @@ void SceneEditor::DrawInspector()
 		ImGui::SeparatorText("Physics");
 
 		//Box
-		static glm::vec3 boxSettings(1.0f,1.0f,1.0f);
-		ImGui::Text("Box Collider");
-		ImGui::DragFloat3("Bounding Box##boxColSettings",&boxSettings.x);
-		if (ImGui::Button("Add Collider##box")){
+		if (ImGui::Button("Add Box Collider##box")){
 			if (!inspectedObject->physicsBody)
 				physicsManager.AddPhysicsBody(*inspectedObject);
-			physicsManager.AddBoxCollider(*inspectedObject->physicsBody, boxSettings);
+			physicsManager.AddBoxCollider(*inspectedObject->physicsBody, {1.0f,1.0f,1.0f});
 		}
 
 		//Sphere
-		static float sphereRad = 1.0f;
-		ImGui::Text("Sphere Collider");
-		ImGui::DragFloat("##sphereColSettings", &sphereRad);
-		if (ImGui::Button("Add Collider##sphere")) {
+		if (ImGui::Button("Add Sphere Collider##sphere")) {
 			if (!inspectedObject->physicsBody)
 				physicsManager.AddPhysicsBody(*inspectedObject);
-			physicsManager.AddSphereCollider(*inspectedObject->physicsBody, sphereRad);
+			physicsManager.AddSphereCollider(*inspectedObject->physicsBody, 1.0f);
 		}
 
 		//Capsule
-		static float capsuleRad = 1.0f;
-		static float capsuleHeight = 2.0f;
-		ImGui::Text("Capsule Collider");
-		ImGui::DragFloat("##capsuleColRad", &capsuleRad);
-		ImGui::DragFloat("##capsuleColHeight", &capsuleHeight);
-		if (ImGui::Button("Add Collider##capsule")) {
+		if (ImGui::Button("Add Capsule Collider##capsule")) {
 			if (!inspectedObject->physicsBody)
 				physicsManager.AddPhysicsBody(*inspectedObject);
-			physicsManager.AddCapsuleCollider(*inspectedObject->physicsBody, capsuleRad,capsuleHeight);
+			physicsManager.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f,2.0f);
 		}
 
 
