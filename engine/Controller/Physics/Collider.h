@@ -1,5 +1,7 @@
 #pragma once
+#include <reactphysics3d/reactphysics3d.h>
 #include <glm/glm.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 const int COLLIDER_INVALID	= 0;
 const int COLLIDER_BOX		= 1;
@@ -7,14 +9,13 @@ const int COLLIDER_SPHERE	= 2;
 const int COLLIDER_CAPSULE	= 3;
 const int COLLIDER_TERRAIN	= 4;
 
-struct PhysicsCollider
+class PhysicsCollider
 {
+public:
 	PhysicsCollider() :
 		mass(1),
 		bounce(0.5),
-		friction(0.3),
-		offset({0,0,0}),
-		rotation({0,0,0})
+		friction(0.3)
 	{
 		type = COLLIDER_INVALID;
 	}
@@ -22,85 +23,162 @@ struct PhysicsCollider
 	float mass;
 	float bounce;
 	float friction;
-	glm::vec3 offset;
-	glm::vec3 rotation;
+
+	glm::vec3 GetOffset() {
+		rp3d::Vector3 rVec = rp3dCollider->getLocalToBodyTransform().getPosition();
+		return {rVec.x,rVec.y,rVec.z};
+	}
+
+	glm::vec3 GetRotation() {
+		rp3d::Quaternion rp3dquat = rp3dCollider->getLocalToBodyTransform().getOrientation();
+
+		glm::quat glmquat(rp3dquat.w, rp3dquat.x, rp3dquat.y, rp3dquat.z);
+		glm::vec3 rVec = glm::eulerAngles(glmquat);
+		return rVec;
+	}
+
+	void SetRotation(glm::vec3 nRot) {
+
+		if (rp3dCollider) {
+			rp3d::CollisionBody* body = rp3dCollider->getBody();
+			rp3d::CollisionShape* shape = rp3dCollider->getCollisionShape();
+			rp3d::Transform nTransform(rp3dCollider->getLocalToBodyTransform().getPosition(), rp3d::Quaternion().fromEulerAngles(nRot.x,nRot.y,nRot.z));
+
+			body->removeCollider(rp3dCollider);
+			body->addCollider(shape, nTransform);
+		}
+	}
+
+	void SetOffset(glm::vec3 nOffset) {
+		if (rp3dCollider) {
+			
+			rp3d::CollisionBody* body = rp3dCollider->getBody();
+			rp3d::CollisionShape* shape = rp3dCollider->getCollisionShape();
+			rp3d::Transform nTransform({ nOffset.x,nOffset.y,nOffset.z }, rp3dCollider->getLocalToBodyTransform().getOrientation());
+
+			body->removeCollider(rp3dCollider);
+			body->addCollider(shape,nTransform);
+		}
+	}
 
 	int GetType() {
 		return type;
 	}
 
 protected:
+	rp3d::Collider* rp3dCollider;
+
 	int type;
+
+	friend class PhysicsManager;
+	friend class SceneEditor;
 };
 
-struct BoxCollider : public PhysicsCollider
+class BoxCollider : public PhysicsCollider
 {
-	BoxCollider(float nMass, float nBounce, float nFriction, glm::vec3 nOffset, glm::vec3 nRotation,glm::vec3 nScale)
-	{
-		mass = nMass;
-		bounce = nBounce;
-		friction = nFriction;
-		type = COLLIDER_BOX;
-		offset = nOffset;
-		rotation = nRotation;
-		scale = nScale;
+public:
+	BoxCollider() {
 		type = COLLIDER_BOX;
 	}
-	glm::vec3 scale;
+
+	glm::vec3 GetScale() {
+
+		if (rp3dCollider) {
+			rp3d::BoxShape* boxShape = static_cast<rp3d::BoxShape*>(rp3dCollider->getCollisionShape());
+
+			rp3d::Vector3 rVec = boxShape->getHalfExtents();
+			return {rVec.x, rVec.y, rVec.z};
+		}
+		return glm::vec3(0);
+	}
+
+	void SetScale(glm::vec3 nScale) {
+		if (rp3dCollider) {
+			rp3d::BoxShape* boxShape = static_cast<rp3d::BoxShape*>(rp3dCollider->getCollisionShape());
+			boxShape->setHalfExtents({nScale.x,nScale.y,nScale.z});
+		}
+	}
+private:
 };
 
-struct SphereCollider : public PhysicsCollider
+class SphereCollider : public PhysicsCollider
 {
-	SphereCollider(float nMass, float nBounce, float nFriction, glm::vec3 nOffset, glm::vec3 nRotation,float nRadius)
-	{
-		mass = nMass;
-		bounce = nBounce;
-		friction = nFriction;
-		type = COLLIDER_BOX;
-		offset = nOffset;
-		rotation = nRotation;
-		radius = nRadius;
+public:
+	SphereCollider() {
 		type = COLLIDER_SPHERE;
 	}
-	float radius;
+
+	float GetRadius() {
+		if (rp3dCollider)
+		{
+			return static_cast<rp3d::SphereShape*>(rp3dCollider->getCollisionShape())->getRadius();
+		}
+		return 0.0f;
+	}
+
+	void SetRadius(float nRadius) {
+		if (rp3dCollider)
+		{
+			rp3d::SphereShape* sphereShape = static_cast<rp3d::SphereShape*>(rp3dCollider->getCollisionShape());
+			sphereShape->setRadius(nRadius);
+		}
+	}
+
+private:
 };
 
-struct CapsuleCollider : public PhysicsCollider
+class CapsuleCollider : public PhysicsCollider
 {
-	CapsuleCollider(float nMass, float nBounce, float nFriction, glm::vec3 nOffset, glm::vec3 nRotation, float nRadius, float nHeight)
-	{
-		mass = nMass;
-		bounce = nBounce;
-		friction = nFriction;
-		type = COLLIDER_BOX;
-		offset = nOffset;
-		rotation = nRotation;
-		radius = nRadius;
-		height = nHeight;
+public:
+	CapsuleCollider() {
 		type = COLLIDER_CAPSULE;
 	}
-	float radius;
-	float height;
+
+	float GetRadius() {
+		if (rp3dCollider)
+		{
+			return static_cast<rp3d::CapsuleShape*>(rp3dCollider->getCollisionShape())->getRadius();
+		}
+		return 0.0f;
+	}
+
+	void SetRadius(float nRadius) {
+		if (rp3dCollider)
+		{
+			rp3d::CapsuleShape* capsuleShape = static_cast<rp3d::CapsuleShape*>(rp3dCollider->getCollisionShape());
+			capsuleShape->setRadius(nRadius);
+		}
+	}
+
+	float GetHeight() {
+		if (rp3dCollider)
+		{
+			return static_cast<rp3d::CapsuleShape*>(rp3dCollider->getCollisionShape())->getHeight();
+		}
+		return 0.0f;
+	}
+
+	void SetHeight(float nHeight) {
+
+		if (rp3dCollider)
+		{
+			rp3d::CapsuleShape* capsuleShape = static_cast<rp3d::CapsuleShape*>(rp3dCollider->getCollisionShape());
+			capsuleShape->setHeight(nHeight);
+		}
+	}
+
+private:
+
 };
 
-struct TerrainCollider : public PhysicsCollider
+class TerrainCollider : public PhysicsCollider
 {
-	TerrainCollider(float nMass, float nBounce, float nFriction, glm::vec3 nOffset, glm::vec3 nRotation, int nRows, int nCols, int nMin, int nMax, float* nHeights)
-	{
-		mass = nMass;
-		bounce = nBounce;
-		friction = nFriction;
-		type = COLLIDER_BOX;
-		offset = nOffset;
-		rotation = nRotation;
-
-		rows = nRows;
-		columns = nCols;
-		min = nMin;
-		max = nMax;
-		heights = nHeights;
+public:
+	TerrainCollider() {
 		type = COLLIDER_TERRAIN;
 	}
+
+private:
 	int rows;
 	int columns;
 	float min;

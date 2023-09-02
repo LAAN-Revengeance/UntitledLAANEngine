@@ -46,7 +46,12 @@ void PhysicsBody::SetPosition(float x, float y, float z)
 
 void PhysicsBody::SetRotation(float x, float y, float z)
 {
+	
+}
 
+PhysicsCollider PhysicsBody::GetCollider(unsigned int colliderIndex)
+{
+	return PhysicsCollider();
 }
 
 unsigned int PhysicsBody::GetID()
