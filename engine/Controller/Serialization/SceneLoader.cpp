@@ -347,27 +347,26 @@ Scene& SceneLoader::LoadScene(const char* inName)
                 nScale.x = jobj["physics"][i]["scale"][0].asFloat();
                 nScale.y = jobj["physics"][i]["scale"][1].asFloat();
                 nScale.z = jobj["physics"][i]["scale"][2].asFloat();
-                physicsManager.AddBoxCollider(pb,nScale);
+                physicsManager.AddBoxCollider(*go->physicsBody,nScale);
                 break;
             case COLLIDER_SPHERE:
                 nRadius = jobj["physics"][i]["radius"].asFloat();
-                physicsManager.AddSphereCollider(pb,nRadius);
+                physicsManager.AddSphereCollider(*go->physicsBody,nRadius);
                 break;
             case COLLIDER_CAPSULE:
                 nRadius = jobj["physics"][i]["radius"].asFloat();
                 nHeight = jobj["physics"][i]["height"].asFloat();
-                physicsManager.AddCapsuleCollider(pb, nRadius, nHeight);
+                physicsManager.AddCapsuleCollider(*go->physicsBody, nRadius, nHeight);
                 break;
 
             default:
                 break;
             }
 
-            pb.GetCollider(i).SetOffset(nOffset);
-            pb.GetCollider(i).SetRotation(nRotation);
+            go->physicsBody->GetCollider(i).SetOffset(nOffset);
+            go->physicsBody->GetCollider(i).SetRotation(nRotation);
         }
         
-
         res.StoreGameObject(go);
         scene->AddObject(*go);
     }
