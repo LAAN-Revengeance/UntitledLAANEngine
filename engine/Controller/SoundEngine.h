@@ -16,8 +16,11 @@ public:
 	void playSound(std::string audioFilePath);
 
 	void playLoop(std::string audioFilePath);
+
+	void addSound(std::string audioName, std::string audioFilePath);
 private:
 
-	irrklang::ISoundEngine* _Engine;
+	irrklang::ISoundEngine* engine;
+	std::map<std::string, std::string> audio;
 };
 

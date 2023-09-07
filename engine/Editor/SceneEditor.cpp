@@ -70,7 +70,9 @@ SceneEditor::SceneEditor()
 	GUIRenderer::Get().Init(window);
 	renderer.Init(window);
 	//aiManager.Init(scene);
-	soundEngine.playSound("resources/audio/NCSTest.mp3");
+
+	soundEngine.addSound("Test", "resources/audio/NCSTest.mp3");
+	soundEngine.playSound("Test");
 
 	//callbacks
 	glfwSetFramebufferSizeCallback(window, ResizeCallback);

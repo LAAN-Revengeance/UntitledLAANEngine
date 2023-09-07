@@ -9,15 +9,20 @@ SoundEngine& SoundEngine::Get() {
 
 SoundEngine::SoundEngine()
 {
-	_Engine = irrklang::createIrrKlangDevice();
+	engine = irrklang::createIrrKlangDevice();
 }
 
-void SoundEngine::playSound(std::string audioFilePath)
+void SoundEngine::playSound(std::string audioName)
 {
-	_Engine->play2D(audioFilePath.c_str());
+	engine->play2D(audio[audioName].c_str());
 }
 
-void SoundEngine::playLoop(std::string audioFilePath)
+void SoundEngine::playLoop(std::string audioName)
 {
-	_Engine->play2D(audioFilePath.c_str(), true);
+	engine->play2D(audio[audioName].c_str());
+}
+
+void SoundEngine::addSound(std::string audioName, std::string audioFilePath)
+{
+	audio[audioName] = audioFilePath;
 }
