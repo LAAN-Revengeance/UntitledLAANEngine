@@ -9,10 +9,11 @@
 class SoundEngine
 {
 public:
-
 	SoundEngine();
 
 	static SoundEngine& Get();
+
+	void playSound(std::string audioFilePath);
 private:
 
 	irrklang::ISoundEngine* _Engine;
