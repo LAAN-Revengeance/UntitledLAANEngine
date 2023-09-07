@@ -72,7 +72,8 @@ SceneEditor::SceneEditor()
 	//aiManager.Init(scene);
 
 	soundEngine.addSound("Test", "resources/audio/NCSTest.mp3");
-	soundEngine.playSoundAtPosition("Test", glm::vec3(0, 10, 0));
+	soundEngine.playSoundAtPosition("Test", glm::vec3(0, 50, 0));
+	soundEngine.playSoundAtPosition("Test", glm::vec3(0, -50, 0));
 
 	//callbacks
 	glfwSetFramebufferSizeCallback(window, ResizeCallback);
@@ -1040,6 +1041,59 @@ void SceneEditor::DrawResources()
 					ImGui::Columns(1);
 				}
 			}
+			ImGui::EndChild();
+
+
+
+			ImGui::Columns(1);
+			ImGui::EndTabItem();
+		}
+		ImGui::Columns(1);
+
+		//AUDIO TAB
+		if (ImGui::BeginTabItem("Audio"))
+		{
+			ImGui::Columns(3, "texCols", false);
+
+			ImGui::Text("Audio File and Name:");
+			static char audioName[512] = "";
+			static char audioPath[512] = "";
+			ImGui::InputTextWithHint("##audioPath", "File path", audioPath, IM_ARRAYSIZE(audioPath));
+			ImGui::SameLine();
+			if (ImGui::Button("Open File##openTextureFile"))
+			{
+				std::string aPath = FileOpener::OpenFileDialogue();
+				if (aPath.size() >= 1) {
+					strcpy(audioPath, aPath.c_str());
+				}
+
+			}
+			ImGui::InputTextWithHint("##audioName", "Audio Name", audioName, IM_ARRAYSIZE(audioName));
+
+			if (ImGui::Button("Add Audio")) {
+				std::string::size_type idx = std::string(audioPath).rfind('.');
+				std::string extension = std::string(audioPath).substr(idx + 1);
+
+				soundEngine.addSound(audioName, audioPath);
+			}
+
+			Texture* shaderIcon = res.GetTexture("default");
+			ImGui::NextColumn();
+
+			ImGui::BeginChild("##audioCol");
+
+			static DrawItem* inspectedAudio = nullptr;
+			int colCount = ((viewport->Size.x * windowWidth) / 3) / (resourceWidth + (style.ItemSpacing.x * 3));
+			ImGui::Columns(colCount, "audCols", false);
+			for (auto it : res.models)
+			{
+				if (ImGui::ImageButton(std::string("##" + it.first).c_str(), (void*)(intptr_t)shaderIcon->ID, ImVec2(resourceWidth, resourceWidth))) {
+					inspectedAudio = it.second;
+				}
+				ImGui::Text(it.first.c_str());
+				ImGui::NextColumn();
+			}
+			ImGui::Columns(1);
 			ImGui::EndChild();
 
 			ImGui::Columns(1);
