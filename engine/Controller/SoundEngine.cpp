@@ -24,10 +24,20 @@ void SoundEngine::playSound(std::string audioName)
 
 void SoundEngine::playLoop(std::string audioName)
 {
-	engine->play2D(audio[audioName].c_str());
+	engine->play2D(audio[audioName].c_str(), true);
 }
 
 void SoundEngine::addSound(std::string audioName, std::string audioFilePath)
 {
 	audio[audioName] = audioFilePath;
+}
+
+void SoundEngine::playSoundAtPosition(std::string audioName, glm::vec3 pos)
+{
+	engine->play3D(audio[audioName].c_str(), irrklang::vec3df(pos.x, pos.y, pos.z), false, false, true);
+}
+
+void SoundEngine::playLoopAtPosition(std::string audioName, glm::vec3 pos)
+{
+	engine->play3D(audio[audioName].c_str(), irrklang::vec3df(pos.x, pos.y, pos.z), true, false, true);
 }

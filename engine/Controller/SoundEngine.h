@@ -20,6 +20,10 @@ public:
 	void playLoop(std::string audioName);
 
 	void addSound(std::string audioName, std::string audioFilePath);
+
+	void playSoundAtPosition(std::string audioName, glm::vec3 pos);
+
+	void playLoopAtPosition(std::string audioName, glm::vec3 pos);
 private:
 
 	irrklang::ISoundEngine* engine;
