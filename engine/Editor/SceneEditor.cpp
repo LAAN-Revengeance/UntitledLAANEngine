@@ -244,7 +244,7 @@ void SceneEditor::DrawHeighrarchy()
 				go = *pair.second;
 				go.name = nName;
 
-				physicsManager.AddPhysicsBody(go);
+				physicsManager.CreatePhysicsBody(go.GetID());
 				
 				if(pair.second->physicsBody)
 				for (int i = 0; i < pair.second->physicsBody->GetNumColliders(); ++i)
@@ -253,13 +253,13 @@ void SceneEditor::DrawHeighrarchy()
 					switch (pair.second->physicsBody->GetCollider(i).GetType())
 					{
 					case COLLIDER_BOX:
-						physicsManager.AddBoxCollider(*go.physicsBody,static_cast<BoxCollider*>(&nCollider)->GetScale());
+						physicsManager.AddBoxCollider(go.GetID(),static_cast<BoxCollider*>(&nCollider)->GetScale());
 						break;
 					case COLLIDER_SPHERE:
-						physicsManager.AddSphereCollider(*go.physicsBody, static_cast<SphereCollider*>(&nCollider)->GetRadius());
+						physicsManager.AddSphereCollider(go.GetID(), static_cast<SphereCollider*>(&nCollider)->GetRadius());
 						break;
 					case COLLIDER_CAPSULE:
-						physicsManager.AddCapsuleCollider(*go.physicsBody, static_cast<CapsuleCollider*>(&nCollider)->GetRadius(), static_cast<CapsuleCollider*>(&nCollider)->GetHeight());
+						physicsManager.AddCapsuleCollider(go.GetID(), static_cast<CapsuleCollider*>(&nCollider)->GetRadius(), static_cast<CapsuleCollider*>(&nCollider)->GetHeight());
 						break;
 					default:
 						break;
@@ -596,22 +596,22 @@ void SceneEditor::DrawInspector()
 		//Box
 		if (ImGui::Button("Add Box Collider##box")){
 			if (!inspectedObject->physicsBody)
-				physicsManager.AddPhysicsBody(*inspectedObject);
-			physicsManager.AddBoxCollider(*inspectedObject->physicsBody, {1.0f,1.0f,1.0f});
+				physicsManager.CreatePhysicsBody(inspectedObject->GetID());
+			physicsManager.AddBoxCollider(inspectedObject->GetID(), {1.0f,1.0f,1.0f});
 		}
 
 		//Sphere
 		if (ImGui::Button("Add Sphere Collider##sphere")) {
 			if (!inspectedObject->physicsBody)
-				physicsManager.AddPhysicsBody(*inspectedObject);
-			physicsManager.AddSphereCollider(*inspectedObject->physicsBody, 1.0f);
+				physicsManager.CreatePhysicsBody(inspectedObject->GetID());
+			physicsManager.AddSphereCollider(inspectedObject->GetID(), 1.0f);
 		}
 
 		//Capsule
 		if (ImGui::Button("Add Capsule Collider##capsule")) {
 			if (!inspectedObject->physicsBody)
-				physicsManager.AddPhysicsBody(*inspectedObject);
-			physicsManager.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f,2.0f);
+				physicsManager.CreatePhysicsBody(inspectedObject->GetID());
+			physicsManager.AddCapsuleCollider(inspectedObject->GetID(), 1.0f,2.0f);
 		}
 
 		static const char* colliderNames[4] = {"Box Collider","Sphere Collider", "Capsule Collider", "Terrain Collider"};

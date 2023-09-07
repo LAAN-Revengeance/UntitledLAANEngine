@@ -62,7 +62,8 @@ unsigned int PhysicsBody::GetNumColliders()
 	return colliders.size();
 }
 
+/*
 unsigned int PhysicsBody::GetID()
 {
 	return ID;
-}
+}*/

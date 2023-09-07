@@ -35,55 +35,56 @@ void PhysicsManager::Update(double deltaTime)
 	rp3dWorld->testCollision(mCallback);
 }
 
-PhysicsBody& PhysicsManager::AddPhysicsBody(GameObject& go)
+void PhysicsManager::CreatePhysicsBody(int ID)
 {
 	//add collision body to react and get its ID
 	rp3d::Vector3 pos(0.0, 0.0, 0.0);
 	rp3d::CollisionBody* bPtr;
-	bPtr = rp3dWorld->createCollisionBody({ {go.position.x, go.position.y, go.position.z},rp3d::Quaternion::identity() });
-	unsigned int id = bPtr->getEntity().id;
+	bPtr = rp3dWorld->createCollisionBody({ pos,rp3d::Quaternion::identity() });
 
 	//create a physics body and set ID.
 	PhysicsBody pb;
 	pb.body = bPtr;
-	pb.ID = id;
-	physicsBodies.insert({id,pb});
-
-	//assign rigidbody to gameobject
-	//maybe it should be the other way around? PhysicsBody has game object refernce?
-	go.physicsBody = &physicsBodies.at(id);
-
-	return physicsBodies.at(id);
+	physicsBodies.insert({ID,pb});
 }
 
-void PhysicsManager::AddSphereCollider(PhysicsBody& pb, float radius)
+void PhysicsManager::AddSphereCollider(int ID, float radius)
 {
-	SphereShape* shape = rp3dPhysicsCommon.createSphereShape(radius);
-	rp3d::Collider* rpCollider = pb.body->addCollider(shape, Transform::identity());
+	if (physicsBodies[ID].body != nullptr)
+	{
+		SphereShape* shape = rp3dPhysicsCommon.createSphereShape(radius);
+		rp3d::Collider* rpCollider = physicsBodies[ID].body->addCollider(shape, Transform::identity());
 
-	SphereCollider collider;
-	collider.rp3dCollider = rpCollider;
-	pb.colliders.push_back(collider);
+		SphereCollider collider;
+		collider.rp3dCollider = rpCollider;
+		physicsBodies[ID].colliders.push_back(collider);
+	}
 }
 
-void PhysicsManager::AddBoxCollider(PhysicsBody& pb, glm::vec3 scale)
+void PhysicsManager::AddBoxCollider(int ID, glm::vec3 scale)
 {
-	BoxShape* shape = rp3dPhysicsCommon.createBoxShape(Vector3(scale.x, scale.y, scale.z));
-	rp3d::Collider* rpCollider = pb.body->addCollider(shape, Transform::identity());
+	if (physicsBodies[ID].body != nullptr)
+	{
+		BoxShape* shape = rp3dPhysicsCommon.createBoxShape(Vector3(scale.x, scale.y, scale.z));
+		rp3d::Collider* rpCollider = physicsBodies[ID].body->addCollider(shape, Transform::identity());
 
-	BoxCollider collider;
-	collider.rp3dCollider = rpCollider;
-	pb.colliders.push_back(collider);
+		BoxCollider collider;
+		collider.rp3dCollider = rpCollider;
+		physicsBodies[ID].colliders.push_back(collider);
+	}
 }
 
-void PhysicsManager::AddCapsuleCollider(PhysicsBody& pb, float radius, float height)
+void PhysicsManager::AddCapsuleCollider(int ID, float radius, float height)
 {
-	CapsuleShape* shape = rp3dPhysicsCommon.createCapsuleShape(radius, height);
-	rp3d::Collider* rpCollider = pb.body->addCollider(shape, Transform::identity());
+	if (physicsBodies[ID].body != nullptr)
+	{
+		CapsuleShape* shape = rp3dPhysicsCommon.createCapsuleShape(radius, height);
+		rp3d::Collider* rpCollider = physicsBodies[ID].body->addCollider(shape, Transform::identity());
 
-	CapsuleCollider collider;
-	collider.rp3dCollider = rpCollider;
-	pb.colliders.push_back(collider);
+		CapsuleCollider collider;
+		collider.rp3dCollider = rpCollider;
+		physicsBodies[ID].colliders.push_back(collider);
+	}
 }
 
 void PhysicsManager::DrawPhysicsWorld(Camera& camera)
