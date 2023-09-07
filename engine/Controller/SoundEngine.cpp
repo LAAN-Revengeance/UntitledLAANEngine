@@ -16,3 +16,8 @@ void SoundEngine::playSound(std::string audioFilePath)
 {
 	_Engine->play2D(audioFilePath.c_str());
 }
+
+void SoundEngine::playLoop(std::string audioFilePath)
+{
+	_Engine->play2D(audioFilePath.c_str(), true);
+}

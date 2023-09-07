@@ -14,6 +14,8 @@ public:
 	static SoundEngine& Get();
 
 	void playSound(std::string audioFilePath);
+
+	void playLoop(std::string audioFilePath);
 private:
 
 	irrklang::ISoundEngine* _Engine;
