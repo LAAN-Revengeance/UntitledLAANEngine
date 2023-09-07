@@ -417,6 +417,8 @@ void SceneEditor::DrawHeighrarchy()
 		}
 	}
 
+	ImGui::SeparatorText("Audio");
+
 	ImGui::End();
 
 }

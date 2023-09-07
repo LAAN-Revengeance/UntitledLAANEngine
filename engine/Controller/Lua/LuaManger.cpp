@@ -309,8 +309,13 @@ void LuaManager::Expose_Engine() {
 	//expose the sound engine
 	Expose_CPPClass<SoundEngine>("SoundEngine",
 		sol::no_constructor,
+		"playSoundFromFile", &SoundEngine::playSoundFromFile,
 		"playSound", &SoundEngine::playSound,
-		"playLoop", &SoundEngine::playLoop
+		"playLoop", &SoundEngine::playLoop,
+		"addSound", &SoundEngine::addSound,
+		"playSoundAtPosition", &SoundEngine::playSoundAtPosition,
+		"playLoopAtPosition", &SoundEngine::playLoopAtPosition,
+		"setUserPosition", &SoundEngine::setUserPosition
 		);
 	luaState["Sound"] = &SoundEngine::Get();
 	
