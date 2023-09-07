@@ -71,6 +71,9 @@ SceneEditor::SceneEditor()
 	renderer.Init(window);
 	//aiManager.Init(scene);
 
+	soundEngine.addSound("Test", "resources/audio/NCSTest.mp3");
+	soundEngine.playSoundAtPosition("Test", glm::vec3(0, 10, 0));
+
 	//callbacks
 	glfwSetFramebufferSizeCallback(window, ResizeCallback);
 
@@ -114,6 +117,7 @@ void SceneEditor::Draw(double deltaTime)
 void SceneEditor::Update(double deltaTime)
 {
 	CameraControl(deltaTime);
+	soundEngine.setUserPosition(camera.position);
 	CheckKeys();
 }
 

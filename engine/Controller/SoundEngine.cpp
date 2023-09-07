@@ -41,3 +41,8 @@ void SoundEngine::playLoopAtPosition(std::string audioName, glm::vec3 pos)
 {
 	engine->play3D(audio[audioName].c_str(), irrklang::vec3df(pos.x, pos.y, pos.z), true, false, true);
 }
+
+void SoundEngine::setUserPosition(glm::vec3 pos)
+{
+	engine->setListenerPosition(irrklang::vec3df(pos.x, pos.y, pos.z), irrklang::vec3df(0,0,0));
+}

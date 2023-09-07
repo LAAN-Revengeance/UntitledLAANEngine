@@ -24,6 +24,8 @@ public:
 	void playSoundAtPosition(std::string audioName, glm::vec3 pos);
 
 	void playLoopAtPosition(std::string audioName, glm::vec3 pos);
+
+	void setUserPosition(glm::vec3 pos);
 private:
 
 	irrklang::ISoundEngine* engine;
