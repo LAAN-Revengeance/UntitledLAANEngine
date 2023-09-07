@@ -187,7 +187,7 @@ void SceneEditor::DrawHeighrarchy()
 	guirenderer.StartWindow("Scene Objects", true, 0.2, 0.94, 0.0, 0.06);
 
 	ResourceManager& res = ResourceManager::Get();
-	int i = 0;
+	
 	static int selectedNode = -1;
 
 	ImGui::CollapsingHeader("Scene Objects", ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Leaf);
@@ -208,17 +208,18 @@ void SceneEditor::DrawHeighrarchy()
 		scene->AddObject(go);
 	}
 
+	int j = 0;
 	for (auto& pair : scene->gameObjects)
 	{
 		ImGuiTreeNodeFlags tmpFlags = baseFlags;
-		if (selectedNode == i) {
+		if (selectedNode == j) {
 			tmpFlags |= ImGuiTreeNodeFlags_Selected;
 		}
 
 		bool nodeOpen = ImGui::TreeNodeEx(pair.second->name.c_str(), tmpFlags);
 		if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
 			inspectedObject = pair.second;
-			selectedNode = i;
+			selectedNode = j;
 		}
 		if (ImGui::IsMouseDoubleClicked(0) && ImGui::IsItemHovered() && inspectedObject) {
 			camera.position = { inspectedObject->position.x,inspectedObject->position.y,inspectedObject->position.z - 10 };
@@ -228,10 +229,52 @@ void SceneEditor::DrawHeighrarchy()
 		}
 
 		if (nodeOpen) {
-			//ImGui::Text("Children go here");
+			if (ImGui::Button((std::string("Duplicate##") + (pair.second->name)).c_str()))
+			{
+				std::string name = pair.first;
+				std::string nName = name;
+				int nSuffix = 1;
+				while (res.objects.find(nName) != res.objects.end())
+				{
+					nName = name;
+					nName.append(std::to_string(nSuffix));
+					++nSuffix;
+				}
+				GameObject& go = res.CreateGameObject(nName, "", "");
+				go = *pair.second;
+				go.name = nName;
+
+				physicsManager.AddPhysicsBody(go);
+				
+				if(pair.second->physicsBody)
+				for (int i = 0; i < pair.second->physicsBody->GetNumColliders(); ++i)
+				{
+					PhysicsCollider nCollider = pair.second->physicsBody->GetCollider(i);
+					switch (pair.second->physicsBody->GetCollider(i).GetType())
+					{
+					case COLLIDER_BOX:
+						physicsManager.AddBoxCollider(*go.physicsBody,static_cast<BoxCollider*>(&nCollider)->GetScale());
+						break;
+					case COLLIDER_SPHERE:
+						physicsManager.AddSphereCollider(*go.physicsBody, static_cast<SphereCollider*>(&nCollider)->GetRadius());
+						break;
+					case COLLIDER_CAPSULE:
+						physicsManager.AddCapsuleCollider(*go.physicsBody, static_cast<CapsuleCollider*>(&nCollider)->GetRadius(), static_cast<CapsuleCollider*>(&nCollider)->GetHeight());
+						break;
+					default:
+						break;
+					}
+					go.physicsBody->GetCollider(i).SetOffset(nCollider.GetOffset());
+					go.physicsBody->GetCollider(i).SetRotation(nCollider.GetRotation());
+
+					
+				}
+
+				scene->AddObject(go);
+			}
 			ImGui::TreePop();
 		}
-		i++;
+		j++;
 	}
 
 	ImGui::SeparatorText("Skybox");
@@ -666,6 +709,7 @@ void SceneEditor::DrawMenu()
 			if (ImGui::MenuItem("New")) { 
 				delete scene;
 				scene = new Scene;
+				physicsManager.ResetPhysicsWorld();
 				saveFilePath[0] = '\0';
 				strcpy(luaFilePath, "resources/scripts/main.lua");
 			}

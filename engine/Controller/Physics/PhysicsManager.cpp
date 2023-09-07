@@ -11,34 +11,7 @@ PhysicsManager& PhysicsManager::Get()
 
 PhysicsManager::PhysicsManager()
 {
-	//rigidBodies.reserve(100
-
-	//rp3d physics world
 	rp3dWorld = rp3dPhysicsCommon.createPhysicsWorld();
-
-	//test
-	//Vector3 position(0.0, 0.0, 0.0);
-	//Quaternion orientation = Quaternion::identity();
-	//Transform transform(position, orientation);
-	//// Create a collision body in the world
-	//CollisionBody* body;
-	//body = rp3dWorld->createCollisionBody(transform);
-	//
-	//float radius = 5.0f;
-	//SphereShape* sphereShape = rp3dPhysicsCommon.createSphereShape(radius);
-	//Collider* collider;
-	//collider = body->addCollider(sphereShape, transform);
-	//
-	//Vector3 position2(0.0, 4.9, 0.0);
-	//Quaternion orientation2 = Quaternion::identity();
-	//Transform transform2(position2, orientation2);
-	//// Create a collision body in the world
-	//CollisionBody* body2;
-	//body2 = rp3dWorld->createCollisionBody(transform2);
-	//
-	//SphereShape* sphereShape2 = rp3dPhysicsCommon.createSphereShape(radius);
-	//Collider* collider2;
-	//collider2 = body2->addCollider(sphereShape2, transform2);
 }
 
 PhysicsManager::~PhysicsManager()
@@ -67,7 +40,7 @@ PhysicsBody& PhysicsManager::AddPhysicsBody(GameObject& go)
 	//add collision body to react and get its ID
 	rp3d::Vector3 pos(0.0, 0.0, 0.0);
 	rp3d::CollisionBody* bPtr;
-	bPtr = rp3dWorld->createCollisionBody({ {0,0,0},rp3d::Quaternion::identity() });
+	bPtr = rp3dWorld->createCollisionBody({ {go.position.x, go.position.y, go.position.z},rp3d::Quaternion::identity() });
 	unsigned int id = bPtr->getEntity().id;
 
 	//create a physics body and set ID.
@@ -161,6 +134,20 @@ void PhysicsManager::DrawPhysicsWorld(Camera& camera)
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 	}
+}
+
+void PhysicsManager::ResetPhysicsWorld()
+{
+
+	physicsBodies.clear();
+
+	while (rp3dWorld->getNbRigidBodies() > 0) {
+		rp3d::RigidBody* body = rp3dWorld->getRigidBody(0);
+		rp3dWorld->destroyCollisionBody(body);
+		delete body;
+	}
+	rp3dPhysicsCommon.destroyPhysicsWorld(rp3dWorld);
+	rp3dWorld = rp3dPhysicsCommon.createPhysicsWorld();
 }
 
 

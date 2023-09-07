@@ -91,6 +91,8 @@ public:
 		*	@return void 
 		*/
 	void DrawPhysicsWorld(Camera& camera);
+
+	void ResetPhysicsWorld();
 private:
 
 	//singleton
