@@ -13,9 +13,11 @@ public:
 
 	static SoundEngine& Get();
 
-	void playSound(std::string audioFilePath);
+	void playSoundFromFile(std::string audioFilePath);
 
-	void playLoop(std::string audioFilePath);
+	void playSound(std::string audioName);
+
+	void playLoop(std::string audioName);
 
 	void addSound(std::string audioName, std::string audioFilePath);
 private:
