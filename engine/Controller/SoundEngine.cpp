@@ -12,7 +12,7 @@ SoundEngine::SoundEngine()
 	engine = irrklang::createIrrKlangDevice();
 }
 
-void SoundEngine::playSound(std::string audioFilePath)
+void SoundEngine::playSoundFromFile(std::string audioFilePath)
 {
 	engine->play2D(audioFilePath.c_str());
 }
