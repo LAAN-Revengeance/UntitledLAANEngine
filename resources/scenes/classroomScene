@@ -1900,22 +1900,22 @@
 		[
 			{
 				"name" : "chair",
-				"path" : "C:\\Users\\lochy\\Desktop\\ICT398 Engine\\resources\\models\\Chair\\chair.obj",
+				"path" : "resources\\models\\Chair\\chair.obj",
 				"type" : "mesh"
 			},
 			{
 				"name" : "classroom",
-				"path" : "C:\\Users\\lochy\\Desktop\\ICT398 Engine\\resources\\models\\Classroom\\classroom.obj",
+				"path" : "resources\\models\\Classroom\\classroom.obj",
 				"type" : "mesh"
 			},
 			{
 				"name" : "desk",
-				"path" : "C:\\Users\\lochy\\Desktop\\ICT398 Engine\\resources\\models\\Desk\\desk.obj",
+				"path" : "resources\\models\\Desk\\desk.obj",
 				"type" : "mesh"
 			},
 			{
 				"name" : "teacherDesk",
-				"path" : "C:\\Users\\lochy\\Desktop\\ICT398 Engine\\resources\\models\\TeacherDesk\\teacherDesk.obj",
+				"path" : "resources\\models\\TeacherDesk\\teacherDesk.obj",
 				"type" : "mesh"
 			}
 		],
@@ -1950,11 +1950,11 @@
 		[
 			{
 				"name" : "chairTexture",
-				"path" : "C:\\Users\\lochy\\Desktop\\ICT398 Engine\\resources\\models\\Chair\\chairTexture.jpg"
+				"path" : "resources\\models\\Chair\\chairTexture.jpg"
 			},
 			{
 				"name" : "classroomTexture",
-				"path" : "C:\\Users\\lochy\\Desktop\\ICT398 Engine\\resources\\models\\Classroom\\classroomTexture2.jpg"
+				"path" : "resources\\models\\Classroom\\classroomTexture2.jpg"
 			},
 			{
 				"name" : "default",
@@ -1962,11 +1962,11 @@
 			},
 			{
 				"name" : "deskTexture",
-				"path" : "C:\\Users\\lochy\\Desktop\\ICT398 Engine\\resources\\models\\Desk\\desk.jpg"
+				"path" : "resources\\models\\Desk\\desk.jpg"
 			},
 			{
 				"name" : "teacherDeskTexture",
-				"path" : "C:\\Users\\lochy\\Desktop\\ICT398 Engine\\resources\\models\\TeacherDesk\\blackWood.jpg"
+				"path" : "resources\\models\\TeacherDesk\\blackWood.jpg"
 			}
 		]
 	}
