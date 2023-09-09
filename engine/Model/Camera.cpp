@@ -10,13 +10,14 @@ Camera::Camera()
 	right = glm::vec3(0.0f, 0.0f, -1.0f);
 	up	 = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	FOV = 45.0f;
+	FOV = 80.0f;
 	aspectRatio =  16.0f / 9.0f;
 	nearPlane = 0.1f;
 	farPlane = 5000.0f;
 
 	Yaw = 90.0f;
 	Pitch = 0.0f;
+
 	UpdateCameraVectors();
 }
 
@@ -64,6 +65,11 @@ void Camera::UpdateCameraVectors()
 	// also re-calculate the Right and Up vector
 	right = glm::normalize(glm::cross(front, glm::vec3(0.0f, 1.0f, 0.0f)));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
 	up = glm::normalize(glm::cross(right, front));
+
+	if (Pitch > 85.0f)
+		Pitch = 85.0f;
+	if (Pitch < -85.0f)
+		Pitch = -85.0f;
 }
 
 void Camera::CreateViewFrustum()
