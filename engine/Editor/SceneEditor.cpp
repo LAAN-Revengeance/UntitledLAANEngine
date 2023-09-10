@@ -1,5 +1,8 @@
 #include "SceneEditor.h"
 
+irrklang::ISound* audio;
+float iter = 0;
+
 void SceneEditor::Run(const char* filePath)
 {
 	if (std::strlen(filePath) > 0) {
@@ -70,10 +73,6 @@ SceneEditor::SceneEditor()
 	GUIRenderer::Get().Init(window);
 	renderer.Init(window);
 	//aiManager.Init(scene);
-
-	soundEngine.addSound("Test", "resources/audio/NCSTest.mp3");
-	soundEngine.playSoundAtPosition("Test", glm::vec3(0, 50, 0));
-	soundEngine.playSoundAtPosition("Test", glm::vec3(0, -50, 0));
 
 	//callbacks
 	glfwSetFramebufferSizeCallback(window, ResizeCallback);
@@ -417,8 +416,6 @@ void SceneEditor::DrawHeighrarchy()
 		}
 	}
 
-	ImGui::SeparatorText("Audio");
-
 	ImGui::End();
 
 }
@@ -686,6 +683,22 @@ void SceneEditor::DrawInspector()
 		
 		//std::string dName = std::string("Dir Light##" + std::to_string(i));
 	
+		//AUDIO SETTINGS
+		ImGui::SeparatorText("Audio");
+
+		std::vector<std::string> audioNames = soundEngine.getAudioNames();
+
+		ImGui::Text("Add Audio");
+		if (ImGui::BeginCombo("##audio", " "))
+		{
+			for (int i = 0; i < audioNames.size(); i++)
+			{
+				if (ImGui::Selectable(audioNames[i].c_str())) {
+					soundEngine.playLoopAtPosition(audioNames[i], inspectedObject->position);
+				}
+			}
+			ImGui::EndCombo();
+		}
 
 		changeObject = false;
 	}

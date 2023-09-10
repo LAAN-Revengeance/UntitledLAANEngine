@@ -23,12 +23,20 @@ public:
 
 	void playSoundAtPosition(std::string audioName, glm::vec3 pos);
 
+	irrklang::ISound* playDynamicSound(std::string audioName, glm::vec3 pos);
+
 	void playLoopAtPosition(std::string audioName, glm::vec3 pos);
 
 	void setUserPosition(glm::vec3 pos);
+
+	void setAudioPosition(irrklang::ISound* audio, glm::vec3 pos);
+
+	std::vector<std::string> getAudioNames();
 private:
 
 	irrklang::ISoundEngine* engine;
+	std::vector<std::string> audioNames;
 	std::map<std::string, std::string> audio;
+	std::map<std::string, irrklang::ISound*> dynamicAudio;
 };
 

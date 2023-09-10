@@ -30,11 +30,19 @@ void SoundEngine::playLoop(std::string audioName)
 void SoundEngine::addSound(std::string audioName, std::string audioFilePath)
 {
 	audio[audioName] = audioFilePath;
+	audioNames.push_back(audioName);
 }
 
 void SoundEngine::playSoundAtPosition(std::string audioName, glm::vec3 pos)
 {
 	engine->play3D(audio[audioName].c_str(), irrklang::vec3df(pos.x, pos.y, pos.z), false, false, true);
+}
+
+irrklang::ISound* SoundEngine::playDynamicSound(std::string audioName, glm::vec3 pos)
+{
+	irrklang::ISound* dAudio = engine->play3D(audio[audioName].c_str(), irrklang::vec3df(pos.x, pos.y, pos.z), false, false, true);
+
+	return dAudio;
 }
 
 void SoundEngine::playLoopAtPosition(std::string audioName, glm::vec3 pos)
@@ -45,4 +53,17 @@ void SoundEngine::playLoopAtPosition(std::string audioName, glm::vec3 pos)
 void SoundEngine::setUserPosition(glm::vec3 pos)
 {
 	engine->setListenerPosition(irrklang::vec3df(pos.x, pos.y, pos.z), irrklang::vec3df(0,0,0));
+}
+
+void SoundEngine::setAudioPosition(irrklang::ISound* audio, glm::vec3 pos)
+{
+	if (audio)
+	{
+		audio->setPosition(irrklang::vec3df(pos.x, pos.y, pos.z));
+	}
+}
+
+std::vector<std::string> SoundEngine::getAudioNames()
+{
+	return audioNames;
 }
