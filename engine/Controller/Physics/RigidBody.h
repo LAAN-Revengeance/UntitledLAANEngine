@@ -89,13 +89,13 @@ public:
 		*	@brief return physicsbody ID in physics world
 		*	@return ID of physics body
 		*/
-	//unsigned int GetID();
+	unsigned int GetID();
 
 	friend class PhysicsManager;
 
 private:
 
-	//unsigned int ID = -1;
+	unsigned int ID = -1;
 
 
 	std::vector<PhysicsCollider> colliders;

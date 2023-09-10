@@ -265,7 +265,8 @@ void LuaManager::Expose_Engine() {
 		"GetPosition", &PhysicsBody::GetPosition,
 		"GetRotation", &PhysicsBody::GetRotation,
 		"SetPosition", &PhysicsBody::SetPosition,
-		"SetRotation", &PhysicsBody::SetRotation
+		"SetRotation", &PhysicsBody::SetRotation,
+		"GetID", &PhysicsBody::GetID
 		);
 
 

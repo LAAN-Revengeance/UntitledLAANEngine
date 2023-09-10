@@ -43,7 +43,7 @@ public:
 		*	@param go - game object to add a physicsbody to
 		*	@return Created physics body
 		*/
-	void CreatePhysicsBody(int ID);
+	PhysicsBody* CreatePhysicsBody();
 
 		/**
 		*	@brief add sphere collider to supplied physics body
@@ -51,7 +51,7 @@ public:
 		*	@param radius - radius of sphere collider
 		*	@return void
 		*/
-	void AddSphereCollider(int ID, float radius);
+	void AddSphereCollider(PhysicsBody& pb, float radius);
 		
 		/**
 		*	@brief add box collider to supplied physics body
@@ -59,7 +59,7 @@ public:
 		*	@param scale - x,y and z axis size of the box collider
 		*	@return void
 		*/
-	void AddBoxCollider(int ID, glm::vec3 scale);
+	void AddBoxCollider(PhysicsBody& pb, glm::vec3 scale);
 
 		/**
 		*	@brief add capsule collider to supplied physics body
@@ -68,7 +68,7 @@ public:
 		*	@param height - height of capsule colluder
 		*	@return void
 		*/
-	void AddCapsuleCollider(int ID, float radius, float height);
+	void AddCapsuleCollider(PhysicsBody& pb, float radius, float height);
 
 		/**
 		*	@brief resolves the collision between two physicsbodies

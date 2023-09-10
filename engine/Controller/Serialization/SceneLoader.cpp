@@ -324,7 +324,7 @@ Scene& SceneLoader::LoadScene(const char* inName)
         //physics properties
         PhysicsManager& physicsManager = PhysicsManager::Get();
 
-        physicsManager.CreatePhysicsBody(i);
+        go->physicsBody = physicsManager.CreatePhysicsBody();
         for (int i = 0; i < jobj["physics"].size(); i++)
         {
             glm::vec3 nOffset;
@@ -347,16 +347,16 @@ Scene& SceneLoader::LoadScene(const char* inName)
                 nScale.x = jobj["physics"][i]["scale"][0].asFloat();
                 nScale.y = jobj["physics"][i]["scale"][1].asFloat();
                 nScale.z = jobj["physics"][i]["scale"][2].asFloat();
-                physicsManager.AddBoxCollider(i,nScale);
+                physicsManager.AddBoxCollider(*go->physicsBody,nScale);
                 break;
             case COLLIDER_SPHERE:
                 nRadius = jobj["physics"][i]["radius"].asFloat();
-                physicsManager.AddSphereCollider(i,nRadius);
+                physicsManager.AddSphereCollider(*go->physicsBody,nRadius);
                 break;
             case COLLIDER_CAPSULE:
                 nRadius = jobj["physics"][i]["radius"].asFloat();
                 nHeight = jobj["physics"][i]["height"].asFloat();
-                physicsManager.AddCapsuleCollider(i, nRadius, nHeight);
+                physicsManager.AddCapsuleCollider(*go->physicsBody, nRadius, nHeight);
                 break;
 
             default:
