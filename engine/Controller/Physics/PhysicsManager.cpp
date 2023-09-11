@@ -35,12 +35,12 @@ void PhysicsManager::Update(double deltaTime)
 	rp3dWorld->testCollision(mCallback);
 }
 
-PhysicsBody& PhysicsManager::AddPhysicsBody(GameObject& go)
+PhysicsBody* PhysicsManager::CreatePhysicsBody()
 {
 	//add collision body to react and get its ID
 	rp3d::Vector3 pos(0.0, 0.0, 0.0);
 	rp3d::CollisionBody* bPtr;
-	bPtr = rp3dWorld->createCollisionBody({ {go.position.x, go.position.y, go.position.z},rp3d::Quaternion::identity() });
+	bPtr = rp3dWorld->createCollisionBody({ {0,0,0},rp3d::Quaternion::identity() });
 	unsigned int id = bPtr->getEntity().id;
 
 	//create a physics body and set ID.
@@ -49,11 +49,7 @@ PhysicsBody& PhysicsManager::AddPhysicsBody(GameObject& go)
 	pb.ID = id;
 	physicsBodies.insert({id,pb});
 
-	//assign rigidbody to gameobject
-	//maybe it should be the other way around? PhysicsBody has game object refernce?
-	go.physicsBody = &physicsBodies.at(id);
-
-	return physicsBodies.at(id);
+	return &physicsBodies.at(id);
 }
 
 void PhysicsManager::AddSphereCollider(PhysicsBody& pb, float radius)

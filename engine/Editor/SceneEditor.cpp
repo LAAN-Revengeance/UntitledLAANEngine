@@ -244,7 +244,7 @@ void SceneEditor::DrawHeighrarchy()
 				go = *pair.second;
 				go.name = nName;
 
-				physicsManager.AddPhysicsBody(go);
+				go.physicsBody = physicsManager.CreatePhysicsBody();
 				
 				if(pair.second->physicsBody)
 				for (int i = 0; i < pair.second->physicsBody->GetNumColliders(); ++i)
@@ -596,21 +596,21 @@ void SceneEditor::DrawInspector()
 		//Box
 		if (ImGui::Button("Add Box Collider##box")){
 			if (!inspectedObject->physicsBody)
-				physicsManager.AddPhysicsBody(*inspectedObject);
+				inspectedObject->physicsBody = physicsManager.CreatePhysicsBody();
 			physicsManager.AddBoxCollider(*inspectedObject->physicsBody, {1.0f,1.0f,1.0f});
 		}
 
 		//Sphere
 		if (ImGui::Button("Add Sphere Collider##sphere")) {
 			if (!inspectedObject->physicsBody)
-				physicsManager.AddPhysicsBody(*inspectedObject);
+				inspectedObject->physicsBody = physicsManager.CreatePhysicsBody();
 			physicsManager.AddSphereCollider(*inspectedObject->physicsBody, 1.0f);
 		}
 
 		//Capsule
 		if (ImGui::Button("Add Capsule Collider##capsule")) {
 			if (!inspectedObject->physicsBody)
-				physicsManager.AddPhysicsBody(*inspectedObject);
+				inspectedObject->physicsBody = physicsManager.CreatePhysicsBody();
 			physicsManager.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f,2.0f);
 		}
 

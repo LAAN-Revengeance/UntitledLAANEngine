@@ -324,7 +324,7 @@ Scene& SceneLoader::LoadScene(const char* inName)
         //physics properties
         PhysicsManager& physicsManager = PhysicsManager::Get();
 
-        PhysicsBody pb = physicsManager.AddPhysicsBody(*go);
+        go->physicsBody = physicsManager.CreatePhysicsBody();
         for (int i = 0; i < jobj["physics"].size(); i++)
         {
             glm::vec3 nOffset;
