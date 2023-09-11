@@ -7,7 +7,29 @@
 			1.0,
 			1.0
 		],
-		"DirectionLights" : null,
+		"DirectionLights" : 
+		[
+			{
+				"diffuse" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				],
+				"direction" : 
+				[
+					0.0,
+					1.0,
+					0.0
+				],
+				"specular" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				]
+			}
+		],
 		"PointLights" : null
 	},
 	"luaMain" : "resources/scripts/main.lua",
@@ -37,7 +59,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -64,7 +86,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -91,7 +113,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -118,7 +140,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -145,7 +167,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -172,7 +194,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -199,7 +221,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -226,7 +248,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -253,7 +275,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -280,7 +302,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -307,7 +329,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -334,7 +356,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -361,7 +383,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -388,7 +410,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -415,7 +437,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -442,7 +464,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -469,7 +491,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -496,7 +518,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -523,7 +545,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -550,7 +572,7 @@
 				1.2999999523162842
 			],
 			"shader" : "default",
-			"spec" : "chairTexture",
+			"spec" : "chairSpecular",
 			"type" : "base"
 		},
 		{
@@ -789,7 +811,7 @@
 				1.0
 			],
 			"shader" : "default",
-			"spec" : "classroomTexture",
+			"spec" : "classroomSpecular",
 			"type" : "base"
 		},
 		{
@@ -839,7 +861,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -889,7 +911,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -939,7 +961,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -989,7 +1011,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -1039,7 +1061,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -1089,7 +1111,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -1139,7 +1161,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -1189,7 +1211,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -1239,7 +1261,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -1289,7 +1311,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -1339,7 +1361,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -1389,7 +1411,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -1439,7 +1461,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -1489,7 +1511,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -1539,7 +1561,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -1589,7 +1611,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -1639,7 +1661,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -1689,7 +1711,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -1739,7 +1761,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -1789,7 +1811,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -1839,7 +1861,7 @@
 				1.5
 			],
 			"shader" : "default",
-			"spec" : "deskTexture",
+			"spec" : "deskSpecular",
 			"type" : "base"
 		},
 		{
@@ -1889,7 +1911,7 @@
 				1.0
 			],
 			"shader" : "default",
-			"spec" : "teacherDeskTexture",
+			"spec" : "teacherDeskSpecular",
 			"type" : "base"
 		}
 	],
@@ -1949,8 +1971,16 @@
 		"textures" : 
 		[
 			{
+				"name" : "chairSpecular",
+				"path" : "resources\\models\\Chair\\chairSpecular.jpg"
+			},
+			{
 				"name" : "chairTexture",
 				"path" : "resources\\models\\Chair\\chairTexture.jpg"
+			},
+			{
+				"name" : "classroomSpecular",
+				"path" : "resources\\models\\Classroom\\classroomSpecular.jpg"
 			},
 			{
 				"name" : "classroomTexture",
@@ -1961,8 +1991,16 @@
 				"path" : "resources/textures/default.png"
 			},
 			{
+				"name" : "deskSpecular",
+				"path" : "resources\\models\\Desk\\deskSpecular.jpg"
+			},
+			{
 				"name" : "deskTexture",
 				"path" : "resources\\models\\Desk\\desk.jpg"
+			},
+			{
+				"name" : "teacherDeskSpecular",
+				"path" : "resources\\models\\TeacherDesk\\teacherDeskSpecular.jpg"
 			},
 			{
 				"name" : "teacherDeskTexture",
