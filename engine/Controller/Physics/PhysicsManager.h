@@ -1,9 +1,9 @@
 #pragma once
 #include <reactphysics3d/reactphysics3d.h>
 #include "RigidBody.h"
-#include <GameObject.h>
 #include <map>
-
+#include <Graphics/Graphics.h>
+#include <Mesh.h>
 
 class rp3dCollisionCallback : public rp3d::CollisionCallback {
 
