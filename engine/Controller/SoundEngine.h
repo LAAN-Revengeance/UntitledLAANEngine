@@ -13,30 +13,30 @@ public:
 
 	static SoundEngine& Get();
 
-	void playSoundFromFile(std::string audioFilePath);
+	void PlaySoundFromFile(std::string audioFilePath);
 
-	void playSound(std::string audioName);
+	void PlaySound(std::string audioName);
 
-	void playLoop(std::string audioName);
+	void PlayLoop(std::string audioName);
 
-	void addSound(std::string audioName, std::string audioFilePath);
+	void AddSound(std::string audioName, std::string audioFilePath);
 
-	void playSoundAtPosition(std::string audioName, glm::vec3 pos);
+	void PlaySoundAtPosition(std::string audioName, glm::vec3 pos);
 
-	irrklang::ISound* playDynamicSound(std::string audioName, glm::vec3 pos);
+	irrklang::ISound* PlayDynamicSound(std::string audioName, glm::vec3 pos);
 
-	void playLoopAtPosition(std::string audioName, glm::vec3 pos);
+	void PlayLoopAtPosition(std::string audioName, glm::vec3 pos);
 
-	void setUserPosition(glm::vec3 pos);
+	void SetUserPosition(glm::vec3 pos);
 
-	void setAudioPosition(irrklang::ISound* audio, glm::vec3 pos);
+	//void SetAudioPosition(irrklang::ISound* audio, glm::vec3 pos);
 
-	std::vector<std::string> getAudioNames();
+	std::vector<std::string> GetAudioNames();
 private:
 
 	irrklang::ISoundEngine* engine;
 	std::vector<std::string> audioNames;
 	std::map<std::string, std::string> audio;
-	std::map<std::string, irrklang::ISound*> dynamicAudio;
+	//std::map<std::string, irrklang::ISound*> dynamicAudio;
 };
 

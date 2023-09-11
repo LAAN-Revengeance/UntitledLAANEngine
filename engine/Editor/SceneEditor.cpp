@@ -1,8 +1,5 @@
 #include "SceneEditor.h"
 
-irrklang::ISound* audio;
-float iter = 0;
-
 void SceneEditor::Run(const char* filePath)
 {
 	if (std::strlen(filePath) > 0) {
@@ -117,7 +114,7 @@ void SceneEditor::Draw(double deltaTime)
 void SceneEditor::Update(double deltaTime)
 {
 	CameraControl(deltaTime);
-	soundEngine.setUserPosition(camera.position);
+	soundEngine.SetUserPosition(camera.position);
 	CheckKeys();
 }
 
@@ -686,7 +683,7 @@ void SceneEditor::DrawInspector()
 		//AUDIO SETTINGS
 		ImGui::SeparatorText("Audio");
 
-		std::vector<std::string> audioNames = soundEngine.getAudioNames();
+		std::vector<std::string> audioNames = soundEngine.GetAudioNames();
 
 		ImGui::Text("Add Audio");
 		if (ImGui::BeginCombo("##audio", " "))
@@ -694,7 +691,7 @@ void SceneEditor::DrawInspector()
 			for (int i = 0; i < audioNames.size(); i++)
 			{
 				if (ImGui::Selectable(audioNames[i].c_str())) {
-					soundEngine.playLoopAtPosition(audioNames[i], inspectedObject->position);
+					soundEngine.PlayLoopAtPosition(audioNames[i], inspectedObject->position);
 				}
 			}
 			ImGui::EndCombo();
@@ -1089,7 +1086,7 @@ void SceneEditor::DrawResources()
 				std::string::size_type idx = std::string(audioPath).rfind('.');
 				std::string extension = std::string(audioPath).substr(idx + 1);
 
-				soundEngine.addSound(audioName, audioPath);
+				soundEngine.AddSound(audioName, audioPath);
 			}
 
 			Texture* shaderIcon = res.GetTexture("default");
