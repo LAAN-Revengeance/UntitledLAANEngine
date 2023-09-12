@@ -53,6 +53,7 @@ void SoundEngine::SetUserPosition(glm::vec3 pos)
 	engine->setListenerPosition(vec3D(pos.x, pos.y, pos.z), vec3D(0,0,0));
 }
 
+
 /*
 * 
 * WIP: Need to figure out a better method for dynamic audio for milestone 2
