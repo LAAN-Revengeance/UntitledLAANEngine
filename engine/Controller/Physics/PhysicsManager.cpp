@@ -139,7 +139,10 @@ void PhysicsManager::DeletePhysicsBody(PhysicsBody* physicsBody)
 
 void PhysicsManager::ResetPhysicsWorld()
 {
-
+	for (auto& it : physicsBodies)
+	{
+		DeletePhysicsBody(&it.second);
+	}
 	physicsBodies.clear();
 
 	while (rp3dWorld->getNbRigidBodies() > 0) {
