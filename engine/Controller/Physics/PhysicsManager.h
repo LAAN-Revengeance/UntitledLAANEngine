@@ -92,6 +92,8 @@ public:
 		*/
 	void DrawPhysicsWorld(Camera& camera);
 
+	void DeletePhysicsBody(PhysicsBody* physicsBody);
+
 	void ResetPhysicsWorld();
 private:
 

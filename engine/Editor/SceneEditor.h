@@ -49,6 +49,9 @@ private:
 	void CameraControl(double deltaTime);
 	void CheckKeys();
 
+	//File Save Functions
+	std::string FilterFilePath(std::string filePath);
+
 	//reference to glfw window
 	GLFWwindow* window = nullptr;
 	

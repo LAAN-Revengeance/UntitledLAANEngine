@@ -166,11 +166,13 @@ void SceneEditor::UseScene(Scene* nscene)
 
 void SceneEditor::ResizeCallback(GLFWwindow* window, int width, int height)
 {
+	if (width <= 0 || height <= 0)
+		return;
 	SceneEditor& editor = SceneEditor::Get();
 	editor.camera.aspectRatio = (float)width / (float)height;
 	glViewport(0, 0, width, height);
 	editor.renderer.Resize(width, height);
-	editor.renderer.Draw(editor.camera, *editor.scene, editor.deltaTime);
+	editor.renderer.RenderScene(editor.camera, *editor.scene, editor.deltaTime);
 }
 
 void SceneEditor::DrawHeighrarchy()
@@ -203,6 +205,7 @@ void SceneEditor::DrawHeighrarchy()
 	}
 
 	int j = 0;
+	std::string delname = "";
 	for (auto& pair : scene->gameObjects)
 	{
 		ImGuiTreeNodeFlags tmpFlags = baseFlags;
@@ -223,6 +226,10 @@ void SceneEditor::DrawHeighrarchy()
 		}
 
 		if (nodeOpen) {
+			
+			if (ImGui::Button("Delete##deleteObject")) {
+				delname = pair.first;			}
+
 			if (ImGui::Button((std::string("Duplicate##") + (pair.second->name)).c_str()))
 			{
 				std::string name = pair.first;
@@ -270,7 +277,19 @@ void SceneEditor::DrawHeighrarchy()
 		}
 		j++;
 	}
+	if (!delname.empty()) {
+		inspectedObject = nullptr;
+		lastObject = nullptr;
 
+		GameObject* delObj = res.GetGameObject(delname);
+
+		//delete physics
+		physicsManager.DeletePhysicsBody(delObj->physicsBody);
+
+		res.DeleteGameObject(delname);
+		scene->gameObjects.erase(delname);
+	}
+		
 	ImGui::SeparatorText("Skybox");
 	if (!scene->skybox) {
 
@@ -417,7 +436,6 @@ void SceneEditor::DrawInspector()
 	static ImGuiTreeNodeFlags baseFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Leaf;
 	ResourceManager& res = ResourceManager::Get();
 	
-
 	if (inspectedObject) {
 		
 		if (!lastObject)
@@ -485,6 +503,11 @@ void SceneEditor::DrawInspector()
 		static std::string selectedShader;
 		static std::string selectedMesh;
 
+		if (ImGui::RadioButton("Cast Shadows", inspectedObject->isCastShadow))
+		{
+			inspectedObject->isCastShadow = !inspectedObject->isCastShadow;
+		}
+			
 		if (changeObject) {
 			selectedShader = "";
 			if (inspectedObject->shader)
@@ -665,6 +688,10 @@ void SceneEditor::DrawInspector()
 						}
 					}
 
+					if (ImGui::Button((std::string("Delete") + nodeName).c_str()))
+					{
+						pb->DeleteCollider(i);
+					}
 					ImGui::TreePop();
 				}
 				++i;
@@ -847,6 +874,9 @@ void SceneEditor::DrawResources()
 			if (ImGui::Button("Open File##openTextureFile"))
 			{
 				std::string tPath = FileOpener::OpenFileDialogue();
+
+				tPath = FilterFilePath(tPath);
+
 				if (tPath.size() >= 1) {
 					strcpy(texturePath, tPath.c_str());
 				}
@@ -862,6 +892,8 @@ void SceneEditor::DrawResources()
 			}
 	
 			int colCount = (viewport->Size.x * windowWidth) / (resourceWidth + (style.ItemSpacing.x * 2));
+			if (colCount <= 0)
+				colCount = 1;
 			ImGui::Columns(colCount, "texCols", false);
 
 			//show all textures loaded
@@ -900,6 +932,8 @@ void SceneEditor::DrawResources()
 			}
 
 			int colCount = (viewport->Size.x * windowWidth) / (resourceWidth + (style.ItemSpacing.x * 2));
+			if (colCount <= 0)
+				colCount = 1;
 			ImGui::Columns(colCount, "texCols", false);
 
 			Texture* shaderIcon = res.GetTexture("default");
@@ -921,7 +955,6 @@ void SceneEditor::DrawResources()
 		{
 			ImGui::Columns(3, "texCols", false);
 	
-
 			ImGui::Text("Model File and Name:");
 			static char modelName[512] = "";
 			static char modelPath[512] = "";
@@ -930,6 +963,9 @@ void SceneEditor::DrawResources()
 			if (ImGui::Button("Open File##openTextureFile"))
 			{
 				std::string mPath = FileOpener::OpenFileDialogue();
+
+				mPath = FilterFilePath(mPath);
+
 				if (mPath.size() >= 1) {
 					strcpy(modelPath, mPath.c_str());
 				}
@@ -956,6 +992,8 @@ void SceneEditor::DrawResources()
 
 			static DrawItem* inspectedModel = nullptr;
 			int colCount = ((viewport->Size.x * windowWidth) / 3) / (resourceWidth + (style.ItemSpacing.x * 3));
+			if (colCount <= 0)
+				colCount = 1;
 			ImGui::Columns(colCount, "modCols", false);
 			for (auto it : res.models)
 			{
@@ -1244,6 +1282,11 @@ void SceneEditor::CameraControl(double deltaTime)
 	camera.Yaw = camera.Yaw - xoffset;
 	camera.Pitch = camera.Pitch - yoffset;
 
+	if (camera.Pitch > 85.0f)
+		camera.Pitch = 85.0f;
+	if (camera.Pitch < -85.0f)
+		camera.Pitch = -85.0f;
+
 	camera.UpdateCameraVectors();
 
 }
@@ -1274,4 +1317,37 @@ void SceneEditor::CheckKeys()
 		saveDown = true;
 	}
 
+}
+
+std::string SceneEditor::FilterFilePath(std::string filePath)
+{
+	std::string temp;
+	int flag = 0;
+
+	for (int i = 0; i < filePath.size(); i++)
+	{
+		if (flag == 0)
+		{
+			if (filePath[i] == '\\')
+			{
+				if (temp == "\\resources")
+				{
+					flag = 1;
+				}
+				else
+				{
+					temp.clear();
+				}
+			}
+		}
+		else if (flag == 1)
+		{
+			temp = temp.substr(1, temp.size() - 1);
+			flag = 2;
+		}
+
+		temp = temp + filePath[i];
+	}
+
+	return temp;
 }

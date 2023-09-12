@@ -132,9 +132,17 @@ void PhysicsManager::DrawPhysicsWorld(Camera& camera)
 	}
 }
 
+void PhysicsManager::DeletePhysicsBody(PhysicsBody* physicsBody)
+{
+	rp3dWorld->destroyCollisionBody(physicsBody->body);
+}
+
 void PhysicsManager::ResetPhysicsWorld()
 {
-
+	for (auto& it : physicsBodies)
+	{
+		DeletePhysicsBody(&it.second);
+	}
 	physicsBodies.clear();
 
 	while (rp3dWorld->getNbRigidBodies() > 0) {

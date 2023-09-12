@@ -7,6 +7,7 @@ PhysicsBody::PhysicsBody()
 
 PhysicsBody::~PhysicsBody()
 {
+
 }
 
 void PhysicsBody::ApplyForce(float x, float y, float z)
@@ -66,3 +67,11 @@ unsigned int PhysicsBody::GetID()
 {
 	return ID;
 }
+
+void PhysicsBody::DeleteCollider(unsigned int colliderIndex)
+{
+	if (colliderIndex < colliders.size())
+		body->removeCollider(colliders.at(colliderIndex).rp3dCollider);
+	colliders.erase(colliders.begin() + colliderIndex);
+}
+
