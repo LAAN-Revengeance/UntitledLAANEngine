@@ -45,6 +45,8 @@
     <ClCompile Include="dependencies\include\imgui\imgui_tables.cpp" />
     <ClCompile Include="dependencies\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="dependencies\include\imGuIZMO.quat\imGuIZMOquat.cpp" />
+    <ClCompile Include="engine\Editor\FileExplorer.cpp" />
+    <ClCompile Include="engine\Controller\Serialization\ProjectLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\Controller\GaemEngine.h" />
@@ -110,6 +112,8 @@
     <ClInclude Include="dependencies\include\imGuIZMO.quat\vGizmo.h" />
     <ClInclude Include="dependencies\include\imGuIZMO.quat\vGizmoMath.h" />
     <ClInclude Include="dependencies\include\imGuIZMO.quat\vgMath.h" />
+    <ClInclude Include="engine\Editor\FileExplorer.h" />
+    <ClInclude Include="engine\Controller\Serialization\ProjectLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Model\Graphics\Shaders\Cube_map.frag" />
