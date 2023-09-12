@@ -698,6 +698,12 @@ void SceneEditor::DrawInspector()
 		//std::string dName = std::string("Dir Light##" + std::to_string(i));
 	
 		//AUDIO SETTINGS
+		/*
+		* 
+		* Another WIP, rather than playing a sound, this will
+		* add a sound to the object that can be played through
+		* scripting
+		* 
 		ImGui::SeparatorText("Audio");
 
 		std::vector<std::string> audioNames = soundEngine.GetAudioNames();
@@ -713,6 +719,8 @@ void SceneEditor::DrawInspector()
 			}
 			ImGui::EndCombo();
 		}
+
+		*/
 
 		changeObject = false;
 	}
@@ -1106,26 +1114,20 @@ void SceneEditor::DrawResources()
 				soundEngine.AddSound(audioName, audioPath);
 			}
 
+			int colCount = (viewport->Size.x * windowWidth) / (resourceWidth + (style.ItemSpacing.x * 2));
+			ImGui::Columns(colCount, "texCols", false);
+
 			Texture* shaderIcon = res.GetTexture("default");
-			ImGui::NextColumn();
 
-			ImGui::BeginChild("##audioCol");
+			//show all audio loaded
+			std::vector<std::string> audioNames = soundEngine.GetAudioNames();
 
-			static DrawItem* inspectedAudio = nullptr;
-			int colCount = ((viewport->Size.x * windowWidth) / 3) / (resourceWidth + (style.ItemSpacing.x * 3));
-			ImGui::Columns(colCount, "audCols", false);
-			for (auto it : res.models)
+			for (int i = 0; i < audioNames.size(); i++)
 			{
-				if (ImGui::ImageButton(std::string("##" + it.first).c_str(), (void*)(intptr_t)shaderIcon->ID, ImVec2(resourceWidth, resourceWidth))) {
-					inspectedAudio = it.second;
-				}
-				ImGui::Text(it.first.c_str());
+				ImGui::Image((void*)(intptr_t)shaderIcon->ID, ImVec2(resourceWidth, resourceWidth));
+				ImGui::Text(audioNames[i].c_str());
 				ImGui::NextColumn();
 			}
-			ImGui::Columns(1);
-			ImGui::EndChild();
-
-			ImGui::Columns(1);
 			ImGui::EndTabItem();
 		}
 		ImGui::EndTabBar();

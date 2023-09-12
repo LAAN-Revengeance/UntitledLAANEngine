@@ -1,10 +1,9 @@
 #pragma once
-#include <irrKlang/irrKlang.h>
 #include <map>
 #include <vector>
 #include <string>
 #include <glm/glm.hpp>
-#pragma comment(lib, "irrKlang.lib")
+#include "AudioDataTypes.h"
 
 class SoundEngine
 {
@@ -23,7 +22,7 @@ public:
 
 	void PlaySoundAtPosition(std::string audioName, glm::vec3 pos);
 
-	irrklang::ISound* PlayDynamicSound(std::string audioName, glm::vec3 pos);
+	void PlayDynamicSound(std::string audioName, glm::vec3 pos);
 
 	void PlayLoopAtPosition(std::string audioName, glm::vec3 pos);
 
@@ -34,7 +33,7 @@ public:
 	std::vector<std::string> GetAudioNames();
 private:
 
-	irrklang::ISoundEngine* engine;
+	AudioEngine engine;
 	std::vector<std::string> audioNames;
 	std::map<std::string, std::string> audio;
 	//std::map<std::string, irrklang::ISound*> dynamicAudio;
