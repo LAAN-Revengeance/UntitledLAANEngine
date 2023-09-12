@@ -425,7 +425,6 @@ void SceneEditor::DrawInspector()
 	static ImGuiTreeNodeFlags baseFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Leaf;
 	ResourceManager& res = ResourceManager::Get();
 	
-
 	if (inspectedObject) {
 		
 		if (!lastObject)
@@ -493,6 +492,11 @@ void SceneEditor::DrawInspector()
 		static std::string selectedShader;
 		static std::string selectedMesh;
 
+		if (ImGui::RadioButton("Cast Shadows", inspectedObject->isCastShadow))
+		{
+			inspectedObject->isCastShadow = !inspectedObject->isCastShadow;
+		}
+			
 		if (changeObject) {
 			selectedShader = "";
 			if (inspectedObject->shader)
