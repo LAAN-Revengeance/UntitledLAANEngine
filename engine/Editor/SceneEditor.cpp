@@ -23,11 +23,15 @@ void SceneEditor::Run(const char* filePath)
 			}
 			physicsManager.Update(deltaTime);
 			luaManager.RunUpdateMethod(deltaTime);
+			renderer.RenderScene(scene->camera, *scene, deltaTime);
+			if (isPhysicDebug)
+				physicsManager.DrawPhysicsWorld(scene->camera);
 		}
-		renderer.RenderScene(camera, *scene, deltaTime);
-
-		if (isPhysicDebug)
-			physicsManager.DrawPhysicsWorld(camera);
+		else {
+			renderer.RenderScene(camera, *scene, deltaTime);
+			if (isPhysicDebug)
+				physicsManager.DrawPhysicsWorld(camera);
+		}
 
 		Draw(deltaTime);
 
@@ -105,7 +109,8 @@ SceneEditor& SceneEditor::Get()
 void SceneEditor::Draw(double deltaTime)
 {
 	guirenderer.StartGUI();
-	Draw3DWidget();
+	if(!isRunning)
+		Draw3DWidget();
 	DrawInspector();
 	DrawHeighrarchy();
 	DrawMenu();
@@ -116,7 +121,8 @@ void SceneEditor::Draw(double deltaTime)
 
 void SceneEditor::Update(double deltaTime)
 {
-	CameraControl(deltaTime);
+	if(!isRunning)
+		CameraControl(deltaTime);
 	soundEngine.SetUserPosition(camera.position);
 	CheckKeys();
 }
@@ -763,6 +769,8 @@ void SceneEditor::DrawMenu()
 				physicsManager.ResetPhysicsWorld();
 				saveFilePath[0] = '\0';
 				luaFilePath = "resources/scripts/main.lua";
+				inspectedObject = nullptr;
+				lastObject = nullptr;
 			}
 			if (ImGui::MenuItem("Save", "Ctrl+S")) {
 				if (saveFilePath.size() < 1)
@@ -1165,7 +1173,7 @@ void SceneEditor::DrawWindowSettings(bool* showChangeWindow)
 	ImGui::Begin("Set Window Name", showChangeWindow);
 	static char str0[128] = "";
 	if (ImGui::InputTextWithHint("Window Title", "Window Name", str0, IM_ARRAYSIZE(str0))) {
-		//TODO: SET window title in json file.
+		
 	}
 	if (ImGui::Button("Set Window Title##420"))
 	{
@@ -1275,7 +1283,6 @@ void SceneEditor::Draw3DWidget()
 	ImGui::Begin("transformWidget", nullptr, flags);
 	
 	if (inspectedObject) {
-		//ImGui::SeparatorText("deezr");
 		ImGuizmo::SetOrthographic(false);
 		ImGuizmo::SetDrawlist();
 		ImGuizmo::SetRect(0, 0, viewport->WorkSize.x, viewport->WorkSize.y);
@@ -1291,18 +1298,17 @@ void SceneEditor::Draw3DWidget()
 	}
 
 	guirenderer.EndWindow();
-
 }
 
 void SceneEditor::CameraControl(double deltaTime)
 {
 	InputManager& input = InputManager::Get();
-	bool camlock = input.GetMouseLock();
+	isFreecam = input.GetMouseLock();
 	static bool toggleCamPress = false;
 	if (input.GetKeyPressedDown(GLFW_KEY_ESCAPE) && !toggleCamPress) {
 		toggleCamPress = true;
-		camlock = !input.GetMouseLock();
-		input.SetMouseLock(camlock);
+		isFreecam = !input.GetMouseLock();
+		input.SetMouseLock(isFreecam);
 		lastX = input.GetMouseX();
 		lastY = input.GetMouseY();
 	}
@@ -1312,10 +1318,8 @@ void SceneEditor::CameraControl(double deltaTime)
 	else {
 		toggleCamPress = false;
 	}
-	if (camlock)
+	if (isFreecam)
 		return;
-
-
 
 	float baseSpeed = 0.2;
 	float camSpeed = baseSpeed;
