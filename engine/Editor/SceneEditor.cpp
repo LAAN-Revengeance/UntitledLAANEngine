@@ -413,23 +413,6 @@ void SceneEditor::DrawHeighrarchy()
 		}
 	}
 
-	ImGui::SeparatorText("Audio");
-
-	//2D Audio
-	ImGui::Text("Add Audio");
-
-	if (ImGui::BeginCombo("##audio", " "))
-	{
-		for (int i = 0; i < soundEngine.GetAudioNames().size(); i++)
-		{
-			if (ImGui::Selectable(soundEngine.GetAudioNames()[i].c_str())) {
-				soundEngine.PlayLoop(soundEngine.GetAudioNames()[i]);
-			}
-		}
-		ImGui::EndCombo();
-	}
-	
-
 	ImGui::End();
 
 }
