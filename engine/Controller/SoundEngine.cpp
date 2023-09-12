@@ -1,7 +1,6 @@
 #include "SoundEngine.h"
 #include <iostream>
 
-
 SoundEngine& SoundEngine::Get() {
 
 	static SoundEngine e_instance;
@@ -10,77 +9,65 @@ SoundEngine& SoundEngine::Get() {
 
 SoundEngine::SoundEngine()
 {
-	_Engine = irrklang::createIrrKlangDevice();
+	engine = irrklang::createIrrKlangDevice();
 }
 
-void SoundEngine::addSound(std::string name, std::string filePath)
+void SoundEngine::PlaySoundFromFile(std::string audioFilePath)
 {
-	_Audio.insert({ name, filePath });
+	engine->play2D(audioFilePath.c_str());
 }
 
-void SoundEngine::playSound(std::string name, glm::vec3 pos)
+void SoundEngine::PlaySound(std::string audioName)
 {
-	_Engine->play3D(_Audio.at(name).c_str(), irrklang::vec3df(pos.x, pos.y, pos.z), false, false, false);
+	engine->play2D(audio[audioName].c_str());
 }
 
-void SoundEngine::addMusic(std::string filePath)
+void SoundEngine::PlayLoop(std::string audioName)
 {
-	_Music = _Engine->play3D(filePath.c_str(), { 0, 0, 0 }, true, false, true);
-	_Music->setVolume(0.2f);
+	engine->play2D(audio[audioName].c_str(), true);
 }
 
-void SoundEngine::setVolume(float volume)
+void SoundEngine::AddSound(std::string audioName, std::string audioFilePath)
 {
-	_Engine->setSoundVolume(volume);
+	audio[audioName] = audioFilePath;
+	audioNames.push_back(audioName);
 }
 
-void SoundEngine::setMusicVolume(float volume)
+void SoundEngine::PlaySoundAtPosition(std::string audioName, glm::vec3 pos)
 {
-	_Music->setVolume(volume);
+	engine->play3D(audio[audioName].c_str(), vec3D(pos.x, pos.y, pos.z), false, false, true);
 }
 
-void SoundEngine::setListenerPos(glm::vec3 pos)
+void SoundEngine::PlayDynamicSound(std::string audioName, glm::vec3 pos)
 {
-	_Engine->setListenerPosition(irrklang::vec3df( pos.x, pos.y, pos.z ), { 0, 0, 1 });
+	engine->play3D(audio[audioName].c_str(), vec3D(pos.x, pos.y, pos.z), false, false, true);
 }
 
-void SoundEngine::setMusicPos(glm::vec3 pos)
+void SoundEngine::PlayLoopAtPosition(std::string audioName, glm::vec3 pos)
 {
-	if(_Music)
-	_Music->setPosition(irrklang::vec3df(pos.x, pos.y, pos.z));
+	engine->play3D(audio[audioName].c_str(), vec3D(pos.x, pos.y, pos.z), true, false, true);
 }
 
-void SoundEngine::toggleMusic(bool state)
+void SoundEngine::SetUserPosition(glm::vec3 pos)
 {
-	if (_Music)
-	_Music->setIsPaused(state);
+	engine->setListenerPosition(vec3D(pos.x, pos.y, pos.z), vec3D(0,0,0));
 }
 
-void SoundEngine::drop()
-{
-	_Music->drop();
-	_Engine->drop();
-}
 
-void SoundEngine::playSoundLoop(std::string name, glm::vec3 pos, float vol)
+/*
+* 
+* WIP: Need to figure out a better method for dynamic audio for milestone 2
+* 
+void SoundEngine::SetAudioPosition(irrklang::ISound* audio, glm::vec3 pos)
 {
-	if (loopedAudio.find(name) == loopedAudio.end()) {
-		irrklang::ISound* nLoop = _Engine->play3D(_Audio[name].c_str(), { pos.x, pos.y, pos.z }, true, false, true);
-		loopedAudio.insert({ name,nLoop });
+	if (audio)
+	{
+		audio->setPosition(irrklang::vec3df(pos.x, pos.y, pos.z));
 	}
-	else {
-		if (loopedAudio[name]->getIsPaused()) {
-			loopedAudio[name]->setIsPaused(false);
-		}
-
-	}
-	loopedAudio[name]->setVolume(vol);
-	loopedAudio[name]->setPosition({ pos.x,pos.y,pos.z });
 }
+*/
 
-void SoundEngine::stopSoundLoop(std::string name)
+std::vector<std::string> SoundEngine::GetAudioNames()
 {
-	if (loopedAudio.find(name) != loopedAudio.end()) {
-		loopedAudio.at(name)->setIsPaused(true);
-	}
+	return audioNames;
 }

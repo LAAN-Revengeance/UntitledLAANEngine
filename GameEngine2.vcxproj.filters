@@ -113,6 +113,7 @@
     <ClInclude Include="dependencies\include\imGuIZMO.quat\vGizmoMath.h" />
     <ClInclude Include="dependencies\include\imGuIZMO.quat\vgMath.h" />
     <ClInclude Include="engine\Editor\FileExplorer.h" />
+    <ClInclude Include="engine\Controller\AudioDataTypes.h" />
     <ClInclude Include="engine\Controller\Serialization\ProjectLoader.h" />
   </ItemGroup>
   <ItemGroup>

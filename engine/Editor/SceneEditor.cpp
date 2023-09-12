@@ -117,6 +117,7 @@ void SceneEditor::Draw(double deltaTime)
 void SceneEditor::Update(double deltaTime)
 {
 	CameraControl(deltaTime);
+	soundEngine.SetUserPosition(camera.position);
 	CheckKeys();
 }
 
@@ -705,6 +706,30 @@ void SceneEditor::DrawInspector()
 		
 		//std::string dName = std::string("Dir Light##" + std::to_string(i));
 	
+		//AUDIO SETTINGS
+		/*
+		* 
+		* Another WIP, rather than playing a sound, this will
+		* add a sound to the object that can be played through
+		* scripting
+		* 
+		ImGui::SeparatorText("Audio");
+
+		std::vector<std::string> audioNames = soundEngine.GetAudioNames();
+
+		ImGui::Text("Add Audio");
+		if (ImGui::BeginCombo("##audio", " "))
+		{
+			for (int i = 0; i < audioNames.size(); i++)
+			{
+				if (ImGui::Selectable(audioNames[i].c_str())) {
+					soundEngine.PlayLoopAtPosition(audioNames[i], inspectedObject->position);
+				}
+			}
+			ImGui::EndCombo();
+		}
+
+		*/
 
 		changeObject = false;
 	}
@@ -1075,7 +1100,54 @@ void SceneEditor::DrawResources()
 			}
 			ImGui::EndChild();
 
+
+
 			ImGui::Columns(1);
+			ImGui::EndTabItem();
+		}
+		ImGui::Columns(1);
+
+		//AUDIO TAB
+		if (ImGui::BeginTabItem("Audio"))
+		{
+			ImGui::Columns(3, "texCols", false);
+
+			ImGui::Text("Audio File and Name:");
+			static char audioName[512] = "";
+			static char audioPath[512] = "";
+			ImGui::InputTextWithHint("##audioPath", "File path", audioPath, IM_ARRAYSIZE(audioPath));
+			ImGui::SameLine();
+			if (ImGui::Button("Open File##openTextureFile"))
+			{
+				std::string aPath = FileOpener::OpenFileDialogue();
+				if (aPath.size() >= 1) {
+					strcpy(audioPath, aPath.c_str());
+				}
+
+			}
+			ImGui::InputTextWithHint("##audioName", "Audio Name", audioName, IM_ARRAYSIZE(audioName));
+
+			if (ImGui::Button("Add Audio")) {
+				std::string::size_type idx = std::string(audioPath).rfind('.');
+				std::string extension = std::string(audioPath).substr(idx + 1);
+
+				soundEngine.AddSound(audioName, audioPath);
+			}
+
+			int colCount = (viewport->Size.x * windowWidth) / (resourceWidth + (style.ItemSpacing.x * 2));
+			ImGui::Columns(colCount, "texCols", false);
+
+			Texture* shaderIcon = res.GetTexture("default");
+
+			//show all audio loaded
+			std::vector<std::string> audioNames = soundEngine.GetAudioNames();
+
+			for (int i = 0; i < audioNames.size(); i++)
+			{
+				ImGui::Image((void*)(intptr_t)shaderIcon->ID, ImVec2(resourceWidth, resourceWidth));
+				ImGui::Text(audioNames[i].c_str());
+				ImGui::NextColumn();
+			}
 			ImGui::EndTabItem();
 		}
 		ImGui::EndTabBar();

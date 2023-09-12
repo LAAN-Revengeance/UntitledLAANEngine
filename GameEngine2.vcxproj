@@ -214,6 +214,7 @@
     <ClInclude Include="dependencies\include\imgui\imstb_truetype.h" />
     <ClInclude Include="dependencies\include\json\json-forwards.h" />
     <ClInclude Include="dependencies\include\json\json.h" />
+    <ClInclude Include="engine\Controller\AudioDataTypes.h" />
     <ClInclude Include="Engine\Controller\AI\AIManager.h" />
     <ClInclude Include="Engine\Controller\AI\Message\Message.h" />
     <ClInclude Include="Engine\Controller\AI\Message\MessageDispatcher.h" />
