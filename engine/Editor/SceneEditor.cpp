@@ -853,6 +853,9 @@ void SceneEditor::DrawResources()
 			if (ImGui::Button("Open File##openTextureFile"))
 			{
 				std::string tPath = FileOpener::OpenFileDialogue();
+
+				tPath = FilterFilePath(tPath);
+
 				if (tPath.size() >= 1) {
 					strcpy(texturePath, tPath.c_str());
 				}
@@ -927,7 +930,6 @@ void SceneEditor::DrawResources()
 		{
 			ImGui::Columns(3, "texCols", false);
 	
-
 			ImGui::Text("Model File and Name:");
 			static char modelName[512] = "";
 			static char modelPath[512] = "";
@@ -936,6 +938,9 @@ void SceneEditor::DrawResources()
 			if (ImGui::Button("Open File##openTextureFile"))
 			{
 				std::string mPath = FileOpener::OpenFileDialogue();
+
+				mPath = FilterFilePath(mPath);
+
 				if (mPath.size() >= 1) {
 					strcpy(modelPath, mPath.c_str());
 				}
@@ -1240,6 +1245,11 @@ void SceneEditor::CameraControl(double deltaTime)
 	camera.Yaw = camera.Yaw - xoffset;
 	camera.Pitch = camera.Pitch - yoffset;
 
+	if (camera.Pitch > 85.0f)
+		camera.Pitch = 85.0f;
+	if (camera.Pitch < -85.0f)
+		camera.Pitch = -85.0f;
+
 	camera.UpdateCameraVectors();
 
 }
@@ -1270,4 +1280,37 @@ void SceneEditor::CheckKeys()
 		saveDown = true;
 	}
 
+}
+
+std::string SceneEditor::FilterFilePath(std::string filePath)
+{
+	std::string temp;
+	int flag = 0;
+
+	for (int i = 0; i < filePath.size(); i++)
+	{
+		if (flag == 0)
+		{
+			if (filePath[i] == '\\')
+			{
+				if (temp == "\\resources")
+				{
+					flag = 1;
+				}
+				else
+				{
+					temp.clear();
+				}
+			}
+		}
+		else if (flag == 1)
+		{
+			temp = temp.substr(1, temp.size() - 1);
+			flag = 2;
+		}
+
+		temp = temp + filePath[i];
+	}
+
+	return temp;
 }

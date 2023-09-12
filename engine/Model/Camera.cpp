@@ -10,13 +10,14 @@ Camera::Camera()
 	right = glm::vec3(0.0f, 0.0f, -1.0f);
 	up	 = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	FOV = 45.0f;
+	FOV = 80.0f;
 	aspectRatio =  16.0f / 9.0f;
 	nearPlane = 0.1f;
 	farPlane = 5000.0f;
 
 	Yaw = 90.0f;
 	Pitch = 0.0f;
+
 	UpdateCameraVectors();
 }
 
