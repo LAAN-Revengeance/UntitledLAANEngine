@@ -24,7 +24,9 @@ void SceneEditor::Run(const char* filePath)
 		}
 
 		renderer.Draw(camera, *scene, deltaTime);
-		physicsManager.DrawPhysicsWorld(camera);
+
+		if (isPhysicDebug)
+			physicsManager.DrawPhysicsWorld(camera);
 
 		Draw(deltaTime);
 
@@ -815,8 +817,8 @@ void SceneEditor::DrawMenu()
 
 	guirenderer.EndWindow();
 
-	DrawWindowSettings(&showChangeWindow);
 	DrawDebug(&showDebug);
+	DrawWindowSettings(&showChangeWindow);
 	//DrawOpenFile(&showOpenFile);
 	DrawSaveFile(&showSaveFile);
 }
@@ -1044,11 +1046,16 @@ void SceneEditor::DrawWindowSettings(bool* showChangeWindow)
 	if(!(*showChangeWindow))
 		return
 
-	ImGui::SetNextWindowSize({ 330,70 });
-	ImGui::Begin("Window Settings", showChangeWindow);
+	ImGui::SetNextWindowSize({ 500,70 });
+	ImGui::Begin("Set Window Name", showChangeWindow);
 	static char str0[128] = "";
 	if (ImGui::InputTextWithHint("Window Title", "Window Name", str0, IM_ARRAYSIZE(str0))) {
 		//TODO: SET window title in json file.
+	}
+	if (ImGui::Button("Set Window Title##420"))
+	{
+		windowName = str0;
+		glfwSetWindowTitle(window, windowName.c_str());
 	}
 
 	ImGui::End();
@@ -1059,7 +1066,7 @@ void SceneEditor::DrawDebug(bool* showDebug)
 	if (!(*showDebug))
 		return;
 
-	ImGui::SetNextWindowSize({ 300,150 });
+	ImGui::SetNextWindowSize({ 300,200 });
 	ImGui::Begin("Debug", showDebug);
 	
 	double fps = Renderer::Get().GetFPS();
@@ -1084,6 +1091,10 @@ void SceneEditor::DrawDebug(bool* showDebug)
 		ImGui::PlotLines("##FPS", values, IM_ARRAYSIZE(values), values_offset, overlay, 0.0f, 200.0f, ImVec2(0, 80.0f));
 	}
 
+	if (ImGui::Button("Toggle Physics Debug"))
+	{
+		isPhysicDebug = !isPhysicDebug;
+	}
 
 	ImGui::End();
 

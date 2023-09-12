@@ -77,6 +77,8 @@ private:
 	SceneEditor(const SceneEditor&) = delete;
 	SceneEditor& operator = (const SceneEditor&) = delete;
 
+	bool isPhysicDebug = true;
+
 	//references to managers
 		///Main Renderer
 	Renderer& renderer = Renderer::Get();
