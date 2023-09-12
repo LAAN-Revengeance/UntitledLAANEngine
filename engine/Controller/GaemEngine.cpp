@@ -96,7 +96,9 @@ void GameEngine::Run() {
 		
 		inputMngr.KeyActions(deltaTime);
 		if (simIsRunning) {
-			aiManager.UpdateAgents(deltaTime);
+			for (auto& it : scene->gameObjects) {
+				it.second->Update(deltaTime);
+			}
 			physicsManager.Update(deltaTime);
 			luaManager.RunUpdateMethod(deltaTime);
 		}
