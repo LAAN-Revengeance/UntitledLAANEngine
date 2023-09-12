@@ -154,7 +154,7 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 	std::ifstream jsonFile(path);
 	jsonFile >> root;
 	jsonFile.close();
-	std::string luaMain = root["luaMain"].asString();
+	std::string luaMain = root["luaPath"].asString();
 	luaManager.SetLuaFile(luaMain.c_str());
 	
 	//luaManager.Expose_CPPReference("engine", *this);
@@ -768,7 +768,7 @@ void SceneEditor::DrawMenu()
 				scene = new Scene;
 				physicsManager.ResetPhysicsWorld();
 				saveFilePath[0] = '\0';
-				luaFilePath = "resources/scripts/main.lua";
+				luaFilePath = FilterFilePath("resources/scripts/main.lua");
 				inspectedObject = nullptr;
 				lastObject = nullptr;
 			}
@@ -811,7 +811,7 @@ void SceneEditor::DrawMenu()
 				std::string lpath = FileOpener::OpenFileDialogue(OPEN_FILE);
 				if (!lpath.empty()) {
 					luaManager.SetLuaFile(lpath.c_str());
-					luaFilePath = lpath;
+					luaFilePath = FilterFilePath(lpath);
 
 					luaManager.Expose_CPPReference("scene", *scene);
 					luaManager.RunInitMethod();
