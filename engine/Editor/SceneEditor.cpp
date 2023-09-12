@@ -1245,6 +1245,11 @@ void SceneEditor::CameraControl(double deltaTime)
 	camera.Yaw = camera.Yaw - xoffset;
 	camera.Pitch = camera.Pitch - yoffset;
 
+	if (camera.Pitch > 85.0f)
+		camera.Pitch = 85.0f;
+	if (camera.Pitch < -85.0f)
+		camera.Pitch = -85.0f;
+
 	camera.UpdateCameraVectors();
 
 }
