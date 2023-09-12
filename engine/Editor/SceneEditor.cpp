@@ -510,14 +510,14 @@ void SceneEditor::DrawInspector()
 			inspectedObject->isCastShadow = !inspectedObject->isCastShadow;
 		}
 			
-		if (changeObject) {
-			selectedShader = "";
-			if (inspectedObject->shader)
-				selectedShader = inspectedObject->shader->name;
-			selectedMesh = "";
-			if (inspectedObject->model_data)
-				selectedMesh = inspectedObject->model_data->name;
-		}
+	
+		selectedShader = "";
+		if (inspectedObject->shader)
+			selectedShader = inspectedObject->shader->name;
+		selectedMesh = "";
+		if (inspectedObject->model_data)
+			selectedMesh = inspectedObject->model_data->name;
+		
 
 		ImGui::Text("Shader:");
 		if (ImGui::BeginCombo("##objectShader", selectedShader.c_str()))
@@ -535,6 +535,8 @@ void SceneEditor::DrawInspector()
 		
 		if (ImGui::BeginCombo("##modelMesh", selectedMesh.c_str()))
 		{
+			if (ImGui::Selectable("--None--"))
+				inspectedObject->model_data = nullptr;
 			for (auto it : res.models)
 			{
 				if (ImGui::Selectable(it.first.c_str())) {
