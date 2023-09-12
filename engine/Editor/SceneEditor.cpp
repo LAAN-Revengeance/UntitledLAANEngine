@@ -119,28 +119,20 @@ void SceneEditor::Update(double deltaTime)
 
 void SceneEditor::SaveProject(const char* path)
 {
-	if (scene) {
-		SceneLoader::SaveScene(scene, path);
-	}
-
-	Json::Value root;
-	std::ifstream jsonFile(path);
-	jsonFile >> root;
-	jsonFile.close();
-
-	root["luaMain"] = luaFilePath;
-
-	std::ofstream updatedJsonFile(path);
-	updatedJsonFile << root;
-	updatedJsonFile.close();
+	ProjectLoader::SaveProject(scene,luaFilePath, windowName.c_str(),path);
 }
 
 void SceneEditor::LoadSceneFromFile(const char* path)
 {
 	inspectedObject = nullptr;
 	lastObject = nullptr;
-	scene = &SceneLoader::LoadScene(path);
-	strcpy(saveFilePath, path);
+
+	Project nProject = ProjectLoader::LoadProject(path);
+	scene = nProject.scene;// &SceneLoader::LoadScene(path);
+	luaFilePath = nProject.luaPath;
+	windowName = nProject.windowName;
+
+	saveFilePath = path;
 
 	if (!scene)
 		return;
@@ -711,26 +703,26 @@ void SceneEditor::DrawMenu()
 				scene = new Scene;
 				physicsManager.ResetPhysicsWorld();
 				saveFilePath[0] = '\0';
-				strcpy(luaFilePath, "resources/scripts/main.lua");
+				luaFilePath = "resources/scripts/main.lua";
 			}
 			if (ImGui::MenuItem("Save", "Ctrl+S")) {
-				if (strlen(saveFilePath) < 1)
+				if (saveFilePath.size() < 1)
 				{
 					std::string savePath = FileOpener::OpenFileDialogue(SAVE_FILE);
 					if (scene && !savePath.empty()) {
 						SaveProject(savePath.c_str());
-						strcpy(saveFilePath, savePath.c_str());
+						saveFilePath = savePath;
 					}
 				}
 				else if(scene){
-					SaveProject(saveFilePath);
+					SaveProject(saveFilePath.c_str());
 				}
 			}
 			if (ImGui::MenuItem("Save As",NULL)) {
 				std::string savePath = FileOpener::OpenFileDialogue(SAVE_FILE);
 				if (scene) {
 					SaveProject(savePath.c_str());
-					strcpy(saveFilePath, savePath.c_str());
+					saveFilePath = savePath;
 				}
 			}
 			if (ImGui::MenuItem("Open",NULL)) {
@@ -752,7 +744,7 @@ void SceneEditor::DrawMenu()
 				std::string lpath = FileOpener::OpenFileDialogue(OPEN_FILE);
 				if (!lpath.empty()) {
 					luaManager.SetLuaFile(lpath.c_str());
-					strcpy(luaFilePath, lpath.c_str());
+					luaFilePath = lpath;
 
 					luaManager.Expose_CPPReference("scene", *scene);
 					luaManager.RunInitMethod();
@@ -1122,8 +1114,9 @@ void SceneEditor::DrawSaveFile(bool* showSaveFile)
 
 	ImGui::SetNextWindowSize({ 300,150 });
 	ImGui::Begin("Save Scene", showSaveFile);
-	if (ImGui::InputTextWithHint("##savefilePath", "FilePath", saveFilePath, IM_ARRAYSIZE(saveFilePath))) {
-
+	static char saveFileBuf[256];
+	if (ImGui::InputTextWithHint("##savefilePath", "FilePath", saveFileBuf, IM_ARRAYSIZE(saveFileBuf))) {
+		saveFilePath = saveFileBuf;
 	}
 	if (ImGui::Button("Save##saveFile")) {
 		if(scene)
@@ -1260,12 +1253,12 @@ void SceneEditor::CheckKeys()
 
 	if (savePressed) {
 		if(!saveDown)
-			if (std::strlen(saveFilePath) > 0 && scene) {
-				SaveProject(saveFilePath);
+			if (saveFilePath.size() > 0 && scene) {
+				SaveProject(saveFilePath.c_str());
 			}
 			else if(scene){
-				strcpy(saveFilePath,"untitled_Save.json");
-				SaveProject(saveFilePath);
+				saveFilePath = "untitled_Save.json";
+				SaveProject(saveFilePath.c_str());
 			}
 		saveDown = true;
 	}

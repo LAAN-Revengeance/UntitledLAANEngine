@@ -1,7 +1,7 @@
 #pragma once
 #include <GUIRenderer.h>
 #include <InputManager.h>
-#include <Serialization/SceneLoader.h>
+#include <Serialization/ProjectLoader.h>
 #include "FileExplorer.h"
 #include <SoundEngine.h>
 #include <Lua/LuaManager.h>
@@ -63,8 +63,9 @@ private:
 	double previousFrameTime = 0.0;
 
 	//save file path
-	char saveFilePath[256] = "";
-	char luaFilePath [256] = "resources/scripts/main.lua";
+	std::string saveFilePath = "";
+	std::string luaFilePath = "resources/scripts/main.lua";
+	std::string windowName = "editor";
 
 	Scene* scene = nullptr;
 	Camera camera;
