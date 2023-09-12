@@ -91,6 +91,8 @@ public:
 		*/
 	unsigned int GetID();
 
+	void DeleteCollider(unsigned int colliderIndex);
+
 	friend class PhysicsManager;
 
 private:

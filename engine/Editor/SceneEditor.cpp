@@ -211,6 +211,7 @@ void SceneEditor::DrawHeighrarchy()
 	}
 
 	int j = 0;
+	std::string delname = "";
 	for (auto& pair : scene->gameObjects)
 	{
 		ImGuiTreeNodeFlags tmpFlags = baseFlags;
@@ -231,6 +232,10 @@ void SceneEditor::DrawHeighrarchy()
 		}
 
 		if (nodeOpen) {
+			
+			if (ImGui::Button("Delete##deleteObject")) {
+				delname = pair.first;			}
+
 			if (ImGui::Button((std::string("Duplicate##") + (pair.second->name)).c_str()))
 			{
 				std::string name = pair.first;
@@ -278,7 +283,19 @@ void SceneEditor::DrawHeighrarchy()
 		}
 		j++;
 	}
+	if (!delname.empty()) {
+		inspectedObject = nullptr;
+		lastObject = nullptr;
 
+		GameObject* delObj = res.GetGameObject(delname);
+
+		//delete physics
+		physicsManager.DeletePhysicsBody(delObj->physicsBody);
+
+		res.DeleteGameObject(delname);
+		scene->gameObjects.erase(delname);
+	}
+		
 	ImGui::SeparatorText("Skybox");
 	if (!scene->skybox) {
 
@@ -425,7 +442,6 @@ void SceneEditor::DrawInspector()
 	static ImGuiTreeNodeFlags baseFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Leaf;
 	ResourceManager& res = ResourceManager::Get();
 	
-
 	if (inspectedObject) {
 		
 		if (!lastObject)
@@ -493,6 +509,11 @@ void SceneEditor::DrawInspector()
 		static std::string selectedShader;
 		static std::string selectedMesh;
 
+		if (ImGui::RadioButton("Cast Shadows", inspectedObject->isCastShadow))
+		{
+			inspectedObject->isCastShadow = !inspectedObject->isCastShadow;
+		}
+			
 		if (changeObject) {
 			selectedShader = "";
 			if (inspectedObject->shader)
@@ -673,6 +694,10 @@ void SceneEditor::DrawInspector()
 						}
 					}
 
+					if (ImGui::Button((std::string("Delete") + nodeName).c_str()))
+					{
+						pb->DeleteCollider(i);
+					}
 					ImGui::TreePop();
 				}
 				++i;

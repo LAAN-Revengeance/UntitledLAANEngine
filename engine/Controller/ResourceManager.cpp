@@ -271,3 +271,10 @@ GameObject* ResourceManager::GetGameObject(std::string resName)
 	}
 	return gameObject;
 }
+
+void ResourceManager::DeleteGameObject(std::string goName)
+{
+	delete objects.at(goName);
+	objects.at(goName) = nullptr;
+	objects.erase(goName);
+}

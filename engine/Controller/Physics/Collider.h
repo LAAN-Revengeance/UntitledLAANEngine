@@ -71,6 +71,7 @@ protected:
 	int type = COLLIDER_INVALID;
 
 	friend class PhysicsManager;
+	friend class PhysicsBody;
 	friend class SceneEditor;
 };
 
