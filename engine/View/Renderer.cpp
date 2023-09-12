@@ -101,6 +101,10 @@ void Renderer::InitShadowsMaps()
 
 void Renderer::DrawShadowMaps(Camera& cam, Scene& scene)
 {
+	//get the current frame buffer so it can be rebound after
+	static int currentFBO = 0;
+	glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &currentFBO);
+
 	glViewport(0, 0, shadowWidth, shadowHeight);
 	glBindFramebuffer(GL_FRAMEBUFFER, dirFBO);
 	glEnable(GL_DEPTH_TEST);
@@ -167,7 +171,7 @@ void Renderer::DrawShadowMaps(Camera& cam, Scene& scene)
 	glBindTexture(GL_TEXTURE_2D, dirDepthMap);
 	glEnable(GL_TEXTURE_2D);
 
-	glBindFramebuffer(GL_FRAMEBUFFER,0);
+	glBindFramebuffer(GL_FRAMEBUFFER, currentFBO);
 	glViewport(0, 0, windowWidth, windowHeight);
 	glCullFace(GL_BACK);
 }
@@ -262,18 +266,36 @@ void Renderer::Init(GLFWwindow* window) {
 	Resize(windowWidth, windowHeight);
 }
 
-//may want to make several "draw queues" to seperate shaders and opacity
-void Renderer::Draw(Camera& cam, Scene& scene, double deltaTime) {
-	
-	//render shadow maps
-	DrawShadowMaps(cam, scene);
-	
-
+void Renderer::UsePostProcessingBuffer()
+{
 	//Bind pre-post processing frame buffer
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+}
+
+void Renderer::RenderPostProcessingBuffer()
+{
+	//Bind the default frame buffer and draw scene with post processing shader
+	glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	postProcessShader.Use();
+	glBindVertexArray(screenQuad);
+	glDisable(GL_DEPTH_TEST);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureColorBuff);
+	glEnable(GL_TEXTURE_2D);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
+//may want to make several "draw queues" to seperate shaders and opacity
+void Renderer::RenderScene(Camera& cam, Scene& scene, double deltaTime) {
+	
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
+
+	//render shadow maps
+	DrawShadowMaps(cam, scene);
 
 	//fps counter
 	double currentFrameTime = glfwGetTime();
@@ -342,18 +364,6 @@ void Renderer::Draw(Camera& cam, Scene& scene, double deltaTime) {
 			obj->model_data->Update(deltaTime);
 		}
 	}
-
-	//Bind the default frame buffer and draw scene with post processing shader
-	glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-	postProcessShader.Use();
-	glBindVertexArray(screenQuad);
-	glDisable(GL_DEPTH_TEST);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textureColorBuff);
-	glEnable(GL_TEXTURE_2D);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 }
 

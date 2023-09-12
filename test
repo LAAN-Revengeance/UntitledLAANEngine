@@ -1,0 +1,112 @@
+{
+	"Lighting" : 
+	{
+		"Ambient" : 
+		[
+			1.0,
+			1.0,
+			1.0
+		],
+		"DirectionLights" : null,
+		"PointLights" : null
+	},
+	"luaMain" : "resources/scripts/main.lua",
+	"objects" : 
+	[
+		{
+			"diff" : "default",
+			"model" : "quad",
+			"name" : "new object",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						0.0,
+						-1.2000000476837158,
+						0.0
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.0,
+						1.0,
+						1.0
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				0.0,
+				-1.2530727386474609,
+				0.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.0,
+				1.0,
+				1.0
+			],
+			"shader" : "default",
+			"type" : "base"
+		}
+	],
+	"resources" : 
+	{
+		"cubemaps" : null,
+		"models" : 
+		[
+			{
+				"name" : "quad",
+				"path" : "C:\\Users\\Andres\\Documents\\GitHub\\ICT398Engine\\resources\\models\\quad.obj",
+				"type" : "mesh"
+			}
+		],
+		"shaders" : 
+		[
+			{
+				"frag" : "resources/shaders/Water.frag",
+				"geom" : "",
+				"name" : "Water",
+				"vert" : "resources/shaders/Water.vert"
+			},
+			{
+				"frag" : "resources/shaders/Default.frag",
+				"geom" : "",
+				"name" : "default",
+				"vert" : "resources/shaders/Default.vert"
+			},
+			{
+				"frag" : "resources/shaders/Physics_Debug/Physics.frag",
+				"geom" : "",
+				"name" : "physics",
+				"vert" : "resources/shaders/Physics_Debug/Physics.vert"
+			},
+			{
+				"frag" : "resources/shaders/terrain/Terrain.frag",
+				"geom" : "",
+				"name" : "terrain",
+				"vert" : "resources/shaders/Default.vert"
+			}
+		],
+		"textures" : 
+		[
+			{
+				"name" : "default",
+				"path" : "resources/textures/default.png"
+			}
+		]
+	}
+}

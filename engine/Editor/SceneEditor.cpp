@@ -23,7 +23,7 @@ void SceneEditor::Run(const char* filePath)
 			luaManager.RunUpdateMethod(deltaTime);
 		}
 
-		renderer.Draw(camera, *scene, deltaTime);
+		renderer.RenderScene(camera, *scene, deltaTime);
 		physicsManager.DrawPhysicsWorld(camera);
 
 		Draw(deltaTime);
@@ -176,7 +176,7 @@ void SceneEditor::ResizeCallback(GLFWwindow* window, int width, int height)
 	editor.camera.aspectRatio = (float)width / (float)height;
 	glViewport(0, 0, width, height);
 	editor.renderer.Resize(width, height);
-	editor.renderer.Draw(editor.camera, *editor.scene, editor.deltaTime);
+	editor.renderer.RenderScene(editor.camera, *editor.scene, editor.deltaTime);
 }
 
 void SceneEditor::DrawHeighrarchy()
