@@ -49,6 +49,8 @@ private:
 	void CameraControl(double deltaTime);
 	void CheckKeys();
 
+	void SetLuaFile(std::string nluaFile);
+
 	//File Save Functions
 	std::string FilterFilePath(std::string filePath);
 

@@ -155,14 +155,8 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 	jsonFile >> root;
 	jsonFile.close();
 	std::string luaMain = root["luaPath"].asString();
-	luaManager.SetLuaFile(luaMain.c_str());
-	
-	//luaManager.Expose_CPPReference("engine", *this);
-	luaManager.Expose_CPPReference("scene", *scene);
-	luaManager.Expose_CPPReference("renderer", renderer);
-	luaManager.Expose_CPPReference("GUI", guirenderer);
+	SetLuaFile(luaMain.c_str());
 
-	luaManager.RunInitMethod();
 }
 
 void SceneEditor::UseScene(Scene* nscene)
@@ -810,12 +804,7 @@ void SceneEditor::DrawMenu()
 				
 				std::string lpath = FileOpener::OpenFileDialogue(OPEN_FILE);
 				if (!lpath.empty()) {
-					luaManager.SetLuaFile(lpath.c_str());
-					luaFilePath = FilterFilePath(lpath);
-
-					luaManager.Expose_CPPReference("scene", *scene);
-					luaManager.RunInitMethod();
-
+					SetLuaFile(lpath.c_str());
 				}
 				else {
 					std::cout << "ERROR: Could not load lua file " << lpath << std::endl;
@@ -1398,6 +1387,18 @@ void SceneEditor::CheckKeys()
 		saveDown = true;
 	}
 
+}
+
+void SceneEditor::SetLuaFile(std::string nluaFile)
+{
+	luaFilePath = FilterFilePath(nluaFile);
+
+	luaManager.SetLuaFile(nluaFile.c_str());
+	luaManager.Expose_CPPReference("scene", *scene);
+	luaManager.Expose_CPPReference("GUI", guirenderer);
+	luaManager.Expose_CPPReference("resources", ResourceManager::Get());
+
+	luaManager.RunInitMethod();
 }
 
 std::string SceneEditor::FilterFilePath(std::string filePath)

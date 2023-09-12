@@ -3,10 +3,6 @@ dofile("resources/scripts/keybinds.lua")
 --main init function, called once before update
 function init()
 
-	-- set window properties
-	--engine:SetWindowIcon("resources/textures/icon.png");
-	--engine:SetWindowName("InitalZ");
-
 	--set inputs
 	input:SetMouseLock(false);
 	input:BindKey("camF",KEY_W);
@@ -17,52 +13,46 @@ function init()
 	input:BindKey("camR",KEY_D);
 	input:BindKey("escape",KEY_ESCAPE);
 
+	scene:GetCamera().position = vec3:new(0,2,0);
+
 	print("init lua");
 end
 
 --main update function, called every frame
 function update(deltaTime)
 	
-	print("update lua");
-	--keyInput(deltaTime)
-	--mouseMoveFunc(deltaTime)
+	keyInput(deltaTime)
+	mouseMoveFunc(deltaTime)
 end
 
 
 function keyInput(dt)
 	up = vec3:new(0,1,0);
-	camSpeed = 100 * dt;
+	camSpeed = 5 * dt;
+	local camera = scene:GetCamera();
+	player = resources:GetGameObject("Player");
+	print(player.name)
 	if(input:GetKeyState("camF"))
 	then
-		camera.position = camera.position +  NormalizeVector(CrossVectors(up,camera.right)):multiply(camSpeed);
+		player = player.position +  NormalizeVector(CrossVectors(up,camera.right)):multiply(camSpeed);
 	end
 	if(input:GetKeyState("camB"))
 	then
-		camera.position = camera.position -  NormalizeVector(CrossVectors(up,camera.right)):multiply(camSpeed);
-			
-	end
-	if(input:GetKeyState("camU"))
-	then
-		camera.position = camera.position + up:multiply(camSpeed);
-			
-	end
-	if(input:GetKeyState("camD"))
-	then
-		camera.position = camera.position - up:multiply(camSpeed);
+		player.position = player.position -  NormalizeVector(CrossVectors(up,camera.right)):multiply(camSpeed);
 			
 	end
 	if(input:GetKeyState("camL"))
 	then
-		camera.position = camera.position - camera.right:multiply(camSpeed);
+		player.position = player.position - camera.right:multiply(camSpeed);
 	end
 	if(input:GetKeyState("camR"))
 	then
-		camera.position = camera.position + camera.right:multiply(camSpeed);
+		player.position = player.position + camera.right:multiply(camSpeed);
 	end
 
 	if(input:GetKeyState("escape"))
 	then
-		engine:Shutdown();
+		--engine:Shutdown();
 	end
 
 end
