@@ -870,6 +870,8 @@ void SceneEditor::DrawResources()
 			}
 	
 			int colCount = (viewport->Size.x * windowWidth) / (resourceWidth + (style.ItemSpacing.x * 2));
+			if (colCount <= 0)
+				colCount = 1;
 			ImGui::Columns(colCount, "texCols", false);
 
 			//show all textures loaded
@@ -908,6 +910,8 @@ void SceneEditor::DrawResources()
 			}
 
 			int colCount = (viewport->Size.x * windowWidth) / (resourceWidth + (style.ItemSpacing.x * 2));
+			if (colCount <= 0)
+				colCount = 1;
 			ImGui::Columns(colCount, "texCols", false);
 
 			Texture* shaderIcon = res.GetTexture("default");
@@ -964,6 +968,8 @@ void SceneEditor::DrawResources()
 
 			static DrawItem* inspectedModel = nullptr;
 			int colCount = ((viewport->Size.x * windowWidth) / 3) / (resourceWidth + (style.ItemSpacing.x * 3));
+			if (colCount <= 0)
+				colCount = 1;
 			ImGui::Columns(colCount, "modCols", false);
 			for (auto it : res.models)
 			{
