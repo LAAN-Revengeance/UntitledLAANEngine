@@ -23,7 +23,7 @@ void SceneEditor::Run(const char* filePath)
 			luaManager.RunUpdateMethod(deltaTime);
 		}
 
-		renderer.Draw(camera, *scene, deltaTime);
+		renderer.RenderScene(camera, *scene, deltaTime);
 
 		if (isPhysicDebug)
 			physicsManager.DrawPhysicsWorld(camera);
