@@ -299,21 +299,13 @@ Scene& SceneLoader::LoadScene(const char* inName)
             go = &res.CreateGameObject(objects[i]["name"].asString(), objects[i]["model"].asString(), objects[i]["shader"].asString());
         }
         
-        //transform properties
-        go->name = jobj["name"].asString();
-        go->position.x = jobj["position"][0].asFloat();
-        go->position.y = jobj["position"][1].asFloat();
-        go->position.z = jobj["position"][2].asFloat();
-    
-        go->scale.x = jobj["scale"][0].asFloat();
-        go->scale.y = jobj["scale"][1].asFloat();
-        go->scale.z = jobj["scale"][2].asFloat();
-    
-        go->rotation.x = jobj["rotation"][0].asFloat();
-        go->rotation.y = jobj["rotation"][1].asFloat();
-        go->rotation.z = jobj["rotation"][2].asFloat();
-        
         //material properties
+        if (jobj["castShadows"].isNull()) {
+            go->isCastShadow = true;
+        }
+        else {
+            go->isCastShadow = jobj["castShadows"].asBool();
+        }
         if(jobj.isMember("diff"))
             go->material.diffuseTexture.push_back(res.GetTexture(jobj["diff"].asString()));
         if (jobj.isMember("spec"))
@@ -366,6 +358,22 @@ Scene& SceneLoader::LoadScene(const char* inName)
             go->physicsBody->GetCollider(i).SetOffset(nOffset);
             go->physicsBody->GetCollider(i).SetRotation(nRotation);
         }
+
+        //transform properties
+        go->name = jobj["name"].asString();
+        go->position.x = jobj["position"][0].asFloat();
+        go->position.y = jobj["position"][1].asFloat();
+        go->position.z = jobj["position"][2].asFloat();
+        go->SetPosition(go->position);
+
+        go->scale.x = jobj["scale"][0].asFloat();
+        go->scale.y = jobj["scale"][1].asFloat();
+        go->scale.z = jobj["scale"][2].asFloat();
+
+        go->rotation.x = jobj["rotation"][0].asFloat();
+        go->rotation.y = jobj["rotation"][1].asFloat();
+        go->rotation.z = jobj["rotation"][2].asFloat();
+
         
         res.StoreGameObject(go);
         scene->AddObject(*go);
@@ -413,6 +421,8 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
     if (obj->shader)
         jobj["shader"] = obj->shader->name;
     
+    jobj["castShadows"] = obj->isCastShadow;
+
     //material
     if(!obj->material.diffuseTexture.empty())
         jobj["diff"] = obj->material.diffuseTexture[0]->name;
