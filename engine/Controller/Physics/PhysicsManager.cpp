@@ -26,11 +26,27 @@ void PhysicsManager::ResolveCollision(PhysicsBody& b1, PhysicsBody& b2, float pe
 	glm::vec3 b1Pos = b1.GetPosition();
 	glm::vec3 b2Pos = b2.GetPosition();
 
-	b1Pos -= correction * 0.5f;
-	b2Pos += correction * 0.5f;
+	if (b2.isKinematic)
+	{
+		b1Pos -= correction;
+	}
+	else {
+		b1Pos -= correction * 0.5f;
+	}
 
-	b1.SetPosition(b1Pos.x, b1Pos.y, b1Pos.z);
-	b2.SetPosition(b2Pos.x, b2Pos.y, b2Pos.z);
+	if (b1.isKinematic)
+	{
+		b2Pos += correction;
+
+	}
+	else {
+		b2Pos += correction * 0.5f;
+	}
+
+	if(!b1.isKinematic)
+		b1.SetPosition(b1Pos.x, b1Pos.y, b1Pos.z);
+	if(!b2.isKinematic)
+		b2.SetPosition(b2Pos.x, b2Pos.y, b2Pos.z);
 }
 
 PhysicsBody& PhysicsManager::GetPhysicsBody(unsigned int id)
