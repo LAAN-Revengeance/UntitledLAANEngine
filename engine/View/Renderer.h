@@ -8,6 +8,11 @@
 *	@author Andres Comeros-Ochtman
 *	@version 1.0
 *	@date 15/04/2023
+* 
+* 
+* 	@author Andres Comeros-Ochtman
+*	@version 2.0
+*	@date 12/09/2023
 */
 class Renderer
 {
@@ -27,11 +32,24 @@ public:
 	void Init(GLFWwindow* window);
 
 		/**
+		*	@brief Call before rendering to use post processing. 
+		*	@warning ensure you call RenderPostProcessingBuffer after all rendering is complete
+		*	@return void
+		*/
+	void UsePostProcessingBuffer();
+
+		/**
+		*	@brief draws the post processing buffer to main buffer
+		*	@return void
+		*/
+	void RenderPostProcessingBuffer();
+
+		/**
 		*	@brief Draw the scene
 		*	@param scene scene to be drawn
 		*	@return void
 		*/
-	void Draw(Camera& cam, Scene& scene, double deltaTime);
+	void RenderScene(Camera& cam, Scene& scene, double deltaTime);
 
 		/**
 		*	@brief Set uniforms for All lights in a scene

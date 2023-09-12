@@ -102,7 +102,7 @@ public:
 	void LookAt(glm::vec3 lookvec);
 
 	glm::mat4 GetTransformMatrix();
-
+		
 		///Position in worldspace
 	glm::vec3 position = {0,0,0};
 		///Scale along each axis
@@ -112,6 +112,7 @@ public:
 
 		///3D model data
 	DrawItem *model_data = nullptr;
+	bool isCastShadow = true;
 
 		///Custom shader
 	Shader* shader = nullptr;

@@ -23,7 +23,7 @@ void SceneEditor::Run(const char* filePath)
 			luaManager.RunUpdateMethod(deltaTime);
 		}
 
-		renderer.Draw(camera, *scene, deltaTime);
+		renderer.RenderScene(camera, *scene, deltaTime);
 		physicsManager.DrawPhysicsWorld(camera);
 
 		Draw(deltaTime);
@@ -172,11 +172,13 @@ void SceneEditor::UseScene(Scene* nscene)
 
 void SceneEditor::ResizeCallback(GLFWwindow* window, int width, int height)
 {
+	if (width <= 0 || height <= 0)
+		return;
 	SceneEditor& editor = SceneEditor::Get();
 	editor.camera.aspectRatio = (float)width / (float)height;
 	glViewport(0, 0, width, height);
 	editor.renderer.Resize(width, height);
-	editor.renderer.Draw(editor.camera, *editor.scene, editor.deltaTime);
+	editor.renderer.RenderScene(editor.camera, *editor.scene, editor.deltaTime);
 }
 
 void SceneEditor::DrawHeighrarchy()
@@ -871,6 +873,8 @@ void SceneEditor::DrawResources()
 			}
 	
 			int colCount = (viewport->Size.x * windowWidth) / (resourceWidth + (style.ItemSpacing.x * 2));
+			if (colCount <= 0)
+				colCount = 1;
 			ImGui::Columns(colCount, "texCols", false);
 
 			//show all textures loaded
@@ -909,6 +913,8 @@ void SceneEditor::DrawResources()
 			}
 
 			int colCount = (viewport->Size.x * windowWidth) / (resourceWidth + (style.ItemSpacing.x * 2));
+			if (colCount <= 0)
+				colCount = 1;
 			ImGui::Columns(colCount, "texCols", false);
 
 			Texture* shaderIcon = res.GetTexture("default");
@@ -967,6 +973,8 @@ void SceneEditor::DrawResources()
 
 			static DrawItem* inspectedModel = nullptr;
 			int colCount = ((viewport->Size.x * windowWidth) / 3) / (resourceWidth + (style.ItemSpacing.x * 3));
+			if (colCount <= 0)
+				colCount = 1;
 			ImGui::Columns(colCount, "modCols", false);
 			for (auto it : res.models)
 			{
