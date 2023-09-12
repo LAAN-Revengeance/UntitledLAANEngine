@@ -122,7 +122,8 @@ double GameEngine::DeltaTime() {
 }
 
 void GameEngine::ResizeCallback(GLFWwindow* window, int width, int height) {
-
+	if (width <= 0 || height <= 0)
+		return;
 	Scene& s = *GameEngine::Get().scene;
 	s.camera.aspectRatio = (float)width / (float)height;
 	glViewport(0, 0, width, height);

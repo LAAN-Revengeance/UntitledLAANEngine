@@ -3,28 +3,50 @@
 	{
 		"Ambient" : 
 		[
-			1.0,
-			1.0,
-			1.0
+			0.47549021244049072,
+			0.47549021244049072,
+			0.47549021244049072
 		],
-		"DirectionLights" : null,
+		"DirectionLights" : 
+		[
+			{
+				"diffuse" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				],
+				"direction" : 
+				[
+					0.39013466238975525,
+					0.85413265228271484,
+					-0.34389129281044006
+				],
+				"specular" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				]
+			}
+		],
 		"PointLights" : null
 	},
 	"luaMain" : "resources/scripts/main.lua",
 	"objects" : 
 	[
 		{
-			"diff" : "default",
+			"diff" : "Rock",
 			"model" : "quad",
-			"name" : "new object",
+			"name" : "Floor",
 			"physics" : 
 			[
 				{
 					"offset" : 
 					[
 						0.0,
-						-1.2000000476837158,
-						0.0
+						0.0,
+						-6.5399999618530273
 					],
 					"rotation" : 
 					[
@@ -44,7 +66,33 @@
 			"position" : 
 			[
 				0.0,
-				-1.2530727386474609,
+				-3.2360215187072754,
+				0.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"scale" : 
+			[
+				10.0,
+				1.0,
+				10.0
+			],
+			"shader" : "default",
+			"type" : "base"
+		},
+		{
+			"diff" : "BuildingDiff",
+			"model" : "building1",
+			"name" : "new object1",
+			"physics" : null,
+			"position" : 
+			[
+				0.0,
+				-3.294713020324707,
 				0.0
 			],
 			"rotation" : 
@@ -65,9 +113,25 @@
 	],
 	"resources" : 
 	{
-		"cubemaps" : null,
+		"cubemaps" : 
+		[
+			{
+				"back" : "C:\\Users\\Andres\\Documents\\GitHub\\ICT398Engine\\resources\\textures\\skybox\\Synthwave\\Back.png",
+				"bottom" : "C:\\Users\\Andres\\Documents\\GitHub\\ICT398Engine\\resources\\textures\\skybox\\Synthwave\\Bottom.png",
+				"front" : "C:\\Users\\Andres\\Documents\\GitHub\\ICT398Engine\\resources\\textures\\skybox\\Synthwave\\Front.png",
+				"left" : "C:\\Users\\Andres\\Documents\\GitHub\\ICT398Engine\\resources\\textures\\skybox\\Synthwave\\Left.png",
+				"name" : "C:\\Users\\Andres\\Documents\\GitHub\\ICT398Engine\\resources\\textures\\skybox\\Synthwave\\Right.png",
+				"right" : "C:\\Users\\Andres\\Documents\\GitHub\\ICT398Engine\\resources\\textures\\skybox\\Synthwave\\Right.png",
+				"top" : "C:\\Users\\Andres\\Documents\\GitHub\\ICT398Engine\\resources\\textures\\skybox\\Synthwave\\Top.png"
+			}
+		],
 		"models" : 
 		[
+			{
+				"name" : "building1",
+				"path" : "C:\\Users\\Andres\\Documents\\GitHub\\ICT398Engine\\resources\\models\\untitled2022\\CyberBuilding1.obj",
+				"type" : "mesh"
+			},
 			{
 				"name" : "quad",
 				"path" : "C:\\Users\\Andres\\Documents\\GitHub\\ICT398Engine\\resources\\models\\quad.obj",
@@ -104,9 +168,26 @@
 		"textures" : 
 		[
 			{
+				"name" : "BuildingDiff",
+				"path" : "C:\\Users\\Andres\\Documents\\GitHub\\ICT398Engine\\resources\\models\\untitled2022\\buildingDiffuse.png"
+			},
+			{
+				"name" : "BuildingEmiss",
+				"path" : "C:\\Users\\Andres\\Documents\\GitHub\\ICT398Engine\\resources\\models\\untitled2022\\buildingEmissive.png"
+			},
+			{
+				"name" : "BuildingSpec",
+				"path" : "C:\\Users\\Andres\\Documents\\GitHub\\ICT398Engine\\resources\\models\\untitled2022\\buildingSpecular.png"
+			},
+			{
+				"name" : "Rock",
+				"path" : "C:\\Users\\Andres\\Documents\\GitHub\\ICT398Engine\\resources\\textures\\terrain\\rock.png"
+			},
+			{
 				"name" : "default",
 				"path" : "resources/textures/default.png"
 			}
 		]
-	}
+	},
+	"skybox" : "C:\\Users\\Andres\\Documents\\GitHub\\ICT398Engine\\resources\\textures\\skybox\\Synthwave\\Right.png"
 }

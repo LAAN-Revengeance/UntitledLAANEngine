@@ -141,8 +141,9 @@ void Renderer::DrawShadowMaps(Camera& cam, Scene& scene)
 	
 	for (auto& it : scene.gameObjects) {
 		if (it.second) {
-
 			GameObject* obj = it.second;
+			if (!obj->isCastShadow)
+				continue;
 			glm::mat4 modelMat(1.0f);
 			modelMat = glm::scale(modelMat, obj->scale);
 			modelMat = glm::translate(modelMat, obj->position);
