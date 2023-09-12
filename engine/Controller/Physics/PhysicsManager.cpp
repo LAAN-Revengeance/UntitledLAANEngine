@@ -19,9 +19,34 @@ PhysicsManager::~PhysicsManager()
 	rp3dPhysicsCommon.destroyPhysicsWorld(rp3dWorld);
 }
 
-void PhysicsManager::ResolveCollision(PhysicsBody& b1, PhysicsBody& b2)
+void PhysicsManager::ResolveCollision(PhysicsBody& b1, PhysicsBody& b2, float penetrationDepth, glm::vec3 contactNormal)
 {
+	glm::vec3 correction = penetrationDepth * contactNormal;
 
+	glm::vec3 b1Pos = b1.GetPosition();
+	glm::vec3 b2Pos = b2.GetPosition();
+
+	if (b2.isKinematic)
+	{
+		b1Pos -= correction;
+	}
+	else {
+		b1Pos -= correction * 0.5f;
+	}
+
+	if (b1.isKinematic)
+	{
+		b2Pos += correction;
+
+	}
+	else {
+		b2Pos += correction * 0.5f;
+	}
+
+	if(!b1.isKinematic)
+		b1.SetPosition(b1Pos.x, b1Pos.y, b1Pos.z);
+	if(!b2.isKinematic)
+		b2.SetPosition(b2Pos.x, b2Pos.y, b2Pos.z);
 }
 
 PhysicsBody& PhysicsManager::GetPhysicsBody(unsigned int id)
@@ -35,12 +60,12 @@ void PhysicsManager::Update(double deltaTime)
 	rp3dWorld->testCollision(mCallback);
 }
 
-PhysicsBody& PhysicsManager::AddPhysicsBody(GameObject& go)
+PhysicsBody* PhysicsManager::CreatePhysicsBody()
 {
 	//add collision body to react and get its ID
 	rp3d::Vector3 pos(0.0, 0.0, 0.0);
 	rp3d::CollisionBody* bPtr;
-	bPtr = rp3dWorld->createCollisionBody({ {go.position.x, go.position.y, go.position.z},rp3d::Quaternion::identity() });
+	bPtr = rp3dWorld->createCollisionBody({ {0,0,0},rp3d::Quaternion::identity() });
 	unsigned int id = bPtr->getEntity().id;
 
 	//create a physics body and set ID.
@@ -49,11 +74,7 @@ PhysicsBody& PhysicsManager::AddPhysicsBody(GameObject& go)
 	pb.ID = id;
 	physicsBodies.insert({id,pb});
 
-	//assign rigidbody to gameobject
-	//maybe it should be the other way around? PhysicsBody has game object refernce?
-	go.physicsBody = &physicsBodies.at(id);
-
-	return physicsBodies.at(id);
+	return &physicsBodies.at(id);
 }
 
 void PhysicsManager::AddSphereCollider(PhysicsBody& pb, float radius)
@@ -136,9 +157,17 @@ void PhysicsManager::DrawPhysicsWorld(Camera& camera)
 	}
 }
 
+void PhysicsManager::DeletePhysicsBody(PhysicsBody* physicsBody)
+{
+	rp3dWorld->destroyCollisionBody(physicsBody->body);
+}
+
 void PhysicsManager::ResetPhysicsWorld()
 {
-
+	for (auto& it : physicsBodies)
+	{
+		DeletePhysicsBody(&it.second);
+	}
 	physicsBodies.clear();
 
 	while (rp3dWorld->getNbRigidBodies() > 0) {
@@ -160,11 +189,16 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 		unsigned int id1 = callbackData.getContactPair(i).getBody1()->getEntity().id;
 		unsigned int id2 = callbackData.getContactPair(i).getBody2()->getEntity().id;
 
-		std::cout << "body: " << id1 << " | " << "body: " << id2 << "\n";
+		//std::cout << "body: " << id1 << " | " << "body: " << id2 << "\n";
+
+		
+		float penDepth = callbackData.getContactPair(i).getContactPoint(0).getPenetrationDepth();
+		rp3d::Vector3 contactNormal = callbackData.getContactPair(i).getContactPoint(0).getWorldNormal();
+		
 		//if physics bodies exist, resolve collision.
 		auto rbMap = &pManager.physicsBodies;
 		if (rbMap->find(id1) != rbMap->end() && rbMap->find(id2) != rbMap->end()) {
-			pManager.ResolveCollision(pManager.GetPhysicsBody(id1), pManager.GetPhysicsBody(id2));
+			pManager.ResolveCollision(pManager.GetPhysicsBody(id1), pManager.GetPhysicsBody(id2), penDepth, { contactNormal.x,contactNormal.y,contactNormal.z});
 		}
 	}
 }

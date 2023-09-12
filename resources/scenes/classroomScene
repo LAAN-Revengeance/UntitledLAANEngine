@@ -1,0 +1,2011 @@
+{
+	"Lighting" : 
+	{
+		"Ambient" : 
+		[
+			1.0,
+			1.0,
+			1.0
+		],
+		"DirectionLights" : 
+		[
+			{
+				"diffuse" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				],
+				"direction" : 
+				[
+					0.0,
+					1.0,
+					0.0
+				],
+				"specular" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				]
+			}
+		],
+		"PointLights" : null
+	},
+	"luaMain" : "resources/scripts/main.lua",
+	"objects" : 
+	[
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair",
+			"physics" : null,
+			"position" : 
+			[
+				0.30000001192092896,
+				0.0,
+				1.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair1",
+			"physics" : null,
+			"position" : 
+			[
+				2.2999999523162842,
+				0.0,
+				1.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair10",
+			"physics" : null,
+			"position" : 
+			[
+				0.30000001192092896,
+				0.0,
+				-4.5
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair11",
+			"physics" : null,
+			"position" : 
+			[
+				2.4000000953674316,
+				0.0,
+				-4.5
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair12",
+			"physics" : null,
+			"position" : 
+			[
+				-0.30000001192092896,
+				0.0,
+				-3.0999999046325684
+			],
+			"rotation" : 
+			[
+				0.0,
+				-90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair13",
+			"physics" : null,
+			"position" : 
+			[
+				1.7000000476837158,
+				0.0,
+				-3.0999999046325684
+			],
+			"rotation" : 
+			[
+				0.0,
+				-90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair14",
+			"physics" : null,
+			"position" : 
+			[
+				9.1000003814697266,
+				0.0,
+				-4.5
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair15",
+			"physics" : null,
+			"position" : 
+			[
+				11.199999809265137,
+				0.0,
+				-4.5999999046325684
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair16",
+			"physics" : null,
+			"position" : 
+			[
+				0.30000001192092896,
+				0.0,
+				8.1000003814697266
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair17",
+			"physics" : null,
+			"position" : 
+			[
+				-1.7999999523162842,
+				0.0,
+				8.1000003814697266
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair18",
+			"physics" : null,
+			"position" : 
+			[
+				2.4000000953674316,
+				0.0,
+				8.1000003814697266
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair19",
+			"physics" : null,
+			"position" : 
+			[
+				-10.300000190734863,
+				0.0,
+				8.1000003814697266
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair2",
+			"physics" : null,
+			"position" : 
+			[
+				1.7000000476837158,
+				0.0,
+				2.5
+			],
+			"rotation" : 
+			[
+				0.0,
+				-90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair3",
+			"physics" : null,
+			"position" : 
+			[
+				-0.40000000596046448,
+				0.0,
+				2.5
+			],
+			"rotation" : 
+			[
+				0.0,
+				-90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair4",
+			"physics" : null,
+			"position" : 
+			[
+				9.1000003814697266,
+				0.0,
+				1.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair5",
+			"physics" : null,
+			"position" : 
+			[
+				11.100000381469727,
+				0.0,
+				1.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair6",
+			"physics" : null,
+			"position" : 
+			[
+				10.5,
+				0.0,
+				2.5999999046325684
+			],
+			"rotation" : 
+			[
+				0.0,
+				-90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair7",
+			"physics" : null,
+			"position" : 
+			[
+				8.3999996185302734,
+				0.0,
+				2.5999999046325684
+			],
+			"rotation" : 
+			[
+				0.0,
+				-90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair8",
+			"physics" : null,
+			"position" : 
+			[
+				8.3999996185302734,
+				0.0,
+				-3.0999999046325684
+			],
+			"rotation" : 
+			[
+				0.0,
+				-90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "chairTexture",
+			"model" : "chair",
+			"name" : "chair9",
+			"physics" : null,
+			"position" : 
+			[
+				10.5,
+				0.0,
+				-3.0999999046325684
+			],
+			"rotation" : 
+			[
+				0.0,
+				-90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2999999523162842,
+				1.2999999523162842,
+				1.2999999523162842
+			],
+			"shader" : "default",
+			"spec" : "chairSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "classroomTexture",
+			"model" : "classroom",
+			"name" : "classroom",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						0.0,
+						4.0500001907348633,
+						-9.7200002670288086
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						17.840000152587891,
+						4.1599998474121094,
+						0.20000000298023224
+					],
+					"type" : 1
+				},
+				{
+					"offset" : 
+					[
+						17.899999618530273,
+						4.0500001907348633,
+						1.059999942779541
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						0.20000000298023224,
+						4.2100000381469727,
+						10.590000152587891
+					],
+					"type" : 1
+				},
+				{
+					"offset" : 
+					[
+						-17.850000381469727,
+						4.0500001907348633,
+						1.190000057220459
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						0.20000000298023224,
+						4.0199999809265137,
+						10.75
+					],
+					"type" : 1
+				},
+				{
+					"offset" : 
+					[
+						0.0,
+						4.0500001907348633,
+						11.779999732971191
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						17.780000686645508,
+						4.0999999046325684,
+						0.20000000298023224
+					],
+					"type" : 1
+				},
+				{
+					"offset" : 
+					[
+						0.0,
+						-0.17000000178813934,
+						0.86000001430511475
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						17.680000305175781,
+						0.20000000298023224,
+						10.729999542236328
+					],
+					"type" : 1
+				},
+				{
+					"offset" : 
+					[
+						0.0,
+						7.9899997711181641,
+						0.86000001430511475
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						17.680000305175781,
+						0.20000000298023224,
+						10.729999542236328
+					],
+					"type" : 1
+				},
+				{
+					"offset" : 
+					[
+						-6.119999885559082,
+						4.0500001907348633,
+						11.430000305175781
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						0.97000002861022949,
+						4.0399999618530273,
+						0.34000000357627869
+					],
+					"type" : 1
+				},
+				{
+					"offset" : 
+					[
+						6.119999885559082,
+						4.0500001907348633,
+						11.430000305175781
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						0.97000002861022949,
+						4.0399999618530273,
+						0.34000000357627869
+					],
+					"type" : 1
+				},
+				{
+					"offset" : 
+					[
+						-6.0999999046325684,
+						7.5999999046325684,
+						0.72000002861022949
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						0.93000000715255737,
+						0.40000000596046448,
+						10.399999618530273
+					],
+					"type" : 1
+				},
+				{
+					"offset" : 
+					[
+						6.119999885559082,
+						7.5999999046325684,
+						0.72000002861022949
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						0.93000000715255737,
+						0.40000000596046448,
+						10.399999618530273
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				-4.76837158203125e-07,
+				0.0,
+				-4.3153762817382812e-05
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.0,
+				1.0,
+				1.0
+			],
+			"shader" : "default",
+			"spec" : "classroomSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						0.0,
+						1.1299999952316284,
+						3.5499999523162842
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				0.0,
+				0.0,
+				7.0999999046325684
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk1",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						-0.43999999761581421,
+						1.1299999952316284,
+						3.5499999523162842
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				-2.2000000476837158,
+				0.0,
+				7.0999999046325684
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk10",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						0.0,
+						1.1299999952316284,
+						-1.3600000143051147
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				0.0,
+				0.0,
+				-2.7000000476837158
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk11",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						0.0,
+						1.1299999952316284,
+						-1.9800000190734863
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				0.0,
+				0.0,
+				-3.9000000953674316
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk12",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						0.46000000834465027,
+						1.1299999952316284,
+						-1.3600000143051147
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				2.2000000476837158,
+				0.0,
+				-2.7000000476837158
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk13",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						2.3299999237060547,
+						1.1299999952316284,
+						-1.9800000190734863
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				11.699999809265137,
+				0.0,
+				-3.9000000953674316
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk14",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						2.3299999237060547,
+						1.1299999952316284,
+						-1.3600000143051147
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				11.699999809265137,
+				0.0,
+				-2.7000000476837158
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk15",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						1.8799999952316284,
+						1.1299999952316284,
+						-1.3600000143051147
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				9.5,
+				0.0,
+				-2.7000000476837158
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk16",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						1.8799999952316284,
+						1.1299999952316284,
+						-1.9800000190734863
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				9.5,
+				0.0,
+				-3.9000000953674316
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk17",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						1.8799999952316284,
+						1.1299999952316284,
+						1.1000000238418579
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				9.5,
+				0.0,
+				2.2000000476837158
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk18",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						1.8799999952316284,
+						1.1299999952316284,
+						0.47999998927116394
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				9.5,
+				0.0,
+				1.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk19",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						2.3299999237060547,
+						1.1299999952316284,
+						0.47999998927116394
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				11.699999809265137,
+				0.0,
+				1.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk2",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						0.44999998807907104,
+						1.1299999952316284,
+						3.5499999523162842
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				2.2000000476837158,
+				0.0,
+				7.0999999046325684
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk20",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						2.3299999237060547,
+						1.1299999952316284,
+						1.1100000143051147
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				11.699999809265137,
+				0.0,
+				2.2000000476837158
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk3",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						-2.2999999523162842,
+						1.1299999952316284,
+						3.5499999523162842
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				-11.545999526977539,
+				0.0,
+				7.0999999046325684
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk4",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						-2.0399999618530273,
+						1.1299999952316284,
+						-1.1599999666213989
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				-10.145999908447266,
+				0.0,
+				-2.4000000953674316
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk5",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						0.0,
+						1.1299999952316284,
+						0.46000000834465027
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				0.0,
+				0.0,
+				1.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk6",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						0.0,
+						1.1299999952316284,
+						1.0900000333786011
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				0.0,
+				0.0,
+				2.2000000476837158
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk7",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						0.43999999761581421,
+						1.1299999952316284,
+						1.0900000333786011
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				2.2000000476837158,
+				0.0,
+				2.2000000476837158
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk8",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						0.44999998807907104,
+						1.1299999952316284,
+						0.46000000834465027
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				2.2000000476837158,
+				0.0,
+				1.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "deskTexture",
+			"model" : "desk",
+			"name" : "desk9",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						0.43999999761581421,
+						1.1299999952316284,
+						-1.9800000190734863
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.3200000524520874,
+						1.0900000333786011,
+						0.9100000262260437
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				2.2000000476837158,
+				0.0,
+				-3.9000000953674316
+			],
+			"rotation" : 
+			[
+				0.0,
+				90.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.2000000476837158,
+				1.7999999523162842,
+				1.5
+			],
+			"shader" : "default",
+			"spec" : "deskSpecular",
+			"type" : "base"
+		},
+		{
+			"diff" : "teacherDeskTexture",
+			"model" : "teacherDesk",
+			"name" : "teacherDesk",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						-12.180000305175781,
+						1.2000000476837158,
+						-7.2899999618530273
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.5,
+						1.1699999570846558,
+						2.5
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				-0.0037713050842285156,
+				0.0,
+				0.27683329582214355
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.0,
+				1.0,
+				1.0
+			],
+			"shader" : "default",
+			"spec" : "teacherDeskSpecular",
+			"type" : "base"
+		}
+	],
+	"resources" : 
+	{
+		"cubemaps" : null,
+		"models" : 
+		[
+			{
+				"name" : "chair",
+				"path" : "resources\\models\\Chair\\chair.obj",
+				"type" : "mesh"
+			},
+			{
+				"name" : "classroom",
+				"path" : "resources\\models\\Classroom\\classroom.obj",
+				"type" : "mesh"
+			},
+			{
+				"name" : "desk",
+				"path" : "resources\\models\\Desk\\desk.obj",
+				"type" : "mesh"
+			},
+			{
+				"name" : "teacherDesk",
+				"path" : "resources\\models\\TeacherDesk\\teacherDesk.obj",
+				"type" : "mesh"
+			}
+		],
+		"shaders" : 
+		[
+			{
+				"frag" : "resources/shaders/Water.frag",
+				"geom" : "",
+				"name" : "Water",
+				"vert" : "resources/shaders/Water.vert"
+			},
+			{
+				"frag" : "resources/shaders/Default.frag",
+				"geom" : "",
+				"name" : "default",
+				"vert" : "resources/shaders/Default.vert"
+			},
+			{
+				"frag" : "resources/shaders/Physics_Debug/Physics.frag",
+				"geom" : "",
+				"name" : "physics",
+				"vert" : "resources/shaders/Physics_Debug/Physics.vert"
+			},
+			{
+				"frag" : "resources/shaders/terrain/Terrain.frag",
+				"geom" : "",
+				"name" : "terrain",
+				"vert" : "resources/shaders/Default.vert"
+			}
+		],
+		"textures" : 
+		[
+			{
+				"name" : "chairSpecular",
+				"path" : "resources\\models\\Chair\\chairSpecular.jpg"
+			},
+			{
+				"name" : "chairTexture",
+				"path" : "resources\\models\\Chair\\chairTexture.jpg"
+			},
+			{
+				"name" : "classroomSpecular",
+				"path" : "resources\\models\\Classroom\\classroomSpecular.jpg"
+			},
+			{
+				"name" : "classroomTexture",
+				"path" : "resources\\models\\Classroom\\classroomTexture2.jpg"
+			},
+			{
+				"name" : "default",
+				"path" : "resources/textures/default.png"
+			},
+			{
+				"name" : "deskSpecular",
+				"path" : "resources\\models\\Desk\\deskSpecular.jpg"
+			},
+			{
+				"name" : "deskTexture",
+				"path" : "resources\\models\\Desk\\desk.jpg"
+			},
+			{
+				"name" : "teacherDeskSpecular",
+				"path" : "resources\\models\\TeacherDesk\\teacherDeskSpecular.jpg"
+			},
+			{
+				"name" : "teacherDeskTexture",
+				"path" : "resources\\models\\TeacherDesk\\blackWood.jpg"
+			}
+		]
+	}
+}

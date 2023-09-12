@@ -250,7 +250,7 @@ void LuaManager::Expose_Engine() {
 	//expose physics
 	Expose_CPPClass<PhysicsManager>("PhysicsManager",
 		sol::no_constructor,
-		"AddPhysicsBody", &PhysicsManager::AddPhysicsBody,
+		"AddPhysicsBody", &PhysicsManager::CreatePhysicsBody,
 		"AddSphereCollider", &PhysicsManager::AddSphereCollider,
 		"AddBoxCollider", &PhysicsManager::AddBoxCollider,
 		"AddCapsuleCollider", &PhysicsManager::AddCapsuleCollider,

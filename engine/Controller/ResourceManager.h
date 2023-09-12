@@ -133,6 +133,9 @@ public:
 		*/
 	GameObject* GetGameObject(std::string resName);
 
+		///Deletes a gameobject
+	void DeleteGameObject(std::string goName);
+
 		///Get itterator for texture resources
 	auto TextureBegin() { return textures.begin(); }
 		///Get itterator for texture resources

@@ -1,9 +1,9 @@
 #pragma once
 #include <reactphysics3d/reactphysics3d.h>
 #include "RigidBody.h"
-#include <GameObject.h>
 #include <map>
-
+#include <Graphics/Graphics.h>
+#include <Mesh.h>
 
 class rp3dCollisionCallback : public rp3d::CollisionCallback {
 
@@ -43,7 +43,7 @@ public:
 		*	@param go - game object to add a physicsbody to
 		*	@return Created physics body
 		*/
-	PhysicsBody& AddPhysicsBody(GameObject& go);
+	PhysicsBody* CreatePhysicsBody();
 
 		/**
 		*	@brief add sphere collider to supplied physics body
@@ -76,7 +76,7 @@ public:
 		*	@param b2 - second physicsbody
 		*	@return void
 		*/
-	void ResolveCollision(PhysicsBody& b1, PhysicsBody& b2);
+	void ResolveCollision(PhysicsBody& b1, PhysicsBody& b2, float penetrationDepth, glm::vec3 contactNormal);
 
 		/**
 		*	@brief Get a physics body based on its ID
@@ -91,6 +91,8 @@ public:
 		*	@return void 
 		*/
 	void DrawPhysicsWorld(Camera& camera);
+
+	void DeletePhysicsBody(PhysicsBody* physicsBody);
 
 	void ResetPhysicsWorld();
 private:

@@ -18,13 +18,16 @@ void SceneEditor::Run(const char* filePath)
 
 		//inputMngr.KeyActions(deltaTime);
 		if (isRunning) {
-			aiManager.UpdateAgents(deltaTime);
+			for (auto& it : scene->gameObjects) {
+				it.second->Update(deltaTime);
+			}
 			physicsManager.Update(deltaTime);
 			luaManager.RunUpdateMethod(deltaTime);
 		}
+		renderer.RenderScene(camera, *scene, deltaTime);
 
-		renderer.Draw(camera, *scene, deltaTime);
-		physicsManager.DrawPhysicsWorld(camera);
+		if (isPhysicDebug)
+			physicsManager.DrawPhysicsWorld(camera);
 
 		Draw(deltaTime);
 
@@ -120,28 +123,20 @@ void SceneEditor::Update(double deltaTime)
 
 void SceneEditor::SaveProject(const char* path)
 {
-	if (scene) {
-		SceneLoader::SaveScene(scene, path);
-	}
-
-	Json::Value root;
-	std::ifstream jsonFile(path);
-	jsonFile >> root;
-	jsonFile.close();
-
-	root["luaMain"] = luaFilePath;
-
-	std::ofstream updatedJsonFile(path);
-	updatedJsonFile << root;
-	updatedJsonFile.close();
+	ProjectLoader::SaveProject(scene,luaFilePath, windowName.c_str(),path);
 }
 
 void SceneEditor::LoadSceneFromFile(const char* path)
 {
 	inspectedObject = nullptr;
 	lastObject = nullptr;
-	scene = &SceneLoader::LoadScene(path);
-	strcpy(saveFilePath, path);
+
+	Project nProject = ProjectLoader::LoadProject(path);
+	scene = nProject.scene;// &SceneLoader::LoadScene(path);
+	luaFilePath = nProject.luaPath;
+	windowName = nProject.windowName;
+
+	saveFilePath = path;
 
 	if (!scene)
 		return;
@@ -173,11 +168,13 @@ void SceneEditor::UseScene(Scene* nscene)
 
 void SceneEditor::ResizeCallback(GLFWwindow* window, int width, int height)
 {
+	if (width <= 0 || height <= 0)
+		return;
 	SceneEditor& editor = SceneEditor::Get();
 	editor.camera.aspectRatio = (float)width / (float)height;
 	glViewport(0, 0, width, height);
 	editor.renderer.Resize(width, height);
-	editor.renderer.Draw(editor.camera, *editor.scene, editor.deltaTime);
+	editor.renderer.RenderScene(editor.camera, *editor.scene, editor.deltaTime);
 }
 
 void SceneEditor::DrawHeighrarchy()
@@ -210,6 +207,7 @@ void SceneEditor::DrawHeighrarchy()
 	}
 
 	int j = 0;
+	std::string delname = "";
 	for (auto& pair : scene->gameObjects)
 	{
 		ImGuiTreeNodeFlags tmpFlags = baseFlags;
@@ -230,6 +228,10 @@ void SceneEditor::DrawHeighrarchy()
 		}
 
 		if (nodeOpen) {
+			
+			if (ImGui::Button("Delete##deleteObject")) {
+				delname = pair.first;			}
+
 			if (ImGui::Button((std::string("Duplicate##") + (pair.second->name)).c_str()))
 			{
 				std::string name = pair.first;
@@ -245,7 +247,7 @@ void SceneEditor::DrawHeighrarchy()
 				go = *pair.second;
 				go.name = nName;
 
-				physicsManager.AddPhysicsBody(go);
+				go.physicsBody = physicsManager.CreatePhysicsBody();
 				
 				if(pair.second->physicsBody)
 				for (int i = 0; i < pair.second->physicsBody->GetNumColliders(); ++i)
@@ -277,7 +279,19 @@ void SceneEditor::DrawHeighrarchy()
 		}
 		j++;
 	}
+	if (!delname.empty()) {
+		inspectedObject = nullptr;
+		lastObject = nullptr;
 
+		GameObject* delObj = res.GetGameObject(delname);
+
+		//delete physics
+		physicsManager.DeletePhysicsBody(delObj->physicsBody);
+
+		res.DeleteGameObject(delname);
+		scene->gameObjects.erase(delname);
+	}
+		
 	ImGui::SeparatorText("Skybox");
 	if (!scene->skybox) {
 
@@ -424,7 +438,6 @@ void SceneEditor::DrawInspector()
 	static ImGuiTreeNodeFlags baseFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Leaf;
 	ResourceManager& res = ResourceManager::Get();
 	
-
 	if (inspectedObject) {
 		
 		if (!lastObject)
@@ -492,6 +505,11 @@ void SceneEditor::DrawInspector()
 		static std::string selectedShader;
 		static std::string selectedMesh;
 
+		if (ImGui::RadioButton("Cast Shadows", inspectedObject->isCastShadow))
+		{
+			inspectedObject->isCastShadow = !inspectedObject->isCastShadow;
+		}
+			
 		if (changeObject) {
 			selectedShader = "";
 			if (inspectedObject->shader)
@@ -593,25 +611,29 @@ void SceneEditor::DrawInspector()
 
 		//PHYSICS SETTINGS
 		ImGui::SeparatorText("Physics");
-
+		if(inspectedObject->physicsBody)
+		if (ImGui::RadioButton("Is Kinematic", inspectedObject->physicsBody->isKinematic))
+		{
+			inspectedObject->physicsBody->isKinematic = !inspectedObject->physicsBody->isKinematic;
+		}
 		//Box
 		if (ImGui::Button("Add Box Collider##box")){
 			if (!inspectedObject->physicsBody)
-				physicsManager.AddPhysicsBody(*inspectedObject);
+				inspectedObject->physicsBody = physicsManager.CreatePhysicsBody();
 			physicsManager.AddBoxCollider(*inspectedObject->physicsBody, {1.0f,1.0f,1.0f});
 		}
 
 		//Sphere
 		if (ImGui::Button("Add Sphere Collider##sphere")) {
 			if (!inspectedObject->physicsBody)
-				physicsManager.AddPhysicsBody(*inspectedObject);
+				inspectedObject->physicsBody = physicsManager.CreatePhysicsBody();
 			physicsManager.AddSphereCollider(*inspectedObject->physicsBody, 1.0f);
 		}
 
 		//Capsule
 		if (ImGui::Button("Add Capsule Collider##capsule")) {
 			if (!inspectedObject->physicsBody)
-				physicsManager.AddPhysicsBody(*inspectedObject);
+				inspectedObject->physicsBody = physicsManager.CreatePhysicsBody();
 			physicsManager.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f,2.0f);
 		}
 
@@ -672,6 +694,10 @@ void SceneEditor::DrawInspector()
 						}
 					}
 
+					if (ImGui::Button((std::string("Delete") + nodeName).c_str()))
+					{
+						pb->DeleteCollider(i);
+					}
 					ImGui::TreePop();
 				}
 				++i;
@@ -736,26 +762,26 @@ void SceneEditor::DrawMenu()
 				scene = new Scene;
 				physicsManager.ResetPhysicsWorld();
 				saveFilePath[0] = '\0';
-				strcpy(luaFilePath, "resources/scripts/main.lua");
+				luaFilePath = "resources/scripts/main.lua";
 			}
 			if (ImGui::MenuItem("Save", "Ctrl+S")) {
-				if (strlen(saveFilePath) < 1)
+				if (saveFilePath.size() < 1)
 				{
 					std::string savePath = FileOpener::OpenFileDialogue(SAVE_FILE);
 					if (scene && !savePath.empty()) {
 						SaveProject(savePath.c_str());
-						strcpy(saveFilePath, savePath.c_str());
+						saveFilePath = savePath;
 					}
 				}
 				else if(scene){
-					SaveProject(saveFilePath);
+					SaveProject(saveFilePath.c_str());
 				}
 			}
 			if (ImGui::MenuItem("Save As",NULL)) {
 				std::string savePath = FileOpener::OpenFileDialogue(SAVE_FILE);
 				if (scene) {
 					SaveProject(savePath.c_str());
-					strcpy(saveFilePath, savePath.c_str());
+					saveFilePath = savePath;
 				}
 			}
 			if (ImGui::MenuItem("Open",NULL)) {
@@ -777,7 +803,7 @@ void SceneEditor::DrawMenu()
 				std::string lpath = FileOpener::OpenFileDialogue(OPEN_FILE);
 				if (!lpath.empty()) {
 					luaManager.SetLuaFile(lpath.c_str());
-					strcpy(luaFilePath, lpath.c_str());
+					luaFilePath = lpath;
 
 					luaManager.Expose_CPPReference("scene", *scene);
 					luaManager.RunInitMethod();
@@ -848,8 +874,8 @@ void SceneEditor::DrawMenu()
 
 	guirenderer.EndWindow();
 
-	DrawWindowSettings(&showChangeWindow);
 	DrawDebug(&showDebug);
+	DrawWindowSettings(&showChangeWindow);
 	//DrawOpenFile(&showOpenFile);
 	DrawSaveFile(&showSaveFile);
 }
@@ -878,6 +904,9 @@ void SceneEditor::DrawResources()
 			if (ImGui::Button("Open File##openTextureFile"))
 			{
 				std::string tPath = FileOpener::OpenFileDialogue();
+
+				tPath = FilterFilePath(tPath);
+
 				if (tPath.size() >= 1) {
 					strcpy(texturePath, tPath.c_str());
 				}
@@ -893,6 +922,8 @@ void SceneEditor::DrawResources()
 			}
 	
 			int colCount = (viewport->Size.x * windowWidth) / (resourceWidth + (style.ItemSpacing.x * 2));
+			if (colCount <= 0)
+				colCount = 1;
 			ImGui::Columns(colCount, "texCols", false);
 
 			//show all textures loaded
@@ -931,6 +962,8 @@ void SceneEditor::DrawResources()
 			}
 
 			int colCount = (viewport->Size.x * windowWidth) / (resourceWidth + (style.ItemSpacing.x * 2));
+			if (colCount <= 0)
+				colCount = 1;
 			ImGui::Columns(colCount, "texCols", false);
 
 			Texture* shaderIcon = res.GetTexture("default");
@@ -952,7 +985,6 @@ void SceneEditor::DrawResources()
 		{
 			ImGui::Columns(3, "texCols", false);
 	
-
 			ImGui::Text("Model File and Name:");
 			static char modelName[512] = "";
 			static char modelPath[512] = "";
@@ -961,6 +993,9 @@ void SceneEditor::DrawResources()
 			if (ImGui::Button("Open File##openTextureFile"))
 			{
 				std::string mPath = FileOpener::OpenFileDialogue();
+
+				mPath = FilterFilePath(mPath);
+
 				if (mPath.size() >= 1) {
 					strcpy(modelPath, mPath.c_str());
 				}
@@ -987,6 +1022,8 @@ void SceneEditor::DrawResources()
 
 			static DrawItem* inspectedModel = nullptr;
 			int colCount = ((viewport->Size.x * windowWidth) / 3) / (resourceWidth + (style.ItemSpacing.x * 3));
+			if (colCount <= 0)
+				colCount = 1;
 			ImGui::Columns(colCount, "modCols", false);
 			for (auto it : res.models)
 			{
@@ -1124,11 +1161,16 @@ void SceneEditor::DrawWindowSettings(bool* showChangeWindow)
 	if(!(*showChangeWindow))
 		return
 
-	ImGui::SetNextWindowSize({ 330,70 });
-	ImGui::Begin("Window Settings", showChangeWindow);
+	ImGui::SetNextWindowSize({ 500,70 });
+	ImGui::Begin("Set Window Name", showChangeWindow);
 	static char str0[128] = "";
 	if (ImGui::InputTextWithHint("Window Title", "Window Name", str0, IM_ARRAYSIZE(str0))) {
 		//TODO: SET window title in json file.
+	}
+	if (ImGui::Button("Set Window Title##420"))
+	{
+		windowName = str0;
+		glfwSetWindowTitle(window, windowName.c_str());
 	}
 
 	ImGui::End();
@@ -1139,7 +1181,7 @@ void SceneEditor::DrawDebug(bool* showDebug)
 	if (!(*showDebug))
 		return;
 
-	ImGui::SetNextWindowSize({ 300,150 });
+	ImGui::SetNextWindowSize({ 300,200 });
 	ImGui::Begin("Debug", showDebug);
 	
 	double fps = Renderer::Get().GetFPS();
@@ -1164,6 +1206,10 @@ void SceneEditor::DrawDebug(bool* showDebug)
 		ImGui::PlotLines("##FPS", values, IM_ARRAYSIZE(values), values_offset, overlay, 0.0f, 200.0f, ImVec2(0, 80.0f));
 	}
 
+	if (ImGui::Button("Toggle Physics Debug"))
+	{
+		isPhysicDebug = !isPhysicDebug;
+	}
 
 	ImGui::End();
 
@@ -1194,8 +1240,9 @@ void SceneEditor::DrawSaveFile(bool* showSaveFile)
 
 	ImGui::SetNextWindowSize({ 300,150 });
 	ImGui::Begin("Save Scene", showSaveFile);
-	if (ImGui::InputTextWithHint("##savefilePath", "FilePath", saveFilePath, IM_ARRAYSIZE(saveFilePath))) {
-
+	static char saveFileBuf[256];
+	if (ImGui::InputTextWithHint("##savefilePath", "FilePath", saveFileBuf, IM_ARRAYSIZE(saveFileBuf))) {
+		saveFilePath = saveFileBuf;
 	}
 	if (ImGui::Button("Save##saveFile")) {
 		if(scene)
@@ -1312,6 +1359,11 @@ void SceneEditor::CameraControl(double deltaTime)
 	camera.Yaw = camera.Yaw - xoffset;
 	camera.Pitch = camera.Pitch - yoffset;
 
+	if (camera.Pitch > 85.0f)
+		camera.Pitch = 85.0f;
+	if (camera.Pitch < -85.0f)
+		camera.Pitch = -85.0f;
+
 	camera.UpdateCameraVectors();
 
 }
@@ -1332,14 +1384,47 @@ void SceneEditor::CheckKeys()
 
 	if (savePressed) {
 		if(!saveDown)
-			if (std::strlen(saveFilePath) > 0 && scene) {
-				SaveProject(saveFilePath);
+			if (saveFilePath.size() > 0 && scene) {
+				SaveProject(saveFilePath.c_str());
 			}
 			else if(scene){
-				strcpy(saveFilePath,"untitled_Save.json");
-				SaveProject(saveFilePath);
+				saveFilePath = "untitled_Save.json";
+				SaveProject(saveFilePath.c_str());
 			}
 		saveDown = true;
 	}
 
+}
+
+std::string SceneEditor::FilterFilePath(std::string filePath)
+{
+	std::string temp;
+	int flag = 0;
+
+	for (int i = 0; i < filePath.size(); i++)
+	{
+		if (flag == 0)
+		{
+			if (filePath[i] == '\\')
+			{
+				if (temp == "\\resources")
+				{
+					flag = 1;
+				}
+				else
+				{
+					temp.clear();
+				}
+			}
+		}
+		else if (flag == 1)
+		{
+			temp = temp.substr(1, temp.size() - 1);
+			flag = 2;
+		}
+
+		temp = temp + filePath[i];
+	}
+
+	return temp;
 }
