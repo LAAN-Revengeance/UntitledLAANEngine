@@ -211,6 +211,7 @@ void SceneEditor::DrawHeighrarchy()
 	}
 
 	int j = 0;
+	std::string delObject = "";
 	for (auto& pair : scene->gameObjects)
 	{
 		ImGuiTreeNodeFlags tmpFlags = baseFlags;
@@ -231,6 +232,10 @@ void SceneEditor::DrawHeighrarchy()
 		}
 
 		if (nodeOpen) {
+			
+			if (ImGui::Button("Delete##deleteObject")) {
+				delObject = pair.first;			}
+
 			if (ImGui::Button((std::string("Duplicate##") + (pair.second->name)).c_str()))
 			{
 				std::string name = pair.first;
@@ -278,7 +283,13 @@ void SceneEditor::DrawHeighrarchy()
 		}
 		j++;
 	}
-
+	if (!delObject.empty()) {
+		inspectedObject = nullptr;
+		lastObject = nullptr;
+		res.DeleteGameObject(delObject);
+		scene->gameObjects.erase(delObject);
+	}
+		
 	ImGui::SeparatorText("Skybox");
 	if (!scene->skybox) {
 
