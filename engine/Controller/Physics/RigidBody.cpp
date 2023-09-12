@@ -7,6 +7,7 @@ PhysicsBody::PhysicsBody()
 
 PhysicsBody::~PhysicsBody()
 {
+
 }
 
 void PhysicsBody::ApplyForce(float x, float y, float z)
@@ -66,3 +67,4 @@ unsigned int PhysicsBody::GetID()
 {
 	return ID;
 }
+
