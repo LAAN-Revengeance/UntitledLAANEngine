@@ -93,6 +93,9 @@ public:
 
 	void DeleteCollider(unsigned int colliderIndex);
 
+		//if this object ignores external forces
+	bool isKinematic = false;
+
 	friend class PhysicsManager;
 
 private:

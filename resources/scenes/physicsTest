@@ -1,0 +1,155 @@
+{
+	"Lighting" : 
+	{
+		"Ambient" : 
+		[
+			1.0,
+			1.0,
+			1.0
+		],
+		"DirectionLights" : null,
+		"PointLights" : null
+	},
+	"luaPath" : "resources/scripts/main.lua",
+	"objects" : 
+	[
+		{
+			"castShadows" : true,
+			"isKinematic" : false,
+			"name" : "Object1",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						0.0,
+						0.0,
+						0.0
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.0,
+						1.0,
+						1.0
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				-3.7292475700378418,
+				0.0,
+				0.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.0,
+				1.0,
+				1.0
+			],
+			"shader" : "default",
+			"type" : "base"
+		},
+		{
+			"castShadows" : true,
+			"isKinematic" : false,
+			"name" : "Object2",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						0.0,
+						0.0,
+						0.0
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.0,
+						1.0,
+						1.0
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				4.2381696701049805,
+				0.0,
+				0.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.0,
+				1.0,
+				1.0
+			],
+			"shader" : "default",
+			"type" : "base"
+		}
+	],
+	"resources" : 
+	{
+		"cubemaps" : null,
+		"models" : null,
+		"shaders" : 
+		[
+			{
+				"frag" : "resources/shaders/Water.frag",
+				"geom" : "",
+				"name" : "Water",
+				"vert" : "resources/shaders/Water.vert"
+			},
+			{
+				"frag" : "resources/shaders/Default.frag",
+				"geom" : "",
+				"name" : "default",
+				"vert" : "resources/shaders/Default.vert"
+			},
+			{
+				"frag" : "resources/shaders/Physics_Debug/Physics.frag",
+				"geom" : "",
+				"name" : "physics",
+				"vert" : "resources/shaders/Physics_Debug/Physics.vert"
+			},
+			{
+				"frag" : "resources/shaders/terrain/Terrain.frag",
+				"geom" : "",
+				"name" : "terrain",
+				"vert" : "resources/shaders/Default.vert"
+			}
+		],
+		"textures" : 
+		[
+			{
+				"name" : "default",
+				"path" : "resources/textures/default.png"
+			}
+		]
+	},
+	"windowName" : "editor"
+}

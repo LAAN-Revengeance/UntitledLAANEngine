@@ -44,6 +44,11 @@ void GameObject::SetUniforms()
 
 void GameObject::Update(double dt)
 {
+	if (physicsBody)
+	{
+		SetPosition(physicsBody->GetPosition());
+		SetRotation(physicsBody->GetRotation());
+	}
 }
 
 

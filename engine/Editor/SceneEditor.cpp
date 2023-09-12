@@ -18,11 +18,12 @@ void SceneEditor::Run(const char* filePath)
 
 		//inputMngr.KeyActions(deltaTime);
 		if (isRunning) {
-			aiManager.UpdateAgents(deltaTime);
+			for (auto& it : scene->gameObjects) {
+				it.second->Update(deltaTime);
+			}
 			physicsManager.Update(deltaTime);
 			luaManager.RunUpdateMethod(deltaTime);
 		}
-
 		renderer.RenderScene(camera, *scene, deltaTime);
 
 		if (isPhysicDebug)
@@ -609,7 +610,11 @@ void SceneEditor::DrawInspector()
 
 		//PHYSICS SETTINGS
 		ImGui::SeparatorText("Physics");
-
+		if(inspectedObject->physicsBody)
+		if (ImGui::RadioButton("Is Kinematic", inspectedObject->physicsBody->isKinematic))
+		{
+			inspectedObject->physicsBody->isKinematic = !inspectedObject->physicsBody->isKinematic;
+		}
 		//Box
 		if (ImGui::Button("Add Box Collider##box")){
 			if (!inspectedObject->physicsBody)
