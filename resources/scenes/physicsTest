@@ -15,6 +15,7 @@
 	[
 		{
 			"castShadows" : true,
+			"isKinematic" : false,
 			"name" : "Object1",
 			"physics" : 
 			[
@@ -63,6 +64,7 @@
 		},
 		{
 			"castShadows" : true,
+			"isKinematic" : false,
 			"name" : "Object2",
 			"physics" : 
 			[

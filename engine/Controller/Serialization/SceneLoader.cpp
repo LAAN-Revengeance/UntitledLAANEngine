@@ -317,6 +317,7 @@ Scene& SceneLoader::LoadScene(const char* inName)
         PhysicsManager& physicsManager = PhysicsManager::Get();
 
         go->physicsBody = physicsManager.CreatePhysicsBody();
+        go->physicsBody->isKinematic = jobj["isKinematic"].asBool();
         for (int i = 0; i < jobj["physics"].size(); i++)
         {
             glm::vec3 nOffset;
@@ -474,8 +475,9 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
     }
 
     jobj["physics"] = jphysicsBody;
+    jobj["isKinematic"] = obj->physicsBody->isKinematic;
     //end physicsbody
-    
+
     //state machine info
     AIManager& ai = AIManager::Get();
 

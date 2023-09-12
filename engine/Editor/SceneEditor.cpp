@@ -609,7 +609,10 @@ void SceneEditor::DrawInspector()
 
 		//PHYSICS SETTINGS
 		ImGui::SeparatorText("Physics");
-
+		if (ImGui::RadioButton("Is Kinematic", inspectedObject->physicsBody->isKinematic))
+		{
+			inspectedObject->physicsBody->isKinematic = !inspectedObject->physicsBody->isKinematic;
+		}
 		//Box
 		if (ImGui::Button("Add Box Collider##box")){
 			if (!inspectedObject->physicsBody)
