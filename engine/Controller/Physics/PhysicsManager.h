@@ -76,7 +76,7 @@ public:
 		*	@param b2 - second physicsbody
 		*	@return void
 		*/
-	void ResolveCollision(PhysicsBody& b1, PhysicsBody& b2);
+	void ResolveCollision(PhysicsBody& b1, PhysicsBody& b2, float penetrationDepth, glm::vec3 contactNormal);
 
 		/**
 		*	@brief Get a physics body based on its ID
