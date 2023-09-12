@@ -44,6 +44,7 @@ void GameObject::SetUniforms()
 
 void GameObject::Update(double dt)
 {
+	std::cout << "aaaaaaaaaaa\n";
 	physicsBody->SetPosition(position.x,position.y,position.z);
 	physicsBody->SetRotation(rotation.x, rotation.y, rotation.z);
 }
