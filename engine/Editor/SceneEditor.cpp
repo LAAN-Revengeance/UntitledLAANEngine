@@ -1071,6 +1071,7 @@ void SceneEditor::DrawResources()
 		ImGui::Columns(1);
 
 		//AUDIO TAB
+		/*
 		if (ImGui::BeginTabItem("Audio"))
 		{
 			ImGui::Columns(3, "texCols", false);
@@ -1113,6 +1114,7 @@ void SceneEditor::DrawResources()
 			}
 			ImGui::EndTabItem();
 		}
+		*/
 		ImGui::EndTabBar();
 	}
 
