@@ -694,6 +694,10 @@ void SceneEditor::DrawInspector()
 						}
 					}
 
+					if (ImGui::Button((std::string("Delete") + nodeName).c_str()))
+					{
+						pb->DeleteCollider(i);
+					}
 					ImGui::TreePop();
 				}
 				++i;
