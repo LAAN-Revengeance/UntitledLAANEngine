@@ -23,8 +23,6 @@ void SceneEditor::Run(const char* filePath)
 			}
 			
 			renderer.RenderScene(scene->camera, *scene, deltaTime);
-			if (isPhysicDebug)
-				physicsManager.DrawPhysicsWorld(scene->camera);
 		}
 		else {
 			renderer.RenderScene(camera, *scene, deltaTime);
