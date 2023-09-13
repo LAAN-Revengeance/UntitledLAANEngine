@@ -14,7 +14,7 @@ function init()
 	input:BindKey("escape",KEY_ESCAPE);
 
 	scene:GetCamera().position = vec3:new(0,2,0);
-	player = resources:GetGameObject("Player");
+	player = resources:GetGameObject("player");
 	print("init lua");
 end
 

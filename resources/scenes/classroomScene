@@ -3,9 +3,9 @@
 	{
 		"Ambient" : 
 		[
-			1.0,
-			1.0,
-			1.0
+			0.33333331346511841,
+			0.33333331346511841,
+			0.33333331346511841
 		],
 		"DirectionLights" : 
 		[
@@ -18,9 +18,9 @@
 				],
 				"direction" : 
 				[
-					0.0,
-					1.0,
-					0.0
+					0.049371719360351562,
+					0.97103428840637207,
+					0.23378415405750275
 				],
 				"specular" : 
 				[
@@ -32,7 +32,7 @@
 		],
 		"PointLights" : null
 	},
-	"luaPath" : "",
+	"luaPath" : "C:\\Users\\Andres\\Documents\\GitHub\\ICT398Engine\\resources\\scripts\\main.lua",
 	"objects" : 
 	[
 		{
@@ -305,7 +305,7 @@
 			"physics" : null,
 			"position" : 
 			[
-				9.9495887756347656,
+				9.9364948272705078,
 				0.0,
 				6.1455388069152832
 			],
@@ -384,7 +384,7 @@
 			"type" : "base"
 		},
 		{
-			"castShadows" : true,
+			"castShadows" : false,
 			"diff" : "classroomTexture",
 			"isKinematic" : true,
 			"model" : "classroom",
@@ -1274,9 +1274,9 @@
 			],
 			"position" : 
 			[
-				14.023844718933105,
+				14.25091552734375,
 				2.5418334007263184,
-				9.8888616561889648
+				8.5504741668701172
 			],
 			"rotation" : 
 			[
@@ -1428,6 +1428,10 @@
 			{
 				"name" : "deskTexture",
 				"path" : "resources\\models\\Desk\\desk.jpg"
+			},
+			{
+				"name" : "exitSplash",
+				"path" : "resources\\textures\\exit.png"
 			},
 			{
 				"name" : "teacherDeskSpecular",
