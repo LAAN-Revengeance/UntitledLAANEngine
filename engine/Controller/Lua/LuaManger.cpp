@@ -273,8 +273,10 @@ void LuaManager::Expose_Engine() {
 	//expose GUI
 	Expose_CPPClass<GUIRenderer>("GUIRenderer",
 		sol::no_constructor,
-		"Start", &GUIRenderer::StartWindow,
-		"End", &GUIRenderer::EndWindow,
+		"StartGUI", &GUIRenderer::StartGUI,
+		"EndGUI", &GUIRenderer::EndGUI,
+		"StartWindow", &GUIRenderer::StartWindow,
+		"EndEndWindow", &GUIRenderer::EndWindow,
 		"Text", &GUIRenderer::Text,
 		"Button", &GUIRenderer::Button,
 		"Image", &GUIRenderer::Image,

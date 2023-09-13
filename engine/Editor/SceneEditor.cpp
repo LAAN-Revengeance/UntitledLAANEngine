@@ -22,7 +22,6 @@ void SceneEditor::Run(const char* filePath)
 				it.second->Update(deltaTime);
 			}
 			physicsManager.Update(deltaTime);
-			luaManager.RunUpdateMethod(deltaTime);
 			renderer.RenderScene(scene->camera, *scene, deltaTime);
 			if (isPhysicDebug)
 				physicsManager.DrawPhysicsWorld(scene->camera);
@@ -33,7 +32,11 @@ void SceneEditor::Run(const char* filePath)
 				physicsManager.DrawPhysicsWorld(camera);
 		}
 
-		Draw(deltaTime);
+		if (!isRunning)
+			Draw(deltaTime);
+
+		if (isRunning)
+			luaManager.RunUpdateMethod(deltaTime);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -1387,6 +1390,10 @@ void SceneEditor::CheckKeys()
 				SaveProject(saveFilePath.c_str());
 			}
 		saveDown = true;
+	}
+
+	if (isRunning && input.GetKeyPressedDown(GLFW_KEY_F5)) {
+		isRunning = false;
 	}
 
 }

@@ -14,7 +14,7 @@ function init()
 	input:BindKey("escape",KEY_ESCAPE);
 
 	scene:GetCamera().position = vec3:new(0,2,0);
-
+	player = resources:GetGameObject("Player");
 	print("init lua");
 end
 
@@ -23,6 +23,7 @@ function update(deltaTime)
 	
 	keyInput(deltaTime)
 	mouseMoveFunc(deltaTime)
+
 end
 
 
@@ -30,29 +31,63 @@ function keyInput(dt)
 	up = vec3:new(0,1,0);
 	camSpeed = 5 * dt;
 	local camera = scene:GetCamera();
-	player = resources:GetGameObject("Player");
-	print(player.name)
+	--print(player.name)
 	if(input:GetKeyState("camF"))
 	then
-		player = player.position +  NormalizeVector(CrossVectors(up,camera.right)):multiply(camSpeed);
+		player:SetPosition(player.position +  NormalizeVector(CrossVectors(up,camera.right)):multiply(camSpeed));
 	end
 	if(input:GetKeyState("camB"))
 	then
-		player.position = player.position -  NormalizeVector(CrossVectors(up,camera.right)):multiply(camSpeed);
-			
+		player:SetPosition(player.position -  NormalizeVector(CrossVectors(up,camera.right)):multiply(camSpeed));
 	end
 	if(input:GetKeyState("camL"))
 	then
-		player.position = player.position - camera.right:multiply(camSpeed);
+		player:SetPosition(player.position - camera.right:multiply(camSpeed));
 	end
 	if(input:GetKeyState("camR"))
 	then
-		player.position = player.position + camera.right:multiply(camSpeed);
+		player:SetPosition(player.position + camera.right:multiply(camSpeed));
 	end
 
-	if(input:GetKeyState("escape"))
+	toggleExit();
+
+	if(exitMenuOpen)
 	then
-		--engine:Shutdown();
+		showExitSplash();
+	end
+	camera.position = player.position + vec3:new(0,2,0);
+end
+
+
+function showExitSplash()
+	
+	GUI:StartGUI();
+
+	GUI:StartWindow("exitSplash",true,0.4,0.4,0.3,0.3);
+	
+	if(GUI:ImageButton("default",500,500,0.5,0.5))
+	then
+		CloseWindow(true);
+	end
+	GUI:EndEndWindow();
+
+	GUI:EndGUI();
+
+end
+
+exitPress = false;
+exitMenuOpen = false;
+function toggleExit()
+	
+	if(input:GetKeyState("escape") and (not exitPress))
+	then
+		exitPress = true;
+		exitMenuOpen = not exitMenuOpen;
+	elseif(input:GetKeyState("escape"))
+	then
+		exitPress = true;
+	else
+		exitPress = false;
 	end
 
 end
@@ -62,7 +97,6 @@ lastY = input:GetMouseY();
 mouseSensitivity = 0.1
 Distance = 10
 moveSpeed = 100
-
 
 function mouseMoveFunc(dt)
 
@@ -79,10 +113,8 @@ function mouseMoveFunc(dt)
 	xoffset = xoffset * -mouseSensitivity
 	yoffset = yoffset * -mouseSensitivity
 
-
 	camera.Yaw =  camera.Yaw - xoffset
 	camera.Pitch = camera.Pitch - yoffset
 
-	--CalaulateCamPos();
 	camera:UpdateCameraVectors();
 end
