@@ -1250,6 +1250,57 @@
 		},
 		{
 			"castShadows" : true,
+			"diff" : "binTexture",
+			"isKinematic" : true,
+			"model" : "bin",
+			"name" : "bin",
+			"physics" : 
+			[
+				{
+					"offset" : 
+					[
+						0.0,
+						0.88999998569488525,
+						0.0
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						0.40000000596046448,
+						0.85000002384185791,
+						0.82999998331069946
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				-17.201671600341797,
+				0.0,
+				8.3616018295288086
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.0,
+				1.0,
+				1.0
+			],
+			"shader" : "default",
+			"type" : "base"
+		},
+		{
+			"castShadows" : true,
 			"isKinematic" : false,
 			"name" : "player",
 			"physics" : 
@@ -1352,6 +1403,11 @@
 		"models" : 
 		[
 			{
+				"name" : "bin",
+				"path" : "resources\\models\\Bin\\bin.obj",
+				"type" : "mesh"
+			},
+			{
 				"name" : "chair",
 				"path" : "resources\\models\\Chair\\chair.obj",
 				"type" : "mesh"
@@ -1401,6 +1457,10 @@
 		],
 		"textures" : 
 		[
+			{
+				"name" : "binTexture",
+				"path" : "resources\\models\\Bin\\ImphenziaPalette01.png"
+			},
 			{
 				"name" : "chairSpecular",
 				"path" : "resources\\models\\Chair\\chairSpecular.jpg"
