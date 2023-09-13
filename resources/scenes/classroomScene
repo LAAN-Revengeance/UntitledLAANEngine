@@ -32,7 +32,7 @@
 		],
 		"PointLights" : null
 	},
-	"luaPath" : "C:\\Users\\Andres\\Documents\\GitHub\\ICT398Engine\\resources\\scripts\\main.lua",
+	"luaPath" : "resources\\scripts\\main.lua",
 	"objects" : 
 	[
 		{
