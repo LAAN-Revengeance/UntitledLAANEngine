@@ -54,7 +54,7 @@ private:
 
 	//reference to glfw window
 	GLFWwindow* window = nullptr;
-	
+
 	//mouse controls
 	float lastX = 0;
 	float lastY = 0;

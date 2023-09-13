@@ -52,7 +52,7 @@ public:
 		*	@return void
 		*/
 	void AddSphereCollider(PhysicsBody& pb, float radius);
-		
+
 		/**
 		*	@brief add box collider to supplied physics body
 		*	@param pb - physicsbody to add sphere collider to
@@ -88,7 +88,7 @@ public:
 		/**
 		*	@brief Draw debug rendering of the physics world to currently bound draw buffer
 		*	@param camera - camera data used to render the physics debug data
-		*	@return void 
+		*	@return void
 		*/
 	void DrawPhysicsWorld(Camera& camera);
 

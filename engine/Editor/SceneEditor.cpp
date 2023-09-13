@@ -286,7 +286,8 @@ void SceneEditor::DrawHeighrarchy()
 		GameObject* delObj = res.GetGameObject(delname);
 
 		//delete physics
-		physicsManager.DeletePhysicsBody(delObj->physicsBody);
+		if(delObj->physicsBody != nullptr)
+			physicsManager.DeletePhysicsBody(delObj->physicsBody);
 
 		res.DeleteGameObject(delname);
 		scene->gameObjects.erase(delname);
