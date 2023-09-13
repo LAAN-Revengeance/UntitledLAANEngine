@@ -754,6 +754,7 @@ void SceneEditor::DrawMenu()
 	static bool showSaveFile = false;
 	float width = 1.0; float height = 0.06; float posY = 0.0; float posX = 0.0;
 	const ImGuiViewport* viewport = ImGui::GetMainViewport();
+	InputManager& input = InputManager::Get();
 
 	ImGui::SetNextWindowPos({ (float)(viewport->WorkSize.x * posX),(float)(viewport->WorkSize.y * posY) });
 	ImGui::SetNextWindowSize({ viewport->WorkSize.x * width,viewport->WorkSize.y * height });
@@ -866,6 +867,8 @@ void SceneEditor::DrawMenu()
 	ImGui::PushStyleColor(ImGuiCol_Button,pButtonCol);
 	if (ImGui::Button("Play", { buttonWidth,20 })) { 
 		isRunning = !isRunning;
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+		input.SetMouseLock(false);
 	}
 	ImGui::PopStyleColor();
 
