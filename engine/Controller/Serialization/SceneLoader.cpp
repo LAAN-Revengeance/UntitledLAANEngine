@@ -475,6 +475,7 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
     }
 
     jobj["physics"] = jphysicsBody;
+    if(physicsBody)
     jobj["isKinematic"] = obj->physicsBody->isKinematic;
     //end physicsbody
 

@@ -3,10 +3,6 @@ dofile("resources/scripts/keybinds.lua")
 --main init function, called once before update
 function init()
 
-	-- set window properties
-	--engine:SetWindowIcon("resources/textures/icon.png");
-	--engine:SetWindowName("InitalZ");
-
 	--set inputs
 	input:SetMouseLock(false);
 	input:BindKey("camF",KEY_W);
@@ -17,52 +13,90 @@ function init()
 	input:BindKey("camR",KEY_D);
 	input:BindKey("escape",KEY_ESCAPE);
 
+	scene:GetCamera().position = vec3:new(0,2,0);
+	player = resources:GetGameObject("Player");
 	print("init lua");
 end
 
 --main update function, called every frame
 function update(deltaTime)
 	
-	print("update lua");
-	--keyInput(deltaTime)
-	--mouseMoveFunc(deltaTime)
+	keyInput(deltaTime)
+	mouseMoveFunc(deltaTime)
+
 end
 
 
 function keyInput(dt)
 	up = vec3:new(0,1,0);
-	camSpeed = 100 * dt;
+	camSpeed = 5 * dt;
+	local camera = scene:GetCamera();
+	--print(player.name)
 	if(input:GetKeyState("camF"))
 	then
-		camera.position = camera.position +  NormalizeVector(CrossVectors(up,camera.right)):multiply(camSpeed);
+		player:SetPosition(player.position +  NormalizeVector(CrossVectors(up,camera.right)):multiply(camSpeed));
 	end
 	if(input:GetKeyState("camB"))
 	then
-		camera.position = camera.position -  NormalizeVector(CrossVectors(up,camera.right)):multiply(camSpeed);
-			
-	end
-	if(input:GetKeyState("camU"))
-	then
-		camera.position = camera.position + up:multiply(camSpeed);
-			
-	end
-	if(input:GetKeyState("camD"))
-	then
-		camera.position = camera.position - up:multiply(camSpeed);
-			
+		player:SetPosition(player.position -  NormalizeVector(CrossVectors(up,camera.right)):multiply(camSpeed));
 	end
 	if(input:GetKeyState("camL"))
 	then
-		camera.position = camera.position - camera.right:multiply(camSpeed);
+		player:SetPosition(player.position - camera.right:multiply(camSpeed));
 	end
 	if(input:GetKeyState("camR"))
 	then
-		camera.position = camera.position + camera.right:multiply(camSpeed);
+		player:SetPosition(player.position + camera.right:multiply(camSpeed));
 	end
 
-	if(input:GetKeyState("escape"))
+	toggleExit();
+
+	if(exitMenuOpen)
 	then
-		engine:Shutdown();
+		showExitSplash();
+	end
+	camera.position = player.position + vec3:new(0,2,0);
+end
+
+
+function showExitSplash()
+	
+	GUI:StartGUI();
+
+	wWidth = GUI:GetWindowWidth();
+	wHeight = GUI:GetWindowHeight();
+	wRatio = wWidth/wHeight;
+
+	sWidth = 0.3;
+	sHeight = sWidth * wRatio;
+
+	GUI:StartWindow("exitSplash",true,sWidth,sHeight,0.35,sWidth/ wRatio);
+
+		if(GUI:ImageButton("exitSplash",(wWidth * sWidth),(wHeight * sHeight),0.5,0.5))
+		then
+			CloseWindow(true);
+		end
+
+	GUI:EndEndWindow();
+
+	GUI:EndGUI();
+
+end
+
+exitPress = false;
+exitMenuOpen = false;
+function toggleExit()
+	
+	if(input:GetKeyState("escape") and (not exitPress))
+	then
+		exitPress = true;
+		exitMenuOpen = not exitMenuOpen;
+		input:SetMouseLock(exitMenuOpen);
+	elseif(input:GetKeyState("escape"))
+	then
+		exitPress = true;
+	else
+		exitPress = false;
 	end
 
 end
@@ -73,26 +107,27 @@ mouseSensitivity = 0.1
 Distance = 10
 moveSpeed = 100
 
-
 function mouseMoveFunc(dt)
 
-	local camera = scene:GetCamera();
-	xPos = input:GetMouseX();
-	yPos = input:GetMouseY();
+	if(not exitMenuOpen)
+	then
+
+		local camera = scene:GetCamera();
+		xPos = input:GetMouseX();
+		yPos = input:GetMouseY();
 	
-	xoffset = (xPos - lastX)
-	yoffset = (lastY - yPos)
+		xoffset = (xPos - lastX)
+		yoffset = (lastY - yPos)
 
-	lastX = xPos
-	lastY = yPos
+		lastX = xPos
+		lastY = yPos
 
-	xoffset = xoffset * -mouseSensitivity
-	yoffset = yoffset * -mouseSensitivity
+		xoffset = xoffset * -mouseSensitivity
+		yoffset = yoffset * -mouseSensitivity
 
+		camera.Yaw =  camera.Yaw - xoffset
+		camera.Pitch = camera.Pitch - yoffset
 
-	camera.Yaw =  camera.Yaw - xoffset
-	camera.Pitch = camera.Pitch - yoffset
-
-	--CalaulateCamPos();
-	camera:UpdateCameraVectors();
+		camera:UpdateCameraVectors();
+	end;
 end

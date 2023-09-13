@@ -135,7 +135,17 @@ public:
 		*/
 	void SetCursorPosY(float pos);
 
+		/**
+		*	@brief get the amount of pixels accross the window is
+		*	@return the windows width in pixels
+		*/
+	int GetWindowWidth();
 
+		/**
+		*	@brief get the amount of pixels up the window is
+		*	@return the windows height in pixels
+		*/
+	int GetWindowHeight();
 private:
 
 	///Default constructor. Private becuase singleton

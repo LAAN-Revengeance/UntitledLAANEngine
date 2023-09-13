@@ -21,15 +21,24 @@ void SceneEditor::Run(const char* filePath)
 			for (auto& it : scene->gameObjects) {
 				it.second->Update(deltaTime);
 			}
-			physicsManager.Update(deltaTime);
-			luaManager.RunUpdateMethod(deltaTime);
+			
+			renderer.RenderScene(scene->camera, *scene, deltaTime);
+			if (isPhysicDebug)
+				physicsManager.DrawPhysicsWorld(scene->camera);
 		}
-		renderer.RenderScene(camera, *scene, deltaTime);
+		else {
+			renderer.RenderScene(camera, *scene, deltaTime);
+			if (isPhysicDebug)
+				physicsManager.DrawPhysicsWorld(camera);
+		}
 
-		if (isPhysicDebug)
-			physicsManager.DrawPhysicsWorld(camera);
+		if (!isRunning)
+			Draw(deltaTime);
 
-		Draw(deltaTime);
+		if (isRunning) {
+			luaManager.RunUpdateMethod(deltaTime);
+			physicsManager.Update(deltaTime);
+		}
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -105,7 +114,8 @@ SceneEditor& SceneEditor::Get()
 void SceneEditor::Draw(double deltaTime)
 {
 	guirenderer.StartGUI();
-	Draw3DWidget();
+	if(!isRunning)
+		Draw3DWidget();
 	DrawInspector();
 	DrawHeighrarchy();
 	DrawMenu();
@@ -116,7 +126,8 @@ void SceneEditor::Draw(double deltaTime)
 
 void SceneEditor::Update(double deltaTime)
 {
-	CameraControl(deltaTime);
+	if(!isRunning)
+		CameraControl(deltaTime);
 	soundEngine.SetUserPosition(camera.position);
 	CheckKeys();
 }
@@ -148,15 +159,9 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 	std::ifstream jsonFile(path);
 	jsonFile >> root;
 	jsonFile.close();
-	std::string luaMain = root["luaMain"].asString();
-	luaManager.SetLuaFile(luaMain.c_str());
-	
-	//luaManager.Expose_CPPReference("engine", *this);
-	luaManager.Expose_CPPReference("scene", *scene);
-	luaManager.Expose_CPPReference("renderer", renderer);
-	luaManager.Expose_CPPReference("GUI", guirenderer);
+	std::string luaMain = root["luaPath"].asString();
+	SetLuaFile(luaMain.c_str());
 
-	luaManager.RunInitMethod();
 }
 
 void SceneEditor::UseScene(Scene* nscene)
@@ -511,14 +516,14 @@ void SceneEditor::DrawInspector()
 			inspectedObject->isCastShadow = !inspectedObject->isCastShadow;
 		}
 			
-		if (changeObject) {
-			selectedShader = "";
-			if (inspectedObject->shader)
-				selectedShader = inspectedObject->shader->name;
-			selectedMesh = "";
-			if (inspectedObject->model_data)
-				selectedMesh = inspectedObject->model_data->name;
-		}
+	
+		selectedShader = "";
+		if (inspectedObject->shader)
+			selectedShader = inspectedObject->shader->name;
+		selectedMesh = "";
+		if (inspectedObject->model_data)
+			selectedMesh = inspectedObject->model_data->name;
+		
 
 		ImGui::Text("Shader:");
 		if (ImGui::BeginCombo("##objectShader", selectedShader.c_str()))
@@ -536,6 +541,8 @@ void SceneEditor::DrawInspector()
 		
 		if (ImGui::BeginCombo("##modelMesh", selectedMesh.c_str()))
 		{
+			if (ImGui::Selectable("--None--"))
+				inspectedObject->model_data = nullptr;
 			for (auto it : res.models)
 			{
 				if (ImGui::Selectable(it.first.c_str())) {
@@ -763,7 +770,9 @@ void SceneEditor::DrawMenu()
 				scene = new Scene;
 				physicsManager.ResetPhysicsWorld();
 				saveFilePath[0] = '\0';
-				luaFilePath = "resources/scripts/main.lua";
+				luaFilePath = ("resources/scripts/main.lua");
+				inspectedObject = nullptr;
+				lastObject = nullptr;
 			}
 			if (ImGui::MenuItem("Save", "Ctrl+S")) {
 				if (saveFilePath.size() < 1)
@@ -803,12 +812,7 @@ void SceneEditor::DrawMenu()
 				
 				std::string lpath = FileOpener::OpenFileDialogue(OPEN_FILE);
 				if (!lpath.empty()) {
-					luaManager.SetLuaFile(lpath.c_str());
-					luaFilePath = lpath;
-
-					luaManager.Expose_CPPReference("scene", *scene);
-					luaManager.RunInitMethod();
-
+					SetLuaFile(lpath.c_str());
 				}
 				else {
 					std::cout << "ERROR: Could not load lua file " << lpath << std::endl;
@@ -1166,7 +1170,7 @@ void SceneEditor::DrawWindowSettings(bool* showChangeWindow)
 	ImGui::Begin("Set Window Name", showChangeWindow);
 	static char str0[128] = "";
 	if (ImGui::InputTextWithHint("Window Title", "Window Name", str0, IM_ARRAYSIZE(str0))) {
-		//TODO: SET window title in json file.
+		
 	}
 	if (ImGui::Button("Set Window Title##420"))
 	{
@@ -1276,7 +1280,6 @@ void SceneEditor::Draw3DWidget()
 	ImGui::Begin("transformWidget", nullptr, flags);
 	
 	if (inspectedObject) {
-		//ImGui::SeparatorText("deezr");
 		ImGuizmo::SetOrthographic(false);
 		ImGuizmo::SetDrawlist();
 		ImGuizmo::SetRect(0, 0, viewport->WorkSize.x, viewport->WorkSize.y);
@@ -1292,18 +1295,17 @@ void SceneEditor::Draw3DWidget()
 	}
 
 	guirenderer.EndWindow();
-
 }
 
 void SceneEditor::CameraControl(double deltaTime)
 {
 	InputManager& input = InputManager::Get();
-	bool camlock = input.GetMouseLock();
+	isFreecam = input.GetMouseLock();
 	static bool toggleCamPress = false;
 	if (input.GetKeyPressedDown(GLFW_KEY_ESCAPE) && !toggleCamPress) {
 		toggleCamPress = true;
-		camlock = !input.GetMouseLock();
-		input.SetMouseLock(camlock);
+		isFreecam = !input.GetMouseLock();
+		input.SetMouseLock(isFreecam);
 		lastX = input.GetMouseX();
 		lastY = input.GetMouseY();
 	}
@@ -1313,10 +1315,8 @@ void SceneEditor::CameraControl(double deltaTime)
 	else {
 		toggleCamPress = false;
 	}
-	if (camlock)
+	if (isFreecam)
 		return;
-
-
 
 	float baseSpeed = 0.2;
 	float camSpeed = baseSpeed;
@@ -1395,6 +1395,22 @@ void SceneEditor::CheckKeys()
 		saveDown = true;
 	}
 
+	if (isRunning && input.GetKeyPressedDown(GLFW_KEY_F5)) {
+		isRunning = false;
+	}
+
+}
+
+void SceneEditor::SetLuaFile(std::string nluaFile)
+{
+	luaFilePath = (nluaFile);
+
+	luaManager.SetLuaFile(nluaFile.c_str());
+	luaManager.Expose_CPPReference("scene", *scene);
+	luaManager.Expose_CPPReference("GUI", guirenderer);
+	luaManager.Expose_CPPReference("resources", ResourceManager::Get());
+
+	luaManager.RunInitMethod();
 }
 
 std::string SceneEditor::FilterFilePath(std::string filePath)

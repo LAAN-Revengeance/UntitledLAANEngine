@@ -49,6 +49,8 @@ private:
 	void CameraControl(double deltaTime);
 	void CheckKeys();
 
+	void SetLuaFile(std::string nluaFile);
+
 	//File Save Functions
 	std::string FilterFilePath(std::string filePath);
 
@@ -80,6 +82,7 @@ private:
 	SceneEditor(const SceneEditor&) = delete;
 	SceneEditor& operator = (const SceneEditor&) = delete;
 
+	bool isFreecam = true;
 	bool isPhysicDebug = true;
 
 	//references to managers
