@@ -91,6 +91,7 @@ function toggleExit()
 	then
 		exitPress = true;
 		exitMenuOpen = not exitMenuOpen;
+		input:SetMouseLock(exitMenuOpen);
 	elseif(input:GetKeyState("escape"))
 	then
 		exitPress = true;
@@ -108,21 +109,25 @@ moveSpeed = 100
 
 function mouseMoveFunc(dt)
 
-	local camera = scene:GetCamera();
-	xPos = input:GetMouseX();
-	yPos = input:GetMouseY();
+	if(not exitMenuOpen)
+	then
+
+		local camera = scene:GetCamera();
+		xPos = input:GetMouseX();
+		yPos = input:GetMouseY();
 	
-	xoffset = (xPos - lastX)
-	yoffset = (lastY - yPos)
+		xoffset = (xPos - lastX)
+		yoffset = (lastY - yPos)
 
-	lastX = xPos
-	lastY = yPos
+		lastX = xPos
+		lastY = yPos
 
-	xoffset = xoffset * -mouseSensitivity
-	yoffset = yoffset * -mouseSensitivity
+		xoffset = xoffset * -mouseSensitivity
+		yoffset = yoffset * -mouseSensitivity
 
-	camera.Yaw =  camera.Yaw - xoffset
-	camera.Pitch = camera.Pitch - yoffset
+		camera.Yaw =  camera.Yaw - xoffset
+		camera.Pitch = camera.Pitch - yoffset
 
-	camera:UpdateCameraVectors();
+		camera:UpdateCameraVectors();
+	end;
 end
