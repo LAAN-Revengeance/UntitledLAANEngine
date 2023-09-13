@@ -63,12 +63,20 @@ function showExitSplash()
 	
 	GUI:StartGUI();
 
-	GUI:StartWindow("exitSplash",true,0.4,0.4,0.3,0.3);
-	
-	if(GUI:ImageButton("default",500,500,0.5,0.5))
-	then
-		CloseWindow(true);
-	end
+	wWidth = GUI:GetWindowWidth();
+	wHeight = GUI:GetWindowHeight();
+	wRatio = wWidth/wHeight;
+
+	sWidth = 0.3;
+	sHeight = sWidth * wRatio;
+
+	GUI:StartWindow("exitSplash",true,sWidth,sHeight,0.35,sWidth/ wRatio);
+
+		if(GUI:ImageButton("exitSplash",(wWidth * sWidth),(wHeight * sHeight),0.5,0.5))
+		then
+			CloseWindow(true);
+		end
+
 	GUI:EndEndWindow();
 
 	GUI:EndGUI();

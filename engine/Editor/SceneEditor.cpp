@@ -767,7 +767,7 @@ void SceneEditor::DrawMenu()
 				scene = new Scene;
 				physicsManager.ResetPhysicsWorld();
 				saveFilePath[0] = '\0';
-				luaFilePath = FilterFilePath("resources/scripts/main.lua");
+				luaFilePath = ("resources/scripts/main.lua");
 				inspectedObject = nullptr;
 				lastObject = nullptr;
 			}
@@ -1400,7 +1400,7 @@ void SceneEditor::CheckKeys()
 
 void SceneEditor::SetLuaFile(std::string nluaFile)
 {
-	luaFilePath = FilterFilePath(nluaFile);
+	luaFilePath = (nluaFile);
 
 	luaManager.SetLuaFile(nluaFile.c_str());
 	luaManager.Expose_CPPReference("scene", *scene);

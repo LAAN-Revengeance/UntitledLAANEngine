@@ -1,5 +1,6 @@
 #include <GUIRenderer.h>
 
+
 GUIRenderer::GUIRenderer() : window(nullptr) {
 	//set flags
 	flags = ImGuiWindowFlags_NoDecoration |
@@ -178,4 +179,18 @@ void GUIRenderer::AlignForWidth(float width, float alignment)
 	float off = (avail - width) * alignment;
 	if (off > 0.0f)
 		ImGui::SetCursorPosX(ImGui::GetCursorPosX() + off);
+}
+
+int GUIRenderer::GetWindowWidth()
+{
+	int wwidth, wheight;
+	glfwGetWindowSize(window, &wwidth, &wheight);
+	return wwidth;
+}
+
+int GUIRenderer::GetWindowHeight()
+{
+	int wwidth, wheight;
+	glfwGetWindowSize(window, &wwidth, &wheight);
+	return wheight;
 }
