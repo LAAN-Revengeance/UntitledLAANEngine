@@ -21,7 +21,7 @@ void SceneEditor::Run(const char* filePath)
 			for (auto& it : scene->gameObjects) {
 				it.second->Update(deltaTime);
 			}
-			physicsManager.Update(deltaTime);
+			
 			renderer.RenderScene(scene->camera, *scene, deltaTime);
 			if (isPhysicDebug)
 				physicsManager.DrawPhysicsWorld(scene->camera);
@@ -35,8 +35,10 @@ void SceneEditor::Run(const char* filePath)
 		if (!isRunning)
 			Draw(deltaTime);
 
-		if (isRunning)
+		if (isRunning) {
 			luaManager.RunUpdateMethod(deltaTime);
+			physicsManager.Update(deltaTime);
+		}
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
