@@ -173,7 +173,6 @@
     <ClCompile Include="engine\Model\Camera.cpp" />
     <ClCompile Include="engine\View\MD2\MD2Reader.cpp" />
     <ClCompile Include="Engine\Controller\Timer.cpp" />
-    <ClCompile Include="Engine\View\DrawItem.cpp" />
     <ClCompile Include="engine\View\Graphics\OpenGL\CubeMap.cpp" />
     <ClCompile Include="engine\View\Graphics\OpenGL\EBO.cpp" />
     <ClCompile Include="engine\View\Mesh.cpp" />
@@ -237,6 +236,7 @@
     <ClInclude Include="Engine\Model\GameObject.h" />
     <ClInclude Include="engine\Model\Lighting.h" />
     <ClInclude Include="engine\Model\Material.h" />
+    <ClInclude Include="engine\View\AnimatedDrawItem.h" />
     <ClInclude Include="engine\View\MD2\anorms.h" />
     <ClInclude Include="engine\View\MD2\MD2Reader.h" />
     <ClInclude Include="Engine\Model\Scene.h" />

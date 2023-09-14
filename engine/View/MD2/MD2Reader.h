@@ -4,7 +4,7 @@
 #include <Graphics/Graphics.h>
 #include <map>
 #include <cmath>
-#include <DrawItem.h>
+#include <AnimatedDrawItem.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -77,7 +77,7 @@ struct pos_normal_vert{
 	glm::vec3 normal;
 };
 
-class md2_model_t : public DrawItem{
+class md2_model_t : public AnimatedDrawItem{
 public:
 	
 	//constructor

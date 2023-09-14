@@ -43,23 +43,14 @@ public:
         *   @param primative draw primative used to render
         *   @return void
         */
-    virtual  void Render(glm::mat4 projection, glm::mat4 view, Shader* shader, bool isElements, unsigned int primative);
+    virtual  void Render(glm::mat4 projection, glm::mat4 view, Shader* shader, bool isElements, unsigned int primative) = 0;
 
         /*
         *   @brief Generic update method for drawitems that need to change visuals in relation to time
         *   @param deltaTime time since last frame
         *   @return void
         */
-    virtual void Update(float deltaTime);
-
-        //Set an animation cycle and its name
-    virtual void SetAnimation(const std::string& animName, int start, int end, float speed);
-
-        //animate a specific animation cycle
-    virtual void Animate(const std::string& animation);
-
-        //set how fast animations are played
-    virtual  void SetAnimationSpeed(float speed);
+    virtual void Update(float deltaTime) = 0;
 
     float maxBounds = 0.0f;
 

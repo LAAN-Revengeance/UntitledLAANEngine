@@ -94,7 +94,9 @@ public:
         *   @return void
         */
     void SetInstanceMatrix(std::vector<glm::mat4> nMatrix);
-        
+       
+    void Update(float delataTime) {}
+
     OBJData* GetModelData();
     std::vector<glm::mat4>* getInstanceMatrix();
     

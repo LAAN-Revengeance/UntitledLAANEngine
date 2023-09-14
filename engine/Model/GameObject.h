@@ -130,7 +130,7 @@ public:
 	StateMachine stateMachine;
 
 		//Retuns a reference to model data
-	DrawItem& GetDrawItem();
+	DrawItem* GetDrawItem();
 		
 		//Material properties
 	Material material;

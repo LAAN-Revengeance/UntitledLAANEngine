@@ -91,13 +91,13 @@ void LuaManager::Expose_Engine() {
 		sol::no_constructor
 		);
 
-	//expose draw item
-	Expose_CPPClass<DrawItem>("DrawItem",
-		sol::no_constructor,
-		"SetAnimationSpeed", &DrawItem::SetAnimationSpeed,
-		"SetAnimation", &DrawItem::SetAnimation,
-		"Animate", &DrawItem::Animate
-		);
+	////expose draw item
+	//Expose_CPPClass<DrawItem>("DrawItem",
+	//	sol::no_constructor,
+	//	"SetAnimationSpeed", &DrawItem::SetAnimationSpeed,
+	//	"SetAnimation", &DrawItem::SetAnimation,
+	//	"Animate", &DrawItem::Animate
+	//	);
 
 	//expose game object
 	Expose_CPPClass<GameObject>("GameObject",

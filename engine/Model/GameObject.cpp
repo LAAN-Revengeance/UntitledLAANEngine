@@ -107,10 +107,10 @@ glm::mat4 GameObject::GetTransformMatrix()
 	return modelMat;
 }
 
-DrawItem& GameObject::GetDrawItem()
+DrawItem* GameObject::GetDrawItem()
 {
 	if (model_data) {
-		return *model_data;
+		return model_data;
 	}
-	return *(new DrawItem);
+	return nullptr;
 }

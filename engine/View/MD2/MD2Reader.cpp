@@ -186,7 +186,7 @@ md2_model_t::md2_model_t(const char* md2File)
 }
 
 md2_model_t::md2_model_t(md2_model_t& other) :
-    DrawItem(other), // call base class copy constructor
+    AnimatedDrawItem(other), // call base class copy constructor
     animations(other.animations),
     header(other.header),
     texcoords(other.texcoords),
