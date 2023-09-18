@@ -23,7 +23,6 @@
     <ClCompile Include="Engine\Controller\InputManager.cpp" />
     <ClCompile Include="Engine\Controller\ResourceManager.cpp" />
     <ClCompile Include="Engine\View\GUIRenderer.cpp" />
-    <ClCompile Include="Engine\View\DrawItem.cpp" />
     <ClCompile Include="engine\View\MD2\MD2Reader.cpp" />
     <ClCompile Include="Engine\Controller\AI\StateMachine.cpp" />
     <ClCompile Include="Engine\Controller\AI\States\ScriptableState.cpp" />
@@ -47,6 +46,7 @@
     <ClCompile Include="dependencies\include\imGuIZMO.quat\imGuIZMOquat.cpp" />
     <ClCompile Include="engine\Editor\FileExplorer.cpp" />
     <ClCompile Include="engine\Controller\Serialization\ProjectLoader.cpp" />
+    <ClCompile Include="engine\View\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\Controller\GaemEngine.h" />
@@ -115,6 +115,8 @@
     <ClInclude Include="engine\Editor\FileExplorer.h" />
     <ClInclude Include="engine\Controller\AudioDataTypes.h" />
     <ClInclude Include="engine\Controller\Serialization\ProjectLoader.h" />
+    <ClInclude Include="engine\View\AnimatedDrawItem.h" />
+    <ClInclude Include="engine\View\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Model\Graphics\Shaders\Cube_map.frag" />

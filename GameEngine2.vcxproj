@@ -186,6 +186,7 @@
     <ClCompile Include="engine\Model\Terrain.cpp" />
     <ClCompile Include="Engine\View\GUIRenderer.cpp" />
     <ClCompile Include="Engine\View\Renderer.cpp" />
+    <ClCompile Include="engine\View\Window.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="engine\Controller\SoundEngine.cpp" />
@@ -257,6 +258,7 @@
     <ClInclude Include="Engine\View\GUIRenderer.h" />
     <ClInclude Include="Engine\View\Renderer.h" />
     <ClInclude Include="engine\Controller\SoundEngine.h" />
+    <ClInclude Include="engine\View\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dependencies\include\imgui\new 1.txt.bak" />
