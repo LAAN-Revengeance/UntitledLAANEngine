@@ -2,7 +2,7 @@
 #include <string.h>
 #include <iostream>
 
-GameEngine::GameEngine()
+GameEngine::GameEngine() : window(Window(500, 500, "engine"))
 {
 	
 }
@@ -15,14 +15,18 @@ void GameEngine::Run() {
 
 	timer.Reset();
 
-	while (true)
+	while (!window.IsWindowClosed())
 	{
-		double deltaTime;
+		window.PollEvents();
+
+		double deltaTime = 0;
 		for (auto& layer : layers)
 			layer->OnUpdate(deltaTime);
 
 		for (auto& layer : layers)
 			layer->OnDraw(deltaTime);
+
+		window.SwapBuffers();
 	}
 }
 

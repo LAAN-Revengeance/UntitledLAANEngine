@@ -22,6 +22,7 @@ enum WindowType {
 class Window
 {
 public:
+
 	Window(int w, int h,const std::string& wName);
 	~Window();
 

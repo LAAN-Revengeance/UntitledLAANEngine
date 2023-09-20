@@ -5,6 +5,7 @@
 #include <InputManager.h>
 #include <LayerStack.h>
 #include <Timer.h>
+#include <Window.h>
 
 /**
 *	@Class GameEngine
@@ -27,12 +28,11 @@ public:
 
 private:
 	
+	Window window;
 
 	LayerStack layers;
 
 	Timer timer;
-
-	bool isRunning = true;
 	
 
 	GameEngine& operator =(const GameEngine&) = delete;
