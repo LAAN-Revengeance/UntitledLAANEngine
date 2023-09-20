@@ -480,16 +480,16 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
     //end physicsbody
 
     //state machine info
-    AIManager& ai = AIManager::Get();
-
-    if (obj->stateMachine.GetState())
-        jobj["state"] = ai.GetStateKey(obj->stateMachine.GetState());
-
-    if (obj->stateMachine.GetPreviousState())
-        jobj["previous_state"] = ai.GetStateKey(obj->stateMachine.GetPreviousState());
-
-    if (obj->stateMachine.GetGlobalState())
-        jobj["global_state"] = ai.GetStateKey(obj->stateMachine.GetGlobalState());
+    //AIManager& ai = AIManager::Get();
+    //
+    //if (obj->stateMachine.GetState())
+    //    jobj["state"] = ai.GetStateKey(obj->stateMachine.GetState());
+    //
+    //if (obj->stateMachine.GetPreviousState())
+    //    jobj["previous_state"] = ai.GetStateKey(obj->stateMachine.GetPreviousState());
+    //
+    //if (obj->stateMachine.GetGlobalState())
+    //    jobj["global_state"] = ai.GetStateKey(obj->stateMachine.GetGlobalState());
 
     if (dynamic_cast<Terrain*>(obj)) {
         Terrain* ter = dynamic_cast<Terrain*>(obj);

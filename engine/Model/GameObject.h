@@ -1,7 +1,6 @@
 #pragma once
 #include <Graphics/Graphics.h>
 #include <Mesh.h>
-#include <AI/StateMachine.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -126,8 +125,6 @@ public:
 	int GetID() { return ID; }
 		///Set this objects ID  
 	void SetID(int id) { ID = id; };
-		///FSM for AI and sending/receiving messages
-	StateMachine stateMachine;
 
 		//Retuns a reference to model data
 	DrawItem* GetDrawItem();

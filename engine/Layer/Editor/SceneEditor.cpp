@@ -2,6 +2,7 @@
 
 void SceneEditor::Run(const char* filePath)
 {
+	/*
 	if (std::strlen(filePath) > 0) {
 		LoadSceneFromFile(filePath);
 	}
@@ -46,54 +47,55 @@ void SceneEditor::Run(const char* filePath)
 	glfwDestroyWindow(window);
 	glfwTerminate();
 
+	*/
 }
 
 SceneEditor::SceneEditor()
 {
-	camera.farPlane = 10000.0f;
-	//init window and glfw.
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_SAMPLES, 4);
-
-	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-	int wWidth = mode->width;
-	int wHeight = mode->height;
-
-	window = glfwCreateWindow(wWidth, wHeight, "Engine", NULL, NULL);
-
-	if (!window)
-	{
-		std::cout << "ERROR Could not initalize window." << std::endl;
-		glfwTerminate();
-		return;
-	}
-	glfwMakeContextCurrent(window);
-
-	//scene camera settings
-	scene = new Scene;
-	scene->camera.aspectRatio = (float)wWidth / (float)wHeight;
-
-	InputManager::Get().Init(window);
-	GUIRenderer::Get().Init(window);
-	renderer.Init(window);
-	//aiManager.Init(scene);
-
-	//callbacks
-	glfwSetFramebufferSizeCallback(window, ResizeCallback);
-
-	//expose to lua
-	//ExposeToLua();
-	//luaManager.RunInitMethod();
-
-	//set light uniforms
-	auto it = ResourceManager::Get().ShaderBegin();
-	auto end = ResourceManager::Get().ShaderEnd();
-	for (it; it != end; it++) {
-		Renderer::SetLightUniforms(scene->lights, *it->second);
-	}
+	//camera.farPlane = 10000.0f;
+	////init window and glfw.
+	//glfwInit();
+	//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	//glfwWindowHint(GLFW_SAMPLES, 4);
+	//
+	//const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+	//int wWidth = mode->width;
+	//int wHeight = mode->height;
+	//
+	//window = glfwCreateWindow(wWidth, wHeight, "Engine", NULL, NULL);
+	//
+	//if (!window)
+	//{
+	//	std::cout << "ERROR Could not initalize window." << std::endl;
+	//	glfwTerminate();
+	//	return;
+	//}
+	//glfwMakeContextCurrent(window);
+	//
+	////scene camera settings
+	//scene = new Scene;
+	//scene->camera.aspectRatio = (float)wWidth / (float)wHeight;
+	//
+	//InputManager::Get().Init(window);
+	//GUIRenderer::Get().Init(window);
+	//renderer.Init(window);
+	////aiManager.Init(scene);
+	//
+	////callbacks
+	//glfwSetFramebufferSizeCallback(window, ResizeCallback);
+	//
+	////expose to lua
+	////ExposeToLua();
+	////luaManager.RunInitMethod();
+	//
+	////set light uniforms
+	//auto it = ResourceManager::Get().ShaderBegin();
+	//auto end = ResourceManager::Get().ShaderEnd();
+	//for (it; it != end; it++) {
+	//	Renderer::SetLightUniforms(scene->lights, *it->second);
+	//}
 
 	if (!scene)
 		scene = new Scene;
@@ -103,32 +105,37 @@ SceneEditor::~SceneEditor()
 {
 }
 
-SceneEditor& SceneEditor::Get()
+void SceneEditor::OnAttatch()
 {
-	static SceneEditor s_instance;
-	return s_instance;
+
 }
 
-void SceneEditor::Draw(double deltaTime)
+void SceneEditor::OnDetatch()
+{
+
+}
+
+void SceneEditor::OnUpdate(double deltaTime)
+{
+	if (!isRunning)
+		CameraControl(deltaTime);
+	soundEngine.SetUserPosition(camera.position);
+	CheckKeys();
+}
+
+void SceneEditor::OnDraw(double deltaTime)
 {
 	guirenderer.StartGUI();
-	if(!isRunning)
+	if (!isRunning)
 		Draw3DWidget();
 	DrawInspector();
 	DrawHeighrarchy();
 	DrawMenu();
 	DrawResources();
-	//ImGui::ShowDemoWindow();
 	guirenderer.EndGUI();
 }
 
-void SceneEditor::Update(double deltaTime)
-{
-	if(!isRunning)
-		CameraControl(deltaTime);
-	soundEngine.SetUserPosition(camera.position);
-	CheckKeys();
-}
+
 
 void SceneEditor::SaveProject(const char* path)
 {
@@ -171,13 +178,13 @@ void SceneEditor::UseScene(Scene* nscene)
 
 void SceneEditor::ResizeCallback(GLFWwindow* window, int width, int height)
 {
-	if (width <= 0 || height <= 0)
-		return;
-	SceneEditor& editor = SceneEditor::Get();
-	editor.camera.aspectRatio = (float)width / (float)height;
-	glViewport(0, 0, width, height);
-	editor.renderer.Resize(width, height);
-	editor.renderer.RenderScene(editor.camera, *editor.scene, editor.deltaTime);
+	//if (width <= 0 || height <= 0)
+	//	return;
+	//SceneEditor& editor = SceneEditor::Get();
+	//editor.camera.aspectRatio = (float)width / (float)height;
+	//glViewport(0, 0, width, height);
+	//editor.renderer.Resize(width, height);
+	//editor.renderer.RenderScene(editor.camera, *editor.scene, editor.deltaTime);
 }
 
 void SceneEditor::DrawHeighrarchy()
@@ -1404,14 +1411,14 @@ void SceneEditor::CheckKeys()
 
 void SceneEditor::SetLuaFile(std::string nluaFile)
 {
-	luaFilePath = (nluaFile);
-
-	luaManager.SetLuaFile(nluaFile.c_str());
-	luaManager.Expose_CPPReference("scene", *scene);
-	luaManager.Expose_CPPReference("GUI", guirenderer);
-	luaManager.Expose_CPPReference("resources", ResourceManager::Get());
-
-	luaManager.RunInitMethod();
+	//luaFilePath = (nluaFile);
+	//
+	//luaManager.SetLuaFile(nluaFile.c_str());
+	//luaManager.Expose_CPPReference("scene", *scene);
+	//luaManager.Expose_CPPReference("GUI", guirenderer);
+	//luaManager.Expose_CPPReference("resources", ResourceManager::Get());
+	//
+	//luaManager.RunInitMethod();
 }
 
 std::string SceneEditor::FilterFilePath(std::string filePath)

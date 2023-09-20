@@ -4,8 +4,8 @@
 #include <Serialization/ProjectLoader.h>
 #include "FileExplorer.h"
 #include <SoundEngine.h>
-#include <Lua/LuaManager.h>
-
+//#include <Lua/LuaManager.h>
+#include <Layer.h>
 
 /**
 *	@Class SceneEditor
@@ -17,16 +17,18 @@
 
 const int LAAN_ENGINE_VERSION = 1;
 
-class SceneEditor
+class SceneEditor : public Layer
 {
 public:
-	
-	static SceneEditor& Get();
+	SceneEditor();
+	~SceneEditor();
+
+	void OnAttatch();
+	void OnDetatch();
+	void OnUpdate(double deltaTime);
+	void OnDraw(double deltaTime);
 
 	void Run(const char* filePath = "");
-
-	void Draw(double deltaTime);
-	void Update(double deltaTime);
 
 	void SaveProject(const char* path);
 
@@ -77,10 +79,8 @@ private:
 	GameObject* inspectedObject = nullptr;
 	GameObject* lastObject = nullptr;
 
-	SceneEditor();
-	~SceneEditor();
-	SceneEditor(const SceneEditor&) = delete;
-	SceneEditor& operator = (const SceneEditor&) = delete;
+	//SceneEditor(const SceneEditor&) = delete;
+	//SceneEditor& operator = (const SceneEditor&) = delete;
 
 	bool isFreecam = true;
 	bool isPhysicDebug = true;
@@ -90,12 +90,8 @@ private:
 	Renderer& renderer = Renderer::Get();
 		///Main GUI Renderer
 	GUIRenderer& guirenderer = GUIRenderer::Get();
-		///Main Lua Manager
-	LuaManager& luaManager = LuaManager::Get();
 		///Reference to input manager
 	InputManager& inputMngr = InputManager::Get();
-		///Reference to AI manager
-	AIManager& aiManager = AIManager::Get();
 		///Reference to SoundEngine
 	SoundEngine& soundEngine = SoundEngine::Get();
 		//Reference physics Manager

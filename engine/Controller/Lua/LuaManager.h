@@ -6,7 +6,6 @@
 #include <InputManager.h>
 #include <GUIRenderer.h>
 #include <Renderer.h>
-#include <AI/States/State.h>
 #include <SoundEngine.h>
 #include <Serialization/SceneLoader.h>
 

@@ -1,9 +1,10 @@
-//#include <GaemEngine.h>
-#include <SceneEditor.h>
+#include <GaemEngine.h>
+#include <Editor/SceneEditor.h>
 
 int main(void)
 {
-	//GameEngine::Get().Run();
-	SceneEditor::Get().Run();
+    GameEngine engine;
+    engine.PushLayer(new SceneEditor);
+    engine.Run();
     return 0;
 }

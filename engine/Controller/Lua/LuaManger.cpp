@@ -106,8 +106,6 @@ void LuaManager::Expose_Engine() {
 		"position", &GameObject::position,
 		"rotation", &GameObject::rotation,
 		"scale", &GameObject::scale,
-		//"rigidBody", &GameObject::rigidBody,
-		"stateMachine", &GameObject::stateMachine,
 		"SetPosition", &GameObject::SetPosition,
 		"SetRotation", &GameObject::SetRotation,
 		"GetDrawItem", &GameObject::GetDrawItem,
@@ -295,21 +293,6 @@ void LuaManager::Expose_Engine() {
 		"GetFPS", &Renderer::GetFPS
 		);
 
-	Expose_CPPClass<StateMachine>("StateMachine",
-		sol::no_constructor,
-		"ChangeState", &StateMachine::ChangeState,
-		"ChangeGlobalState", &StateMachine::ChangeGlobalState,
-		"RevertState", &StateMachine::RevertState
-		);
-
-	Expose_CPPClass<State>("State",
-		sol::no_constructor,
-		"Enter", &State::Enter,
-		"Exit", &State::Exit,
-		"Update", &State::Update,
-		"ProcessMessage", &State::ProcessMessage
-		);
-
 	//expose the sound engine
 	Expose_CPPClass<SoundEngine>("SoundEngine",
 		sol::no_constructor,
@@ -322,22 +305,6 @@ void LuaManager::Expose_Engine() {
 		"setUserPosition", &SoundEngine::SetUserPosition
 		);
 	luaState["Sound"] = &SoundEngine::Get();
-	
-	Expose_CPPClass<AIManager>("AIManager",
-		sol::no_constructor,
-		"AddState", &AIManager::AddState,
-		"GetState", &AIManager::GetState,
-		"SendMessage", &AIManager::SendMessage
-		);
-	Expose_CPPReference("aimanager", AIManager::Get());
-
-	Expose_CPPClass<Message>("Message",
-		sol::no_constructor,
-		"dispatchTime", &Message::dispatchTime,
-		"msgType", &Message::msgType,
-		"receiverID", &Message::receiverID,
-		"senderID", &Message::senderID
-		);
 
 	Expose_CPPClass<SceneLoader>("SceneLoader",
 		sol::no_constructor,
