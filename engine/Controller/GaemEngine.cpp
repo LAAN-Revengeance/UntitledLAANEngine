@@ -19,9 +19,10 @@ void GameEngine::Run() {
 
 	while (!window.IsWindowClosed())
 	{
+		timer.Update();
 		window.PollEvents();
 
-		double deltaTime = 0;
+		double deltaTime = timer.DeltaTime();
 		for (auto& layer : layers)
 			layer->OnUpdate(deltaTime);
 
