@@ -41,7 +41,7 @@ public:
 		*	@param nwindow window being rendered to
 		*	@return void
 		*/
-	void Init(GLFWwindow* nwindow);
+	void Init(Window* nwindow);
 
 		/**
 		*	@brief set font to a ttf font
@@ -172,5 +172,5 @@ private:
 		///imgui settings for windos
 	ImGuiWindowFlags flags;
 		///window being drawn to
-	GLFWwindow* window;
+	Window* _window = nullptr;
 };

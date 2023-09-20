@@ -57,7 +57,7 @@ private:
 	std::string FilterFilePath(std::string filePath);
 
 	//reference to glfw window
-	GLFWwindow* window = nullptr;
+	Window* window = nullptr;
 
 	//mouse controls
 	float lastX = 0;
@@ -85,9 +85,6 @@ private:
 	bool isFreecam = true;
 	bool isPhysicDebug = true;
 
-	//references to managers
-		///Main Renderer
-	Renderer& renderer = Renderer::Get();
 		///Main GUI Renderer
 	GUIRenderer& guirenderer = GUIRenderer::Get();
 		///Reference to input manager

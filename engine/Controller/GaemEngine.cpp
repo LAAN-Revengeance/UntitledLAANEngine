@@ -2,7 +2,9 @@
 #include <string.h>
 #include <iostream>
 
-GameEngine::GameEngine() : window(Window(500, 500, "engine"))
+GameEngine::GameEngine() : 
+	window(Window(500, 500, "engine")),
+	renderer(&window)
 {
 	
 }

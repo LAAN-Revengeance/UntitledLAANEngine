@@ -1,6 +1,7 @@
 #include "Window.h"
 
 bool Window::_glfwInit = false;
+Window* Window::currentWindow = nullptr;
 
 Window::Window(int w, int h, const std::string& wName)
 {
@@ -22,11 +23,14 @@ Window::Window(int w, int h, const std::string& wName)
 		glfwTerminate();
 		return;
 	}
-
+	glfwMakeContextCurrent(window);
+	Window::currentWindow = this;
 }
 
 Window::~Window()
 {
+	if (this == Window::currentWindow)
+		Window::currentWindow = nullptr;
 }
 
 bool Window::IsWindowClosed()
@@ -125,6 +129,11 @@ void Window::SetMouseLock(bool isLocked)
 	{
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
+}
+
+Window* Window::GetActiveWindow()
+{
+	return currentWindow;
 }
 
 void Window::_mGlFWCallback(GLFWwindow* window, int width, int height)

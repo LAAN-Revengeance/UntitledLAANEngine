@@ -107,7 +107,7 @@ SceneEditor::~SceneEditor()
 
 void SceneEditor::OnAttatch()
 {
-
+	window = Window::GetActiveWindow();
 }
 
 void SceneEditor::OnDetatch()
@@ -157,7 +157,7 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 	if (!scene)
 		return;
 	for (auto& shader : ResourceManager::Get().shaders) {
-		Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+		//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 	}
 
 	Json::Value root;
@@ -349,7 +349,7 @@ void SceneEditor::DrawHeighrarchy()
 	//Ambient Light
 	if (ImGui::ColorEdit3("Ambient Light", (float*)&scene->lights.ambient)) {
 		for (auto& shader : res.shaders) {
-			Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+			//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 		}
 	}
 
@@ -361,7 +361,7 @@ void SceneEditor::DrawHeighrarchy()
 		scene->lights.AddDirectionLight({ 0,1,0 }, { 1,1,1 }, { 1,1,1 });
 
 		for (auto& shader : ResourceManager::Get().shaders) {
-			Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+			//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 		}
 	}
 
@@ -379,7 +379,7 @@ void SceneEditor::DrawHeighrarchy()
 			if (dColor || dPos || dSpec) {
 
 				for (auto& shader : res.shaders) {
-					Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+					//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 				}
 			};
 		
@@ -387,7 +387,7 @@ void SceneEditor::DrawHeighrarchy()
 			if (ImGui::gizmo3D("##gizmo1", lightDir)) {
 				scene->lights.direction[i].direction = -(lightDir);
 				for (auto& shader : res.shaders) {
-					Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+					//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 				}
 			}
 
@@ -397,7 +397,7 @@ void SceneEditor::DrawHeighrarchy()
 	if (deleteIndex >= 0) {
 		scene->lights.direction.erase(scene->lights.direction.begin() + deleteIndex);
 		for (auto& shader : res.shaders) {
-			Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+			//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 		}
 	}
 	
@@ -407,7 +407,7 @@ void SceneEditor::DrawHeighrarchy()
 	if (ImGui::Button("Add Point Light")) {
 		scene->lights.AddPointLight({ 0,0,0 }, { 1,1,1 }, {1,1,1}, 1.0, 0.007, 0.0002);
 		for (auto& shader : ResourceManager::Get().shaders) {
-			Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+			//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 		}
 	}
 
@@ -425,7 +425,7 @@ void SceneEditor::DrawHeighrarchy()
 			if (dColor || dSpec || dPos) {
 
 				for (auto& shader : res.shaders) {
-					Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+					//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 				}
 			};
 			ImGui::TreePop();
@@ -434,7 +434,7 @@ void SceneEditor::DrawHeighrarchy()
 	if (deleteIndex >= 0) {
 		scene->lights.point.erase(scene->lights.point.begin() + deleteIndex);
 		for (auto& shader : res.shaders) {
-			Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+			//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 		}
 	}
 
@@ -874,7 +874,7 @@ void SceneEditor::DrawMenu()
 	ImGui::PushStyleColor(ImGuiCol_Button,pButtonCol);
 	if (ImGui::Button("Play", { buttonWidth,20 })) { 
 		isRunning = !isRunning;
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+		//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 		input.SetMouseLock(false);
 	}
 	ImGui::PopStyleColor();
@@ -1183,7 +1183,7 @@ void SceneEditor::DrawWindowSettings(bool* showChangeWindow)
 	if (ImGui::Button("Set Window Title##420"))
 	{
 		windowName = str0;
-		glfwSetWindowTitle(window, windowName.c_str());
+		window->SetName(windowName);
 	}
 
 	ImGui::End();
@@ -1197,7 +1197,7 @@ void SceneEditor::DrawDebug(bool* showDebug)
 	ImGui::SetNextWindowSize({ 300,200 });
 	ImGui::Begin("Debug", showDebug);
 	
-	double fps = Renderer::Get().GetFPS();
+	double fps = 0;// Renderer::Get().GetFPS();
 	ImGui::Text("Current FPS:");
 	ImGui::SameLine();
 	ImGui::Text(std::to_string(fps).c_str());
@@ -1267,6 +1267,8 @@ void SceneEditor::DrawSaveFile(bool* showSaveFile)
 
 void SceneEditor::Draw3DWidget()
 {
+	if (!ImGui::GetCurrentContext())
+		return;
 	static float matrixTranslation[16] = {
 		1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,

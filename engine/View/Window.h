@@ -45,17 +45,20 @@ public:
 
 	void SetMouseLock(bool isLocked);
 
+	//return currently active window
+	static Window* GetActiveWindow();
 private:
 	static void _mGlFWCallback(GLFWwindow* window, int width, int height);
 	WindowResizeFunc* resizeCallback = nullptr;
 
 	static bool _glfwInit;
-
+	static Window* currentWindow;
 	GLFWwindow* window;
 	std::string name;
 
 	static std::vector<GLFWwindow*> activeWindows;
 
 	friend class InputManager;
+	friend class GUIRenderer;
 };
 

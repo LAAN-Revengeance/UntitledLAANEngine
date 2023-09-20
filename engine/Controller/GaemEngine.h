@@ -33,6 +33,7 @@ private:
 
 	Timer timer;
 	
+	Renderer renderer;
 
 	GameEngine& operator =(const GameEngine&) = delete;
 	GameEngine(const GameEngine&) = delete;
