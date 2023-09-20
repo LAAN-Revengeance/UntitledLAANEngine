@@ -43,6 +43,8 @@ public:
 	void SetIcon(std::string path);
 	void SetWindowType(WindowType type);
 
+	void SetMouseLock(bool isLocked);
+
 private:
 	static void _mGlFWCallback(GLFWwindow* window, int width, int height);
 	WindowResizeFunc* resizeCallback = nullptr;
@@ -53,5 +55,7 @@ private:
 	std::string name;
 
 	static std::vector<GLFWwindow*> activeWindows;
+
+	friend class InputManager;
 };
 

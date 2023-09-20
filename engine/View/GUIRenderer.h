@@ -9,6 +9,7 @@
 #include <map>
 #include <string>
 #include <ImGuizmo.h>
+#include <Window.h>
 
 
 /**

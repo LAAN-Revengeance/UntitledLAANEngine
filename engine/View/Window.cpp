@@ -113,6 +113,20 @@ void Window::SetWindowType(WindowType type)
 	}
 }
 
+void Window::SetMouseLock(bool isLocked)
+{
+	if (!window)
+		return;
+	if (!isLocked)
+	{
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
+	else
+	{
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}
+}
+
 void Window::_mGlFWCallback(GLFWwindow* window, int width, int height)
 {
 

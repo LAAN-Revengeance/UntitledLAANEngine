@@ -9,8 +9,7 @@
 
 /**
 *	@Class GameEngine
-*	@brief Used to manage the engine, windowing, controllers and run the main loop.
-*	Setup as a singleton class for easy global access.
+*	@brief Runs the main game loop.
 * 
 *	@author Andres Comeros-Ochtman
 *	@version 2.0
