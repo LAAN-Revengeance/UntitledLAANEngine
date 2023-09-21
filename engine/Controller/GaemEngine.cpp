@@ -13,7 +13,7 @@ GameEngine::~GameEngine() {
 
 void GameEngine::Init()
 {
-
+	scene->InitFunction.VoidExecute();
 }
 
 void GameEngine::Update(double deltaTime) 
@@ -23,6 +23,7 @@ void GameEngine::Update(double deltaTime)
 	for (auto& it : scene->gameObjects) {
 		it.second->Update(deltaTime);
 	}
+	scene->UpdateFunction.VoidExecute(deltaTime);
 	scene->physicsWorld.Update(deltaTime);
 
 }

@@ -1,9 +1,9 @@
 #pragma once
 #include <sol/sol.hpp>
+#include <type_traits>
 
 
-
-template<class T, typename... Args>
+template<class T, typename ...Args>
 class LuaFunction
 {
 	class LuaManager;
@@ -20,13 +20,31 @@ public:
 
 	}
 
-	T Run(Args... args) {
+
+	T Execute(Args ...args) {
+
 		if (solFunc.valid()) {
-			return solFunc(args);
+			return (T)solFunc(args...);
 		}
-		return T;//sus
+		T value;
+		return value;
 	}
+
+	void VoidExecute(Args ...args) {
+
+		if (solFunc.valid()) {
+			solFunc(args...);
+		}
+	}
+
 
 private:
 	sol::function solFunc;
 };
+
+
+//template<typename Func, typename ...Args>
+//inline void LuaManager::Expose_CPPFunction(const char* luaName, Func cppFunc, Args ...args)
+//{
+//	luaState.set_function(luaName, cppFunc, args);
+//}

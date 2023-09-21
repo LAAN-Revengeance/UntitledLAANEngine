@@ -85,7 +85,7 @@ public:
 	LuaManager luaState;
 		///Update and init functions associated with this scene
 	LuaFunction<void, double> UpdateFunction;
-	LuaFunction<void, double> InitFunction;
+	LuaFunction<void> InitFunction;
 
 		///Physics world
 	PhysicsManager physicsWorld;
