@@ -42,10 +42,10 @@ public:
 	void Expose_Engine();
 
 		/**
-		*	@brief Sets a new main.lua file
+		*	@brief Restarts the luaState
 		*	@return void
 		*/
-	void SetLuaFile(const char* path);
+	void ClearLuaState();
 
 		/**
 		*	@brief Loads a lua scrpit file into the main luastate 
@@ -108,16 +108,13 @@ public:
 	void Expose_CPPClass(const char* luaName, Args... args);
 
 private:
-
 		///Main lua state
 	sol::state luaState;
 };
 
-
 template<class T, typename... Args>
 class LuaFunction
 {
-
 public:
 	LuaFunction(const char* luaName, LuaManager* luaState) {
 		solFunc = luaState->GetFunction(luaName);

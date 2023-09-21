@@ -305,7 +305,7 @@ void LuaManager::Expose_Engine() {
 	//init = GetFunction("init");
 }
 
-void LuaManager::SetLuaFile(const char* path)
+void LuaManager::ClearLuaState()
 {
 	luaState.collect_garbage();
 	luaState.stack_clear();
@@ -314,12 +314,9 @@ void LuaManager::SetLuaFile(const char* path)
 	luaState.open_libraries(sol::lib::math);
 	luaState.open_libraries(sol::lib::os);
 
-	//luaState
 	Expose_Engine();
-	LoadScript(path);
-	//update = GetFunction("update");
-	//init = GetFunction("init");
 }
+
 
 void LuaManager::LoadScript(const std::string& fileName) {
 	try
