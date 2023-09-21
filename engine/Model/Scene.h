@@ -79,6 +79,7 @@ public:
 		*/
 	GameObject* GetObjectByID(int objID);
 
+
 		///Physics world
 	PhysicsManager physicsWorld;
 		///This scenes camera

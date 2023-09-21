@@ -257,7 +257,7 @@ void SceneEditor::DrawHeighrarchy()
 				go = *pair.second;
 				go.name = nName;
 
-				go.physicsBody = physicsManager.CreatePhysicsBody();
+				go.physicsBody = scene->physicsWorld.CreatePhysicsBody();
 				
 				if(pair.second->physicsBody)
 				for (int i = 0; i < pair.second->physicsBody->GetNumColliders(); ++i)
@@ -266,13 +266,13 @@ void SceneEditor::DrawHeighrarchy()
 					switch (pair.second->physicsBody->GetCollider(i).GetType())
 					{
 					case COLLIDER_BOX:
-						physicsManager.AddBoxCollider(*go.physicsBody,static_cast<BoxCollider*>(&nCollider)->GetScale());
+						scene->physicsWorld.AddBoxCollider(*go.physicsBody,static_cast<BoxCollider*>(&nCollider)->GetScale());
 						break;
 					case COLLIDER_SPHERE:
-						physicsManager.AddSphereCollider(*go.physicsBody, static_cast<SphereCollider*>(&nCollider)->GetRadius());
+						scene->physicsWorld.AddSphereCollider(*go.physicsBody, static_cast<SphereCollider*>(&nCollider)->GetRadius());
 						break;
 					case COLLIDER_CAPSULE:
-						physicsManager.AddCapsuleCollider(*go.physicsBody, static_cast<CapsuleCollider*>(&nCollider)->GetRadius(), static_cast<CapsuleCollider*>(&nCollider)->GetHeight());
+						scene->physicsWorld.AddCapsuleCollider(*go.physicsBody, static_cast<CapsuleCollider*>(&nCollider)->GetRadius(), static_cast<CapsuleCollider*>(&nCollider)->GetHeight());
 						break;
 					default:
 						break;
@@ -297,7 +297,7 @@ void SceneEditor::DrawHeighrarchy()
 
 		//delete physics
 		if(delObj->physicsBody != nullptr)
-			physicsManager.DeletePhysicsBody(delObj->physicsBody);
+			scene->physicsWorld.DeletePhysicsBody(delObj->physicsBody);
 
 		res.DeleteGameObject(delname);
 		scene->gameObjects.erase(delname);
@@ -632,22 +632,22 @@ void SceneEditor::DrawInspector()
 		//Box
 		if (ImGui::Button("Add Box Collider##box")){
 			if (!inspectedObject->physicsBody)
-				inspectedObject->physicsBody = physicsManager.CreatePhysicsBody();
-			physicsManager.AddBoxCollider(*inspectedObject->physicsBody, {1.0f,1.0f,1.0f});
+				inspectedObject->physicsBody = scene->physicsWorld.CreatePhysicsBody();
+			scene->physicsWorld.AddBoxCollider(*inspectedObject->physicsBody, {1.0f,1.0f,1.0f});
 		}
 
 		//Sphere
 		if (ImGui::Button("Add Sphere Collider##sphere")) {
 			if (!inspectedObject->physicsBody)
-				inspectedObject->physicsBody = physicsManager.CreatePhysicsBody();
-			physicsManager.AddSphereCollider(*inspectedObject->physicsBody, 1.0f);
+				inspectedObject->physicsBody = scene->physicsWorld.CreatePhysicsBody();
+			scene->physicsWorld.AddSphereCollider(*inspectedObject->physicsBody, 1.0f);
 		}
 
 		//Capsule
 		if (ImGui::Button("Add Capsule Collider##capsule")) {
 			if (!inspectedObject->physicsBody)
-				inspectedObject->physicsBody = physicsManager.CreatePhysicsBody();
-			physicsManager.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f,2.0f);
+				inspectedObject->physicsBody = scene->physicsWorld.CreatePhysicsBody();
+			scene->physicsWorld.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f,2.0f);
 		}
 
 		static const char* colliderNames[4] = {"Box Collider","Sphere Collider", "Capsule Collider", "Terrain Collider"};
@@ -774,7 +774,7 @@ void SceneEditor::DrawMenu()
 			if (ImGui::MenuItem("New")) { 
 				delete scene;
 				scene = new Scene;
-				physicsManager.ResetPhysicsWorld();
+				scene->physicsWorld.ResetPhysicsWorld();
 				saveFilePath[0] = '\0';
 				luaFilePath = ("resources/scripts/main.lua");
 				inspectedObject = nullptr;

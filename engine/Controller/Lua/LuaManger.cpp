@@ -254,7 +254,7 @@ void LuaManager::Expose_Engine() {
 		"AddCapsuleCollider", &PhysicsManager::AddCapsuleCollider,
 		"GetPhysicsBody", &PhysicsManager::GetPhysicsBody
 		);
-	luaState["physics"] = &PhysicsManager::Get();
+	//luaState["physics"] = &PhysicsManager::Get();
 
 	Expose_CPPClass<PhysicsBody>("PhysicsBody",
 		sol::no_constructor,
