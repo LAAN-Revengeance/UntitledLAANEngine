@@ -13,22 +13,6 @@ LuaManager::~LuaManager()
 	luaState.collect_garbage();
 }
 
-LuaManager& LuaManager::Get()
-{
-	static LuaManager l_instance;
-	return l_instance;
-}
-
-void LuaManager::RunInitMethod() {
-	if (init.valid())
-		init();
-}
-
-void LuaManager::RunUpdateMethod(double dt) {
-	if (update.valid()) 
-		update(dt);
-}
-
 
 void LuaManager::Expose_Engine() {
 	//expose vec3

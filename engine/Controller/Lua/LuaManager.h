@@ -12,9 +12,6 @@
 template<class T, typename... Args>
 class LuaFunction;
 
-
-
-
 /**
 *	@Class LuaManager
 *	@brief Provided an interface to expose data, classes and functions
@@ -27,24 +24,17 @@ class LuaFunction;
 class LuaManager
 {
 public:
-		/**
-		*	@brief Get the singleton instance
-		*	@return the singleton instance
-		*/
-	static LuaManager& Get();
-		/**
-		*	@brief Runs the init() function extracted from lua
-		*	@return void
-		*/
-	void RunInitMethod();
 
 		/**
-		*	@brief Runs the update(deltaTime) method extracted from lua
-		*	@param dt deltaTime value used by the lua update function
-		*	@return void
+		*	Default Constructor. Creates the main lua state and
+		*	opens all required lua libraries.
 		*/
-	void RunUpdateMethod(double dt);
+	LuaManager();
 
+		/**
+		*	Destructor. Frees LuaState data
+		*/
+	~LuaManager();
 		/**
 		*	@brief Exposes The Gaem Engine API to the lua state
 		*	@return void
@@ -118,26 +108,9 @@ public:
 	void Expose_CPPClass(const char* luaName, Args... args);
 
 private:
-		/**
-		*	Default Constructor. Creates the main lua state and
-		*	opens all required lua libraries.
-		*/
-	LuaManager();
-		/**
-		*	Destructor. Frees LuaState data
-		*/
-	~LuaManager();
-	LuaManager(const LuaManager&) = delete;
-	LuaManager& operator = (const LuaManager&) = delete;
 
 		///Main lua state
 	sol::state luaState;
-		///Update function extracted from main.lua
-	sol::function update;
-		///Init function extracted from main.lua
-	sol::function init;
-
-	
 };
 
 
@@ -155,7 +128,10 @@ public:
 	}
 
 	T Run(Args... args) {
-		return solFunc(args);
+		if (solFunc.valid()) {
+			return solFunc(args);
+		}
+		return T;//sus
 	}
 
 private:
