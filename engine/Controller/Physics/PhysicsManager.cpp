@@ -5,6 +5,7 @@ using namespace rp3d;
 PhysicsManager::PhysicsManager()
 {
 	rp3dWorld = rp3dPhysicsCommon.createPhysicsWorld();
+	mCallback.SetPhysicsManager(this);
 }
 
 PhysicsManager::~PhysicsManager()
@@ -176,8 +177,7 @@ void PhysicsManager::ResetPhysicsWorld()
 
 void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 {
-	PhysicsManager& pManager = PhysicsManager::Get();
-
+	
 	for (int i = 0; i < callbackData.getNbContactPairs(); i++)
 	{
 		unsigned int id1 = callbackData.getContactPair(i).getBody1()->getEntity().id;
@@ -190,9 +190,9 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 		rp3d::Vector3 contactNormal = callbackData.getContactPair(i).getContactPoint(0).getWorldNormal();
 		
 		//if physics bodies exist, resolve collision.
-		auto rbMap = &pManager.physicsBodies;
+		auto rbMap = &physicsManager->physicsBodies;
 		if (rbMap->find(id1) != rbMap->end() && rbMap->find(id2) != rbMap->end()) {
-			pManager.ResolveCollision(pManager.GetPhysicsBody(id1), pManager.GetPhysicsBody(id2), penDepth, { contactNormal.x,contactNormal.y,contactNormal.z});
+			physicsManager->ResolveCollision(physicsManager->GetPhysicsBody(id1), physicsManager->GetPhysicsBody(id2), penDepth, { contactNormal.x,contactNormal.y,contactNormal.z});
 		}
 	}
 }

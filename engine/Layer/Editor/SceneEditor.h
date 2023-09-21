@@ -91,8 +91,7 @@ private:
 	InputManager& inputMngr = InputManager::Get();
 		///Reference to SoundEngine
 	SoundEngine& soundEngine = SoundEngine::Get();
-		//Reference physics Manager
-	PhysicsManager& physicsManager = PhysicsManager::Get();
+	
 
 
 	friend class GameEngine;

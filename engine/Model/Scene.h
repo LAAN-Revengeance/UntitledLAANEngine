@@ -3,6 +3,7 @@
 #include "Terrain.h"
 #include "Lighting.h"
 #include <map>
+#include <Physics/PhysicsManager.h>
 
 /**
 *	@Class Scene
@@ -78,6 +79,8 @@ public:
 		*/
 	GameObject* GetObjectByID(int objID);
 
+		///Physics world
+	PhysicsManager physicsWorld;
 		///This scenes camera
 	Camera camera;
 		///This scene skybox

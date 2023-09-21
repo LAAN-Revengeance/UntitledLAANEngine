@@ -8,8 +8,12 @@
 class rp3dCollisionCallback : public rp3d::CollisionCallback {
 
 public:
+	void SetPhysicsManager(PhysicsManager* pManager) {
+		physicsManager = pManager;
+	}
 	virtual void onContact(const CallbackData& callbackData) override;
 private:
+	PhysicsManager* physicsManager;
 };
 
 /**
