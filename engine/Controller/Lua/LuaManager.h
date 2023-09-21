@@ -9,6 +9,12 @@
 #include <SoundEngine.h>
 #include <Serialization/SceneLoader.h>
 
+template<class T, typename... Args>
+class LuaFunction;
+
+
+
+
 /**
 *	@Class LuaManager
 *	@brief Provided an interface to expose data, classes and functions
@@ -63,7 +69,8 @@ public:
 		*	@param luaName name of the function being extracted
 		*	@return sol function extracted
 		*/
-	sol::function GetFunction(const char* luaName);
+	template<class T, typename... Args>
+	LuaFunction<T, Args...> GetFunction(const char* luaName);
 
 		/**
 		*	@brief extract variable from the lua state
@@ -133,6 +140,43 @@ private:
 	
 };
 
+
+template<class T, typename... Args>
+class LuaFunction
+{
+
+public:
+	LuaFunction(const char* luaName, LuaManager* luaState) {
+		solFunc = luaState->GetFunction(luaName);
+	}
+
+	~LuaFunction() {
+
+	}
+
+	T Run(Args... args) {
+		return solFunc(args);
+	}
+
+private:
+	sol::function solFunc;
+};
+
+template<class T, typename ...Args>
+inline LuaFunction<T, Args...> LuaManager::GetFunction(const char* luaName)
+{
+	sol::function func = luaState[luaName];
+	if (func.valid()) {
+		return func;
+	}
+	else {
+		std::cout << "ERROR: Could not retrieve function: " << luaName << std::endl;
+		return sol::nil;
+	}
+
+	return LuaFunction<T, Args...>(luaName);
+}
+
 template<typename T>
 inline T LuaManager::GetData(const char* luaName)
 {
@@ -168,4 +212,3 @@ inline void LuaManager::Expose_CPPClass(const char* luaName, Args ...args)
 {
 	luaState.new_usertype<Class>(luaName, args...);
 }
-

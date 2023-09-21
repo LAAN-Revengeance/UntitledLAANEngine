@@ -333,8 +333,8 @@ void LuaManager::SetLuaFile(const char* path)
 	//luaState
 	Expose_Engine();
 	LoadScript(path);
-	update = GetFunction("update");
-	init = GetFunction("init");
+	//update = GetFunction("update");
+	//init = GetFunction("init");
 }
 
 void LuaManager::LoadScript(const std::string& fileName) {
@@ -348,15 +348,5 @@ void LuaManager::LoadScript(const std::string& fileName) {
 	}
 }
 
-sol::function LuaManager::GetFunction(const char* luaName) {
 
-	sol::function func = luaState[luaName];
-	if (func.valid()) {
-		return func;
-	}
-	else {
-		std::cout << "ERROR: Could not retrieve function: " << luaName << std::endl;
-		return sol::nil;
-	}
-}
 

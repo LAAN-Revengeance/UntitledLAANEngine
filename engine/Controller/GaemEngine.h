@@ -27,6 +27,5 @@ public:
 private:
 
 	Scene* scene;
-	Window* window;
 	Renderer renderer;
 };

@@ -5,7 +5,6 @@
 GameEngine::GameEngine(Window* window):
 	renderer(window)
 {
-	//InputManager::Get().Init(&window);
 }
 
 GameEngine::~GameEngine() {
@@ -17,15 +16,21 @@ void GameEngine::Init()
 
 }
 
-void GameEngine::Update(double deltaTime) {
-	
-	
-
+void GameEngine::Update(double deltaTime) 
+{
+	if (!scene)
+		return;
+	for (auto& it : scene->gameObjects) {
+		it.second->Update(deltaTime);
+	}
+	scene->physicsWorld.Update(deltaTime);
 }
 
 void GameEngine::Draw(double deltaTime)
 {
-	//renderer.RenderScene();
+	if (!scene)
+		return;
+	renderer.RenderScene(scene->camera, *scene, deltaTime);
 }
 
 
