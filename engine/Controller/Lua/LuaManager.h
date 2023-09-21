@@ -20,6 +20,10 @@ class LuaFunction;
 *	@author Andres Comeros-Ochtman
 *	@version 1.0
 *	@date 15/04/2023
+* 
+*	@author Andres Comeros-Ochtman
+*	@version 2.0
+*	@date 21/09/2023
 */
 class LuaManager
 {
@@ -35,11 +39,6 @@ public:
 		*	Destructor. Frees LuaState data
 		*/
 	~LuaManager();
-		/**
-		*	@brief Exposes The Gaem Engine API to the lua state
-		*	@return void
-		*/
-	void Expose_Engine();
 
 		/**
 		*	@brief Restarts the luaState
@@ -110,6 +109,8 @@ public:
 private:
 		///Main lua state
 	sol::state luaState;
+
+	friend class LuaGameBridge;
 };
 
 template<class T, typename... Args>

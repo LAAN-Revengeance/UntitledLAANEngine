@@ -157,6 +157,7 @@
     <ClCompile Include="engine\Application\Application.cpp" />
     <ClCompile Include="engine\Controller\GaemEngine.cpp" />
     <ClCompile Include="engine\Controller\InputManager.cpp" />
+    <ClCompile Include="engine\Controller\Lua\LuaGameBridge.cpp" />
     <ClCompile Include="engine\Controller\Lua\LuaManger.cpp" />
     <ClCompile Include="engine\Controller\Physics\PhysicsManager.cpp" />
     <ClCompile Include="engine\Controller\Physics\RigidBody.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="engine\Controller\AudioDataTypes.h" />
     <ClInclude Include="engine\Controller\GaemEngine.h" />
     <ClInclude Include="engine\Controller\InputManager.h" />
+    <ClInclude Include="engine\Controller\Lua\LuaGameBridge.h" />
     <ClInclude Include="engine\Controller\Lua\LuaManager.h" />
     <ClInclude Include="Engine\Controller\md2Reader.h" />
     <ClInclude Include="Engine\Controller\Physics\Collider.h" />

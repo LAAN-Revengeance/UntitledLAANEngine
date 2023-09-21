@@ -44,6 +44,7 @@
     <ClCompile Include="engine\View\Window.cpp" />
     <ClCompile Include="engine\Layer\LayerStack.cpp" />
     <ClCompile Include="engine\Application\Application.cpp" />
+    <ClCompile Include="engine\Controller\Lua\LuaGameBridge.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\Controller\GaemEngine.h" />
@@ -111,6 +112,7 @@
     <ClInclude Include="engine\Layer\Layer.h" />
     <ClInclude Include="engine\Layer\LayerStack.h" />
     <ClInclude Include="engine\Application\Application.h" />
+    <ClInclude Include="engine\Controller\Lua\LuaGameBridge.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Model\Graphics\Shaders\Cube_map.frag" />
