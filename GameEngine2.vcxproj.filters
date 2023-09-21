@@ -45,6 +45,7 @@
     <ClCompile Include="engine\Layer\LayerStack.cpp" />
     <ClCompile Include="engine\Application\Application.cpp" />
     <ClCompile Include="engine\Controller\Lua\LuaGameBridge.cpp" />
+    <ClCompile Include="engine\Controller\Lua\LuaFunction.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\Controller\GaemEngine.h" />

@@ -157,6 +157,7 @@
     <ClCompile Include="engine\Application\Application.cpp" />
     <ClCompile Include="engine\Controller\GaemEngine.cpp" />
     <ClCompile Include="engine\Controller\InputManager.cpp" />
+    <ClCompile Include="engine\Controller\Lua\LuaFunction.h" />
     <ClCompile Include="engine\Controller\Lua\LuaGameBridge.cpp" />
     <ClCompile Include="engine\Controller\Lua\LuaManger.cpp" />
     <ClCompile Include="engine\Controller\Physics\PhysicsManager.cpp" />

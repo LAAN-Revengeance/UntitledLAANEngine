@@ -1,17 +1,6 @@
+#pragma once
 #include <sol/sol.hpp>
-#include <Scene.h>
-#include <GameObject.h>
-#include <Physics/PhysicsManager.h>
-#include <ResourceManager.h>
-#include <InputManager.h>
-#include <GUIRenderer.h>
-#include <Renderer.h>
-#include <SoundEngine.h>
-#include <Serialization/SceneLoader.h>
-
-template<class T, typename... Args>
-class LuaFunction;
-
+#include "LuaFunction.h"
 /**
 *	@Class LuaManager
 *	@brief Provided an interface to expose data, classes and functions
@@ -113,28 +102,6 @@ private:
 	friend class LuaGameBridge;
 };
 
-template<class T, typename... Args>
-class LuaFunction
-{
-public:
-	LuaFunction(const char* luaName, LuaManager* luaState) {
-		solFunc = luaState->GetFunction(luaName);
-	}
-
-	~LuaFunction() {
-
-	}
-
-	T Run(Args... args) {
-		if (solFunc.valid()) {
-			return solFunc(args);
-		}
-		return T;//sus
-	}
-
-private:
-	sol::function solFunc;
-};
 
 template<class T, typename ...Args>
 inline LuaFunction<T, Args...> LuaManager::GetFunction(const char* luaName)

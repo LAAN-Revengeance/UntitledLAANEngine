@@ -4,6 +4,7 @@
 #include "Lighting.h"
 #include <map>
 #include <Physics/PhysicsManager.h>
+#include <Lua/LuaManager.h>
 
 /**
 *	@Class Scene

@@ -24,6 +24,7 @@ void GameEngine::Update(double deltaTime)
 		it.second->Update(deltaTime);
 	}
 	scene->physicsWorld.Update(deltaTime);
+
 }
 
 void GameEngine::Draw(double deltaTime)
