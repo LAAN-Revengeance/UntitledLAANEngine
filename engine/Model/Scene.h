@@ -80,9 +80,16 @@ public:
 	GameObject* GetObjectByID(int objID);
 
 
+		///The luaState associated with this scene
+	LuaManager luaState;
+		///Update and init functions associated with this scene
+	LuaFunction<void, double> UpdateFunction;
+	LuaFunction<void, double> InitFunction;
+
 		///Physics world
 	PhysicsManager physicsWorld;
-		///This scenes camera
+
+		///This scenes main camera
 	Camera camera;
 		///This scene skybox
 	CubeMap* skybox = nullptr;
