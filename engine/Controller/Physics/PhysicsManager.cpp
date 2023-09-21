@@ -2,13 +2,6 @@
 
 using namespace rp3d;
 
-
-PhysicsManager& PhysicsManager::Get()
-{
-	static PhysicsManager p_instance;
-	return p_instance;
-}
-
 PhysicsManager::PhysicsManager()
 {
 	rp3dWorld = rp3dPhysicsCommon.createPhysicsWorld();

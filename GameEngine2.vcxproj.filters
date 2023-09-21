@@ -43,6 +43,7 @@
     <ClCompile Include="engine\Controller\Serialization\ProjectLoader.cpp" />
     <ClCompile Include="engine\View\Window.cpp" />
     <ClCompile Include="engine\Layer\LayerStack.cpp" />
+    <ClCompile Include="engine\Application\Application.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\Controller\GaemEngine.h" />
@@ -109,6 +110,7 @@
     <ClInclude Include="engine\View\Window.h" />
     <ClInclude Include="engine\Layer\Layer.h" />
     <ClInclude Include="engine\Layer\LayerStack.h" />
+    <ClInclude Include="engine\Application\Application.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Model\Graphics\Shaders\Cube_map.frag" />

@@ -10,7 +10,6 @@
 *	@version 1.0
 *	@date 15/04/2023
 * 
-* 
 * 	@author Andres Comeros-Ochtman
 *	@version 2.0
 *	@date 12/09/2023
@@ -19,10 +18,9 @@ class Renderer
 {
 public:
 		
-		///Default constructor. Private becuase singleton
 	Renderer(Window* window);
-		///Default Destructor.
 	~Renderer();
+
 		/**
 		*	@brief initalize OpenGL
 		*	@param window window being drawn

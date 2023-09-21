@@ -1,11 +1,9 @@
-#include <GaemEngine.h>
-#include <Editor/SceneEditor.h>
+#include "engine/Application/Application.h"
 
 int main(void)
 {
-    GameEngine engine;
-    engine.PushLayer(new SceneEditor);
-    engine.Run();
+    Application application;
+    application.Run();
 
     return 0;
 }

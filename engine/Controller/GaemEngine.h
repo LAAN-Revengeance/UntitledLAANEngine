@@ -18,23 +18,15 @@
 class GameEngine
 {
 public:
-	GameEngine();
+	GameEngine(Window* window);
 	~GameEngine();
-	void Run();
-
-	void PushLayer(Layer* layer);
-	Layer* PopLayer();
+	void Init();
+	void Update(double deltaTime);
+	void Draw(double deltaTime);
 
 private:
-	
-	Window window;
 
-	LayerStack layers;
-
-	Timer timer;
-	
+	Scene* scene;
+	Window* window;
 	Renderer renderer;
-
-	GameEngine& operator =(const GameEngine&) = delete;
-	GameEngine(const GameEngine&) = delete;
 };

@@ -358,6 +358,5 @@ sol::function LuaManager::GetFunction(const char* luaName) {
 		std::cout << "ERROR: Could not retrieve function: " << luaName << std::endl;
 		return sol::nil;
 	}
-
 }
 

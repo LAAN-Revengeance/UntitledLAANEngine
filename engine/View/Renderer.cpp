@@ -181,6 +181,7 @@ void Renderer::DrawShadowMaps(Camera& cam, Scene& scene)
 }
 
 void Renderer::Init(Window* window) {
+	window->MakeCurrentContext();
 	//glad required to access GL functions
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{

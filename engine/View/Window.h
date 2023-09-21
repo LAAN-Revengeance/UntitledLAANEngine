@@ -11,14 +11,14 @@ enum WindowType {
 	WINDOW_TYPE_FULLSCREEN
 };
 
-/**
-*	@Class Window
-*	@brief Used to manage a window and its rendering context.
-*
-*	@author Andres Comeros-Ochtman
-*	@version 1.0
-*	@date 18/09/2023
-*/
+	/**
+	*	@Class Window
+	*	@brief Used to manage a window and its rendering context.
+	*
+	*	@author Andres Comeros-Ochtman
+	*	@version 1.0
+	*	@date 18/09/2023
+	*/
 class Window
 {
 public:
