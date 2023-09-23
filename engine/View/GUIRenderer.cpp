@@ -1,22 +1,17 @@
 #include <GUIRenderer.h>
 #include <cassert>
 
-GUIRenderer::GUIRenderer() : _window(nullptr) {
+GUIRenderer::GUIRenderer(Window* window) : _window(window) {
 	//set flags
 	flags = ImGuiWindowFlags_NoDecoration |
 		ImGuiWindowFlags_NoMove |
 		ImGuiWindowFlags_NoSavedSettings |
 		ImGuiWindowFlags_NoTitleBar;
+	Init(window);
 }
 
 GUIRenderer::~GUIRenderer() {
 	Shutdown();
-}
-
-GUIRenderer& GUIRenderer::Get()
-{
-	static GUIRenderer g_instance;
-	return g_instance;
 }
 
 void GUIRenderer::Shutdown()

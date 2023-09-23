@@ -1,133 +1,28 @@
 #include "SceneEditor.h"
 
-void SceneEditor::Run(const char* filePath)
+SceneEditor::SceneEditor(GameEngine* nEngine):
+	engine(nEngine),
+	guirenderer(engine->window)
 {
-	/*
-	if (std::strlen(filePath) > 0) {
-		LoadSceneFromFile(filePath);
-	}
 
-	//main loop
-	while (!glfwWindowShouldClose(window))
-	{
-		// timer
-		double currentFrameTime = glfwGetTime();
-		deltaTime = currentFrameTime - previousFrameTime;
-		previousFrameTime = currentFrameTime;
-
-		Update(deltaTime);
-
-		//inputMngr.KeyActions(deltaTime);
-		if (isRunning) {
-			for (auto& it : scene->gameObjects) {
-				it.second->Update(deltaTime);
-			}
-			
-			renderer.RenderScene(scene->camera, *scene, deltaTime);
-		}
-		else {
-			renderer.RenderScene(camera, *scene, deltaTime);
-			if (isPhysicDebug)
-				physicsManager.DrawPhysicsWorld(camera);
-		}
-
-		if (!isRunning)
-			Draw(deltaTime);
-
-		if (isRunning) {
-			luaManager.RunUpdateMethod(deltaTime);
-			physicsManager.Update(deltaTime);
-		}
-
-		glfwSwapBuffers(window);
-		glfwPollEvents();
-	}
-
-	//cleanup
-	glfwDestroyWindow(window);
-	glfwTerminate();
-
-	*/
-}
-
-SceneEditor::SceneEditor()
-{
-	//camera.farPlane = 10000.0f;
-	////init window and glfw.
-	//glfwInit();
-	//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	//glfwWindowHint(GLFW_SAMPLES, 4);
-	//
-	//const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-	//int wWidth = mode->width;
-	//int wHeight = mode->height;
-	//
-	//window = glfwCreateWindow(wWidth, wHeight, "Engine", NULL, NULL);
-	//
-	//if (!window)
-	//{
-	//	std::cout << "ERROR Could not initalize window." << std::endl;
-	//	glfwTerminate();
-	//	return;
-	//}
-	//glfwMakeContextCurrent(window);
-	//
-	////scene camera settings
-	//scene = new Scene;
-	//scene->camera.aspectRatio = (float)wWidth / (float)wHeight;
-	//
-	//InputManager::Get().Init(window);
-	//GUIRenderer::Get().Init(window);
-	//renderer.Init(window);
-	////aiManager.Init(scene);
-	//
-	////callbacks
-	//glfwSetFramebufferSizeCallback(window, ResizeCallback);
-	//
-	////expose to lua
-	////ExposeToLua();
-	////luaManager.RunInitMethod();
-	//
-	////set light uniforms
-	//auto it = ResourceManager::Get().ShaderBegin();
-	//auto end = ResourceManager::Get().ShaderEnd();
-	//for (it; it != end; it++) {
-	//	Renderer::SetLightUniforms(scene->lights, *it->second);
-	//}
-
-	if (!scene)
-		scene = new Scene;
 }
 
 SceneEditor::~SceneEditor()
 {
 }
 
-void SceneEditor::OnAttatch()
+void SceneEditor::Update(double deltaTime)
 {
-	window = Window::GetActiveWindow();
-}
-
-void SceneEditor::OnDetatch()
-{
-
-}
-
-void SceneEditor::OnUpdate(double deltaTime)
-{
-	if (!isRunning)
+	if (true)
 		CameraControl(deltaTime);
-	soundEngine.SetUserPosition(camera.position);
+
 	CheckKeys();
 }
 
-void SceneEditor::OnDraw(double deltaTime)
+void SceneEditor::Draw(double deltaTime)
 {
 	guirenderer.StartGUI();
-	if (!isRunning)
-		Draw3DWidget();
+	Draw3DWidget();
 	DrawInspector();
 	DrawHeighrarchy();
 	DrawMenu();
@@ -139,7 +34,7 @@ void SceneEditor::OnDraw(double deltaTime)
 
 void SceneEditor::SaveProject(const char* path)
 {
-	ProjectLoader::SaveProject(scene,luaFilePath, windowName.c_str(),path);
+	ProjectLoader::SaveProject(engine->scene,luaFilePath, windowName.c_str(),path);
 }
 
 void SceneEditor::LoadSceneFromFile(const char* path)
@@ -148,13 +43,13 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 	lastObject = nullptr;
 
 	Project nProject = ProjectLoader::LoadProject(path);
-	scene = nProject.scene;// &SceneLoader::LoadScene(path);
+	engine->scene = nProject.scene;// &SceneLoader::LoadScene(path);
 	luaFilePath = nProject.luaPath;
 	windowName = nProject.windowName;
 
 	saveFilePath = path;
 
-	if (!scene)
+	if (!engine->scene)
 		return;
 	for (auto& shader : ResourceManager::Get().shaders) {
 		//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
@@ -172,7 +67,7 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 void SceneEditor::UseScene(Scene* nscene)
 {
 	if (nscene) {
-		scene = nscene;
+		engine->scene = nscene;
 	}
 }
 
@@ -213,12 +108,13 @@ void SceneEditor::DrawHeighrarchy()
 			++nSuffix;
 		}
 		GameObject& go = res.CreateGameObject(nName,"","");
-		scene->AddObject(go);
+		engine->scene->AddObject(go);
 	}
 
 	int j = 0;
 	std::string delname = "";
-	for (auto& pair : scene->gameObjects)
+	if(engine->scene)
+	for (auto& pair : engine->scene->gameObjects)
 	{
 		ImGuiTreeNodeFlags tmpFlags = baseFlags;
 		if (selectedNode == j) {
@@ -257,7 +153,7 @@ void SceneEditor::DrawHeighrarchy()
 				go = *pair.second;
 				go.name = nName;
 
-				go.physicsBody = scene->physicsWorld.CreatePhysicsBody();
+				go.physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
 				
 				if(pair.second->physicsBody)
 				for (int i = 0; i < pair.second->physicsBody->GetNumColliders(); ++i)
@@ -266,13 +162,13 @@ void SceneEditor::DrawHeighrarchy()
 					switch (pair.second->physicsBody->GetCollider(i).GetType())
 					{
 					case COLLIDER_BOX:
-						scene->physicsWorld.AddBoxCollider(*go.physicsBody,static_cast<BoxCollider*>(&nCollider)->GetScale());
+						engine->scene->physicsWorld.AddBoxCollider(*go.physicsBody,static_cast<BoxCollider*>(&nCollider)->GetScale());
 						break;
 					case COLLIDER_SPHERE:
-						scene->physicsWorld.AddSphereCollider(*go.physicsBody, static_cast<SphereCollider*>(&nCollider)->GetRadius());
+						engine->scene->physicsWorld.AddSphereCollider(*go.physicsBody, static_cast<SphereCollider*>(&nCollider)->GetRadius());
 						break;
 					case COLLIDER_CAPSULE:
-						scene->physicsWorld.AddCapsuleCollider(*go.physicsBody, static_cast<CapsuleCollider*>(&nCollider)->GetRadius(), static_cast<CapsuleCollider*>(&nCollider)->GetHeight());
+						engine->scene->physicsWorld.AddCapsuleCollider(*go.physicsBody, static_cast<CapsuleCollider*>(&nCollider)->GetRadius(), static_cast<CapsuleCollider*>(&nCollider)->GetHeight());
 						break;
 					default:
 						break;
@@ -283,7 +179,7 @@ void SceneEditor::DrawHeighrarchy()
 					
 				}
 
-				scene->AddObject(go);
+				engine->scene->AddObject(go);
 			}
 			ImGui::TreePop();
 		}
@@ -297,14 +193,15 @@ void SceneEditor::DrawHeighrarchy()
 
 		//delete physics
 		if(delObj->physicsBody != nullptr)
-			scene->physicsWorld.DeletePhysicsBody(delObj->physicsBody);
+			engine->scene->physicsWorld.DeletePhysicsBody(delObj->physicsBody);
 
 		res.DeleteGameObject(delname);
-		scene->gameObjects.erase(delname);
+		engine->scene->gameObjects.erase(delname);
 	}
 		
 	ImGui::SeparatorText("Skybox");
-	if (!scene->skybox) {
+	if(engine->scene)
+	if (!engine->scene->skybox) {
 
 		static char cmSides[6][128];
 		std::string path;
@@ -336,18 +233,19 @@ void SceneEditor::DrawHeighrarchy()
 		if (ImGui::Button("SetSkybox")) {
 			
 			res.LoadCubemap(cmSides[0], cmSides[0], cmSides[1], cmSides[2], cmSides[3], cmSides[4], cmSides[5]);
-			scene->SetSkybox(res.GetCubeMap(cmSides[0]));
+			engine->scene->SetSkybox(res.GetCubeMap(cmSides[0]));
 		}
 	}
 	else {
 		if (ImGui::Button("Remove Skybox")) {
-			scene->skybox = nullptr;
+			engine->scene->skybox = nullptr;
 		}
 	}
 
 	ImGui::SeparatorText("Lights");
 	//Ambient Light
-	if (ImGui::ColorEdit3("Ambient Light", (float*)&scene->lights.ambient)) {
+	if(engine->scene)
+	if (ImGui::ColorEdit3("Ambient Light", (float*)&engine->scene->lights.ambient)) {
 		for (auto& shader : res.shaders) {
 			//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 		}
@@ -358,14 +256,14 @@ void SceneEditor::DrawHeighrarchy()
 	int deleteIndex = -1;
 
 	if (ImGui::Button("Add Direction Light")) {
-		scene->lights.AddDirectionLight({ 0,1,0 }, { 1,1,1 }, { 1,1,1 });
+		engine->scene->lights.AddDirectionLight({ 0,1,0 }, { 1,1,1 }, { 1,1,1 });
 
 		for (auto& shader : ResourceManager::Get().shaders) {
 			//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 		}
 	}
-
-	for (int i = 0; i < scene->lights.direction.size(); ++i)
+	if(engine->scene)
+	for (int i = 0; i < engine->scene->lights.direction.size(); ++i)
 	{
 		std::string dName = std::string("Dir Light##" + std::to_string(i));
 		if(ImGui::TreeNodeEx(dName.c_str())) {
@@ -373,9 +271,9 @@ void SceneEditor::DrawHeighrarchy()
 				deleteIndex = i;
 			}
 
-			bool dColor = ImGui::ColorEdit3(("Diffuse##"+dName).c_str(), (float*)&scene->lights.direction[i].diffuse);
-			bool dSpec = ImGui::ColorEdit3(("Specular##"+dName).c_str(), (float*)&scene->lights.direction[i].specular);
-			bool dPos = ImGui::InputFloat3 (("Direction##"+dName).c_str(), (float*)&scene->lights.direction[i].direction);
+			bool dColor = ImGui::ColorEdit3(("Diffuse##"+dName).c_str(), (float*)&engine->scene->lights.direction[i].diffuse);
+			bool dSpec = ImGui::ColorEdit3(("Specular##"+dName).c_str(), (float*)&engine->scene->lights.direction[i].specular);
+			bool dPos = ImGui::InputFloat3 (("Direction##"+dName).c_str(), (float*)&engine->scene->lights.direction[i].direction);
 			if (dColor || dPos || dSpec) {
 
 				for (auto& shader : res.shaders) {
@@ -383,9 +281,9 @@ void SceneEditor::DrawHeighrarchy()
 				}
 			};
 		
-			glm::vec3 lightDir = -(scene->lights.direction[i].direction);
+			glm::vec3 lightDir = -(engine->scene->lights.direction[i].direction);
 			if (ImGui::gizmo3D("##gizmo1", lightDir)) {
-				scene->lights.direction[i].direction = -(lightDir);
+				engine->scene->lights.direction[i].direction = -(lightDir);
 				for (auto& shader : res.shaders) {
 					//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 				}
@@ -395,7 +293,7 @@ void SceneEditor::DrawHeighrarchy()
 		}
 	}
 	if (deleteIndex >= 0) {
-		scene->lights.direction.erase(scene->lights.direction.begin() + deleteIndex);
+		engine->scene->lights.direction.erase(engine->scene->lights.direction.begin() + deleteIndex);
 		for (auto& shader : res.shaders) {
 			//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 		}
@@ -403,15 +301,15 @@ void SceneEditor::DrawHeighrarchy()
 	
 	//point Lights
 	deleteIndex = -1;
-
+	if(engine->scene)
 	if (ImGui::Button("Add Point Light")) {
-		scene->lights.AddPointLight({ 0,0,0 }, { 1,1,1 }, {1,1,1}, 1.0, 0.007, 0.0002);
+		engine->scene->lights.AddPointLight({ 0,0,0 }, { 1,1,1 }, {1,1,1}, 1.0, 0.007, 0.0002);
 		for (auto& shader : ResourceManager::Get().shaders) {
 			//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 		}
 	}
 
-	for (int i = 0; i < scene->lights.point.size(); ++i)
+	for (int i = 0; i < engine->scene->lights.point.size(); ++i)
 	{
 		std::string dName = std::string("Point Light##" + std::to_string(i));
 		if (ImGui::TreeNodeEx(dName.c_str())) {
@@ -419,9 +317,9 @@ void SceneEditor::DrawHeighrarchy()
 				deleteIndex = i;
 			}
 		
-			bool dColor = ImGui::ColorEdit3(("Diffuse##" + dName).c_str(), (float*)&scene->lights.point[i].diffuse);
-			bool dSpec = ImGui::ColorEdit3(("Specular##" + dName).c_str(), (float*)&scene->lights.point[i].specular);
-			bool dPos = ImGui::InputFloat3(("Position##" + dName).c_str(), (float*)&scene->lights.point[i].position);
+			bool dColor = ImGui::ColorEdit3(("Diffuse##" + dName).c_str(), (float*)&engine->scene->lights.point[i].diffuse);
+			bool dSpec = ImGui::ColorEdit3(("Specular##" + dName).c_str(), (float*)&engine->scene->lights.point[i].specular);
+			bool dPos = ImGui::InputFloat3(("Position##" + dName).c_str(), (float*)&engine->scene->lights.point[i].position);
 			if (dColor || dSpec || dPos) {
 
 				for (auto& shader : res.shaders) {
@@ -432,7 +330,7 @@ void SceneEditor::DrawHeighrarchy()
 		}
 	}
 	if (deleteIndex >= 0) {
-		scene->lights.point.erase(scene->lights.point.begin() + deleteIndex);
+		engine->scene->lights.point.erase(engine->scene->lights.point.begin() + deleteIndex);
 		for (auto& shader : res.shaders) {
 			//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
 		}
@@ -632,22 +530,22 @@ void SceneEditor::DrawInspector()
 		//Box
 		if (ImGui::Button("Add Box Collider##box")){
 			if (!inspectedObject->physicsBody)
-				inspectedObject->physicsBody = scene->physicsWorld.CreatePhysicsBody();
-			scene->physicsWorld.AddBoxCollider(*inspectedObject->physicsBody, {1.0f,1.0f,1.0f});
+				inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+			engine->scene->physicsWorld.AddBoxCollider(*inspectedObject->physicsBody, {1.0f,1.0f,1.0f});
 		}
 
 		//Sphere
 		if (ImGui::Button("Add Sphere Collider##sphere")) {
 			if (!inspectedObject->physicsBody)
-				inspectedObject->physicsBody = scene->physicsWorld.CreatePhysicsBody();
-			scene->physicsWorld.AddSphereCollider(*inspectedObject->physicsBody, 1.0f);
+				inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+			engine->scene->physicsWorld.AddSphereCollider(*inspectedObject->physicsBody, 1.0f);
 		}
 
 		//Capsule
 		if (ImGui::Button("Add Capsule Collider##capsule")) {
 			if (!inspectedObject->physicsBody)
-				inspectedObject->physicsBody = scene->physicsWorld.CreatePhysicsBody();
-			scene->physicsWorld.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f,2.0f);
+				inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+			engine->scene->physicsWorld.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f,2.0f);
 		}
 
 		static const char* colliderNames[4] = {"Box Collider","Sphere Collider", "Capsule Collider", "Terrain Collider"};
@@ -772,9 +670,9 @@ void SceneEditor::DrawMenu()
 		if (ImGui::BeginMenu("File")) {
 			
 			if (ImGui::MenuItem("New")) { 
-				delete scene;
-				scene = new Scene;
-				scene->physicsWorld.ResetPhysicsWorld();
+				delete engine->scene;
+				engine->scene = new Scene;
+				engine->scene->physicsWorld.ResetPhysicsWorld();
 				saveFilePath[0] = '\0';
 				luaFilePath = ("resources/scripts/main.lua");
 				inspectedObject = nullptr;
@@ -784,18 +682,18 @@ void SceneEditor::DrawMenu()
 				if (saveFilePath.size() < 1)
 				{
 					std::string savePath = FileOpener::OpenFileDialogue(SAVE_FILE);
-					if (scene && !savePath.empty()) {
+					if (engine->scene && !savePath.empty()) {
 						SaveProject(savePath.c_str());
 						saveFilePath = savePath;
 					}
 				}
-				else if(scene){
+				else if(engine->scene){
 					SaveProject(saveFilePath.c_str());
 				}
 			}
 			if (ImGui::MenuItem("Save As",NULL)) {
 				std::string savePath = FileOpener::OpenFileDialogue(SAVE_FILE);
-				if (scene) {
+				if (engine->scene) {
 					SaveProject(savePath.c_str());
 					saveFilePath = savePath;
 				}
@@ -866,14 +764,14 @@ void SceneEditor::DrawMenu()
 	static ImVec4 selectedCol = ImGui::GetStyle().Colors[ImGuiCol_Header];
 	static ImVec4 pButtonCol = baseCol;
 
-	if (isRunning)
+	if (engine->isRunning)
 		pButtonCol = selectedCol;
 	else
 		pButtonCol = baseCol;
 
 	ImGui::PushStyleColor(ImGuiCol_Button,pButtonCol);
 	if (ImGui::Button("Play", { buttonWidth,20 })) { 
-		isRunning = !isRunning;
+		engine->isRunning = !engine->isRunning;
 		//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 		input.SetMouseLock(false);
 	}
@@ -881,7 +779,7 @@ void SceneEditor::DrawMenu()
 
 
 	ImGui::SameLine();
-	if (ImGui::Button("Pause", { buttonWidth,20 })) { isRunning = false; }
+	if (ImGui::Button("Pause", { buttonWidth,20 })) { engine->isRunning = false; }
 	ImGui::SameLine();
 	if (ImGui::Button("FreeCam", { buttonWidth,20 })) { InputManager::Get().SetMouseLock(false); }
 
@@ -1144,7 +1042,7 @@ void SceneEditor::DrawResources()
 				std::string::size_type idx = std::string(audioPath).rfind('.');
 				std::string extension = std::string(audioPath).substr(idx + 1);
 
-				soundEngine.AddSound(audioName, audioPath);
+				//soundEngine.AddSound(audioName, audioPath);
 			}
 
 			int colCount = (viewport->Size.x * windowWidth) / (resourceWidth + (style.ItemSpacing.x * 2));
@@ -1152,15 +1050,15 @@ void SceneEditor::DrawResources()
 
 			Texture* shaderIcon = res.GetTexture("default");
 
-			//show all audio loaded
-			std::vector<std::string> audioNames = soundEngine.GetAudioNames();
-
-			for (int i = 0; i < audioNames.size(); i++)
-			{
-				ImGui::Image((void*)(intptr_t)shaderIcon->ID, ImVec2(resourceWidth, resourceWidth));
-				ImGui::Text(audioNames[i].c_str());
-				ImGui::NextColumn();
-			}
+			////show all audio loaded
+			//std::vector<std::string> audioNames = soundEngine.GetAudioNames();
+			//
+			//for (int i = 0; i < audioNames.size(); i++)
+			//{
+			//	ImGui::Image((void*)(intptr_t)shaderIcon->ID, ImVec2(resourceWidth, resourceWidth));
+			//	ImGui::Text(audioNames[i].c_str());
+			//	ImGui::NextColumn();
+			//}
 			ImGui::EndTabItem();
 		}
 		ImGui::EndTabBar();
@@ -1183,7 +1081,7 @@ void SceneEditor::DrawWindowSettings(bool* showChangeWindow)
 	if (ImGui::Button("Set Window Title##420"))
 	{
 		windowName = str0;
-		window->SetName(windowName);
+		//window->SetName(windowName);
 	}
 
 	ImGui::End();
@@ -1258,8 +1156,8 @@ void SceneEditor::DrawSaveFile(bool* showSaveFile)
 		saveFilePath = saveFileBuf;
 	}
 	if (ImGui::Button("Save##saveFile")) {
-		if(scene)
-			SceneLoader::SaveScene(scene, saveFilePath);
+		if(engine->scene)
+			SceneLoader::SaveScene(engine->scene, saveFilePath);
 	}
 
 	ImGui::End();
@@ -1395,18 +1293,18 @@ void SceneEditor::CheckKeys()
 
 	if (savePressed) {
 		if(!saveDown)
-			if (saveFilePath.size() > 0 && scene) {
+			if (saveFilePath.size() > 0 && engine->scene) {
 				SaveProject(saveFilePath.c_str());
 			}
-			else if(scene){
+			else if(engine->scene){
 				saveFilePath = "untitled_Save.json";
 				SaveProject(saveFilePath.c_str());
 			}
 		saveDown = true;
 	}
 
-	if (isRunning && input.GetKeyPressedDown(GLFW_KEY_F5)) {
-		isRunning = false;
+	if (engine->isRunning && input.GetKeyPressedDown(GLFW_KEY_F5)) {
+		engine->isRunning = false;
 	}
 
 }

@@ -30,21 +30,36 @@ public:
 		return value;
 	}
 
-	void VoidExecute(Args ...args) {
+private:
+	sol::function solFunc;
+};
+
+// Template specialization for Execute when T is void
+template<typename ...Args>
+class LuaFunction<void, Args...>
+{
+	class LuaManager;
+public:
+	LuaFunction() {
+		solFunc = sol::nil;
+	}
+
+	LuaFunction(const char* luaName, LuaManager* luaState) {
+		solFunc = luaState->GetFunction(luaName);
+	}
+
+	~LuaFunction() {
+
+	}
+
+	void Execute(Args ...args) {
 
 		if (solFunc.valid()) {
 			solFunc(args...);
 		}
 	}
 
-
 private:
 	sol::function solFunc;
 };
 
-
-//template<typename Func, typename ...Args>
-//inline void LuaManager::Expose_CPPFunction(const char* luaName, Func cppFunc, Args ...args)
-//{
-//	luaState.set_function(luaName, cppFunc, args);
-//}

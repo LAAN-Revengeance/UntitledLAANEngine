@@ -2,7 +2,8 @@
 
 Application::Application() :
 	window(500,500,"Application"),
-	game(&window)
+	game(&window),
+	editor(&game)
 {
 	
 }
@@ -21,12 +22,13 @@ void Application::Run()
 
 		double deltaTime = timer.DeltaTime();
 		game.Update(deltaTime);
-		//editor.Update();
+		editor.Update(deltaTime);
 
 		game.Draw(deltaTime);
-		//editor.Draw();
-		
+		editor.Draw(deltaTime);
+
+		window.SwapBuffers();
 	}
 
-	window.SwapBuffers();
+	
 }

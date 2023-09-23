@@ -18,14 +18,16 @@
 class GameEngine
 {
 public:
-	GameEngine(Window* window);
+	GameEngine(Window* nWindow);
 	~GameEngine();
 	void Init();
 	void Update(double deltaTime);
 	void Draw(double deltaTime);
 
 private:
-
+	bool isRunning;
 	Scene* scene;
 	Renderer renderer;
+	Window* window;
+	friend class SceneEditor;
 };

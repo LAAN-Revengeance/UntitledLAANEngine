@@ -4,8 +4,8 @@
 #include <Serialization/ProjectLoader.h>
 #include "FileExplorer.h"
 #include <SoundEngine.h>
-//#include <Lua/LuaManager.h>
 #include <Layer.h>
+#include <GaemEngine.h>
 
 /**
 *	@Class SceneEditor
@@ -17,18 +17,13 @@
 
 const int LAAN_ENGINE_VERSION = 1;
 
-class SceneEditor : public Layer
+class SceneEditor
 {
 public:
-	SceneEditor();
+	SceneEditor(GameEngine* nEngine);
 	~SceneEditor();
-
-	void OnAttatch();
-	void OnDetatch();
-	void OnUpdate(double deltaTime);
-	void OnDraw(double deltaTime);
-
-	void Run(const char* filePath = "");
+	void Update(double deltaTime);
+	void Draw(double deltaTime);
 
 	void SaveProject(const char* path);
 
@@ -53,45 +48,29 @@ private:
 
 	void SetLuaFile(std::string nluaFile);
 
+	GameEngine* engine;
+
 	//File Save Functions
 	std::string FilterFilePath(std::string filePath);
-
-	//reference to glfw window
-	Window* window = nullptr;
 
 	//mouse controls
 	float lastX = 0;
 	float lastY = 0;
 	float mouseSensitivity = 10.0f;
 
-	//timestep
-	bool isRunning = false;
-	double deltaTime = 0.0;
-	double previousFrameTime = 0.0;
-
 	//save file path
 	std::string saveFilePath = "";
 	std::string luaFilePath = "resources/scripts/main.lua";
 	std::string windowName = "editor";
 
-	Scene* scene = nullptr;
 	Camera camera;
 	GameObject* inspectedObject = nullptr;
 	GameObject* lastObject = nullptr;
-
-	//SceneEditor(const SceneEditor&) = delete;
-	//SceneEditor& operator = (const SceneEditor&) = delete;
 
 	bool isFreecam = true;
 	bool isPhysicDebug = true;
 
 		///Main GUI Renderer
-	GUIRenderer& guirenderer = GUIRenderer::Get();
-		///Reference to input manager
-	InputManager& inputMngr = InputManager::Get();
-		///Reference to SoundEngine
-	SoundEngine& soundEngine = SoundEngine::Get();
+	GUIRenderer guirenderer;
 
-
-	friend class GameEngine;
 };
