@@ -114,6 +114,7 @@
     <ClInclude Include="engine\Layer\LayerStack.h" />
     <ClInclude Include="engine\Application\Application.h" />
     <ClInclude Include="engine\Controller\Lua\LuaGameBridge.h" />
+    <ClInclude Include="engine\Controller\Event\Event.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Model\Graphics\Shaders\Cube_map.frag" />

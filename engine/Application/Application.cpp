@@ -29,6 +29,4 @@ void Application::Run()
 
 		window.SwapBuffers();
 	}
-
-	
 }

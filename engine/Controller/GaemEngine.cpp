@@ -8,6 +8,7 @@ GameEngine::GameEngine(Window* nWindow):
 	scene(new Scene),
 	window(nWindow)
 {
+	InputManager::Get().SetActiveWindow(window);
 }
 
 GameEngine::~GameEngine() {
