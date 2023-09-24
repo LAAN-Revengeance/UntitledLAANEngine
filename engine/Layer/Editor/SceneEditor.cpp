@@ -5,6 +5,7 @@ SceneEditor::SceneEditor(GameEngine* nEngine):
 	guirenderer(engine->window)
 {
 	engine->isRunning = false;
+	UseScene(engine->scene);
 }
 
 SceneEditor::~SceneEditor()
@@ -73,17 +74,6 @@ void SceneEditor::UseScene(Scene* nscene)
 		engine->scene = nscene;
 		camera = &nscene->camera;
 	}
-}
-
-void SceneEditor::ResizeCallback(GLFWwindow* window, int width, int height)
-{
-	//if (width <= 0 || height <= 0)
-	//	return;
-	//SceneEditor& editor = SceneEditor::Get();
-	//editor.camera.aspectRatio = (float)width / (float)height;
-	//glViewport(0, 0, width, height);
-	//editor.renderer.Resize(width, height);
-	//editor.renderer.RenderScene(editor.camera, *editor.scene, editor.deltaTime);
 }
 
 void SceneEditor::DrawHeighrarchy()
@@ -251,7 +241,7 @@ void SceneEditor::DrawHeighrarchy()
 	if(engine->scene)
 	if (ImGui::ColorEdit3("Ambient Light", (float*)&engine->scene->lights.ambient)) {
 		for (auto& shader : res.shaders) {
-			//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+			engine->renderer.SetLightUniforms(engine->scene->lights, *shader.second);
 		}
 	}
 
@@ -263,7 +253,7 @@ void SceneEditor::DrawHeighrarchy()
 		engine->scene->lights.AddDirectionLight({ 0,1,0 }, { 1,1,1 }, { 1,1,1 });
 
 		for (auto& shader : ResourceManager::Get().shaders) {
-			//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+			engine->renderer.SetLightUniforms(engine->scene->lights, *shader.second);
 		}
 	}
 	if(engine->scene)
@@ -281,7 +271,7 @@ void SceneEditor::DrawHeighrarchy()
 			if (dColor || dPos || dSpec) {
 
 				for (auto& shader : res.shaders) {
-					//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+					engine->renderer.SetLightUniforms(engine->scene->lights, *shader.second);
 				}
 			};
 		
@@ -289,7 +279,7 @@ void SceneEditor::DrawHeighrarchy()
 			if (ImGui::gizmo3D("##gizmo1", lightDir)) {
 				engine->scene->lights.direction[i].direction = -(lightDir);
 				for (auto& shader : res.shaders) {
-					//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+					engine->renderer.SetLightUniforms(engine->scene->lights, *shader.second);
 				}
 			}
 
@@ -299,7 +289,7 @@ void SceneEditor::DrawHeighrarchy()
 	if (deleteIndex >= 0) {
 		engine->scene->lights.direction.erase(engine->scene->lights.direction.begin() + deleteIndex);
 		for (auto& shader : res.shaders) {
-			//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+			engine->renderer.SetLightUniforms(engine->scene->lights, *shader.second);
 		}
 	}
 	
@@ -309,7 +299,7 @@ void SceneEditor::DrawHeighrarchy()
 	if (ImGui::Button("Add Point Light")) {
 		engine->scene->lights.AddPointLight({ 0,0,0 }, { 1,1,1 }, {1,1,1}, 1.0, 0.007, 0.0002);
 		for (auto& shader : ResourceManager::Get().shaders) {
-			//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+			engine->renderer.SetLightUniforms(engine->scene->lights, *shader.second);
 		}
 	}
 
@@ -328,7 +318,7 @@ void SceneEditor::DrawHeighrarchy()
 			if (dColor || dSpec || dPos) {
 
 				for (auto& shader : res.shaders) {
-					//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+					engine->renderer.SetLightUniforms(engine->scene->lights, *shader.second);
 				}
 			};
 			ImGui::TreePop();
@@ -337,7 +327,7 @@ void SceneEditor::DrawHeighrarchy()
 	if (deleteIndex >= 0) {
 		engine->scene->lights.point.erase(engine->scene->lights.point.begin() + deleteIndex);
 		for (auto& shader : res.shaders) {
-			//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+			engine->renderer.SetLightUniforms(engine->scene->lights, *shader.second);
 		}
 	}
 
@@ -676,7 +666,7 @@ void SceneEditor::DrawMenu()
 			
 			if (ImGui::MenuItem("New")) { 
 				delete engine->scene;
-				engine->scene = new Scene;
+				UseScene(new Scene);
 				engine->scene->physicsWorld.ResetPhysicsWorld();
 				saveFilePath[0] = '\0';
 				luaFilePath = ("resources/scripts/main.lua");
@@ -777,8 +767,6 @@ void SceneEditor::DrawMenu()
 	ImGui::PushStyleColor(ImGuiCol_Button,pButtonCol);
 	if (ImGui::Button("Play", { buttonWidth,20 })) { 
 		engine->isRunning = !engine->isRunning;
-		//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-		//engine->window->SetMouseLock()
 		input.SetMouseLock(true);
 	}
 	ImGui::PopStyleColor();
@@ -787,13 +775,12 @@ void SceneEditor::DrawMenu()
 	ImGui::SameLine();
 	if (ImGui::Button("Pause", { buttonWidth,20 })) { engine->isRunning = false; }
 	ImGui::SameLine();
-	if (ImGui::Button("FreeCam", { buttonWidth,20 })) { InputManager::Get().SetMouseLock(true); }
+	if (ImGui::Button("FreeCam", { buttonWidth,20 })) { isFreecam = true; }
 
 	guirenderer.EndWindow();
 
 	DrawDebug(&showDebug);
 	DrawWindowSettings(&showChangeWindow);
-	//DrawOpenFile(&showOpenFile);
 	DrawSaveFile(&showSaveFile);
 }
 

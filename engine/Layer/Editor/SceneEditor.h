@@ -29,8 +29,6 @@ public:
 
 	void LoadSceneFromFile(const char* path);
 	void UseScene(Scene* nscene);
-
-	static void ResizeCallback(GLFWwindow* window, int width, int height);
 private:
 
 	//Draw GUI Functions
