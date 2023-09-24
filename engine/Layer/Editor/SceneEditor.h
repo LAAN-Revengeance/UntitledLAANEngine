@@ -63,7 +63,7 @@ private:
 	std::string luaFilePath = "resources/scripts/main.lua";
 	std::string windowName = "editor";
 
-	Camera camera;
+	Camera* camera;
 	GameObject* inspectedObject = nullptr;
 	GameObject* lastObject = nullptr;
 

@@ -18,16 +18,17 @@ void Application::Run()
 	while (!window.IsWindowClosed())
 	{
 		timer.Update();
-		window.PollEvents();
 
 		double deltaTime = timer.DeltaTime();
 
 		game.Update(deltaTime);
 		editor.Update(deltaTime);
 
+		
 		game.Draw(deltaTime);
 		editor.Draw(deltaTime);
 
 		window.SwapBuffers();
+		window.PollEvents();
 	}
 }

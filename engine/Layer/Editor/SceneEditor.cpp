@@ -43,7 +43,7 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 	lastObject = nullptr;
 
 	Project nProject = ProjectLoader::LoadProject(path);
-	engine->scene = nProject.scene;// &SceneLoader::LoadScene(path);
+	UseScene(nProject.scene);
 	luaFilePath = nProject.luaPath;
 	windowName = nProject.windowName;
 
@@ -68,6 +68,7 @@ void SceneEditor::UseScene(Scene* nscene)
 {
 	if (nscene) {
 		engine->scene = nscene;
+		camera = &nscene->camera;
 	}
 }
 
@@ -126,11 +127,11 @@ void SceneEditor::DrawHeighrarchy()
 			inspectedObject = pair.second;
 			selectedNode = j;
 		}
-		if (ImGui::IsMouseDoubleClicked(0) && ImGui::IsItemHovered() && inspectedObject) {
-			camera.position = { inspectedObject->position.x,inspectedObject->position.y,inspectedObject->position.z - 10 };
-			camera.up = { 0,1,0 };
-			camera.right = { 0.0, 0.0, -1.0 };
-			camera.LookAt(inspectedObject->position);
+		if (ImGui::IsMouseDoubleClicked(0) && ImGui::IsItemHovered() && inspectedObject && camera) {
+			camera->position = { inspectedObject->position.x,inspectedObject->position.y,inspectedObject->position.z - 10 };
+			camera->up = { 0,1,0 };
+			camera->right = { 0.0, 0.0, -1.0 };
+			camera->LookAt(inspectedObject->position);
 		}
 
 		if (nodeOpen) {
@@ -1194,7 +1195,8 @@ void SceneEditor::Draw3DWidget()
 
 		glm::mat4 inspectTrans = inspectedObject->GetTransformMatrix();
 
-		if (ImGuizmo::Manipulate(glm::value_ptr(camera.GetView()), glm::value_ptr(camera.GetProjection()),
+		if(camera)
+		if (ImGuizmo::Manipulate(glm::value_ptr(camera->GetView()), glm::value_ptr(camera->GetProjection()),
 			ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::MODE::LOCAL, glm::value_ptr(inspectTrans))) {
 			glm::vec3 position = glm::vec3(inspectTrans[3]);
 			inspectedObject->SetPosition(position);
@@ -1232,23 +1234,23 @@ void SceneEditor::CameraControl(double deltaTime)
 		camSpeed *= 10;
 	}
 	if (input.GetKeyPressed(GLFW_KEY_W)) {
-		camera.position += glm::normalize(glm::cross({ 0,1,0 }, camera.right)) * camSpeed;
+		camera->position += glm::normalize(glm::cross({ 0,1,0 }, camera->right)) * camSpeed;
 	}
 	if (input.GetKeyPressed(GLFW_KEY_S)) {
-		camera.position -= glm::normalize(glm::cross({ 0,1,0 }, camera.right)) * camSpeed;
+		camera->position -= glm::normalize(glm::cross({ 0,1,0 }, camera->right)) * camSpeed;
 	}
 	if (input.GetKeyPressed(GLFW_KEY_A)) {
-		camera.position -= camera.right * camSpeed;
+		camera->position -= camera->right * camSpeed;
 	}
 	if (input.GetKeyPressed(GLFW_KEY_D)) {
-		camera.position += camera.right * camSpeed;
+		camera->position += camera->right * camSpeed;
 	}
 
 	if (input.GetKeyPressed(GLFW_KEY_SPACE)) {
-		camera.position += glm::vec3(0,1,0) * camSpeed;
+		camera->position += glm::vec3(0,1,0) * camSpeed;
 	}
 	if (input.GetKeyPressed(GLFW_KEY_LEFT_CONTROL)) {
-		camera.position -= glm::vec3(0, 1, 0) * camSpeed;
+		camera->position -= glm::vec3(0, 1, 0) * camSpeed;
 	}
 
 
@@ -1265,15 +1267,15 @@ void SceneEditor::CameraControl(double deltaTime)
 	xoffset = xoffset * -mouseSensitivity * deltaTime;
 	yoffset = yoffset * -mouseSensitivity * deltaTime;
 
-	camera.Yaw = camera.Yaw - xoffset;
-	camera.Pitch = camera.Pitch - yoffset;
+	camera->Yaw = camera->Yaw - xoffset;
+	camera->Pitch = camera->Pitch - yoffset;
 
-	if (camera.Pitch > 85.0f)
-		camera.Pitch = 85.0f;
-	if (camera.Pitch < -85.0f)
-		camera.Pitch = -85.0f;
+	if (camera->Pitch > 85.0f)
+		camera->Pitch = 85.0f;
+	if (camera->Pitch < -85.0f)
+		camera->Pitch = -85.0f;
 
-	camera.UpdateCameraVectors();
+	camera->UpdateCameraVectors();
 
 }
 
