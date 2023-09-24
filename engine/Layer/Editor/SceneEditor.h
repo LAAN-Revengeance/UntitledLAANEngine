@@ -43,6 +43,8 @@ private:
 	void DrawOpenFile(bool* showOpenFile);
 	void DrawSaveFile(bool* showSaveFile);
 	void Draw3DWidget();
+
+	//Input methods
 	void CameraControl(double deltaTime);
 	void CheckKeys();
 
@@ -64,6 +66,8 @@ private:
 	std::string windowName = "editor";
 
 	Camera* camera;
+
+
 	GameObject* inspectedObject = nullptr;
 	GameObject* lastObject = nullptr;
 

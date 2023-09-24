@@ -787,7 +787,7 @@ void SceneEditor::DrawMenu()
 	ImGui::SameLine();
 	if (ImGui::Button("Pause", { buttonWidth,20 })) { engine->isRunning = false; }
 	ImGui::SameLine();
-	if (ImGui::Button("FreeCam", { buttonWidth,20 })) { InputManager::Get().SetMouseLock(false); }
+	if (ImGui::Button("FreeCam", { buttonWidth,20 })) { InputManager::Get().SetMouseLock(true); }
 
 	guirenderer.EndWindow();
 
@@ -1215,14 +1215,15 @@ void SceneEditor::Draw3DWidget()
 void SceneEditor::CameraControl(double deltaTime)
 {
 	InputManager& input = InputManager::Get();
-	isFreecam = input.GetMouseLock();
-	static bool toggleCamPress = false;
+
+	static bool toggleCamPress = false;//If escape key is down
+
 	if (input.GetKeyPressedDown(GLFW_KEY_ESCAPE) && !toggleCamPress) {
 		toggleCamPress = true;
-		isFreecam = !input.GetMouseLock();
-		input.SetMouseLock(isFreecam);
+		isFreecam = !isFreecam;
 		lastX = input.GetMouseX();
 		lastY = input.GetMouseY();
+		
 	}
 	else if (input.GetKeyPressedDown(GLFW_KEY_ESCAPE)) {
 		toggleCamPress = true;
@@ -1230,11 +1231,13 @@ void SceneEditor::CameraControl(double deltaTime)
 	else {
 		toggleCamPress = false;
 	}
-	if (isFreecam)
-		return;
 
-	if (!camera)
+	if (!isFreecam || !camera) {
+		input.SetMouseLock(false);
 		return;
+	}
+	input.SetMouseLock(true);
+	
 
 	float baseSpeed = 0.2;
 	float camSpeed = baseSpeed;

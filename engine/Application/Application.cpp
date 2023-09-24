@@ -1,7 +1,7 @@
 #include "Application.h"
 
 Application::Application() :
-	window(500,500,"Application",&eventDispatcher),
+	window(720,680,"Application",&eventDispatcher),
 	game(&window, &eventDispatcher),
 	editor(&game)
 {
@@ -23,7 +23,6 @@ void Application::Run()
 
 		game.Update(deltaTime);
 		editor.Update(deltaTime);
-
 		
 		game.Draw(deltaTime);
 		editor.Draw(deltaTime);
