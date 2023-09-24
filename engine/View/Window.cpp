@@ -3,8 +3,10 @@
 bool Window::_glfwInit = false;
 Window* Window::currentWindow = nullptr;
 
-Window::Window(int w, int h, const std::string& wName)
+Window::Window(int w, int h, const std::string& wName, EventDispatcher* nDispatcher)
 {
+	eventDispatcher = nDispatcher;
+
 	if (!_glfwInit) {
 		glfwInit();
 		_glfwInit = true;
@@ -23,8 +25,8 @@ Window::Window(int w, int h, const std::string& wName)
 		glfwTerminate();
 		return;
 	}
-	glfwMakeContextCurrent(window);
-	Window::currentWindow = this;
+	
+	MakeCurrentContext();
 }
 
 Window::~Window()
@@ -56,14 +58,11 @@ void Window::PollEvents()
 	glfwPollEvents();
 }
 
-void Window::SetResizeCallback(WindowResizeFunc callback)
-{
-	//glfwSetFramebufferSizeCallback(window, (*resizeCallback));
-}
-
 void Window::MakeCurrentContext()
 {
 	glfwMakeContextCurrent(window);
+	Window::currentWindow = this;
+	glfwSetWindowSizeCallback(window, _mGlFWCallback);
 }
 
 int Window::GetWidth()
@@ -138,6 +137,6 @@ Window* Window::GetActiveWindow()
 
 void Window::_mGlFWCallback(GLFWwindow* window, int width, int height)
 {
-
-	
+	WindowResizeEvent event(width,height);
+	Window::currentWindow->eventDispatcher->Post(event);
 }

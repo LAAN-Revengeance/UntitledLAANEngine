@@ -510,6 +510,12 @@ void Renderer::Resize(int width, int height)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+void Renderer::HandleResizeEvent(const Event& event)
+{
+	const WindowResizeEvent& wEvent = static_cast<const WindowResizeEvent&>(event);
+	Resize(wEvent.width, wEvent.height);
+}
+
 double Renderer::GetFPS()
 {
 	return fps;

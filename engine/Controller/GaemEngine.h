@@ -6,6 +6,7 @@
 #include <LayerStack.h>
 #include <Timer.h>
 #include <Window.h>
+#include <Event/EventDispatcher.h>
 
 /**
 *	@Class GameEngine
@@ -18,7 +19,7 @@
 class GameEngine
 {
 public:
-	GameEngine(Window* nWindow);
+	GameEngine(Window*,EventDispatcher*);
 	~GameEngine();
 	void Init();
 	void Update(double deltaTime);
@@ -29,5 +30,7 @@ private:
 	Scene* scene;
 	Renderer renderer;
 	Window* window;
+	EventDispatcher* eventDispatcher;
+
 	friend class SceneEditor;
 };

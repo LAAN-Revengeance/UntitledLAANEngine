@@ -2,8 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <string>
 #include "Graphics/Graphics.h"
-
-typedef void(*WindowResizeFunc)(int width, int height);
+#include <Event/EventDispatcher.h>
 
 enum WindowType {
 	WINDOW_TYPE_WINDOWED,
@@ -23,7 +22,7 @@ class Window
 {
 public:
 
-	Window(int w, int h,const std::string& wName);
+	Window(int w, int h,const std::string&, EventDispatcher*);
 	~Window();
 
 	bool IsWindowClosed();
@@ -31,8 +30,6 @@ public:
 
 	void SwapBuffers();
 	void PollEvents();
-
-	void SetResizeCallback(WindowResizeFunc callback);
 
 	void MakeCurrentContext();
 
@@ -49,7 +46,6 @@ public:
 	static Window* GetActiveWindow();
 private:
 	static void _mGlFWCallback(GLFWwindow* window, int width, int height);
-	WindowResizeFunc* resizeCallback = nullptr;
 
 	static bool _glfwInit;
 	static Window* currentWindow;
@@ -57,6 +53,8 @@ private:
 	std::string name;
 
 	static std::vector<GLFWwindow*> activeWindows;
+
+	EventDispatcher* eventDispatcher;
 
 	friend class InputManager;
 	friend class GUIRenderer;

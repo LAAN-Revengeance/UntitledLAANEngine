@@ -2,6 +2,7 @@
 #include <Scene.h>
 #include <Graphics/Graphics.h>
 #include <Window.h>
+#include <Event/Event.h>
 /**
 *	@Class Renderer
 *	@brief Used to draw scene to the screen
@@ -95,6 +96,8 @@ public:
 	void ToggleWireFrame();
 
 	void Resize(int width, int height);
+
+	void HandleResizeEvent(const Event& event);
 
 		/*
 		*   @brief Binds a material

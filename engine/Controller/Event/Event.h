@@ -1,5 +1,5 @@
 #pragma once
-
+#include <iostream>
 using EventDescriptor = const char*;
 
 class Event
@@ -12,14 +12,16 @@ public:
 private:
 };
 
-class EventWindowResize : public Event {
+class WindowResizeEvent : public Event {
 
-	EventWindowResize(int w, int h) {
+public:
+	WindowResizeEvent(int w, int h) {
 		width = w;
 		height = h;
 	}
+	~WindowResizeEvent() {}
 
-	EventDescriptor GetType() { return descriptor; }
+	EventDescriptor GetType()const override{ return descriptor; }
 
 	static constexpr EventDescriptor descriptor = "windowResize";
 

@@ -1,8 +1,8 @@
 #include "Application.h"
 
 Application::Application() :
-	window(500,500,"Application"),
-	game(&window),
+	window(500,500,"Application",&eventDispatcher),
+	game(&window, &eventDispatcher),
 	editor(&game)
 {
 	
@@ -21,6 +21,7 @@ void Application::Run()
 		window.PollEvents();
 
 		double deltaTime = timer.DeltaTime();
+
 		game.Update(deltaTime);
 		editor.Update(deltaTime);
 

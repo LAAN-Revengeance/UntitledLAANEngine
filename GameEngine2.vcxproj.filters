@@ -46,6 +46,8 @@
     <ClCompile Include="engine\Application\Application.cpp" />
     <ClCompile Include="engine\Controller\Lua\LuaGameBridge.cpp" />
     <ClCompile Include="engine\Controller\Lua\LuaFunction.h" />
+    <ClCompile Include="engine\Controller\Event\EventDispatcher.h" />
+    <ClCompile Include="engine\Controller\Event\EventDispatcher.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\Controller\GaemEngine.h" />
