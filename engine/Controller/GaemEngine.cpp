@@ -13,7 +13,7 @@ GameEngine::GameEngine(Window* nWindow, EventDispatcher* nDispatcher):
 	InputManager::Get().SetActiveWindow(window);
 
 	//bind renderer resize handler to windowResize event
-	eventDispatcher->Subscribe("windowResize", std::bind(&Renderer::HandleResizeEvent,renderer, std::placeholders::_1));
+	eventDispatcher->Subscribe("windowResize", std::bind(&Renderer::HandleResizeEvent,&renderer, std::placeholders::_1));
 }
 
 GameEngine::~GameEngine() {

@@ -4,7 +4,7 @@ SceneEditor::SceneEditor(GameEngine* nEngine):
 	engine(nEngine),
 	guirenderer(engine->window)
 {
-
+	engine->isRunning = false;
 }
 
 SceneEditor::~SceneEditor()
@@ -21,6 +21,9 @@ void SceneEditor::Update(double deltaTime)
 
 void SceneEditor::Draw(double deltaTime)
 {
+	if (engine->isRunning)
+		return;
+
 	guirenderer.StartGUI();
 	Draw3DWidget();
 	DrawInspector();
@@ -52,7 +55,7 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 	if (!engine->scene)
 		return;
 	for (auto& shader : ResourceManager::Get().shaders) {
-		//Renderer::Get().SetLightUniforms(scene->lights, *shader.second);
+		engine->renderer.SetLightUniforms(engine->scene->lights, *shader.second);
 	}
 
 	Json::Value root;
@@ -310,6 +313,7 @@ void SceneEditor::DrawHeighrarchy()
 		}
 	}
 
+	if(engine->scene)
 	for (int i = 0; i < engine->scene->lights.point.size(); ++i)
 	{
 		std::string dName = std::string("Point Light##" + std::to_string(i));
@@ -774,7 +778,8 @@ void SceneEditor::DrawMenu()
 	if (ImGui::Button("Play", { buttonWidth,20 })) { 
 		engine->isRunning = !engine->isRunning;
 		//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-		input.SetMouseLock(false);
+		//engine->window->SetMouseLock()
+		input.SetMouseLock(true);
 	}
 	ImGui::PopStyleColor();
 
@@ -1228,6 +1233,9 @@ void SceneEditor::CameraControl(double deltaTime)
 	if (isFreecam)
 		return;
 
+	if (!camera)
+		return;
+
 	float baseSpeed = 0.2;
 	float camSpeed = baseSpeed;
 	if (input.GetKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
@@ -1307,6 +1315,7 @@ void SceneEditor::CheckKeys()
 
 	if (engine->isRunning && input.GetKeyPressedDown(GLFW_KEY_F5)) {
 		engine->isRunning = false;
+		input.SetMouseLock(false);
 	}
 
 }
