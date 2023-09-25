@@ -6,7 +6,6 @@ SceneEditor::SceneEditor(GameEngine* nEngine):
 {
 	engine->isRunning = false;
 	UseScene(engine->scene);
-	SetLuaFile(luaFilePath);
 }
 
 SceneEditor::~SceneEditor()

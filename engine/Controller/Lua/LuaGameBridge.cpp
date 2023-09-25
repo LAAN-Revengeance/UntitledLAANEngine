@@ -3,6 +3,7 @@
 void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 {
 	LuaManager* luaManager = &engine->scene->luaState;
+
 	//expose vec3
 	luaManager->Expose_CPPClass<glm::vec3>("vec3",
 		sol::constructors<glm::vec3(), glm::vec3(float, float, float)>(),
@@ -280,7 +281,6 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 
 	luaManager->Expose_CPPReference("scene", *engine->scene);
 	luaManager->Expose_CPPReference("GUI", engine->guiRenderer);
-
 
 	engine->scene->luaState.LoadScript(luaPath);
 	engine->scene->UpdateFunction = luaManager->GetFunction<void, double>("update");

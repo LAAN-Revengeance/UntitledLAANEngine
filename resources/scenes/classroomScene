@@ -32,7 +32,7 @@
 		],
 		"PointLights" : null
 	},
-	"luaPath" : "resources\\scripts\\main.lua",
+	"luaPath" : "resources/scripts/main.lua",
 	"objects" : 
 	[
 		{
