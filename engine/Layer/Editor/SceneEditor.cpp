@@ -2,10 +2,11 @@
 
 SceneEditor::SceneEditor(GameEngine* nEngine):
 	engine(nEngine),
-	guirenderer(engine->window)
+	guirenderer(nEngine->guiRenderer)
 {
 	engine->isRunning = false;
 	UseScene(engine->scene);
+	SetLuaFile(luaFilePath);
 }
 
 SceneEditor::~SceneEditor()
@@ -72,6 +73,7 @@ void SceneEditor::UseScene(Scene* nscene)
 {
 	if (nscene) {
 		engine->scene = nscene;
+		
 		camera = &nscene->camera;
 	}
 }
@@ -765,7 +767,8 @@ void SceneEditor::DrawMenu()
 		pButtonCol = baseCol;
 
 	ImGui::PushStyleColor(ImGuiCol_Button,pButtonCol);
-	if (ImGui::Button("Play", { buttonWidth,20 })) { 
+	if (ImGui::Button("Play", { buttonWidth,20 })) {
+		engine->scene->InitFunction.Execute();
 		engine->isRunning = !engine->isRunning;
 		input.SetMouseLock(true);
 	}
@@ -1312,14 +1315,12 @@ void SceneEditor::CheckKeys()
 
 void SceneEditor::SetLuaFile(std::string nluaFile)
 {
-	//luaFilePath = (nluaFile);
-	//
-	//luaManager.SetLuaFile(nluaFile.c_str());
-	//luaManager.Expose_CPPReference("scene", *scene);
-	//luaManager.Expose_CPPReference("GUI", guirenderer);
-	//luaManager.Expose_CPPReference("resources", ResourceManager::Get());
-	//
-	//luaManager.RunInitMethod();
+	luaFilePath = nluaFile;
+	
+	engine->scene->luaState.ClearLuaState();
+	engine->scene->luaState.LoadScript(nluaFile.c_str());
+
+	LuaGameBridge::ExposeEngine(engine);
 }
 
 std::string SceneEditor::FilterFilePath(std::string filePath)

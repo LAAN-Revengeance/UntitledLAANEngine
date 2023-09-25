@@ -29,8 +29,10 @@ private:
 	bool isRunning;
 	Scene* scene;
 	Renderer renderer;
+	GUIRenderer guiRenderer;
 	Window* window;
 	EventDispatcher* eventDispatcher;
 
 	friend class SceneEditor;
+	friend class LuaGameBridge;
 };

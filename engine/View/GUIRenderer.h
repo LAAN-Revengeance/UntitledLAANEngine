@@ -23,9 +23,9 @@
 class GUIRenderer
 {
 public:
-	///Default constructor. Private becuase singleton
+		///Default constructor. Private becuase singleton
 	GUIRenderer(Window* window);
-	///Default Destructor.
+		///Default Destructor.
 	~GUIRenderer();
 		/**
 		*	@brief free up GUI resources

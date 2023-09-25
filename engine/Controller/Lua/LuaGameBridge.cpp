@@ -1,7 +1,8 @@
 #include "LuaGameBridge.h"
 
-void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
+void LuaGameBridge::ExposeEngine(GameEngine* engine)
 {
+	LuaManager* luaManager = &engine->scene->luaState;
 	//expose vec3
 	luaManager->Expose_CPPClass<glm::vec3>("vec3",
 		sol::constructors<glm::vec3(), glm::vec3(float, float, float)>(),
@@ -14,7 +15,6 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"length", &glm::vec3::length
 	);
 
-	
 	luaManager->luaState["Length"] = sol::overload(
 		[](const glm::vec3& a) {return glm::length(a); }
 	);
@@ -39,7 +39,7 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		[](const glm::vec3& a, const glm::vec3& b) {return glm::dot(a, b); }
 	);
 
-	//luaState["CloseWindow"] = sol::overload([](bool shouldClose) {glfwSetWindowShouldClose(InputManager::Get().GetWindow(), shouldClose); });
+	luaManager->luaState["CloseWindow"] = sol::overload([](bool shouldClose) { Window::GetActiveWindow()->CloseWindow(); });
 
 	//expose vec2
 	luaManager->Expose_CPPClass<glm::vec2>("vec2",
@@ -278,18 +278,7 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 	);
 	luaManager->luaState["Sound"] = &SoundEngine::Get();
 
-	luaManager->Expose_CPPClass<SceneLoader>("SceneLoader",
-		sol::no_constructor,
-		"LoadScene", &SceneLoader::LoadScene,
-		"SaveScene", &SceneLoader::SaveScene,
-		"GetSaves", &SceneLoader::GetSaves
-	);
-
-	static SceneLoader loader;
-	luaManager->Expose_CPPReference("loader", loader);
-
-	//LoadScript("resources/scripts/main.lua");
-	//update = GetFunction("update");
-	//init = GetFunction("init");
+	luaManager->Expose_CPPReference("scene", *engine->scene);
+	luaManager->Expose_CPPReference("GUI", engine->guiRenderer);
 
 }

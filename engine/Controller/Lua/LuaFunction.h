@@ -20,7 +20,6 @@ public:
 
 	}
 
-
 	T Execute(Args ...args) {
 
 		if (solFunc.valid()) {

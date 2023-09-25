@@ -6,6 +6,8 @@
 #include <SoundEngine.h>
 #include <Layer.h>
 #include <GaemEngine.h>
+#include <lua/LuaGameBridge.h>
+
 
 /**
 *	@Class SceneEditor
@@ -65,7 +67,6 @@ private:
 
 	Camera* camera;
 
-
 	GameObject* inspectedObject = nullptr;
 	GameObject* lastObject = nullptr;
 
@@ -73,6 +74,5 @@ private:
 	bool isPhysicDebug = true;
 
 		///Main GUI Renderer
-	GUIRenderer guirenderer;
-
+	GUIRenderer& guirenderer;
 };

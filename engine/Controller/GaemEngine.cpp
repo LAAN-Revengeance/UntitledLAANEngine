@@ -8,7 +8,8 @@ GameEngine::GameEngine(Window* nWindow, EventDispatcher* nDispatcher):
 	isRunning(true),
 	scene(new Scene),
 	window(nWindow),
-	eventDispatcher(nDispatcher)
+	eventDispatcher(nDispatcher),
+	guiRenderer(nWindow)
 {
 	InputManager::Get().SetActiveWindow(window);
 
