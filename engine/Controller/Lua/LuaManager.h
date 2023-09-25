@@ -1,6 +1,9 @@
 #pragma once
 #include <sol/sol.hpp>
-#include "LuaFunction.h"
+
+template<class T, typename ...Args>
+class LuaFunction;
+
 /**
 *	@Class LuaManager
 *	@brief Provided an interface to expose data, classes and functions
@@ -100,22 +103,17 @@ private:
 	sol::state luaState;
 
 	friend class LuaGameBridge;
+
+	template<class T, typename ...Args>
+	friend class LuaFunction;
 };
 
 
 template<class T, typename ...Args>
 inline LuaFunction<T, Args...> LuaManager::GetFunction(const char* luaName)
 {
-	sol::function func = luaState[luaName];
-	if (func.valid()) {
-		return func;
-	}
-	else {
-		std::cout << "ERROR: Could not retrieve function: " << luaName << std::endl;
-		return sol::nil;
-	}
-
-	return LuaFunction<T, Args...>(luaName);
+	LuaFunction<T, Args...> func(luaName,this);
+	return func; // Construct using constructor
 }
 
 template<typename T>

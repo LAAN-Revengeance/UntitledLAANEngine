@@ -73,7 +73,6 @@ void SceneEditor::UseScene(Scene* nscene)
 {
 	if (nscene) {
 		engine->scene = nscene;
-		
 		camera = &nscene->camera;
 	}
 }
@@ -1318,9 +1317,8 @@ void SceneEditor::SetLuaFile(std::string nluaFile)
 	luaFilePath = nluaFile;
 	
 	engine->scene->luaState.ClearLuaState();
-	engine->scene->luaState.LoadScript(nluaFile.c_str());
 
-	LuaGameBridge::ExposeEngine(engine);
+	LuaGameBridge::ExposeEngine(engine, nluaFile.c_str());
 }
 
 std::string SceneEditor::FilterFilePath(std::string filePath)

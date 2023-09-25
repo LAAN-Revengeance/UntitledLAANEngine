@@ -28,15 +28,17 @@ void GameEngine::Init()
 
 void GameEngine::Update(double deltaTime) 
 {
-	if (!scene)
+	if (!scene || !isRunning)
 		return;
+
+	
 	for (auto& it : scene->gameObjects) {
 		it.second->Update(deltaTime);
 	}
 
-	scene->UpdateFunction.Execute(deltaTime);
 	scene->physicsWorld.Update(deltaTime);
-
+	scene->UpdateFunction.Execute(deltaTime);
+	
 }
 
 void GameEngine::Draw(double deltaTime)

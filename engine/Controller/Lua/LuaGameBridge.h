@@ -1,5 +1,5 @@
 #pragma once
-#include "LuaManager.h"
+#include "LuaFunction.h"
 #include <GaemEngine.h>
 #include <ResourceManager.h>
 #include <InputManager.h>
@@ -9,5 +9,5 @@
 class LuaGameBridge
 {
 public:
-	static void ExposeEngine(GameEngine*);
+	static void ExposeEngine(GameEngine*, const char* luaPath);
 };

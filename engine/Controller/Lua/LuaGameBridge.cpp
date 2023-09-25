@@ -1,6 +1,6 @@
 #include "LuaGameBridge.h"
 
-void LuaGameBridge::ExposeEngine(GameEngine* engine)
+void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 {
 	LuaManager* luaManager = &engine->scene->luaState;
 	//expose vec3
@@ -281,4 +281,8 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine)
 	luaManager->Expose_CPPReference("scene", *engine->scene);
 	luaManager->Expose_CPPReference("GUI", engine->guiRenderer);
 
+
+	engine->scene->luaState.LoadScript(luaPath);
+	engine->scene->UpdateFunction = luaManager->GetFunction<void, double>("update");
+	engine->scene->InitFunction = luaManager->GetFunction<void>("init");
 }
