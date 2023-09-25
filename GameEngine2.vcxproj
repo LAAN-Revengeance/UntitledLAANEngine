@@ -75,7 +75,7 @@
     <LibraryPath>$(solutiondir)dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(solutiondir)dependencies\include;$(solutiondir)Engine\Controller;$(solutiondir)Engine\Model;$(solutiondir)Engine\View;$(solutiondir)dependencies\include\lua;$(solutiondir)Engine\View\Graphics;$(solutiondir)dependencies\include\imgui;$(solutiondir)dependencies\include\ImGuizmo;$(solutiondir)Engine\Editor</IncludePath>
+    <IncludePath>$(solutiondir)dependencies\include;$(solutiondir)Engine\Controller;$(solutiondir)Engine\Model;$(solutiondir)Engine\View;$(solutiondir)dependencies\include\lua;$(solutiondir)Engine\View\Graphics;$(solutiondir)dependencies\include\imgui;$(solutiondir)dependencies\include\ImGuizmo;$(solutiondir)Engine\Layer\Editor;$(solutiondir)Engine\Layer</IncludePath>
     <LibraryPath>$(solutiondir)dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -154,21 +154,21 @@
     <ClCompile Include="dependencies\include\imgui\imgui_tables.cpp" />
     <ClCompile Include="dependencies\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="dependencies\include\jsoncpp.cpp" />
-    <ClCompile Include="Engine\Controller\AI\AIManager.cpp" />
-    <ClCompile Include="Engine\Controller\AI\Message\Message.cpp" />
-    <ClCompile Include="Engine\Controller\AI\Message\MessageDispatcher.cpp" />
-    <ClCompile Include="Engine\Controller\AI\StateMachine.cpp" />
-    <ClCompile Include="Engine\Controller\AI\States\ScriptableState.cpp" />
+    <ClCompile Include="engine\Application\Application.cpp" />
+    <ClCompile Include="engine\Controller\Event\EventDispatcher.cpp" />
+    <ClCompile Include="engine\Controller\Event\EventDispatcher.h" />
     <ClCompile Include="engine\Controller\GaemEngine.cpp" />
     <ClCompile Include="engine\Controller\InputManager.cpp" />
+    <ClCompile Include="engine\Controller\Lua\LuaFunction.h" />
+    <ClCompile Include="engine\Controller\Lua\LuaGameBridge.cpp" />
     <ClCompile Include="engine\Controller\Lua\LuaManger.cpp" />
     <ClCompile Include="engine\Controller\Physics\PhysicsManager.cpp" />
     <ClCompile Include="engine\Controller\Physics\RigidBody.cpp" />
     <ClCompile Include="Engine\Controller\ResourceManager.cpp" />
     <ClCompile Include="engine\Controller\Serialization\ProjectLoader.cpp" />
     <ClCompile Include="Engine\Controller\Serialization\SceneLoader.cpp" />
-    <ClCompile Include="engine\Editor\FileExplorer.cpp" />
-    <ClCompile Include="engine\Editor\SceneEditor.cpp" />
+    <ClCompile Include="engine\Controller\Editor\FileExplorer.cpp" />
+    <ClCompile Include="engine\Controller\Editor\SceneEditor.cpp" />
     <ClCompile Include="engine\Model\GameObject.cpp" />
     <ClCompile Include="engine\Model\Camera.cpp" />
     <ClCompile Include="engine\View\MD2\MD2Reader.cpp" />
@@ -186,6 +186,7 @@
     <ClCompile Include="engine\Model\Terrain.cpp" />
     <ClCompile Include="Engine\View\GUIRenderer.cpp" />
     <ClCompile Include="Engine\View\Renderer.cpp" />
+    <ClCompile Include="engine\View\Window.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="engine\Controller\SoundEngine.cpp" />
@@ -213,15 +214,12 @@
     <ClInclude Include="dependencies\include\imgui\imstb_truetype.h" />
     <ClInclude Include="dependencies\include\json\json-forwards.h" />
     <ClInclude Include="dependencies\include\json\json.h" />
+    <ClInclude Include="engine\Application\Application.h" />
     <ClInclude Include="engine\Controller\AudioDataTypes.h" />
-    <ClInclude Include="Engine\Controller\AI\AIManager.h" />
-    <ClInclude Include="Engine\Controller\AI\Message\Message.h" />
-    <ClInclude Include="Engine\Controller\AI\Message\MessageDispatcher.h" />
-    <ClInclude Include="Engine\Controller\AI\StateMachine.h" />
-    <ClInclude Include="Engine\Controller\AI\States\ScriptableState.h" />
-    <ClInclude Include="Engine\Controller\AI\States\State.h" />
+    <ClInclude Include="engine\Controller\Event\Event.h" />
     <ClInclude Include="engine\Controller\GaemEngine.h" />
     <ClInclude Include="engine\Controller\InputManager.h" />
+    <ClInclude Include="engine\Controller\Lua\LuaGameBridge.h" />
     <ClInclude Include="engine\Controller\Lua\LuaManager.h" />
     <ClInclude Include="Engine\Controller\md2Reader.h" />
     <ClInclude Include="Engine\Controller\Physics\Collider.h" />
@@ -231,8 +229,8 @@
     <ClInclude Include="engine\Controller\Serialization\ProjectLoader.h" />
     <ClInclude Include="Engine\Controller\Serialization\SceneLoader.h" />
     <ClInclude Include="Engine\Controller\Timer.h" />
-    <ClInclude Include="engine\Editor\FileExplorer.h" />
-    <ClInclude Include="engine\Editor\SceneEditor.h" />
+    <ClInclude Include="engine\Controller\Editor\FileExplorer.h" />
+    <ClInclude Include="engine\Controller\Editor\SceneEditor.h" />
     <ClInclude Include="Engine\Model\GameObject.h" />
     <ClInclude Include="engine\Model\Lighting.h" />
     <ClInclude Include="engine\Model\Material.h" />
@@ -257,6 +255,7 @@
     <ClInclude Include="Engine\View\GUIRenderer.h" />
     <ClInclude Include="Engine\View\Renderer.h" />
     <ClInclude Include="engine\Controller\SoundEngine.h" />
+    <ClInclude Include="engine\View\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dependencies\include\imgui\new 1.txt.bak" />

@@ -1,9 +1,9 @@
-//#include <GaemEngine.h>
-#include <SceneEditor.h>
+#include "engine/Application/Application.h"
 
 int main(void)
 {
-	//GameEngine::Get().Run();
-	SceneEditor::Get().Run();
+    Application application;
+    application.Run();
+
     return 0;
 }

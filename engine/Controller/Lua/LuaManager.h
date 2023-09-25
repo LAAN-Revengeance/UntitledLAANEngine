@@ -1,14 +1,8 @@
+#pragma once
 #include <sol/sol.hpp>
-#include <Scene.h>
-#include <GameObject.h>
-#include <Physics/PhysicsManager.h>
-#include <ResourceManager.h>
-#include <InputManager.h>
-#include <GUIRenderer.h>
-#include <Renderer.h>
-#include <AI/States/State.h>
-#include <SoundEngine.h>
-#include <Serialization/SceneLoader.h>
+
+template<class T, typename ...Args>
+class LuaFunction;
 
 /**
 *	@Class LuaManager
@@ -18,39 +12,31 @@
 *	@author Andres Comeros-Ochtman
 *	@version 1.0
 *	@date 15/04/2023
+* 
+*	@author Andres Comeros-Ochtman
+*	@version 2.0
+*	@date 21/09/2023
 */
 class LuaManager
 {
 public:
-		/**
-		*	@brief Get the singleton instance
-		*	@return the singleton instance
-		*/
-	static LuaManager& Get();
-		/**
-		*	@brief Runs the init() function extracted from lua
-		*	@return void
-		*/
-	void RunInitMethod();
 
 		/**
-		*	@brief Runs the update(deltaTime) method extracted from lua
-		*	@param dt deltaTime value used by the lua update function
-		*	@return void
+		*	Default Constructor. Creates the main lua state and
+		*	opens all required lua libraries.
 		*/
-	void RunUpdateMethod(double dt);
+	LuaManager();
 
 		/**
-		*	@brief Exposes The Gaem Engine API to the lua state
-		*	@return void
+		*	Destructor. Frees LuaState data
 		*/
-	void Expose_Engine();
+	~LuaManager();
 
 		/**
-		*	@brief Sets a new main.lua file
+		*	@brief Restarts the luaState
 		*	@return void
 		*/
-	void SetLuaFile(const char* path);
+	void ClearLuaState();
 
 		/**
 		*	@brief Loads a lua scrpit file into the main luastate 
@@ -64,7 +50,8 @@ public:
 		*	@param luaName name of the function being extracted
 		*	@return sol function extracted
 		*/
-	sol::function GetFunction(const char* luaName);
+	template<class T, typename... Args>
+	LuaFunction<T, Args...> GetFunction(const char* luaName);
 
 		/**
 		*	@brief extract variable from the lua state
@@ -112,27 +99,22 @@ public:
 	void Expose_CPPClass(const char* luaName, Args... args);
 
 private:
-		/**
-		*	Default Constructor. Creates the main lua state and
-		*	opens all required lua libraries.
-		*/
-	LuaManager();
-		/**
-		*	Destructor. Frees LuaState data
-		*/
-	~LuaManager();
-	LuaManager(const LuaManager&) = delete;
-	LuaManager& operator = (const LuaManager&) = delete;
-
 		///Main lua state
 	sol::state luaState;
-		///Update function extracted from main.lua
-	sol::function update;
-		///Init function extracted from main.lua
-	sol::function init;
 
-	
+	friend class LuaGameBridge;
+
+	template<class T, typename ...Args>
+	friend class LuaFunction;
 };
+
+
+template<class T, typename ...Args>
+inline LuaFunction<T, Args...> LuaManager::GetFunction(const char* luaName)
+{
+	LuaFunction<T, Args...> func(luaName,this);
+	return func; // Construct using constructor
+}
 
 template<typename T>
 inline T LuaManager::GetData(const char* luaName)
@@ -169,4 +151,3 @@ inline void LuaManager::Expose_CPPClass(const char* luaName, Args ...args)
 {
 	luaState.new_usertype<Class>(luaName, args...);
 }
-

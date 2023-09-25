@@ -5,9 +5,7 @@
 #include <list>
 #include <iostream>
 #include <string>
-#include <GLFW/glfw3.h>
-#include <Camera.h>
-#include <GameObject.h>
+#include <Window.h>
 
 /**
 *	@Class InputManager
@@ -23,12 +21,16 @@ typedef void(*actionPTR)();
 class InputManager
 {
 	public:
-
 			/**
 			*	@brief returns the current instance of input manager
 			*	@return InputManager class
 			*/
 		static InputManager& Get();
+
+			/**
+			*	@brief sets the current window to get input from
+			*/
+		void SetActiveWindow(Window* nWindow);
 
 			/**
 			*	@brief binds a key to a specific action
@@ -174,13 +176,13 @@ class InputManager
 			*	@brief assigns GLFW keycallback function and assigns window to input manager
 			*	@return void
 			*/
-		void Init(GLFWwindow* window);
+		void Init(Window* window);
 		
 			/**
 			*	@brief gets the current window
 			*	@return GLFWwindow*
 			*/
-		GLFWwindow* GetWindow() { return _Window; };
+		Window* GetWindow() { return _Window; };
 
 			/**
 			*	@brief get whether the mouse is locked
@@ -196,19 +198,19 @@ class InputManager
 		bool GetKeyPressed(unsigned int key);
 		bool GetKeyPressedDown(unsigned int key);
 	private:
-			/**
-			*	@brief input manager construtor
-			*/
-		InputManager() :scrollOffset(0){}
-		
-			/**
-			*	@brief copy construtor disable to provent copy since input manager is a singleton
-			*/
+		/**
+		*	@brief input manager construtor
+		*/
+		InputManager() :scrollOffset(0) {}
+
+		/**
+		*	@brief copy construtor disable to provent copy since input manager is a singleton
+		*/
 		InputManager(InputManager const&) = delete;	//prevent copies
-		
-			/**
-			*	@brief = operator disable to provent copy since input manager is a singleton
-			*/
+
+		/**
+		*	@brief = operator disable to provent copy since input manager is a singleton
+		*/
 		void operator=(InputManager const&) = delete;	//prevent assignments
 
 			/**
@@ -235,7 +237,7 @@ class InputManager
 			/**
 			*	window refernce for callback alloaction
 			*/
-		GLFWwindow* _Window = nullptr;
+		Window* _Window = nullptr;
 
 			/**
 			*	the current mouse scroll direction

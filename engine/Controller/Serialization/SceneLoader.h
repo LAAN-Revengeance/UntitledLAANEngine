@@ -1,7 +1,6 @@
 #pragma once
 #include <ResourceManager.h>
 #include <Physics/PhysicsManager.h>
-#include <AI/AIManager.h>
 #include <Scene.h>
 #include <Terrain.h>
 #include <json/json.h>

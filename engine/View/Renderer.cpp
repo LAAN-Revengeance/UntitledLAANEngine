@@ -68,7 +68,10 @@ void Renderer::BindMaterial(Material& material, Shader* shader)
 
 }
 
-Renderer::Renderer() {}
+Renderer::Renderer(Window* window)
+{
+	Init(window);
+}
 
 Renderer::~Renderer() {}
 
@@ -177,14 +180,8 @@ void Renderer::DrawShadowMaps(Camera& cam, Scene& scene)
 	glCullFace(GL_BACK);
 }
 
-Renderer& Renderer::Get()
-{
-	static Renderer e_instance;
-	return e_instance;
-}
-
-void Renderer::Init(GLFWwindow* window) {
-
+void Renderer::Init(Window* window) {
+	window->MakeCurrentContext();
 	//glad required to access GL functions
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
@@ -206,7 +203,9 @@ void Renderer::Init(GLFWwindow* window) {
 
 	glEnable(GL_MULTISAMPLE);
 
-	glfwGetWindowSize(window, &windowWidth, &windowHeight);
+	windowWidth = window->GetWidth();
+	windowHeight = window->GetHeight();
+
 	glViewport(0, 0, windowWidth, windowHeight);
 
 	glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -478,6 +477,7 @@ void Renderer::Resize(int width, int height)
 {
 	windowWidth = width;
 	windowHeight = height;
+	glViewport(0, 0, width, height);
 
 	//delete buffers
 	glDeleteTextures(1, &textureColorBuff);
@@ -509,6 +509,12 @@ void Renderer::Resize(int width, int height)
 	//done setting up frame buffer so unbind
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void Renderer::HandleResizeEvent(const Event& event)
+{
+	const WindowResizeEvent& wEvent = static_cast<const WindowResizeEvent&>(event);
+	Resize(wEvent.width, wEvent.height);
 }
 
 double Renderer::GetFPS()

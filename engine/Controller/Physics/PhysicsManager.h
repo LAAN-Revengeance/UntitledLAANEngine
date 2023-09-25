@@ -8,8 +8,12 @@
 class rp3dCollisionCallback : public rp3d::CollisionCallback {
 
 public:
+	void SetPhysicsManager(PhysicsManager* pManager) {
+		physicsManager = pManager;
+	}
 	virtual void onContact(const CallbackData& callbackData) override;
 private:
+	PhysicsManager* physicsManager;
 };
 
 /**
@@ -25,12 +29,8 @@ class PhysicsManager
 {
 public:
 
-		/**
-		*	@brief returns the current instance of physics manager
-		*	@return PhysicsManager class singleton
-		*/
-	static PhysicsManager& Get();
-
+	PhysicsManager();
+	~PhysicsManager();
 		/**
 		*	@brief updates the physics world
 		*	@param deltaTime - time since last update
@@ -96,10 +96,8 @@ public:
 
 	void ResetPhysicsWorld();
 private:
-
-	//singleton
-	PhysicsManager();
-	~PhysicsManager();
+	
+	//dont trust copying just yet
 	PhysicsManager(const PhysicsManager&) = delete;
 	PhysicsManager& operator = (const PhysicsManager&) = delete;
 

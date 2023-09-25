@@ -9,6 +9,7 @@
 #include <map>
 #include <string>
 #include <ImGuizmo.h>
+#include <Window.h>
 
 
 /**
@@ -22,13 +23,10 @@
 class GUIRenderer
 {
 public:
-
-		/**
-		*	@brief get the GUIRenderer singleton
-		*	@return gui renderer singleton
-		*/
-	static GUIRenderer& Get();
-
+		///Default constructor. Private becuase singleton
+	GUIRenderer(Window* window);
+		///Default Destructor.
+	~GUIRenderer();
 		/**
 		*	@brief free up GUI resources
 		*	@return void
@@ -40,7 +38,7 @@ public:
 		*	@param nwindow window being rendered to
 		*	@return void
 		*/
-	void Init(GLFWwindow* nwindow);
+	void Init(Window* nwindow);
 
 		/**
 		*	@brief set font to a ttf font
@@ -148,15 +146,6 @@ public:
 	int GetWindowHeight();
 private:
 
-	///Default constructor. Private becuase singleton
-	GUIRenderer();
-	///Default Destructor.
-	~GUIRenderer();
-	///Assignment operator. Private becuase singleton
-	GUIRenderer& operator =(const Renderer&) = delete;
-	///Copy constructor. Private becuase singleton
-	GUIRenderer(const Renderer&) = delete;
-
 		//io pointer for imgui
 	ImGuiIO* io;
 
@@ -171,5 +160,5 @@ private:
 		///imgui settings for windos
 	ImGuiWindowFlags flags;
 		///window being drawn to
-	GLFWwindow* window;
+	Window* _window = nullptr;
 };

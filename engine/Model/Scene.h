@@ -3,6 +3,8 @@
 #include "Terrain.h"
 #include "Lighting.h"
 #include <map>
+#include <Physics/PhysicsManager.h>
+#include <Lua/LuaFunction.h>
 
 /**
 *	@Class Scene
@@ -78,7 +80,17 @@ public:
 		*/
 	GameObject* GetObjectByID(int objID);
 
-		///This scenes camera
+
+		///The luaState associated with this scene
+	LuaManager luaState;
+		///Update and init functions associated with this scene
+	LuaFunction<void, double> UpdateFunction;
+	LuaFunction<void> InitFunction;
+
+		///Physics world
+	PhysicsManager physicsWorld;
+
+		///This scenes main camera
 	Camera camera;
 		///This scene skybox
 	CubeMap* skybox = nullptr;

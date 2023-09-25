@@ -313,10 +313,8 @@ Scene& SceneLoader::LoadScene(const char* inName)
         if (jobj.isMember("emis"))
             go->material.emissionMap.push_back(res.GetTexture(jobj["emis"].asString()));
 
-        //physics properties
-        PhysicsManager& physicsManager = PhysicsManager::Get();
 
-        go->physicsBody = physicsManager.CreatePhysicsBody();
+        go->physicsBody = scene->physicsWorld.CreatePhysicsBody();
         go->physicsBody->isKinematic = jobj["isKinematic"].asBool();
         for (int i = 0; i < jobj["physics"].size(); i++)
         {
@@ -340,16 +338,16 @@ Scene& SceneLoader::LoadScene(const char* inName)
                 nScale.x = jobj["physics"][i]["scale"][0].asFloat();
                 nScale.y = jobj["physics"][i]["scale"][1].asFloat();
                 nScale.z = jobj["physics"][i]["scale"][2].asFloat();
-                physicsManager.AddBoxCollider(*go->physicsBody,nScale);
+                scene->physicsWorld.AddBoxCollider(*go->physicsBody,nScale);
                 break;
             case COLLIDER_SPHERE:
                 nRadius = jobj["physics"][i]["radius"].asFloat();
-                physicsManager.AddSphereCollider(*go->physicsBody,nRadius);
+                scene->physicsWorld.AddSphereCollider(*go->physicsBody,nRadius);
                 break;
             case COLLIDER_CAPSULE:
                 nRadius = jobj["physics"][i]["radius"].asFloat();
                 nHeight = jobj["physics"][i]["height"].asFloat();
-                physicsManager.AddCapsuleCollider(*go->physicsBody, nRadius, nHeight);
+                scene->physicsWorld.AddCapsuleCollider(*go->physicsBody, nRadius, nHeight);
                 break;
 
             default:
@@ -480,16 +478,16 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
     //end physicsbody
 
     //state machine info
-    AIManager& ai = AIManager::Get();
-
-    if (obj->stateMachine.GetState())
-        jobj["state"] = ai.GetStateKey(obj->stateMachine.GetState());
-
-    if (obj->stateMachine.GetPreviousState())
-        jobj["previous_state"] = ai.GetStateKey(obj->stateMachine.GetPreviousState());
-
-    if (obj->stateMachine.GetGlobalState())
-        jobj["global_state"] = ai.GetStateKey(obj->stateMachine.GetGlobalState());
+    //AIManager& ai = AIManager::Get();
+    //
+    //if (obj->stateMachine.GetState())
+    //    jobj["state"] = ai.GetStateKey(obj->stateMachine.GetState());
+    //
+    //if (obj->stateMachine.GetPreviousState())
+    //    jobj["previous_state"] = ai.GetStateKey(obj->stateMachine.GetPreviousState());
+    //
+    //if (obj->stateMachine.GetGlobalState())
+    //    jobj["global_state"] = ai.GetStateKey(obj->stateMachine.GetGlobalState());
 
     if (dynamic_cast<Terrain*>(obj)) {
         Terrain* ter = dynamic_cast<Terrain*>(obj);

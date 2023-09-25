@@ -1,22 +1,17 @@
 #include <GUIRenderer.h>
+#include <cassert>
 
-
-GUIRenderer::GUIRenderer() : window(nullptr) {
+GUIRenderer::GUIRenderer(Window* window) : _window(window) {
 	//set flags
 	flags = ImGuiWindowFlags_NoDecoration |
 		ImGuiWindowFlags_NoMove |
 		ImGuiWindowFlags_NoSavedSettings |
 		ImGuiWindowFlags_NoTitleBar;
+	Init(window);
 }
 
 GUIRenderer::~GUIRenderer() {
 	Shutdown();
-}
-
-GUIRenderer& GUIRenderer::Get()
-{
-	static GUIRenderer g_instance;
-	return g_instance;
 }
 
 void GUIRenderer::Shutdown()
@@ -26,9 +21,9 @@ void GUIRenderer::Shutdown()
 	ImGui::DestroyContext();
 }
 
-void GUIRenderer::Init(GLFWwindow* nwindow) {
+void GUIRenderer::Init(Window* nwindow) {
 
-	window = nwindow;
+	_window = nwindow;
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -38,7 +33,7 @@ void GUIRenderer::Init(GLFWwindow* nwindow) {
 
 	ImGui::PushStyleVar(ImGuiStyleVar_Alpha, 1.0f);
 
-	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplGlfw_InitForOpenGL(_window->window, true);
 	ImGui_ImplOpenGL3_Init("#version 330");
 
 	//style
@@ -60,6 +55,9 @@ void GUIRenderer::SetFont(std::string path)
 
 void GUIRenderer::StartGUI()
 {
+	if (!_window) {
+		Init(Window::GetActiveWindow());
+	}
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
@@ -75,6 +73,7 @@ void GUIRenderer::EndGUI()
 
 void GUIRenderer::StartWindow(const std::string& wName, bool background, float width, float height, float posX, float posY)
 {
+
 	const ImGuiViewport* viewport = ImGui::GetMainViewport();
 	
 	ImGui::SetNextWindowPos({(float)(viewport->WorkSize.x * posX),(float)(viewport->WorkSize.y * posY)});
@@ -121,8 +120,8 @@ bool GUIRenderer::Button(const std::string label, float alignment, float width, 
 
 void GUIRenderer::Image(const std::string texture, float width, float height, float alignX, float alignY)
 {
-	int wwidth, wheight;
-	glfwGetWindowSize(window, &wwidth, &wheight);
+	int wwidth = _window->GetWidth();
+	int wheight = _window->GetHeight();
 	float size = ((wwidth < wheight) ? wwidth : wheight) / 2;
 	float availX = ImGui::GetContentRegionAvail().x;
 	float availY = ImGui::GetContentRegionAvail().y;
@@ -139,8 +138,8 @@ void GUIRenderer::Image(const std::string texture, float width, float height, fl
 
 bool GUIRenderer::ImageButton(const std::string texture, float width, float height, float alignX, float alignY)
 {
-	int wwidth, wheight;
-	glfwGetWindowSize(window, &wwidth, &wheight);
+	int wwidth = _window->GetWidth();
+	int wheight = _window->GetHeight();
 	float size = ((wwidth < wheight) ? wwidth : wheight) / 2;
 	float availX = ImGui::GetContentRegionAvail().x;
 	float availY = ImGui::GetContentRegionAvail().y;
@@ -183,14 +182,10 @@ void GUIRenderer::AlignForWidth(float width, float alignment)
 
 int GUIRenderer::GetWindowWidth()
 {
-	int wwidth, wheight;
-	glfwGetWindowSize(window, &wwidth, &wheight);
-	return wwidth;
+	return _window->GetWidth();
 }
 
 int GUIRenderer::GetWindowHeight()
 {
-	int wwidth, wheight;
-	glfwGetWindowSize(window, &wwidth, &wheight);
-	return wheight;
+	return _window->GetHeight();
 }

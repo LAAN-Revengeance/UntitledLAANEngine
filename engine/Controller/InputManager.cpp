@@ -1,9 +1,14 @@
 #include "InputManager.h"
 
-InputManager& InputManager::Get()
+void InputManager::SetActiveWindow(Window* nWindow)
 {
-	static InputManager instance;
-	return instance;
+	if(nWindow)
+		_Window = nWindow;
+}
+
+InputManager& InputManager::Get() {
+	static InputManager i_Instance;
+	return i_Instance;
 }
 
 void InputManager::BindKey(std::string action, int newKey)
@@ -82,23 +87,14 @@ void InputManager::ScrollCallback(GLFWwindow* window, double xoffset, double yof
 
 void InputManager::SetMouseLock(bool isLock)
 {
-	if (!_Window)
-		return;
-	if(isLock)
-	{
-		glfwSetInputMode(_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-	}
-	else
-	{
-		glfwSetInputMode(_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	}
+	_Window->SetMouseLock(isLock);
 }
 
 glm::vec2 InputManager::GetMousePostion()
 {
 	if (_Window) {
 		double xPos, yPos;
-		glfwGetCursorPos(_Window, &xPos, &yPos);
+		glfwGetCursorPos(_Window->window, &xPos, &yPos);
 		return glm::vec2{ xPos, yPos };
 	}
 	return glm::vec2(0,0);
@@ -157,17 +153,18 @@ void InputManager::GlfwKeyCallback(GLFWwindow* window, int key, int scancode, in
 	Get().GlfwKeyCallbackDispatch(window, key, scancode, action, mods);
 }
 
-void InputManager::Init(GLFWwindow* window) {
+void InputManager::Init(Window* window) {
 	_Window = window;
-	glfwSetKeyCallback(window, GlfwKeyCallback);
-	glfwSetCursorPosCallback(window, GlfwMouseCallback);
-	glfwSetKeyCallback(window, GlfwKeyCallback);
-	glfwSetScrollCallback(window, GlfwScrollCallback);
+	glfwSetKeyCallback(_Window->window, GlfwKeyCallback);
+	glfwSetKeyCallback(_Window->window, GlfwKeyCallback);
+	glfwSetScrollCallback(_Window->window, GlfwScrollCallback);
 }
 
 bool InputManager::GetMouseLock()
 {
-	if (glfwGetInputMode(_Window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL)
+	if (!_Window)
+		return false;
+	if (glfwGetInputMode(_Window->window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL)
 		return true;
 	
 	return false;
@@ -175,10 +172,14 @@ bool InputManager::GetMouseLock()
 
 bool InputManager::GetKeyPressed(unsigned int key)
 {
-	return glfwGetKey(_Window, key);
+	if (!_Window)
+		return false;
+	return glfwGetKey(_Window->window, key);
 }
 
 bool InputManager::GetKeyPressedDown(unsigned int key)
 {
-	return glfwGetKey(_Window, key) == GLFW_PRESS;
+	if (!_Window)
+		return false;
+	return glfwGetKey(_Window->window, key) == GLFW_PRESS;
 }
