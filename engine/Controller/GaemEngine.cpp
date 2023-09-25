@@ -11,7 +11,7 @@ GameEngine::GameEngine(Window* nWindow, EventDispatcher* nDispatcher):
 	eventDispatcher(nDispatcher),
 	guiRenderer(nWindow)
 {
-	InputManager::Get().SetActiveWindow(window);
+	InputManager::Get().Init(nWindow);
 
 	//bind renderer resize handler to windowResize event
 	eventDispatcher->Subscribe("windowResize", std::bind(&Renderer::HandleResizeEvent,&renderer, std::placeholders::_1));
@@ -30,14 +30,13 @@ void GameEngine::Update(double deltaTime)
 {
 	if (!scene || !isRunning)
 		return;
-
 	
 	for (auto& it : scene->gameObjects) {
 		it.second->Update(deltaTime);
 	}
 
-	scene->physicsWorld.Update(deltaTime);
 	scene->UpdateFunction.Execute(deltaTime);
+	scene->physicsWorld.Update(deltaTime);
 	
 }
 

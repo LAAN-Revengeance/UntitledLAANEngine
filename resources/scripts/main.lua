@@ -91,7 +91,7 @@ function toggleExit()
 	then
 		exitPress = true;
 		exitMenuOpen = not exitMenuOpen;
-		input:SetMouseLock(exitMenuOpen);
+		input:SetMouseLock(not exitMenuOpen);
 	elseif(input:GetKeyState("escape"))
 	then
 		exitPress = true;

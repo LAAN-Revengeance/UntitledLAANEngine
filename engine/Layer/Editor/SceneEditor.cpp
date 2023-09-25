@@ -15,7 +15,7 @@ SceneEditor::~SceneEditor()
 
 void SceneEditor::Update(double deltaTime)
 {
-	if (true)
+	if (!engine->isRunning)
 		CameraControl(deltaTime);
 
 	CheckKeys();

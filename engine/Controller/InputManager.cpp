@@ -156,7 +156,6 @@ void InputManager::GlfwKeyCallback(GLFWwindow* window, int key, int scancode, in
 void InputManager::Init(Window* window) {
 	_Window = window;
 	glfwSetKeyCallback(_Window->window, GlfwKeyCallback);
-	glfwSetCursorPosCallback(_Window->window, GlfwMouseCallback);
 	glfwSetKeyCallback(_Window->window, GlfwKeyCallback);
 	glfwSetScrollCallback(_Window->window, GlfwScrollCallback);
 }
