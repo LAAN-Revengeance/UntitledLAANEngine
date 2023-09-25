@@ -4,7 +4,6 @@
 #include <Serialization/ProjectLoader.h>
 #include "FileExplorer.h"
 #include <SoundEngine.h>
-#include <Layer.h>
 #include <GaemEngine.h>
 #include <lua/LuaGameBridge.h>
 
@@ -62,7 +61,7 @@ private:
 
 	//save file path
 	std::string saveFilePath = "";
-	std::string luaFilePath = "resources/scripts/main.lua";
+	std::string luaFilePath = "";
 	std::string windowName = "editor";
 
 	Camera* camera;

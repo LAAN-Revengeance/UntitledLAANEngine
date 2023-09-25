@@ -3,7 +3,6 @@
 #include <Renderer.h>
 #include <GUIRenderer.h>
 #include <InputManager.h>
-#include <LayerStack.h>
 #include <Timer.h>
 #include <Window.h>
 #include <Event/EventDispatcher.h>

@@ -167,9 +167,8 @@
     <ClCompile Include="Engine\Controller\ResourceManager.cpp" />
     <ClCompile Include="engine\Controller\Serialization\ProjectLoader.cpp" />
     <ClCompile Include="Engine\Controller\Serialization\SceneLoader.cpp" />
-    <ClCompile Include="engine\Layer\Editor\FileExplorer.cpp" />
-    <ClCompile Include="engine\Layer\Editor\SceneEditor.cpp" />
-    <ClCompile Include="engine\Layer\LayerStack.cpp" />
+    <ClCompile Include="engine\Controller\Editor\FileExplorer.cpp" />
+    <ClCompile Include="engine\Controller\Editor\SceneEditor.cpp" />
     <ClCompile Include="engine\Model\GameObject.cpp" />
     <ClCompile Include="engine\Model\Camera.cpp" />
     <ClCompile Include="engine\View\MD2\MD2Reader.cpp" />
@@ -230,10 +229,8 @@
     <ClInclude Include="engine\Controller\Serialization\ProjectLoader.h" />
     <ClInclude Include="Engine\Controller\Serialization\SceneLoader.h" />
     <ClInclude Include="Engine\Controller\Timer.h" />
-    <ClInclude Include="engine\Layer\Editor\FileExplorer.h" />
-    <ClInclude Include="engine\Layer\Editor\SceneEditor.h" />
-    <ClInclude Include="engine\Layer\Layer.h" />
-    <ClInclude Include="engine\Layer\LayerStack.h" />
+    <ClInclude Include="engine\Controller\Editor\FileExplorer.h" />
+    <ClInclude Include="engine\Controller\Editor\SceneEditor.h" />
     <ClInclude Include="Engine\Model\GameObject.h" />
     <ClInclude Include="engine\Model\Lighting.h" />
     <ClInclude Include="engine\Model\Material.h" />

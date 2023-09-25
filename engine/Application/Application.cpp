@@ -1,7 +1,7 @@
 #include "Application.h"
 
 Application::Application() :
-	window(720,680,"Application",&eventDispatcher),
+	window(1920,1080,"Application",&eventDispatcher),
 	game(&window, &eventDispatcher),
 	editor(&game)
 {

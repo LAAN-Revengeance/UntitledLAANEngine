@@ -30,7 +30,7 @@
     <ClCompile Include="Engine\Controller\Serialization\SceneLoader.cpp" />
     <ClCompile Include="engine\Controller\Physics\RigidBody.cpp" />
     <ClCompile Include="engine\Controller\Physics\PhysicsManager.cpp" />
-    <ClCompile Include="engine\Layer\Editor\SceneEditor.cpp" />
+    <ClCompile Include="engine\Controller\Editor\SceneEditor.cpp" />
     <ClCompile Include="dependencies\include\imgui\imgui.cpp" />
     <ClCompile Include="dependencies\include\imgui\imgui_demo.cpp" />
     <ClCompile Include="dependencies\include\imgui\imgui_draw.cpp" />
@@ -39,10 +39,9 @@
     <ClCompile Include="dependencies\include\imgui\imgui_tables.cpp" />
     <ClCompile Include="dependencies\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="dependencies\include\imGuIZMO.quat\imGuIZMOquat.cpp" />
-    <ClCompile Include="engine\Layer\Editor\FileExplorer.cpp" />
+    <ClCompile Include="engine\Controller\Editor\FileExplorer.cpp" />
     <ClCompile Include="engine\Controller\Serialization\ProjectLoader.cpp" />
     <ClCompile Include="engine\View\Window.cpp" />
-    <ClCompile Include="engine\Layer\LayerStack.cpp" />
     <ClCompile Include="engine\Application\Application.cpp" />
     <ClCompile Include="engine\Controller\Lua\LuaGameBridge.cpp" />
     <ClCompile Include="engine\Controller\Lua\LuaFunction.h" />
@@ -86,7 +85,7 @@
     <ClInclude Include="Engine\Controller\Physics\Collider.h" />
     <ClInclude Include="engine\Controller\Physics\RigidBody.h" />
     <ClInclude Include="engine\Controller\Physics\PhysicsManager.h" />
-    <ClInclude Include="engine\Layer\Editor\SceneEditor.h" />
+    <ClInclude Include="engine\Controller\Editor\SceneEditor.h" />
     <ClInclude Include="dependencies\include\ImGuizmo\GraphEditor.h" />
     <ClInclude Include="dependencies\include\ImGuizmo\ImCurveEdit.h" />
     <ClInclude Include="dependencies\include\ImGuizmo\ImGradient.h" />
@@ -107,13 +106,11 @@
     <ClInclude Include="dependencies\include\imGuIZMO.quat\vGizmo.h" />
     <ClInclude Include="dependencies\include\imGuIZMO.quat\vGizmoMath.h" />
     <ClInclude Include="dependencies\include\imGuIZMO.quat\vgMath.h" />
-    <ClInclude Include="engine\Layer\Editor\FileExplorer.h" />
+    <ClInclude Include="engine\Controller\Editor\FileExplorer.h" />
     <ClInclude Include="engine\Controller\AudioDataTypes.h" />
     <ClInclude Include="engine\Controller\Serialization\ProjectLoader.h" />
     <ClInclude Include="engine\View\AnimatedDrawItem.h" />
     <ClInclude Include="engine\View\Window.h" />
-    <ClInclude Include="engine\Layer\Layer.h" />
-    <ClInclude Include="engine\Layer\LayerStack.h" />
     <ClInclude Include="engine\Application\Application.h" />
     <ClInclude Include="engine\Controller\Lua\LuaGameBridge.h" />
     <ClInclude Include="engine\Controller\Event\Event.h" />
