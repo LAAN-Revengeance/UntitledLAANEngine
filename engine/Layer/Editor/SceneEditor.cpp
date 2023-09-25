@@ -26,6 +26,9 @@ void SceneEditor::Draw(double deltaTime)
 	if (engine->isRunning)
 		return;
 
+	if (isPhysicDebug)
+		engine->scene->physicsWorld.DrawPhysicsWorld(*camera);
+
 	guirenderer.StartGUI();
 	Draw3DWidget();
 	DrawInspector();
@@ -1090,7 +1093,7 @@ void SceneEditor::DrawDebug(bool* showDebug)
 	ImGui::SetNextWindowSize({ 300,200 });
 	ImGui::Begin("Debug", showDebug);
 	
-	double fps = 0;// Renderer::Get().GetFPS();
+	double fps = engine->renderer.GetFPS();
 	ImGui::Text("Current FPS:");
 	ImGui::SameLine();
 	ImGui::Text(std::to_string(fps).c_str());
