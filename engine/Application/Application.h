@@ -14,7 +14,7 @@ public:
 
 private:
 
-	EventDispatcher eventDispatcher;
+	GaemEvents::EventDispatcher eventDispatcher;
 	Window window;
 	GameEngine game;
 	SceneEditor editor;

@@ -10,13 +10,15 @@
 		"DirectionLights" : null,
 		"PointLights" : null
 	},
-	"luaPath" : "resources/scripts/main.lua",
+	"luaPath" : "",
 	"objects" : 
 	[
 		{
 			"castShadows" : true,
+			"diff" : "Rock",
 			"isKinematic" : false,
-			"name" : "Object1",
+			"model" : "Cube",
+			"name" : "Target",
 			"physics" : 
 			[
 				{
@@ -34,16 +36,16 @@
 					],
 					"scale" : 
 					[
-						1.0,
-						1.0,
-						1.0
+						0.029999999329447746,
+						0.30000001192092896,
+						0.20000000298023224
 					],
 					"type" : 1
 				}
 			],
 			"position" : 
 			[
-				-3.7292475700378418,
+				-0.35104480385780334,
 				0.0,
 				0.0
 			],
@@ -55,58 +57,9 @@
 			],
 			"scale" : 
 			[
-				1.0,
-				1.0,
-				1.0
-			],
-			"shader" : "default",
-			"type" : "base"
-		},
-		{
-			"castShadows" : true,
-			"isKinematic" : false,
-			"name" : "Object2",
-			"physics" : 
-			[
-				{
-					"offset" : 
-					[
-						0.0,
-						0.0,
-						0.0
-					],
-					"rotation" : 
-					[
-						0.0,
-						-0.0,
-						0.0
-					],
-					"scale" : 
-					[
-						1.0,
-						1.0,
-						1.0
-					],
-					"type" : 1
-				}
-			],
-			"position" : 
-			[
-				4.2381696701049805,
-				0.0,
-				0.0
-			],
-			"rotation" : 
-			[
-				0.0,
-				0.0,
-				0.0
-			],
-			"scale" : 
-			[
-				1.0,
-				1.0,
-				1.0
+				0.029999999329447746,
+				0.30000001192092896,
+				0.20000000298023224
 			],
 			"shader" : "default",
 			"type" : "base"
@@ -115,7 +68,14 @@
 	"resources" : 
 	{
 		"cubemaps" : null,
-		"models" : null,
+		"models" : 
+		[
+			{
+				"name" : "Cube",
+				"path" : "resources\\models\\Cube.obj",
+				"type" : "mesh"
+			}
+		],
 		"shaders" : 
 		[
 			{
@@ -145,6 +105,14 @@
 		],
 		"textures" : 
 		[
+			{
+				"name" : "Grass",
+				"path" : "resources\\textures\\terrain\\grass.png"
+			},
+			{
+				"name" : "Rock",
+				"path" : "resources\\textures\\terrain\\rock.png"
+			},
 			{
 				"name" : "default",
 				"path" : "resources/textures/default.png"

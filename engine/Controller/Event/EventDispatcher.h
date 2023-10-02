@@ -4,19 +4,21 @@
 #include <map>
 #include <vector>
 
-using EventCallback = std::function<void(const Event&)>;
+namespace GaemEvents {
+	using EngineEventCallback = std::function<void(const Event&)>;
 
-class EventDispatcher
-{
-public:
+	class EventDispatcher
+	{
+	public:
 
-	//Execute all callbacks registered to the event
-	void Post(const Event& event);
+		//Execute all callbacks registered to the event
+		void Post(const Event& event);
 
-	//Subscribe a cellback to an event type
-	void Subscribe(EventDescriptor, EventCallback&& callback);
+		//Subscribe a cellback to an event type
+		void Subscribe(EventDescriptor, EngineEventCallback&& callback);
 
-private:
+	private:
 
-	std::map<EventDescriptor, std::vector<EventCallback>> observers;
-};
+		std::map<EventDescriptor, std::vector<EngineEventCallback>> observers;
+	};
+}

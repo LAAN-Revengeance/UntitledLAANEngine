@@ -69,7 +69,7 @@ private:
 	GameObject* inspectedObject = nullptr;
 	GameObject* lastObject = nullptr;
 
-	bool isFreecam = true;
+	bool isFreecam = false;
 	bool isPhysicDebug = true;
 
 		///Main GUI Renderer

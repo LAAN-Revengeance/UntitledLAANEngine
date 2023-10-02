@@ -1207,7 +1207,7 @@ void SceneEditor::CameraControl(double deltaTime)
 {
 	InputManager& input = InputManager::Get();
 
-	static bool toggleCamPress = false;//If escape key is down
+	static bool toggleCamPress = true;//If escape key is down
 
 	if (input.GetKeyPressedDown(GLFW_KEY_ESCAPE) && !toggleCamPress) {
 		toggleCamPress = true;

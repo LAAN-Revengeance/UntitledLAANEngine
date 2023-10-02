@@ -2,29 +2,32 @@
 #include <iostream>
 using EventDescriptor = const char*;
 
-class Event
-{
-public:
-	virtual ~Event() {}
+namespace GaemEvents {
+	class Event
+	{
+	public:
+		virtual ~Event() {}
 
-	virtual EventDescriptor GetType() const = 0;
+		virtual EventDescriptor GetType() const = 0;
 
-private:
-};
+	private:
+	};
 
-class WindowResizeEvent : public Event {
+	class WindowResizeEvent : public Event {
 
-public:
-	WindowResizeEvent(int w, int h) {
-		width = w;
-		height = h;
-	}
-	~WindowResizeEvent() {}
+	public:
+		WindowResizeEvent(int w, int h) {
+			width = w;
+			height = h;
+		}
+		~WindowResizeEvent() {}
 
-	EventDescriptor GetType()const override{ return descriptor; }
+		EventDescriptor GetType()const override { return descriptor; }
 
-	static constexpr EventDescriptor descriptor = "windowResize";
+		static constexpr EventDescriptor descriptor = "windowResize";
 
-	int width;
-	int height;
-};
+		int width;
+		int height;
+	};
+}
+

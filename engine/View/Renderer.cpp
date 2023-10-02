@@ -511,9 +511,9 @@ void Renderer::Resize(int width, int height)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void Renderer::HandleResizeEvent(const Event& event)
+void Renderer::HandleResizeEvent(const GaemEvents::Event& event)
 {
-	const WindowResizeEvent& wEvent = static_cast<const WindowResizeEvent&>(event);
+	const GaemEvents::WindowResizeEvent& wEvent = static_cast<const GaemEvents::WindowResizeEvent&>(event);
 	Resize(wEvent.width, wEvent.height);
 }
 

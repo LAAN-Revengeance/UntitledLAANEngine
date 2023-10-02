@@ -3,7 +3,7 @@
 bool Window::_glfwInit = false;
 Window* Window::currentWindow = nullptr;
 
-Window::Window(int w, int h, const std::string& wName, EventDispatcher* nDispatcher)
+Window::Window(int w, int h, const std::string& wName, GaemEvents::EventDispatcher* nDispatcher)
 {
 	eventDispatcher = nDispatcher;
 
@@ -137,6 +137,6 @@ Window* Window::GetActiveWindow()
 
 void Window::_mGlFWCallback(GLFWwindow* window, int width, int height)
 {
-	WindowResizeEvent event(width,height);
+	GaemEvents::WindowResizeEvent event(width,height);
 	Window::currentWindow->eventDispatcher->Post(event);
 }

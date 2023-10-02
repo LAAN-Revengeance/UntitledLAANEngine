@@ -174,4 +174,6 @@ private:
 	ImGuiWindowFlags flags;
 		///window being drawn to
 	Window* _window = nullptr;
+
+	static bool isDrawing;
 };

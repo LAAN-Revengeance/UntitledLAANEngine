@@ -22,7 +22,7 @@ class Window
 {
 public:
 
-	Window(int w, int h,const std::string&, EventDispatcher*);
+	Window(int w, int h,const std::string&, GaemEvents::EventDispatcher*);
 	~Window();
 
 	bool IsWindowClosed();
@@ -54,7 +54,7 @@ private:
 
 	static std::vector<GLFWwindow*> activeWindows;
 
-	EventDispatcher* eventDispatcher;
+	GaemEvents::EventDispatcher* eventDispatcher;
 
 	friend class InputManager;
 	friend class GUIRenderer;

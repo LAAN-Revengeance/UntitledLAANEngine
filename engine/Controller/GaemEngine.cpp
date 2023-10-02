@@ -3,7 +3,7 @@
 #include <iostream>
 #include <functional>
 
-GameEngine::GameEngine(Window* nWindow, EventDispatcher* nDispatcher):
+GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher):
 	renderer(nWindow),
 	isRunning(true),
 	scene(new Scene),

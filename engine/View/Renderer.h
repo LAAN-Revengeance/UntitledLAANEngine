@@ -97,7 +97,7 @@ public:
 
 	void Resize(int width, int height);
 
-	void HandleResizeEvent(const Event& event);
+	void HandleResizeEvent(const GaemEvents::Event& event);
 
 		/*
 		*   @brief Binds a material

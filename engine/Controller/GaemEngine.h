@@ -18,7 +18,7 @@
 class GameEngine
 {
 public:
-	GameEngine(Window*,EventDispatcher*);
+	GameEngine(Window*, GaemEvents::EventDispatcher*);
 	~GameEngine();
 	void Init();
 	void Update(double deltaTime);
@@ -30,7 +30,7 @@ private:
 	Renderer renderer;
 	GUIRenderer guiRenderer;
 	Window* window;
-	EventDispatcher* eventDispatcher;
+	GaemEvents::EventDispatcher* eventDispatcher;
 
 	friend class SceneEditor;
 	friend class LuaGameBridge;

@@ -1,6 +1,8 @@
 #include <GUIRenderer.h>
 #include <cassert>
 
+bool GUIRenderer::isDrawing = false;
+
 GUIRenderer::GUIRenderer(Window* window) : _window(window) {
 	//set flags
 	flags = ImGuiWindowFlags_NoDecoration |
