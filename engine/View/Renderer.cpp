@@ -294,6 +294,10 @@ void Renderer::RenderScene(Camera& cam, Scene& scene, double deltaTime) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 
+	//draw skybox
+	if (scene.skybox)
+		scene.skybox->Render(&cam);
+
 	//render shadow maps
 	DrawShadowMaps(cam, scene);
 
@@ -316,10 +320,6 @@ void Renderer::RenderScene(Camera& cam, Scene& scene, double deltaTime) {
 	//caclulate camera view frustum planes
 	cam.CreateViewFrustum();
 	Frustum& camFrustum = cam.frustum;
-
-	//draw skybox
-	if (scene.skybox)
-		scene.skybox->Render(&cam);
 
 
 	glm::mat4 view = cam.GetView();

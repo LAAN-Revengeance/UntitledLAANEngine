@@ -11,6 +11,17 @@
 #include <ImGuizmo.h>
 #include <Window.h>
 
+using GUIColor = ImVec4;
+
+struct GUIStyle {
+
+	GUIColor color_Background;
+	GUIColor color_Text;
+
+	GUIColor color_Primary;
+	GUIColor color_Secondary;
+	GUIColor color_Secondary_Light;
+};
 
 /**
 *	@Class GUIRenderer
@@ -46,6 +57,8 @@ public:
 		*	@return void
 		*/
 	void SetFont(std::string path);
+
+	void SetGUIStyle(GUIStyle& nStyle);
 
 	//lua programmable GUI//
 

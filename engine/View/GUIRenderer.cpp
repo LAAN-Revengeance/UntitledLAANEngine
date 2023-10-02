@@ -35,22 +35,86 @@ void GUIRenderer::Init(Window* nwindow) {
 
 	ImGui_ImplGlfw_InitForOpenGL(_window->window, true);
 	ImGui_ImplOpenGL3_Init("#version 330");
-
+	
 	//style
 	ImGuiStyle* style = &ImGui::GetStyle();
 	ImVec4* colors = style->Colors;
 
 	colors[ImGuiCol_WindowBg] = { 0,0,0,1 };
-	colors[ImGuiCol_Text] = {0.8,0.8,0.8,1};
+	colors[ImGuiCol_Text] = { 0.8,0.8,0.8,1 };
 
-	colors[ImGuiCol_Button] =			{0.1f, 0.1f, 0.1f, 1.0f};
-	colors[ImGuiCol_ButtonHovered] =	{0.2f, 0.2f, 0.2f, 1.0f};
-	colors[ImGuiCol_ButtonActive] =		{0.3f, 0.3f, 0.3f, 1.0f};
+	colors[ImGuiCol_Button] = { 0.1f, 0.1f, 0.1f, 1.0f };
+	colors[ImGuiCol_ButtonHovered] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	colors[ImGuiCol_ButtonActive] = { 0.3f, 0.3f, 0.3f, 1.0f };
 }
 
 void GUIRenderer::SetFont(std::string path)
 {
 	io->Fonts->AddFontFromFileTTF(path.c_str(), 20.0f);
+}
+
+void GUIRenderer::SetGUIStyle(GUIStyle& guiStyle)
+{
+	//style
+	ImGuiStyle* style = &ImGui::GetStyle();
+	ImVec4* colors = style->Colors;
+	GUIColor color_Text_Disabled = { guiStyle.color_Text.x / 2, guiStyle.color_Text.y / 2, guiStyle.color_Text.z / 2,1.0 };
+
+
+	colors[ImGuiCol_Text]					= guiStyle.color_Text;
+	colors[ImGuiCol_TextDisabled]			= color_Text_Disabled;
+	colors[ImGuiCol_WindowBg]				= guiStyle.color_Background;
+	colors[ImGuiCol_ChildBg]				= guiStyle.color_Background;
+	colors[ImGuiCol_PopupBg]				= guiStyle.color_Background;
+	colors[ImGuiCol_Border]					= guiStyle.color_Secondary;
+	colors[ImGuiCol_BorderShadow]			= guiStyle.color_Background;
+	colors[ImGuiCol_FrameBg]				= guiStyle.color_Secondary_Light;
+	colors[ImGuiCol_FrameBgHovered]			= guiStyle.color_Primary;
+	colors[ImGuiCol_FrameBgActive]			= guiStyle.color_Primary;
+	colors[ImGuiCol_TitleBg]				= guiStyle.color_Primary;
+	colors[ImGuiCol_TitleBgActive]			= guiStyle.color_Primary;
+	colors[ImGuiCol_TitleBgCollapsed]		= guiStyle.color_Secondary;
+	colors[ImGuiCol_MenuBarBg]				= guiStyle.color_Secondary;
+	colors[ImGuiCol_ScrollbarBg]			= ImVec4(0.02f, 0.02f, 0.02f, 0.53f);
+	colors[ImGuiCol_ScrollbarGrab]			= ImVec4(0.31f, 0.31f, 0.31f, 1.00f);
+	colors[ImGuiCol_ScrollbarGrabHovered]	= ImVec4(0.41f, 0.41f, 0.41f, 1.00f);
+	colors[ImGuiCol_ScrollbarGrabActive]	= ImVec4(0.51f, 0.51f, 0.51f, 1.00f);
+	colors[ImGuiCol_CheckMark]				= ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+	colors[ImGuiCol_SliderGrab]				= ImVec4(0.24f, 0.52f, 0.88f, 1.00f);
+	colors[ImGuiCol_SliderGrabActive]		= ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+	colors[ImGuiCol_Button]					= ImVec4(0.26f, 0.59f, 0.98f, 0.40f);
+	colors[ImGuiCol_ButtonHovered]			= ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+	colors[ImGuiCol_ButtonActive]			= ImVec4(0.06f, 0.53f, 0.98f, 1.00f);
+	colors[ImGuiCol_Header]					= ImVec4(0.26f, 0.59f, 0.98f, 0.31f);
+	colors[ImGuiCol_HeaderHovered]			= ImVec4(0.26f, 0.59f, 0.98f, 0.80f);
+	colors[ImGuiCol_HeaderActive]			= ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+	colors[ImGuiCol_Separator]				= colors[ImGuiCol_Border];
+	colors[ImGuiCol_SeparatorHovered]		= ImVec4(0.10f, 0.40f, 0.75f, 0.78f);
+	colors[ImGuiCol_SeparatorActive]		= ImVec4(0.10f, 0.40f, 0.75f, 1.00f);
+	colors[ImGuiCol_ResizeGrip]				= ImVec4(0.26f, 0.59f, 0.98f, 0.20f);
+	colors[ImGuiCol_ResizeGripHovered]		= ImVec4(0.26f, 0.59f, 0.98f, 0.67f);
+	colors[ImGuiCol_ResizeGripActive]		= ImVec4(0.26f, 0.59f, 0.98f, 0.95f);
+	colors[ImGuiCol_Tab]					= ImLerp(colors[ImGuiCol_Header], colors[ImGuiCol_TitleBgActive], 0.80f);
+	colors[ImGuiCol_TabHovered]				= colors[ImGuiCol_HeaderHovered];
+	colors[ImGuiCol_TabActive]				= ImLerp(colors[ImGuiCol_HeaderActive], colors[ImGuiCol_TitleBgActive], 0.60f);
+	colors[ImGuiCol_TabUnfocused]			= ImLerp(colors[ImGuiCol_Tab], colors[ImGuiCol_TitleBg], 0.80f);
+	colors[ImGuiCol_TabUnfocusedActive]		= ImLerp(colors[ImGuiCol_TabActive], colors[ImGuiCol_TitleBg], 0.40f);
+	colors[ImGuiCol_PlotLines]				= ImVec4(0.61f, 0.61f, 0.61f, 1.00f);
+	colors[ImGuiCol_PlotLinesHovered]		= ImVec4(1.00f, 0.43f, 0.35f, 1.00f);
+	colors[ImGuiCol_PlotHistogram]			= ImVec4(0.90f, 0.70f, 0.00f, 1.00f);
+	colors[ImGuiCol_PlotHistogramHovered]	= ImVec4(1.00f, 0.60f, 0.00f, 1.00f);
+	colors[ImGuiCol_TableHeaderBg]			= ImVec4(0.19f, 0.19f, 0.20f, 1.00f);
+	colors[ImGuiCol_TableBorderStrong]		= ImVec4(0.31f, 0.31f, 0.35f, 1.00f);   // Prefer using Alpha=1.0 here
+	colors[ImGuiCol_TableBorderLight]		= ImVec4(0.23f, 0.23f, 0.25f, 1.00f);   // Prefer using Alpha=1.0 here
+	colors[ImGuiCol_TableRowBg]				= ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+	colors[ImGuiCol_TableRowBgAlt]			= ImVec4(1.00f, 1.00f, 1.00f, 0.06f);
+	colors[ImGuiCol_TextSelectedBg]			= ImVec4(0.26f, 0.59f, 0.98f, 0.35f);
+	colors[ImGuiCol_DragDropTarget]			= ImVec4(1.00f, 1.00f, 0.00f, 0.90f);
+	colors[ImGuiCol_NavHighlight]			= ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+	colors[ImGuiCol_NavWindowingHighlight]	= ImVec4(1.00f, 1.00f, 1.00f, 0.70f);
+	colors[ImGuiCol_NavWindowingDimBg]		= ImVec4(0.80f, 0.80f, 0.80f, 0.20f);
+	colors[ImGuiCol_ModalWindowDimBg]		= ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
+
 }
 
 void GUIRenderer::StartGUI()
