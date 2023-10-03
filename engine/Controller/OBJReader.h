@@ -16,6 +16,8 @@ struct vertex {
 	glm::vec3 vertex;
 	glm::vec3 normal;
 	glm::vec2 texCoord;
+	glm::vec3 aTangent;
+	glm::vec3 aBitangent;
 };
 	/**
 	*	@struct OBJData

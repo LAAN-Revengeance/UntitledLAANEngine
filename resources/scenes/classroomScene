@@ -37,9 +37,9 @@
 	[
 		{
 			"castShadows" : true,
-			"diff" : "binTexture",
+			"diff" : "RobutDiff",
 			"isKinematic" : true,
-			"model" : "bin",
+			"model" : "Robot",
 			"name" : "bin",
 			"physics" : 
 			[
@@ -68,7 +68,7 @@
 			],
 			"position" : 
 			[
-				-17.201671600341797,
+				-14.38530445098877,
 				0.0,
 				8.3616018295288086
 			],
@@ -80,9 +80,9 @@
 			],
 			"scale" : 
 			[
-				1.0,
-				1.0,
-				1.0
+				0.10000000149011612,
+				0.10000000149011612,
+				0.10000000149011612
 			],
 			"shader" : "default",
 			"type" : "base"
@@ -1429,6 +1429,12 @@
 		"models" : 
 		[
 			{
+				"animations" : null,
+				"name" : "Robot",
+				"path" : "resources\\models\\md2\\robot.md2",
+				"type" : "md2"
+			},
+			{
 				"name" : "bin",
 				"path" : "resources\\models\\Bin\\bin.obj",
 				"type" : "mesh"
@@ -1483,6 +1489,10 @@
 		],
 		"textures" : 
 		[
+			{
+				"name" : "RobutDiff",
+				"path" : "resources\\models\\md2\\robot.png"
+			},
 			{
 				"name" : "binTexture",
 				"path" : "resources\\models\\Bin\\ImphenziaPalette01.png"

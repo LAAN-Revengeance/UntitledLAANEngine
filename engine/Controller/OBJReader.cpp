@@ -5,6 +5,11 @@ OBJData *ReadObjFile(const char* fileName) {
 	std::vector<glm::vec3>  vertCoords;
 	std::vector<glm::vec3>  vertNorms;
 	std::vector<glm::vec2>  texCoords;
+
+	std::vector<glm::vec2>  aTangetnts;
+	std::vector<glm::vec2>  aBitangents;
+
+
 	std::vector<glm::ivec3> indexes;
 
 	float maxDist = 0.0f;
@@ -72,13 +77,15 @@ OBJData *ReadObjFile(const char* fileName) {
 	for (size_t i = 0; i < indexes.size(); i++)
 	{
 		vertex nVert;
+		//minus 1 because obj file indexes start at 1 instead of 0
 		nVert.vertex = vertCoords[indexes[i].x - 1];
 		nVert.texCoord = texCoords[indexes[i].y - 1];
 		nVert.normal = vertNorms[indexes[i].z - 1];
 
 		objData->vertexData.push_back(nVert);
 	}
-	
+
+
 	objData->boundingShpere = maxDist;
 	return objData;
 }

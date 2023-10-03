@@ -76,12 +76,14 @@ void Mesh::SetVertexData(float* nVertexData, int numData, unsigned int* vertInde
 	vertCount = numData;
 	elementCount = numIndex;
 	VAO nVAO;
-	VBO nVBO(nVertexData, sizeof(float) * numData * 8);
+	VBO nVBO(nVertexData, sizeof(float) * numData * 14);
 	EBO nEBO(vertIndexes, sizeof(unsigned int) * numIndex);
 
-	nVAO.AddAttribute(nVBO, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0);
-	nVAO.AddAttribute(nVBO, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	nVAO.AddAttribute(nVBO, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	nVAO.AddAttribute(nVBO, 0, 3, GL_FLOAT, 14 * sizeof(float), (void*)0);
+	nVAO.AddAttribute(nVBO, 1, 3, GL_FLOAT, 14 * sizeof(float), (void*)(3 * sizeof(float)));
+	nVAO.AddAttribute(nVBO, 2, 2, GL_FLOAT, 14 * sizeof(float), (void*)(6 * sizeof(float)));
+	nVAO.AddAttribute(nVBO, 3, 3, GL_FLOAT, 14 * sizeof(float), (void*)(8 * sizeof(float)));
+	nVAO.AddAttribute(nVBO, 4, 3, GL_FLOAT, 14 * sizeof(float), (void*)(11 * sizeof(float)));
 	vbo = nVBO;
 	vao = nVAO;
 }
@@ -90,11 +92,13 @@ void Mesh::SetVertexData(float* nVertexData, int numData) {
 	FreeData();
 	vertCount = numData;
 	VAO nVAO;
-	VBO nVBO(nVertexData, sizeof(float) * numData * 8);
+	VBO nVBO(nVertexData, sizeof(float) * numData * 14);
 
-	nVAO.AddAttribute(nVBO, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0);
-	nVAO.AddAttribute(nVBO, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	nVAO.AddAttribute(nVBO, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	nVAO.AddAttribute(nVBO, 0, 3, GL_FLOAT, 14 * sizeof(float), (void*)0);
+	nVAO.AddAttribute(nVBO, 1, 3, GL_FLOAT, 14 * sizeof(float), (void*)(3 * sizeof(float)));
+	nVAO.AddAttribute(nVBO, 2, 2, GL_FLOAT, 14 * sizeof(float), (void*)(6 * sizeof(float)));
+	nVAO.AddAttribute(nVBO, 3, 3, GL_FLOAT, 14 * sizeof(float), (void*)(8 * sizeof(float)));
+	nVAO.AddAttribute(nVBO, 4, 3, GL_FLOAT, 14 * sizeof(float), (void*)(11 * sizeof(float)));
 
 	vbo = nVBO;
 	vao = nVAO;
