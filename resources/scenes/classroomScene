@@ -37,6 +37,58 @@
 	[
 		{
 			"castShadows" : true,
+			"diff" : "binTexture",
+			"isKinematic" : true,
+			"model" : "bin",
+			"name" : "bin",
+			"physics" : 
+			[
+				{
+					"mass" : 0.0,
+					"offset" : 
+					[
+						0.0,
+						0.88999998569488525,
+						0.0
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						0.40000000596046448,
+						0.85000002384185791,
+						0.82999998331069946
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				-17.201671600341797,
+				0.0,
+				8.3616018295288086
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"scale" : 
+			[
+				1.0,
+				1.0,
+				1.0
+			],
+			"shader" : "default",
+			"type" : "base"
+		},
+		{
+			"castShadows" : true,
 			"diff" : "chairTexture",
 			"isKinematic" : false,
 			"model" : "chair",
@@ -389,9 +441,11 @@
 			"isKinematic" : true,
 			"model" : "classroom",
 			"name" : "classroom",
+			"norm" : "binTexture",
 			"physics" : 
 			[
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						0.0,
@@ -413,6 +467,7 @@
 					"type" : 1
 				},
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						17.899999618530273,
@@ -434,6 +489,7 @@
 					"type" : 1
 				},
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						-17.850000381469727,
@@ -455,6 +511,7 @@
 					"type" : 1
 				},
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						0.0,
@@ -476,6 +533,7 @@
 					"type" : 1
 				},
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						0.0,
@@ -497,6 +555,7 @@
 					"type" : 1
 				},
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						0.0,
@@ -518,6 +577,7 @@
 					"type" : 1
 				},
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						-6.119999885559082,
@@ -539,6 +599,7 @@
 					"type" : 1
 				},
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						6.119999885559082,
@@ -560,6 +621,7 @@
 					"type" : 1
 				},
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						-6.0999999046325684,
@@ -581,6 +643,7 @@
 					"type" : 1
 				},
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						6.119999885559082,
@@ -633,6 +696,7 @@
 			"physics" : 
 			[
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						0.0,
@@ -685,6 +749,7 @@
 			"physics" : 
 			[
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						0.0,
@@ -737,6 +802,7 @@
 			"physics" : 
 			[
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						0.0,
@@ -789,6 +855,7 @@
 			"physics" : 
 			[
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						0.0,
@@ -841,6 +908,7 @@
 			"physics" : 
 			[
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						0.0,
@@ -893,6 +961,7 @@
 			"physics" : 
 			[
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						0.0,
@@ -945,6 +1014,7 @@
 			"physics" : 
 			[
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						0.0,
@@ -997,6 +1067,7 @@
 			"physics" : 
 			[
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						0.0,
@@ -1049,6 +1120,7 @@
 			"physics" : 
 			[
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						0.0,
@@ -1101,6 +1173,7 @@
 			"physics" : 
 			[
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						0.0,
@@ -1153,6 +1226,7 @@
 			"physics" : 
 			[
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						0.0,
@@ -1205,6 +1279,7 @@
 			"physics" : 
 			[
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						0.0,
@@ -1250,63 +1325,13 @@
 		},
 		{
 			"castShadows" : true,
-			"diff" : "binTexture",
-			"isKinematic" : true,
-			"model" : "bin",
-			"name" : "bin",
-			"physics" : 
-			[
-				{
-					"offset" : 
-					[
-						0.0,
-						0.88999998569488525,
-						0.0
-					],
-					"rotation" : 
-					[
-						0.0,
-						-0.0,
-						0.0
-					],
-					"scale" : 
-					[
-						0.40000000596046448,
-						0.85000002384185791,
-						0.82999998331069946
-					],
-					"type" : 1
-				}
-			],
-			"position" : 
-			[
-				-17.201671600341797,
-				0.0,
-				8.3616018295288086
-			],
-			"rotation" : 
-			[
-				0.0,
-				0.0,
-				0.0
-			],
-			"scale" : 
-			[
-				1.0,
-				1.0,
-				1.0
-			],
-			"shader" : "default",
-			"type" : "base"
-		},
-		{
-			"castShadows" : true,
 			"isKinematic" : false,
 			"name" : "player",
 			"physics" : 
 			[
 				{
 					"height" : 3.0,
+					"mass" : 0.0,
 					"offset" : 
 					[
 						0.0,
@@ -1353,6 +1378,7 @@
 			"physics" : 
 			[
 				{
+					"mass" : 0.0,
 					"offset" : 
 					[
 						-12.180000305175781,

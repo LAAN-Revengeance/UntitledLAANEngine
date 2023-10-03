@@ -235,6 +235,7 @@ Scene& SceneLoader::LoadScene(const char* inName)
         std::string diff = jModels[i]["diff"].asString();
         std::string spec = jModels[i]["spec"].asString();
         std::string emis = jModels[i]["emis"].asString();
+        std::string norm = jModels[i]["norm"].asString();
         std::string type = jModels[i]["type"].asString();
 
         if (res.models.find(name) != res.models.end())
@@ -312,7 +313,8 @@ Scene& SceneLoader::LoadScene(const char* inName)
             go->material.specularMap.push_back(res.GetTexture(jobj["spec"].asString()));
         if (jobj.isMember("emis"))
             go->material.emissionMap.push_back(res.GetTexture(jobj["emis"].asString()));
-
+        if (jobj.isMember("norm"))
+            go->material.normalMap.push_back(res.GetTexture(jobj["norm"].asString()));
 
         go->physicsBody = scene->physicsWorld.CreatePhysicsBody();
         go->physicsBody->isKinematic = jobj["isKinematic"].asBool();
@@ -433,6 +435,8 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
         jobj["spec"] = obj->material.specularMap[0]->name;
     if (!obj->material.emissionMap.empty())
         jobj["emis"] = obj->material.emissionMap[0]->name;
+    if (!obj->material.normalMap.empty())
+        jobj["norm"] = obj->material.normalMap[0]->name;
 
     
     //rigidbody

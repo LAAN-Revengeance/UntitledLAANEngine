@@ -3,11 +3,33 @@
 	{
 		"Ambient" : 
 		[
-			1.0,
-			1.0,
-			1.0
+			0.53921568393707275,
+			0.53921568393707275,
+			0.53921568393707275
 		],
-		"DirectionLights" : null,
+		"DirectionLights" : 
+		[
+			{
+				"diffuse" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				],
+				"direction" : 
+				[
+					1.0,
+					0.0,
+					0.0
+				],
+				"specular" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				]
+			}
+		],
 		"PointLights" : null
 	},
 	"luaPath" : "C:\\Users\\Andres\\Documents\\GitHub\\ICT398Engine\\resources\\scripts\\PhysicsTest.lua",
@@ -41,7 +63,7 @@
 			],
 			"position" : 
 			[
-				-2.0,
+				1.7366943359375,
 				0.0,
 				0.0
 			],
@@ -93,7 +115,7 @@
 			],
 			"position" : 
 			[
-				-0.35104480385780334,
+				1.1763916015625,
 				0.0,
 				0.0
 			],
@@ -108,32 +130,6 @@
 				0.029999999329447746,
 				0.30000001192092896,
 				0.20000000298023224
-			],
-			"shader" : "default",
-			"type" : "base"
-		},
-		{
-			"castShadows" : true,
-			"isKinematic" : false,
-			"name" : "new object",
-			"physics" : null,
-			"position" : 
-			[
-				0.0,
-				0.0,
-				0.0
-			],
-			"rotation" : 
-			[
-				0.0,
-				0.0,
-				0.0
-			],
-			"scale" : 
-			[
-				1.0,
-				1.0,
-				1.0
 			],
 			"shader" : "default",
 			"type" : "base"

@@ -297,6 +297,7 @@ void SceneEditor::DrawHeighrarchy()
 	}
 	
 	//point Lights
+
 	deleteIndex = -1;
 	if(engine->scene)
 	if (ImGui::Button("Add Point Light")) {
@@ -311,10 +312,11 @@ void SceneEditor::DrawHeighrarchy()
 	{
 		std::string dName = std::string("Point Light##" + std::to_string(i));
 		if (ImGui::TreeNodeEx(dName.c_str())) {
+
 			if (ImGui::Button(std::string("Delete Light##" + std::to_string(i)).c_str())) {
 				deleteIndex = i;
 			}
-		
+			
 			bool dColor = ImGui::ColorEdit3(("Diffuse##" + dName).c_str(), (float*)&engine->scene->lights.point[i].diffuse);
 			bool dSpec = ImGui::ColorEdit3(("Specular##" + dName).c_str(), (float*)&engine->scene->lights.point[i].specular);
 			bool dPos = ImGui::InputFloat3(("Position##" + dName).c_str(), (float*)&engine->scene->lights.point[i].position);
@@ -515,6 +517,28 @@ void SceneEditor::DrawInspector()
 			}
 			ImGui::EndCombo();
 		}
+
+		std::string normName = "";
+		if (!inspectedObject->material.normalMap.empty())
+			normName = inspectedObject->material.normalMap[0]->name;
+		if (ImGui::BeginCombo("NormalMap##dinspectedModel", normName.c_str()))
+		{
+			if (ImGui::Selectable("--None--"))
+				inspectedObject->material.normalMap.clear();
+			for (auto it : res.textures)
+			{
+				if (ImGui::Selectable(it.first.c_str())) {
+					if (inspectedObject->material.normalMap.empty()) {
+						inspectedObject->material.normalMap.push_back(it.second);
+					}
+					else {
+						inspectedObject->material.normalMap[0] = it.second;
+					}
+				}
+			}
+			ImGui::EndCombo();
+		}
+
 		ImGui::DragFloat("Shine##materialShine", &inspectedObject->material.shine);
 
 
@@ -1240,7 +1264,7 @@ void SceneEditor::CameraControl(double deltaTime)
 	input.SetMouseLock(true);
 	
 
-	float baseSpeed = 0.2;
+	float baseSpeed = 0.005;
 	float camSpeed = baseSpeed;
 	if (input.GetKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
 		camSpeed *= 10;

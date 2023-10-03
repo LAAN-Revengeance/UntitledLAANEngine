@@ -8,6 +8,7 @@ struct Material {
     sampler2D diffuseTexture;
     sampler2D specularMap;
     sampler2D emissionMap;
+    sampler2D normalMap;
     float alpha;
 };
 
@@ -82,8 +83,11 @@ vec4 reflection;
 vec3  norm;
 void main()
 {
+	
+	//normal map
+	norm = texture(material.normalMap,textureCoord).rgb;//normalize(normal);
+	normalize(norm * 2.0 - 1.0);
 
-	norm = normalize(normal);
 	vec3 viewDir = normalize(cameraPos - fragPos);
 	vec3 result = vec3(0);
 	

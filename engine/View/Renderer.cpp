@@ -7,6 +7,7 @@ void Renderer::BindMaterial(Material& material, Shader* shader)
 	int diff = 1;
 	int spec = 1;
 	int emis = 1;
+	int norm = 1;
 
 	diff = curIndex;
 	if (!material.diffuseTexture.empty()) {
@@ -59,10 +60,28 @@ void Renderer::BindMaterial(Material& material, Shader* shader)
 		curTexture++;
 	}
 
+	norm = curIndex;
+	if (!material.normalMap.empty()) {
+
+		for (int i = 0; i < material.normalMap.size(); i++)
+		{
+			material.normalMap[i]->Bind(curTexture);
+			curIndex++;
+			curTexture++;
+		}
+	}
+	else {
+		glActiveTexture(curTexture);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		curIndex++;
+		curTexture++;
+	}
+
 	//Set texure unit numbers
 	shader->SetUniform("material.diffuseTexture", diff);
 	shader->SetUniform("material.specularMap", spec);
 	shader->SetUniform("material.emissionMap", emis);
+	shader->SetUniform("material.normalMap", norm);
 	shader->SetUniform("material.alpha", material.shine);
 
 

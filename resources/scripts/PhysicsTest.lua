@@ -8,6 +8,8 @@ function init()
 	input:BindKey("Fire",KEY_SPACE);
 
 	scene:GetCamera().position = vec3:new(0,0,-5);
+	scene:GetCamera():LookAt(vec3:new(0,0,0));
+
 	Target = resources:GetGameObject("Target");
 	print("init lua");
 end
