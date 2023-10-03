@@ -47,13 +47,13 @@ public:
 	*	@brief return current position
 	*	@return position of object
 	*/
-	glm::vec3 GetPosition();
+	glm::vec3 GetPosition() const;
 
 	/**
 	*	@brief return current rotation
 	*	@return rotation in euler angles
 	*/
-	glm::vec3 GetRotation();
+	glm::vec3 GetRotation() const;
 
 	/**
 	*	@brief Set the position of object
@@ -84,7 +84,7 @@ public:
 	*	@brief return number of colliders
 	*	@return number of colliders this physicsBody has
 	*/
-	unsigned int GetNumColliders();
+	unsigned int GetNumColliders() const;
 	/**
 	*	@brief return physicsbody ID in physics world
 	*	@return ID of physics body
@@ -115,6 +115,8 @@ private:
 	float mass = 1;
 	glm::vec3 centerOfMass;
 
+	glm::vec3 linearVelocity;
+	glm::vec3 angularVelocity;
 
 	friend class SceneEditor;
 };

@@ -721,7 +721,7 @@ void SceneEditor::DrawMenu()
 				
 				std::string lpath = FileOpener::OpenFileDialogue(OPEN_FILE);
 				if (!lpath.empty()) {
-					SetLuaFile(lpath.c_str());
+					SetLuaFile(FilterFilePath(lpath).c_str());
 				}
 				else {
 					std::cout << "ERROR: Could not load lua file " << lpath << std::endl;

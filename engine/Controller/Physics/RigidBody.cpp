@@ -20,7 +20,7 @@ void PhysicsBody::ApplyTorque(float x, float y, float z)
 
 }
 
-glm::vec3 PhysicsBody::GetPosition()
+glm::vec3 PhysicsBody::GetPosition()const
 {
 	if (body)
 	{
@@ -30,7 +30,7 @@ glm::vec3 PhysicsBody::GetPosition()
 	return glm::vec3(0);
 }
 
-glm::vec3 PhysicsBody::GetRotation()
+glm::vec3 PhysicsBody::GetRotation()const
 {
 	//TODO: Change to return quat? also get euler angles from body transform
 	return glm::vec3(0);
@@ -57,7 +57,7 @@ PhysicsCollider& PhysicsBody::GetCollider(unsigned int colliderIndex)
 		return colliders[colliderIndex];
 }
 
-unsigned int PhysicsBody::GetNumColliders()
+unsigned int PhysicsBody::GetNumColliders()const
 {
 	return colliders.size();
 }
