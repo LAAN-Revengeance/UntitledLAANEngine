@@ -561,18 +561,21 @@ void SceneEditor::DrawInspector()
 					if (ImGui::DragFloat3((std::string("position") + nodeName).c_str(), &nOffset.x, 0.01f))
 					{
 						it.SetOffset(nOffset);
+						pb->CalcCenterOfMass();
 					}
 
 					glm::vec3 nRotation = it.GetRotation();
 					if (ImGui::DragFloat3((std::string("rotation") + nodeName).c_str(), &nRotation.x, 0.01f))
 					{
 						it.SetRotation(nRotation);
+						pb->CalcCenterOfMass();
 					}
 
 					float nMass = it.GetMass();
 					if (ImGui::DragFloat((std::string("Mass") + nodeName).c_str(), &nMass, 0.01f))
 					{
 						it.SetMass(nMass);
+						pb->CalcCenterOfMass();
 					}
 					
 					if (it.GetType() == COLLIDER_BOX) {

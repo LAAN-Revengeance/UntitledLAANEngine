@@ -79,6 +79,7 @@ void PhysicsManager::AddSphereCollider(PhysicsBody& pb, float radius)
 	SphereCollider collider;
 	collider.rp3dCollider = rpCollider;
 	pb.colliders.push_back(collider);
+	pb.CalcCenterOfMass();
 }
 
 void PhysicsManager::AddBoxCollider(PhysicsBody& pb, glm::vec3 scale)
@@ -89,6 +90,7 @@ void PhysicsManager::AddBoxCollider(PhysicsBody& pb, glm::vec3 scale)
 	BoxCollider collider;
 	collider.rp3dCollider = rpCollider;
 	pb.colliders.push_back(collider);
+	pb.CalcCenterOfMass();
 }
 
 void PhysicsManager::AddCapsuleCollider(PhysicsBody& pb, float radius, float height)
@@ -99,6 +101,7 @@ void PhysicsManager::AddCapsuleCollider(PhysicsBody& pb, float radius, float hei
 	CapsuleCollider collider;
 	collider.rp3dCollider = rpCollider;
 	pb.colliders.push_back(collider);
+	pb.CalcCenterOfMass();
 }
 
 void PhysicsManager::DrawPhysicsWorld(Camera& camera)

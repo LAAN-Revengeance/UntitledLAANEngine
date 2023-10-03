@@ -79,3 +79,17 @@ void PhysicsBody::DeleteCollider(unsigned int colliderIndex)
 	colliders.erase(colliders.begin() + colliderIndex);
 }
 
+void PhysicsBody::CalcCenterOfMass()
+{
+	float totalMass = 0;
+	glm::vec3 firstMoment(0.0f, 0.0f, 0.0f);
+
+	for (auto& collider : colliders)
+		totalMass += collider.GetMass();
+
+	for (auto& collider : colliders)
+		firstMoment += (collider.GetMass() * collider.GetOffset());
+
+	centerOfMass = firstMoment / totalMass;
+}
+

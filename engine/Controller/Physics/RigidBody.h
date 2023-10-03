@@ -103,6 +103,9 @@ public:
 
 private:
 
+
+	void CalcCenterOfMass();
+
 	unsigned int ID = -1;
 
 
