@@ -318,7 +318,7 @@ void Renderer::RenderScene(Camera& cam, Scene& scene, double deltaTime) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	//caclulate camera view frustum planes
-	cam.CreateViewFrustum();
+	//cam.CreateViewFrustum();
 	Frustum& camFrustum = cam.frustum;
 
 
@@ -327,11 +327,14 @@ void Renderer::RenderScene(Camera& cam, Scene& scene, double deltaTime) {
 	for (auto& it : scene.gameObjects) {
 		if (it.second) {
 
+			
 			//if not in view, dont render
-			if (!it.second->CheckInFrustum(camFrustum))
-				continue;
+			//if (!it.second->CheckInFrustum(camFrustum))
+			//	continue;
       
 			GameObject* obj = it.second;
+			if (!obj->model_data)
+				continue;
 
 			//set materials
 
@@ -361,6 +364,7 @@ void Renderer::RenderScene(Camera& cam, Scene& scene, double deltaTime) {
 				obj->model_data->Render(proj, view, &mainShader, true, GL_TRIANGLES);
 			}
 
+			
 			obj->model_data->Update(deltaTime);
 		}
 	}
