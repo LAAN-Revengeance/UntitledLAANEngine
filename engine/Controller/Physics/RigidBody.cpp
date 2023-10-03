@@ -51,11 +51,10 @@ void PhysicsBody::SetRotation(float x, float y, float z)
 	body->setTransform(nTransform);
 }
 
-PhysicsCollider PhysicsBody::GetCollider(unsigned int colliderIndex)
+PhysicsCollider& PhysicsBody::GetCollider(unsigned int colliderIndex)
 {
 	if (colliderIndex < colliders.size())
 		return colliders[colliderIndex];
-	return PhysicsCollider();
 }
 
 unsigned int PhysicsBody::GetNumColliders()
@@ -66,6 +65,11 @@ unsigned int PhysicsBody::GetNumColliders()
 unsigned int PhysicsBody::GetID()
 {
 	return ID;
+}
+
+glm::vec3 PhysicsBody::GetCenterOfMass() const
+{
+	return centerOfMass;
 }
 
 void PhysicsBody::DeleteCollider(unsigned int colliderIndex)

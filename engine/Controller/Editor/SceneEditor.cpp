@@ -525,6 +525,7 @@ void SceneEditor::DrawInspector()
 		{
 			inspectedObject->physicsBody->isKinematic = !inspectedObject->physicsBody->isKinematic;
 		}
+
 		//Box
 		if (ImGui::Button("Add Box Collider##box")){
 			if (!inspectedObject->physicsBody)
@@ -566,6 +567,12 @@ void SceneEditor::DrawInspector()
 					if (ImGui::DragFloat3((std::string("rotation") + nodeName).c_str(), &nRotation.x, 0.01f))
 					{
 						it.SetRotation(nRotation);
+					}
+
+					float nMass = it.GetMass();
+					if (ImGui::DragFloat((std::string("Mass") + nodeName).c_str(), &nMass, 0.01f))
+					{
+						it.SetMass(nMass);
 					}
 					
 					if (it.GetType() == COLLIDER_BOX) {

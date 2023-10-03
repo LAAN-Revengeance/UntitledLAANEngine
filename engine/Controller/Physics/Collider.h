@@ -19,10 +19,6 @@ public:
 	{
 	}
 
-	float mass;
-	float bounce;
-	float friction;
-
 	glm::vec3 GetOffset() {
 		rp3d::Vector3 rVec = rp3dCollider->getLocalToBodyTransform().getPosition();
 		return {rVec.x,rVec.y,rVec.z};
@@ -34,6 +30,10 @@ public:
 		glm::quat glmquat(rp3dquat.w, rp3dquat.x, rp3dquat.y, rp3dquat.z);
 		glm::vec3 rVec = glm::degrees(glm::eulerAngles(glmquat));
 		return rVec;
+	}
+
+	float GetMass() {
+		return mass;
 	}
 
 	void SetRotation(glm::vec3 nRot) {
@@ -61,12 +61,20 @@ public:
 		}
 	}
 
+	void SetMass(float nMass) {
+		mass = nMass;
+	}
+
 	int GetType() {
 		return type;
 	}
 
 protected:
 	rp3d::Collider* rp3dCollider = nullptr;
+
+	float mass;
+	float bounce;
+	float friction;
 
 	int type = COLLIDER_INVALID;
 

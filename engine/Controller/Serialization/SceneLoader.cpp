@@ -328,6 +328,9 @@ Scene& SceneLoader::LoadScene(const char* inName)
             nRotation.y = jobj["physics"][i]["rotation"][1].asFloat();
             nRotation.z = jobj["physics"][i]["rotation"][2].asFloat();
 
+            float nMass;
+            nMass = jobj["physics"][i]["mass"].asFloat();
+
             int nType = jobj["physics"][i]["type"].asInt();
             float nRadius;
             float nHeight;
@@ -356,6 +359,7 @@ Scene& SceneLoader::LoadScene(const char* inName)
 
             go->physicsBody->GetCollider(i).SetOffset(nOffset);
             go->physicsBody->GetCollider(i).SetRotation(nRotation);
+            go->physicsBody->GetCollider(i).SetMass(nMass);
         }
 
         //transform properties
@@ -450,6 +454,8 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
         jcollider["rotation"].append(physicsCollider.GetRotation().y);
         jcollider["rotation"].append(physicsCollider.GetRotation().z);
 
+        jcollider["mass"] = physicsCollider.GetMass();
+
         switch (physicsBody->GetCollider(i).GetType())
         {
         case COLLIDER_BOX:
@@ -476,18 +482,6 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
     if(physicsBody)
     jobj["isKinematic"] = obj->physicsBody->isKinematic;
     //end physicsbody
-
-    //state machine info
-    //AIManager& ai = AIManager::Get();
-    //
-    //if (obj->stateMachine.GetState())
-    //    jobj["state"] = ai.GetStateKey(obj->stateMachine.GetState());
-    //
-    //if (obj->stateMachine.GetPreviousState())
-    //    jobj["previous_state"] = ai.GetStateKey(obj->stateMachine.GetPreviousState());
-    //
-    //if (obj->stateMachine.GetGlobalState())
-    //    jobj["global_state"] = ai.GetStateKey(obj->stateMachine.GetGlobalState());
 
     if (dynamic_cast<Terrain*>(obj)) {
         Terrain* ter = dynamic_cast<Terrain*>(obj);
