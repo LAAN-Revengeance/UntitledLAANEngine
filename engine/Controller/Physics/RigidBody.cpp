@@ -79,3 +79,8 @@ void PhysicsBody::DeleteCollider(unsigned int colliderIndex)
 	colliders.erase(colliders.begin() + colliderIndex);
 }
 
+void PhysicsBody::ToggleGravity()
+{
+	isGravityEnabled = !isGravityEnabled;
+}
+

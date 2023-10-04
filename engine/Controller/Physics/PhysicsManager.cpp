@@ -52,6 +52,15 @@ void PhysicsManager::Update(double deltaTime)
 {
 	//run rp3d collision detection callback
 	rp3dWorld->testCollision(mCallback);
+
+	//apply gravity
+	for (int i = 0; i < physicsBodies.size(); i++)
+	{
+		if (physicsBodies[i].isGravityEnabled)
+		{
+			//apply gravity here
+		}
+	}
 }
 
 PhysicsBody* PhysicsManager::CreatePhysicsBody()

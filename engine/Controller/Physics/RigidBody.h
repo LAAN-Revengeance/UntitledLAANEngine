@@ -98,6 +98,10 @@ public:
 
 		//if this object ignores external forces
 	bool isKinematic = false;
+	bool isGravityEnabled = true;
+
+	//toggles gravity bool
+	void ToggleGravity();
 
 	friend class PhysicsManager;
 

@@ -95,6 +95,9 @@ public:
 	void DeletePhysicsBody(PhysicsBody* physicsBody);
 
 	void ResetPhysicsWorld();
+
+	void SetGravity(float newGravity) { gravity = newGravity; }
+	float GetGravity() { return gravity; }
 private:
 	
 	//dont trust copying just yet
@@ -103,6 +106,9 @@ private:
 
 	//ID to physics body map
 	std::map<unsigned int, PhysicsBody> physicsBodies;
+
+	//Gravity
+	float gravity = -9.81;
 
 	//rp3d collision world
 	rp3d::PhysicsCommon rp3dPhysicsCommon;
