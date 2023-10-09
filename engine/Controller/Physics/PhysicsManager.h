@@ -5,15 +5,18 @@
 #include <Graphics/Graphics.h>
 #include <Mesh.h>
 
-class rp3dCollisionCallback : public rp3d::CollisionCallback {
+class rp3dCollisionCallback : public rp3d::EventListener {
 
 public:
 	void SetPhysicsManager(PhysicsManager* pManager) {
 		physicsManager = pManager;
 	}
+	
 	virtual void onContact(const CallbackData& callbackData) override;
+
 private:
 	PhysicsManager* physicsManager;
+
 };
 
 /**
@@ -103,6 +106,11 @@ private:
 	//dont trust copying just yet
 	PhysicsManager(const PhysicsManager&) = delete;
 	PhysicsManager& operator = (const PhysicsManager&) = delete;
+
+	//time vars
+	float timeStep = 1 / 60;
+	float elapsedTime = 0;
+
 
 	//ID to physics body map
 	std::map<unsigned int, PhysicsBody> physicsBodies;
