@@ -42,6 +42,10 @@ public:
 	*/
 	void ApplyTorque(float x, float y, float z);
 
+	void SetLinearDrag(float linearDrag);
+
+	void SetAngularDrag(float angularDrag);
+
 
 	/**
 	*	@brief return current position
@@ -91,12 +95,14 @@ public:
 	*/
 	unsigned int GetID();
 
+	void Update();
+
 	//returns this objects local center of mass
 	glm::vec3 GetCenterOfMass() const;
 
 	void DeleteCollider(unsigned int colliderIndex);
 
-		//if this object ignores external forces
+	//if this object ignores external forces
 	bool isKinematic = false;
 	bool isGravityEnabled = true;
 
@@ -119,6 +125,11 @@ private:
 	float mass = 1;
 	glm::vec3 centerOfMass;
 
+	//drag
+	float linearDrag;
+	float angularDrag;
+
+	//velocity
 	glm::vec3 linearVelocity;
 	glm::vec3 angularVelocity;
 
