@@ -520,16 +520,10 @@ void SceneEditor::DrawInspector()
 
 		//PHYSICS SETTINGS
 		ImGui::SeparatorText("Physics");
-		if (inspectedObject->physicsBody)
+		if(inspectedObject->physicsBody)
+		if (ImGui::RadioButton("Is Kinematic", inspectedObject->physicsBody->isKinematic))
 		{
-			if (ImGui::RadioButton("Is Kinematic", inspectedObject->physicsBody->isKinematic))
-			{
-				inspectedObject->physicsBody->isKinematic = !inspectedObject->physicsBody->isKinematic;
-			}
-			if (ImGui::RadioButton("Enable Gravity", inspectedObject->physicsBody->isGravityEnabled))
-			{
-				inspectedObject->physicsBody->isGravityEnabled = !inspectedObject->physicsBody->isGravityEnabled;
-			}
+			inspectedObject->physicsBody->isKinematic = !inspectedObject->physicsBody->isKinematic;
 		}
 
 		//Box

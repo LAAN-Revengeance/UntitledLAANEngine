@@ -6,7 +6,6 @@ PhysicsManager::PhysicsManager()
 {
 	rp3dWorld = rp3dPhysicsCommon.createPhysicsWorld();
 	mCallback.SetPhysicsManager(this);
-	//rp3dWorld->setEventListener(&mCallback);
 }
 
 PhysicsManager::~PhysicsManager()
@@ -51,28 +50,16 @@ PhysicsBody& PhysicsManager::GetPhysicsBody(unsigned int id)
 
 void PhysicsManager::Update(double deltaTime)
 {
-	elapsedTime += deltaTime;
+	//run rp3d collision detection callback
+	rp3dWorld->testCollision(mCallback);
 
-	if (elapsedTime >= timeStep)
+	//apply gravity
+	for (int i = 0; i < physicsBodies.size(); i++)
 	{
-		//run rp3d collision detection callback
-		rp3dWorld->testCollision(mCallback);
-
-		//rigidbody for loop
-		for (int i = 0; i < physicsBodies.size(); i++)
+		if (physicsBodies[i].isGravityEnabled)
 		{
-			//apply gravity
-			if (physicsBodies[i].isGravityEnabled && !physicsBodies[i].isKinematic)
-			{
-				physicsBodies[i].ApplyForce(0, gravity * deltaTime, 0);
-			}
-
-			//apply forces
-			physicsBodies[i].Update();
+			//apply gravity here
 		}
-
-		//reset elapsedtime
-		elapsedTime = 0;
 	}
 }
 
@@ -199,6 +186,7 @@ void PhysicsManager::ResetPhysicsWorld()
 
 void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 {
+	
 	for (int i = 0; i < callbackData.getNbContactPairs(); i++)
 	{
 		unsigned int id1 = callbackData.getContactPair(i).getBody1()->getEntity().id;
