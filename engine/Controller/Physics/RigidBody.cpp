@@ -12,24 +12,12 @@ PhysicsBody::~PhysicsBody()
 
 void PhysicsBody::ApplyForce(float x, float y, float z)
 {
-	linearVelocity.x += x;
-	linearVelocity.y += y;
-	linearVelocity.z += z;
+	
 }
 
 void PhysicsBody::ApplyTorque(float x, float y, float z)
 {
 
-}
-
-void PhysicsBody::SetLinearDrag(float drag)
-{
-	linearDrag = drag;
-}
-
-void PhysicsBody::SetAngularDrag(float drag)
-{
-	angularDrag = drag;
 }
 
 glm::vec3 PhysicsBody::GetPosition()const
@@ -77,14 +65,6 @@ unsigned int PhysicsBody::GetNumColliders()const
 unsigned int PhysicsBody::GetID()
 {
 	return ID;
-}
-
-void PhysicsBody::Update()
-{
-	glm::vec3 newPos = GetPosition() + linearVelocity;
-
-
-	SetPosition(newPos.x, newPos.y, newPos.z);
 }
 
 glm::vec3 PhysicsBody::GetCenterOfMass() const
