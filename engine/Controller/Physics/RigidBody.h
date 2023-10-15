@@ -50,10 +50,10 @@ public:
 	glm::vec3 GetPosition() const;
 
 	/**
-	*	@brief return current rotation
-	*	@return rotation in euler angles
+	*	@brief return current orentation
+	*	@return orientation in as quaternion
 	*/
-	glm::vec3 GetRotation() const;
+	glm::quat GetRotation() const;
 
 	/**
 	*	@brief Set the position of object
@@ -69,9 +69,17 @@ public:
 	*	@param x - x rotation in radians
 	*	@param y - y rotation in radians
 	*	@param z - z rotation in radians
+	*	@warning try to avoid using this unstable function
 	*	@return void
 	*/
-	void SetRotation(float x, float y, float z);
+	void SetRotationEuler(float x, float y, float z);
+
+	/*
+	*	@brief set the rotation of the object
+	*	@param nRotation new rotation as quaternion
+	*	@return void
+	*/
+	void SetRotation(glm::quat nRotation);
 
 	/**
 	*	@brief return collider infor
@@ -91,35 +99,34 @@ public:
 	*/
 	unsigned int GetID();
 
-	//returns this objects local center of mass
-	glm::vec3 GetCenterOfMass() const;
+	void SetMass(float nMass);
+
+	float GetMass();
 
 	void DeleteCollider(unsigned int colliderIndex);
+
+	void SetVelocity(float x, float y, float z);
+
+	void ClearAccumilator();
+
+	void SetGravity(bool);
 
 		//if this object ignores external forces
 	bool isKinematic = false;
 
+	bool useGravity = true;
+
 	friend class PhysicsManager;
-
+	friend class SceneEditor;
 private:
-
-
-	void CalcCenterOfMass();
-
 	unsigned int ID = -1;
 
-
 	std::vector<PhysicsCollider> colliders;
+
 	//rp3d collision body, stores position and rotation in physics space.
 	//also stored rp3d collider objects
 	rp3d::CollisionBody* body = nullptr;
 
 	//mass of the rigidbody
 	float mass = 1;
-	glm::vec3 centerOfMass;
-
-	glm::vec3 linearVelocity;
-	glm::vec3 angularVelocity;
-
-	friend class SceneEditor;
 };

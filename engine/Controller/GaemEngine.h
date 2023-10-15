@@ -5,7 +5,6 @@
 #include <InputManager.h>
 #include <Timer.h>
 #include <Window.h>
-#include <Event/EventDispatcher.h>
 
 /**
 *	@Class GameEngine

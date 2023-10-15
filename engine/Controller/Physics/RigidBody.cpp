@@ -7,17 +7,14 @@ PhysicsBody::PhysicsBody()
 
 PhysicsBody::~PhysicsBody()
 {
-
 }
 
 void PhysicsBody::ApplyForce(float x, float y, float z)
 {
-	
 }
 
 void PhysicsBody::ApplyTorque(float x, float y, float z)
 {
-
 }
 
 glm::vec3 PhysicsBody::GetPosition()const
@@ -30,10 +27,10 @@ glm::vec3 PhysicsBody::GetPosition()const
 	return glm::vec3(0);
 }
 
-glm::vec3 PhysicsBody::GetRotation()const
+glm::quat PhysicsBody::GetRotation() const
 {
-	//TODO: Change to return quat? also get euler angles from body transform
-	return glm::vec3(0);
+	rp3d::Quaternion rp3dRot = body->getTransform().getOrientation();
+	return glm::quat(rp3dRot.w, rp3dRot.x, rp3dRot.y, rp3dRot.z);
 }
 
 void PhysicsBody::SetPosition(float x, float y, float z)
@@ -44,11 +41,15 @@ void PhysicsBody::SetPosition(float x, float y, float z)
 	}
 }
 
-
-void PhysicsBody::SetRotation(float x, float y, float z)
+void PhysicsBody::SetRotationEuler(float x, float y, float z)
 {
 	rp3d::Transform nTransform(body->getTransform().getPosition(), rp3d::Quaternion().fromEulerAngles(x, y, z));
 	body->setTransform(nTransform);
+}
+
+void PhysicsBody::SetRotation(glm::quat nRotation)
+{
+	body->setTransform({ body->getTransform().getPosition(), { nRotation.x,nRotation.y,nRotation.z,nRotation.w } });
 }
 
 PhysicsCollider& PhysicsBody::GetCollider(unsigned int colliderIndex)
@@ -67,9 +68,20 @@ unsigned int PhysicsBody::GetID()
 	return ID;
 }
 
-glm::vec3 PhysicsBody::GetCenterOfMass() const
+void PhysicsBody::SetMass(float nMass)
 {
-	return centerOfMass;
+	//cannot have 0 or negative mass
+	if (mass <= 0) {
+		mass = 0.00001;
+		return;
+	}
+
+	mass = nMass;
+}
+
+float PhysicsBody::GetMass()
+{
+	return mass;
 }
 
 void PhysicsBody::DeleteCollider(unsigned int colliderIndex)
@@ -79,17 +91,15 @@ void PhysicsBody::DeleteCollider(unsigned int colliderIndex)
 	colliders.erase(colliders.begin() + colliderIndex);
 }
 
-void PhysicsBody::CalcCenterOfMass()
+void PhysicsBody::SetVelocity(float x, float y, float z)
 {
-	float totalMass = 0;
-	glm::vec3 firstMoment(0.0f, 0.0f, 0.0f);
-
-	for (auto& collider : colliders)
-		totalMass += collider.GetMass();
-
-	for (auto& collider : colliders)
-		firstMoment += (collider.GetMass() * collider.GetOffset());
-
-	centerOfMass = firstMoment / totalMass;
 }
 
+void PhysicsBody::ClearAccumilator()
+{
+}
+
+void PhysicsBody::SetGravity(bool nGrav)
+{
+	useGravity = nGrav;
+}

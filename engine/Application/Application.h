@@ -3,7 +3,6 @@
 #include <Timer.h>
 #include <GaemEngine.h>
 #include <Editor/SceneEditor.h>
-#include <Event/EventDispatcher.h>
 
 class Application
 {

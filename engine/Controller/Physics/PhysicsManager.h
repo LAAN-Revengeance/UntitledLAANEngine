@@ -71,14 +71,6 @@ public:
 	void AddCapsuleCollider(PhysicsBody& pb, float radius, float height);
 
 		/**
-		*	@brief resolves the collision between two physicsbodies
-		*	@param b1 - first physicsbody
-		*	@param b2 - second physicsbody
-		*	@return void
-		*/
-	void ResolveCollision(PhysicsBody& b1, PhysicsBody& b2, float penetrationDepth, glm::vec3 contactNormal);
-
-		/**
 		*	@brief Get a physics body based on its ID
 		*	@param id - ID of physics body
 		*	@return Physics body with ID id
@@ -96,10 +88,6 @@ public:
 
 	void ResetPhysicsWorld();
 private:
-	
-	//dont trust copying just yet
-	PhysicsManager(const PhysicsManager&) = delete;
-	PhysicsManager& operator = (const PhysicsManager&) = delete;
 
 	//ID to physics body map
 	std::map<unsigned int, PhysicsBody> physicsBodies;

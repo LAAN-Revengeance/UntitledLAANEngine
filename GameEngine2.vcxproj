@@ -156,7 +156,6 @@
     <ClCompile Include="dependencies\include\jsoncpp.cpp" />
     <ClCompile Include="engine\Application\Application.cpp" />
     <ClCompile Include="engine\Controller\Event\EventDispatcher.cpp" />
-    <ClCompile Include="engine\Controller\Event\EventDispatcher.h" />
     <ClCompile Include="engine\Controller\GaemEngine.cpp" />
     <ClCompile Include="engine\Controller\InputManager.cpp" />
     <ClCompile Include="engine\Controller\Lua\LuaFunction.h" />
@@ -217,6 +216,7 @@
     <ClInclude Include="engine\Application\Application.h" />
     <ClInclude Include="engine\Controller\AudioDataTypes.h" />
     <ClInclude Include="engine\Controller\Event\Event.h" />
+    <ClInclude Include="engine\Controller\Event\EventDispatcher.h" />
     <ClInclude Include="engine\Controller\GaemEngine.h" />
     <ClInclude Include="engine\Controller\InputManager.h" />
     <ClInclude Include="engine\Controller\Lua\LuaGameBridge.h" />

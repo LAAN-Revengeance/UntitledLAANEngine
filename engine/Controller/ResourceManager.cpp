@@ -7,6 +7,20 @@ ResourceManager& ResourceManager::Get() {
 	return r_instance;
 }
 
+Material ResourceManager::CreateMaterial(std::string diff, std::string spec, std::string emiss)
+{
+	Material nMaterial;
+
+	if (diff.size() > 0)
+		nMaterial.diffuseTexture.push_back(GetTexture(diff));
+	if (spec.size() > 0)
+		nMaterial.specularMap.push_back(GetTexture(spec));
+	if (emiss.size() > 0)
+		nMaterial.emissionMap.push_back(GetTexture(emiss));
+
+	return nMaterial;
+}
+
 DrawItem& ResourceManager::GetDrawItemReference(std::string resName)
 {
 	return *models.at(resName);
@@ -44,11 +58,13 @@ ResourceManager::ResourceManager(){
 ResourceManager::~ResourceManager(){}
 
 
-GameObject& ResourceManager::CreateGameObject(std::string objectName, std::string modelName, std::string shaderName) {
+GameObject& ResourceManager::CreateGameObject(std::string objectName, std::string modelName, std::string shaderName, Material material) {
 	GameObject* gameObject = new GameObject();
 	gameObject->name = objectName;
 	gameObject->SetID(IDIndex);
 	IDIndex++;
+
+	gameObject->material = material;
 
 	if(!modelName.empty())
 		gameObject->model_data = GetModel(modelName);
@@ -67,7 +83,6 @@ GameObject& ResourceManager::CreateGameObject(std::string objectName, std::strin
 	else {
 		objects.insert({ objectName, gameObject });
 	}
-
 	return *gameObject;
 }
 

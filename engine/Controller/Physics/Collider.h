@@ -19,12 +19,12 @@ public:
 	{
 	}
 
-	glm::vec3 GetOffset() {
+	glm::vec3 GetOffset() const {
 		rp3d::Vector3 rVec = rp3dCollider->getLocalToBodyTransform().getPosition();
 		return {rVec.x,rVec.y,rVec.z};
 	}
 
-	glm::vec3 GetRotation() {
+	glm::vec3 GetRotation() const {
 		rp3d::Quaternion rp3dquat = rp3dCollider->getLocalToBodyTransform().getOrientation();
 
 		glm::quat glmquat(rp3dquat.w, rp3dquat.x, rp3dquat.y, rp3dquat.z);
@@ -32,7 +32,7 @@ public:
 		return rVec;
 	}
 
-	float GetMass() {
+	float GetMass() const {
 		return mass;
 	}
 

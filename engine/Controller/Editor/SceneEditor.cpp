@@ -22,8 +22,8 @@ void SceneEditor::Update(double deltaTime)
 
 void SceneEditor::Draw(double deltaTime)
 {
-	if (engine->isRunning)
-		return;
+	//if (engine->isRunning)
+	//	return;
 
 	if (isPhysicDebug)
 		engine->scene->physicsWorld.DrawPhysicsWorld(*camera);
@@ -383,16 +383,15 @@ void SceneEditor::DrawInspector()
 			inspectedObject->SetPosition({ tmpPosX, tmpPosY, tmpPosZ });
 		}
 		
-		float tmpRotX = inspectedObject->rotation.x;
-		float tmpRotY = inspectedObject->rotation.y;
-		float tmpRotZ = inspectedObject->rotation.z;
+		float tmpRotX = glm::degrees(inspectedObject->GetRotationEuler().x);
+		float tmpRotY = glm::degrees(inspectedObject->GetRotationEuler().y);
+		float tmpRotZ = glm::degrees(inspectedObject->GetRotationEuler().z);
 		ImGui::Text("Rotation:");
-		ImGui::DragFloat("x rotation", &tmpRotX, 0.1f);
-		ImGui::DragFloat("y rotation", &tmpRotY, 0.1f);
-		ImGui::DragFloat("z rotation", &tmpRotZ, 0.1f);
 
-		if (tmpRotX != inspectedObject->rotation.x || tmpRotY != inspectedObject->rotation.y || tmpRotZ != inspectedObject->rotation.z) {
-			inspectedObject->SetRotation({ tmpRotX, tmpRotY, tmpRotZ });
+		
+		glm::quat nOrientation = inspectedObject->orientation;
+		if (ImGui::gizmo3D("##gizmo2", nOrientation)) {
+			inspectedObject->SetRotation(nOrientation);
 		}
 
 		float tmpSclX = inspectedObject->scale.x;
@@ -519,12 +518,35 @@ void SceneEditor::DrawInspector()
 
 
 		//PHYSICS SETTINGS
+		if (inspectedObject->physicsBody)
+			ImGui::Text((std::string("PhysicsBody Position: ") + std::to_string(inspectedObject->physicsBody->GetPosition().x) + " | " + std::to_string(inspectedObject->physicsBody->GetPosition().y) + " | " + std::to_string(inspectedObject->physicsBody->GetPosition().z)).c_str());
+		//if (inspectedObject->physicsBody)
+		//	ImGui::Text((std::string("PhysicsBody Velocity: ") + std::to_string(inspectedObject->physicsBody->velocity.x) + " | " + std::to_string(inspectedObject->physicsBody->velocity.y) + " | " + std::to_string(inspectedObject->physicsBody->velocity.z)).c_str());
+		if (inspectedObject->physicsBody)
+			ImGui::Text((std::string("Total Mass: ") + std::to_string(inspectedObject->physicsBody->GetMass())).c_str());
+		if (inspectedObject->physicsBody)
+			ImGui::Text((std::string("ID: ") + std::to_string(inspectedObject->physicsBody->GetID())).c_str());
 		ImGui::SeparatorText("Physics");
+
 		if(inspectedObject->physicsBody)
 		if (ImGui::RadioButton("Is Kinematic", inspectedObject->physicsBody->isKinematic))
 		{
 			inspectedObject->physicsBody->isKinematic = !inspectedObject->physicsBody->isKinematic;
 		}
+
+		if (inspectedObject->physicsBody)
+		if (ImGui::RadioButton("Use Gravity", inspectedObject->physicsBody->useGravity))
+		{
+			inspectedObject->physicsBody->useGravity = !inspectedObject->physicsBody->useGravity;
+		}
+
+		if (inspectedObject->physicsBody) {
+			float nMass = inspectedObject->physicsBody->GetMass();
+			if (ImGui::DragFloat("Mass##setmass", &nMass, 0.01f, 0.0f)) {
+				inspectedObject->physicsBody->SetMass(nMass);
+			}
+		}
+
 
 		//Box
 		if (ImGui::Button("Add Box Collider##box")){
@@ -561,21 +583,18 @@ void SceneEditor::DrawInspector()
 					if (ImGui::DragFloat3((std::string("position") + nodeName).c_str(), &nOffset.x, 0.01f))
 					{
 						it.SetOffset(nOffset);
-						pb->CalcCenterOfMass();
 					}
 
 					glm::vec3 nRotation = it.GetRotation();
 					if (ImGui::DragFloat3((std::string("rotation") + nodeName).c_str(), &nRotation.x, 0.01f))
 					{
 						it.SetRotation(nRotation);
-						pb->CalcCenterOfMass();
 					}
 
 					float nMass = it.GetMass();
 					if (ImGui::DragFloat((std::string("Mass") + nodeName).c_str(), &nMass, 0.01f))
 					{
 						it.SetMass(nMass);
-						pb->CalcCenterOfMass();
 					}
 					
 					if (it.GetType() == COLLIDER_BOX) {
@@ -1203,9 +1222,11 @@ void SceneEditor::Draw3DWidget()
 
 		if(camera)
 		if (ImGuizmo::Manipulate(glm::value_ptr(camera->GetView()), glm::value_ptr(camera->GetProjection()),
-			ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::MODE::LOCAL, glm::value_ptr(inspectTrans))) {
+			ImGuizmo::OPERATION::TRANSLATE | ImGuizmo::OPERATION::ROTATE, ImGuizmo::MODE::LOCAL, glm::value_ptr(inspectTrans))) {
 			glm::vec3 position = glm::vec3(inspectTrans[3]);
+			glm::quat rotation = glm::quat(inspectTrans);
 			inspectedObject->SetPosition(position);
+			inspectedObject->SetRotation(inspectTrans);
 		}
 	
 	}

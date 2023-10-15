@@ -13,36 +13,6 @@ PhysicsManager::~PhysicsManager()
 	rp3dPhysicsCommon.destroyPhysicsWorld(rp3dWorld);
 }
 
-void PhysicsManager::ResolveCollision(PhysicsBody& b1, PhysicsBody& b2, float penetrationDepth, glm::vec3 contactNormal)
-{
-	glm::vec3 correction = penetrationDepth * contactNormal;
-
-	glm::vec3 b1Pos = b1.GetPosition();
-	glm::vec3 b2Pos = b2.GetPosition();
-
-	if (b2.isKinematic)
-	{
-		b1Pos -= correction;
-	}
-	else {
-		b1Pos -= correction * 0.5f;
-	}
-
-	if (b1.isKinematic)
-	{
-		b2Pos += correction;
-
-	}
-	else {
-		b2Pos += correction * 0.5f;
-	}
-
-	if(!b1.isKinematic)
-		b1.SetPosition(b1Pos.x, b1Pos.y, b1Pos.z);
-	if(!b2.isKinematic)
-		b2.SetPosition(b2Pos.x, b2Pos.y, b2Pos.z);
-}
-
 PhysicsBody& PhysicsManager::GetPhysicsBody(unsigned int id)
 {
 	return physicsBodies.at(id);
@@ -52,6 +22,11 @@ void PhysicsManager::Update(double deltaTime)
 {
 	//run rp3d collision detection callback
 	rp3dWorld->testCollision(mCallback);
+
+	for (auto& physicsBody : physicsBodies)
+	{
+		
+	}
 }
 
 PhysicsBody* PhysicsManager::CreatePhysicsBody()
@@ -79,7 +54,6 @@ void PhysicsManager::AddSphereCollider(PhysicsBody& pb, float radius)
 	SphereCollider collider;
 	collider.rp3dCollider = rpCollider;
 	pb.colliders.push_back(collider);
-	pb.CalcCenterOfMass();
 }
 
 void PhysicsManager::AddBoxCollider(PhysicsBody& pb, glm::vec3 scale)
@@ -90,7 +64,6 @@ void PhysicsManager::AddBoxCollider(PhysicsBody& pb, glm::vec3 scale)
 	BoxCollider collider;
 	collider.rp3dCollider = rpCollider;
 	pb.colliders.push_back(collider);
-	pb.CalcCenterOfMass();
 }
 
 void PhysicsManager::AddCapsuleCollider(PhysicsBody& pb, float radius, float height)
@@ -101,7 +74,6 @@ void PhysicsManager::AddCapsuleCollider(PhysicsBody& pb, float radius, float hei
 	CapsuleCollider collider;
 	collider.rp3dCollider = rpCollider;
 	pb.colliders.push_back(collider);
-	pb.CalcCenterOfMass();
 }
 
 void PhysicsManager::DrawPhysicsWorld(Camera& camera)
@@ -183,19 +155,22 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 	
 	for (int i = 0; i < callbackData.getNbContactPairs(); i++)
 	{
-		unsigned int id1 = callbackData.getContactPair(i).getBody1()->getEntity().id;
-		unsigned int id2 = callbackData.getContactPair(i).getBody2()->getEntity().id;
-
-		//std::cout << "body: " << id1 << " | " << "body: " << id2 << "\n";
-
+		const auto& contactPair  = callbackData.getContactPair(i);
 		
-		float penDepth = callbackData.getContactPair(i).getContactPoint(0).getPenetrationDepth();
-		rp3d::Vector3 contactNormal = callbackData.getContactPair(i).getContactPoint(0).getWorldNormal();
-		
+		unsigned int id1 = contactPair.getBody1()->getEntity().id;
+		unsigned int id2 = contactPair.getBody2()->getEntity().id;
+
+		rp3d::Vector3 contactPoint1 = contactPair.getContactPoint(0).getLocalPointOnCollider1();
+		rp3d::Vector3 contactPoint2 = contactPair.getContactPoint(0).getLocalPointOnCollider2();
+		float penDepth = contactPair.getContactPoint(0).getPenetrationDepth();
+		rp3d::Vector3 contactNormal = -contactPair.getContactPoint(0).getWorldNormal();
+
 		//if physics bodies exist, resolve collision.
 		auto rbMap = &physicsManager->physicsBodies;
 		if (rbMap->find(id1) != rbMap->end() && rbMap->find(id2) != rbMap->end()) {
-			physicsManager->ResolveCollision(physicsManager->GetPhysicsBody(id1), physicsManager->GetPhysicsBody(id2), penDepth, { contactNormal.x,contactNormal.y,contactNormal.z});
+			
+			//call function to resolve a collision here
+			
 		}
 	}
 }
