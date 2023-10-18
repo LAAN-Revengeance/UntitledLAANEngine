@@ -154,5 +154,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="dependencies\include\imgui\new 1.txt" />
+    <Text Include="..\..\Downloads\physicsTest.txt" />
   </ItemGroup>
 </Project>

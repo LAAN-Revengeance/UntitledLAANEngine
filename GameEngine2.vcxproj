@@ -295,6 +295,7 @@
     <Library Include="dependencies\lib\reactphysics3d.lib" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="..\..\Downloads\physicsTest.txt" />
     <Text Include="dependencies\include\imgui\new 1.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -11,6 +11,7 @@ PhysicsBody::~PhysicsBody()
 
 void PhysicsBody::ApplyForce(float x, float y, float z)
 {
+	
 }
 
 void PhysicsBody::ApplyTorque(float x, float y, float z)

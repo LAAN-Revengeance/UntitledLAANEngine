@@ -1,0 +1,230 @@
+{
+	"Lighting" : 
+	{
+		"Ambient" : 
+		[
+			1.0,
+			1.0,
+			1.0
+		],
+		"DirectionLights" : 
+		[
+			{
+				"diffuse" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				],
+				"direction" : 
+				[
+					0.0,
+					1.0,
+					0.0
+				],
+				"specular" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				]
+			}
+		],
+		"PointLights" : null
+	},
+	"luaPath" : "resources/scripts/Lab1.lua",
+	"objects" : 
+	[
+		{
+			"castShadows" : true,
+			"diff" : "Grass",
+			"isKinematic" : false,
+			"model" : "Sphere",
+			"name" : "Projectile",
+			"physics" : 
+			[
+				{
+					"mass" : 0.10000000149011612,
+					"offset" : 
+					[
+						0.0,
+						0.0,
+						0.0
+					],
+					"radius" : 0.10000000149011612,
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"type" : 2
+				}
+			],
+			"position" : 
+			[
+				-2.0,
+				0.0,
+				0.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale" : 
+			[
+				0.10000000149011612,
+				0.10000000149011612,
+				0.10000000149011612
+			],
+			"shader" : "default",
+			"type" : "base",
+			"useGravity" : false
+		},
+		{
+			"castShadows" : true,
+			"diff" : "Rock",
+			"isKinematic" : false,
+			"model" : "Cube",
+			"name" : "Target",
+			"physics" : 
+			[
+				{
+					"mass" : 2.0,
+					"offset" : 
+					[
+						0.0,
+						0.0,
+						0.0
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						0.029999999329447746,
+						0.30000001192092896,
+						0.20000000298023224
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				-0.35104480385780334,
+				0.0,
+				0.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale" : 
+			[
+				0.029999999329447746,
+				0.30000001192092896,
+				0.20000000298023224
+			],
+			"shader" : "default",
+			"type" : "base",
+			"useGravity" : false
+		},
+		{
+			"castShadows" : true,
+			"isKinematic" : false,
+			"name" : "new object",
+			"physics" : null,
+			"position" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale" : 
+			[
+				1.0,
+				1.0,
+				1.0
+			],
+			"shader" : "default",
+			"type" : "base",
+			"useGravity" : false
+		}
+	],
+	"resources" : 
+	{
+		"cubemaps" : null,
+		"models" : 
+		[
+			{
+				"name" : "Cube",
+				"path" : "resources\\models\\Cube.obj",
+				"type" : "mesh"
+			},
+			{
+				"name" : "Sphere",
+				"path" : "resources\\models\\Sphere.obj",
+				"type" : "mesh"
+			}
+		],
+		"shaders" : 
+		[
+			{
+				"frag" : "resources/shaders/Water.frag",
+				"geom" : "",
+				"name" : "Water",
+				"vert" : "resources/shaders/Water.vert"
+			},
+			{
+				"frag" : "resources/shaders/Default.frag",
+				"geom" : "",
+				"name" : "default",
+				"vert" : "resources/shaders/Default.vert"
+			},
+			{
+				"frag" : "resources/shaders/Physics_Debug/Physics.frag",
+				"geom" : "",
+				"name" : "physics",
+				"vert" : "resources/shaders/Physics_Debug/Physics.vert"
+			},
+			{
+				"frag" : "resources/shaders/terrain/Terrain.frag",
+				"geom" : "",
+				"name" : "terrain",
+				"vert" : "resources/shaders/Default.vert"
+			}
+		],
+		"textures" : 
+		[
+			{
+				"name" : "Grass",
+				"path" : "resources\\textures\\terrain\\grass.png"
+			},
+			{
+				"name" : "Rock",
+				"path" : "resources\\textures\\terrain\\rock.png"
+			},
+			{
+				"name" : "default",
+				"path" : "resources/textures/default.png"
+			}
+		]
+	},
+	"windowName" : "editor"
+}
