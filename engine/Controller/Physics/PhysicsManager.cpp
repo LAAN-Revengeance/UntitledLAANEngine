@@ -23,9 +23,9 @@ void PhysicsManager::Update(double deltaTime)
 	//run rp3d collision detection callback
 	rp3dWorld->testCollision(mCallback);
 
-	for (auto& physicsBody : physicsBodies)
+	for (int i = 0; i < physicsBodies.size(); i++)
 	{
-		
+		physicsBodies[i].SetPosition(physicsBodies[i].GetPosition() + physicsBodies[i].GetVelocity());
 	}
 }
 

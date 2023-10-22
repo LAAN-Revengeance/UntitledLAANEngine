@@ -62,7 +62,7 @@ public:
 	*	@param z - z position
 	*	@return void
 	*/
-	void SetPosition(float x, float y, float z);
+	void SetPosition(glm::vec3 newPosition);
 
 	/**
 	*	@brief Set the rotation of object
@@ -118,6 +118,8 @@ public:
 
 	friend class PhysicsManager;
 	friend class SceneEditor;
+
+	glm::vec3 GetVelocity();
 private:
 	unsigned int ID = -1;
 
@@ -129,4 +131,6 @@ private:
 
 	//mass of the rigidbody
 	float mass = 1;
+
+	glm::vec3 velocity;
 };

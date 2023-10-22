@@ -34,11 +34,11 @@ glm::quat PhysicsBody::GetRotation() const
 	return glm::quat(rp3dRot.w, rp3dRot.x, rp3dRot.y, rp3dRot.z);
 }
 
-void PhysicsBody::SetPosition(float x, float y, float z)
+void PhysicsBody::SetPosition(glm::vec3 newPosition)
 {
 	if (body)
 	{
-		body->setTransform(rp3d::Transform({ x,y,z }, body->getTransform().getOrientation()));
+		body->setTransform(rp3d::Transform({ newPosition.x,newPosition.y,newPosition.z }, body->getTransform().getOrientation()));
 	}
 }
 
@@ -94,6 +94,9 @@ void PhysicsBody::DeleteCollider(unsigned int colliderIndex)
 
 void PhysicsBody::SetVelocity(float x, float y, float z)
 {
+	velocity.x = x;
+	velocity.y = y;
+	velocity.z = z;
 }
 
 void PhysicsBody::ClearAccumilator()
@@ -103,4 +106,9 @@ void PhysicsBody::ClearAccumilator()
 void PhysicsBody::SetGravity(bool nGrav)
 {
 	useGravity = nGrav;
+}
+
+glm::vec3 PhysicsBody::GetVelocity()
+{
+	return velocity;
 }
