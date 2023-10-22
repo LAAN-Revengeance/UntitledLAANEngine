@@ -7,7 +7,6 @@ function init()
 	input:SetMouseLock(false);
 	input:BindKey("Fire",KEY_SPACE);
 
-	scene:GetCamera().position = vec3:new(0,0,-3);
 	material = resources:CreateMaterial("Grass","","");
 	
 	print("init lua");
@@ -30,6 +29,7 @@ function keyInput(dt)
 		if(not isDown)
 		then
 			--GameObject& ResourceManager::CreateGameObject(std::string objectName, std::string modelName, std::string shaderName)
+			scene:GetCamera().position = vec3:new(0,0,-3);
 			nName = ("object" .. numThings);
 			ball = resources:CreateGameObject(nName, "Sphere", "default",material);
 		
@@ -39,11 +39,11 @@ function keyInput(dt)
 			
 			physics:AddSphereCollider(ball.physicsBody,0.1);
 			ball.physicsBody:SetMass(0.1);
-			ball.physicsBody:SetGravity(false);
+			ball.physicsBody:SetGravity(true);
 
 			ball:SetPosition(vec3:new(-1,0,0));
 
-			ball.physicsBody:SetVelocity(vec3:new(0.2, 0, 0));
+			ball.physicsBody:SetVelocity(vec3:new(0, 0, 0));
 			scene:AddObject(ball);
 			numThings = numThings + 1;
 			--print(nName);

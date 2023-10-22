@@ -38,7 +38,13 @@ void PhysicsBody::SetPosition(glm::vec3 newPosition)
 {
 	if (body)
 	{
-		body->setTransform(rp3d::Transform({ newPosition.x,newPosition.y,newPosition.z }, body->getTransform().getOrientation()));
+		rp3d::Quaternion temp;
+		glm::quat currentOrietation = orientation;
+		temp.x = orientation.x;
+		temp.y = orientation.y;
+		temp.z = orientation.z;
+		temp.x = orientation.w;
+		body->setTransform(rp3d::Transform({ newPosition.x,newPosition.y,newPosition.z }, temp));
 	}
 }
 
@@ -153,6 +159,11 @@ void PhysicsBody::SetOrientation(glm::quat newOrientation)
 glm::quat PhysicsBody::GetOrientation()
 {
 	return orientation;
+}
+
+void PhysicsBody::SetIsKinematic(bool value)
+{
+	isKinematic = value;
 }
 
 void PhysicsBody::CalculateInertiaTensor()

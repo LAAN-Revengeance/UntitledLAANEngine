@@ -69,10 +69,10 @@
 			],
 			"rotation" : 
 			[
+				1.0,
 				0.0,
 				0.0,
-				0.0,
-				1.0
+				0.0
 			],
 			"scale" : 
 			[
@@ -87,7 +87,7 @@
 		{
 			"castShadows" : true,
 			"diff" : "Rock",
-			"isKinematic" : false,
+			"isKinematic" : true,
 			"model" : "Cube",
 			"name" : "Target",
 			"physics" : 
@@ -123,16 +123,70 @@
 			],
 			"rotation" : 
 			[
+				1.0,
 				0.0,
 				0.0,
-				0.0,
-				1.0
+				0.0
 			],
 			"scale" : 
 			[
 				0.029999999329447746,
 				0.30000001192092896,
 				0.20000000298023224
+			],
+			"shader" : "default",
+			"type" : "base",
+			"useGravity" : false
+		},
+		{
+			"castShadows" : true,
+			"diff" : "Rock",
+			"isKinematic" : true,
+			"model" : "Cube",
+			"name" : "Floor",
+			"physics" : 
+			[
+				{
+					"mass" : 1.0,
+					"offset" : 
+					[
+						0.0,
+						0.0,
+						0.0
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						100.0,
+						0.30000001192092896,
+						100.0
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				-0.35104480385780334,
+				-1.2999999523162842,
+				0.0
+			],
+			"rotation" : 
+			[
+				1.0,
+				0.0,
+				0.0,
+				0.0
+			],
+			"scale" : 
+			[
+				100.0,
+				0.30000001192092896,
+				100.0
 			],
 			"shader" : "default",
 			"type" : "base",
@@ -151,10 +205,10 @@
 			],
 			"rotation" : 
 			[
+				1.0,
 				0.0,
 				0.0,
-				0.0,
-				1.0
+				0.0
 			],
 			"scale" : 
 			[

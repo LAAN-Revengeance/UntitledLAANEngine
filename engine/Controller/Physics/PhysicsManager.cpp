@@ -23,23 +23,23 @@ void PhysicsManager::Update(float deltaTime)
 	//run rp3d collision detection callback
 	rp3dWorld->testCollision(mCallback);
 
+	// Exert gravity on each physics body that has it enabled
 	/*
-	for (int i = 0; i < physicsBodies.size(); i++)
+	for (auto& physicsBody : physicsBodies)
 	{
-		if (physicsBodies[i].useGravity)
+		if (physicsBody.second.useGravity)
 		{
-			physicsBodies[i].SetPosition(physicsBodies[i].GetPosition() + physicsBodies[i].GetVelocity() * (physicsBodies[i].gravity * deltaTime));
+			physicsBody.second.SetVelocity(physicsBody.second.GetVelocity() + (deltaTime * physicsBody.second.gravity));
 		}
 	}
 	*/
 
-	for (int i = 0; i < physicsBodies.size(); i++)
+	for (auto& physicsBody : physicsBodies)
 	{
-		physicsBodies[i].CalculateInertiaTensor();
-		physicsBodies[i].SetPosition(physicsBodies[i].GetPosition() + physicsBodies[i].GetVelocity() * deltaTime);
-		physicsBodies[i].SetOrientation(glm::normalize(physicsBodies[i].GetOrientation() + ((0.5f * glm::quat(0.0, physicsBodies[i].GetAngularVelocity()) * physicsBodies[i].GetOrientation()) * deltaTime)));	
+		physicsBody.second.CalculateInertiaTensor();
+		physicsBody.second.SetPosition(physicsBody.second.GetPosition() + physicsBody.second.GetVelocity() * deltaTime);
+		physicsBody.second.SetOrientation(glm::normalize(physicsBody.second.GetOrientation() + ((0.5f * glm::quat(0.0, physicsBody.second.GetAngularVelocity()) * physicsBody.second.GetOrientation()) * deltaTime)));
 	}
-
 }
 
 PhysicsBody* PhysicsManager::CreatePhysicsBody()
@@ -163,19 +163,13 @@ void PhysicsManager::ResetPhysicsWorld()
 }
 
 void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
-{
-	
+{		
 	for (int i = 0; i < callbackData.getNbContactPairs(); i++)
 	{
 		const auto& contactPair  = callbackData.getContactPair(i);
 		
 		unsigned int id1 = contactPair.getBody1()->getEntity().id;
 		unsigned int id2 = contactPair.getBody2()->getEntity().id;
-
-		rp3d::Vector3 contactPoint1 = contactPair.getContactPoint(0).getLocalPointOnCollider1();
-		rp3d::Vector3 contactPoint2 = contactPair.getContactPoint(0).getLocalPointOnCollider2();
-		float penDepth = contactPair.getContactPoint(0).getPenetrationDepth();
-		rp3d::Vector3 contactNormal = -contactPair.getContactPoint(0).getWorldNormal();
 
 		//if physics bodies exist, resolve collision.
 		auto rbMap = &physicsManager->physicsBodies;
@@ -186,6 +180,8 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 				ContactPoint contactPoint = contactPair.getContactPoint(x);
 				float penetration = contactPoint.getPenetrationDepth();
 				rp3d::Vector3 contactNormal = contactPair.getContactPoint(x).getWorldNormal();
+				PhysicsBody body1Ptr = physicsManager->GetPhysicsBody(id1);
+				PhysicsBody body2Ptr = physicsManager->GetPhysicsBody(id2);
 				glm::vec3 newVec;
 				newVec.x = contactNormal.x;
 				newVec.y = contactNormal.y;
@@ -193,9 +189,18 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 
 				rp3d::Vector3 body1Contact = contactPair.getCollider1()->getLocalToWorldTransform() * contactPoint.getLocalPointOnCollider1();
 				rp3d::Vector3 body2Contact = contactPair.getCollider1()->getLocalToWorldTransform() * contactPoint.getLocalPointOnCollider2();
-
-				//physicsManager->GetPhysicsBody(id1).SetPosition(physicsManager->GetPhysicsBody(id1).GetPosition() + ((-(penetration / 2)) * newVec));
-				//physicsManager->GetPhysicsBody(id2).SetPosition(physicsManager->GetPhysicsBody(id2).GetPosition() + ((-(penetration / 2)) * newVec));
+				
+				
+				if (!body1Ptr.isKinematic)
+				{
+					physicsManager->GetPhysicsBody(id1).SetPosition(physicsManager->GetPhysicsBody(id1).GetPosition() + ((-(penetration )) * newVec));
+				}
+				
+				if (!body2Ptr.isKinematic)
+				{
+					physicsManager->GetPhysicsBody(id2).SetPosition(physicsManager->GetPhysicsBody(id2).GetPosition() - ((-(penetration )) * newVec));
+				}
+				
 
 				glm::vec3 body1ContactPoint;
 				body1ContactPoint.x = body1Contact.x;
@@ -206,10 +211,7 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 				body2ContactPoint.y = body2Contact.y;
 				body2ContactPoint.z = body2Contact.z;
 
-				float coefficecientOfRestitution = 0.6f;
-
-				PhysicsBody body1Ptr = physicsManager->GetPhysicsBody(id1);
-				PhysicsBody body2Ptr = physicsManager->GetPhysicsBody(id2);
+				float coefficecientOfRestitution = 0.4f;
 
 				glm::vec3 linearVelocity1 = body1Ptr.GetVelocity();
 				glm::vec3 angularVelocity1 = body1Ptr.GetAngularVelocity();
@@ -220,7 +222,7 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 				glm::vec3 r1 = body1ContactPoint - (body1Ptr.GetPosition());
 				glm::vec3 r2 = body2ContactPoint - (body2Ptr.GetPosition());
 
-				float restitution = -(1.0f - coefficecientOfRestitution);
+				float restitution = -(1.0f + coefficecientOfRestitution);
 
 				glm::vec3 relativeVelocity = linearVelocity1 - linearVelocity2;
 
@@ -230,32 +232,28 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 				glm::vec3 r2CrossNormal = glm::cross(r2, newVec);
 
 				float lambdaNumerator = restitution * (glm::dot(newVec, relativeVelocity) + glm::dot(angularVelocity1, r1CrossNormal) - glm::dot(angularVelocity2, r2CrossNormal));
-				float lambdaDenominator = combinedInverseMass + (glm::dot(r1CrossNormal, body1Ptr.GetInverseInertiaTensor() * r1CrossNormal) + glm::dot(r2CrossNormal, body2Ptr.GetInverseInertiaTensor() * r2CrossNormal));
+				auto lambdaDenominator = combinedInverseMass + (r1CrossNormal * body1Ptr.GetInverseInertiaTensor() * r1CrossNormal) + (r2CrossNormal * body2Ptr.GetInverseInertiaTensor() * r2CrossNormal);
 
-				float lambda = lambdaNumerator / lambdaDenominator;
+				auto lambda = lambdaNumerator / lambdaDenominator;
 
 				glm::vec3 collisionImpulse = lambda * newVec;
 				
-				if (lambda < 0)
+				if (!body1Ptr.isKinematic)
 				{
 					linearVelocity1 += collisionImpulse / body1Ptr.GetMass();
 					angularVelocity1 += (lambda * body1Ptr.GetInverseInertiaTensor() * r1CrossNormal);
-
-					linearVelocity2 += collisionImpulse / body2Ptr.GetMass();
-					angularVelocity2 += (lambda * body2Ptr.GetInverseInertiaTensor() * r2CrossNormal);
-
-					if (!body1Ptr.isKinematic)
-					{
-						body1Ptr.SetVelocity(linearVelocity1);
-						body1Ptr.SetAngularVelocity(angularVelocity1);
-					}
-					if (!body2Ptr.isKinematic)
-					{
-						body2Ptr.SetVelocity(linearVelocity2);
-						body2Ptr.SetAngularVelocity(angularVelocity2);
-					}
+					body1Ptr.SetVelocity(linearVelocity1);
+					body1Ptr.SetAngularVelocity(angularVelocity1);
+				}
+				if (!body2Ptr.isKinematic)
+				{
+					linearVelocity2 -= collisionImpulse / body2Ptr.GetMass();
+					angularVelocity2 -= (lambda * body2Ptr.GetInverseInertiaTensor() * r2CrossNormal);
+					body2Ptr.SetVelocity(linearVelocity2);
+					body2Ptr.SetAngularVelocity(angularVelocity2);
 				}
 			}
+			
 			
 		}
 	}

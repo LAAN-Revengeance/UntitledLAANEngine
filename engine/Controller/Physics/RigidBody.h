@@ -140,6 +140,8 @@ public:
 	void SetOrientation(glm::quat newOrientation);
 
 	glm::quat GetOrientation();
+
+	void SetIsKinematic(bool value);
 private:
 	unsigned int ID = -1;
 
