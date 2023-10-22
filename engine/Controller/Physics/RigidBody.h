@@ -103,9 +103,11 @@ public:
 
 	float GetMass();
 
+	float GetInverseMass();
+
 	void DeleteCollider(unsigned int colliderIndex);
 
-	void SetVelocity(float x, float y, float z);
+	void SetVelocity(glm::vec3 newVelocity);
 
 	void ClearAccumilator();
 
@@ -120,6 +122,24 @@ public:
 	friend class SceneEditor;
 
 	glm::vec3 GetVelocity();
+
+	glm::vec3 GetAngularVelocity();
+
+	void SetAngularVelocity(glm::vec3 newVelocity);
+	
+	glm::mat3 GetInertiaTensor();
+
+	glm::mat3 GetInverseInertiaTensor();
+
+	void SetIntertiaTensor(glm::mat3 tensor);
+
+	void CalculateInertiaTensor();
+
+	glm::vec3 gravity = { 0, -9.8, 0 };
+
+	void SetOrientation(glm::quat newOrientation);
+
+	glm::quat GetOrientation();
 private:
 	unsigned int ID = -1;
 
@@ -133,4 +153,12 @@ private:
 	float mass = 1;
 
 	glm::vec3 velocity;
+
+	glm::vec3 angularVelocity;
+
+	glm::mat3 inertiaTensor = {};
+
+	glm::mat3 inverseInertiaTensor = {};
+
+	glm::quat orientation;
 };

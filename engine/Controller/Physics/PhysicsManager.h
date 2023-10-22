@@ -36,7 +36,7 @@ public:
 		*	@param deltaTime - time since last update
 		*	@return void
 		*/
-	void Update(double deltaTime);
+	void Update(float deltaTime);
 
 		/**
 		*	@brief adds physics body to physics world, assign it to a game objects

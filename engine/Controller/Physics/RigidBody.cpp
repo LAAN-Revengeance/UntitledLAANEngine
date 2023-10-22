@@ -85,6 +85,11 @@ float PhysicsBody::GetMass()
 	return mass;
 }
 
+float PhysicsBody::GetInverseMass()
+{
+	return 1.0f/mass;
+}
+
 void PhysicsBody::DeleteCollider(unsigned int colliderIndex)
 {
 	if (colliderIndex < colliders.size())
@@ -92,11 +97,11 @@ void PhysicsBody::DeleteCollider(unsigned int colliderIndex)
 	colliders.erase(colliders.begin() + colliderIndex);
 }
 
-void PhysicsBody::SetVelocity(float x, float y, float z)
+void PhysicsBody::SetVelocity(glm::vec3 newVelocity)
 {
-	velocity.x = x;
-	velocity.y = y;
-	velocity.z = z;
+	velocity.x = newVelocity.x;
+	velocity.y = newVelocity.y;
+	velocity.z = newVelocity.z;
 }
 
 void PhysicsBody::ClearAccumilator()
@@ -111,4 +116,81 @@ void PhysicsBody::SetGravity(bool nGrav)
 glm::vec3 PhysicsBody::GetVelocity()
 {
 	return velocity;
+}
+
+glm::vec3 PhysicsBody::GetAngularVelocity()
+{
+	return angularVelocity;
+}
+
+void PhysicsBody::SetAngularVelocity(glm::vec3 newVelocity)
+{
+	angularVelocity.x = newVelocity.x;
+	angularVelocity.y = newVelocity.y;
+	angularVelocity.z = newVelocity.z;
+}
+
+glm::mat3 PhysicsBody::GetInertiaTensor()
+{
+	return inertiaTensor;
+}
+
+glm::mat3 PhysicsBody::GetInverseInertiaTensor()
+{
+	return inverseInertiaTensor;
+}
+
+void PhysicsBody::SetIntertiaTensor(glm::mat3 tensor)
+{
+	inertiaTensor = tensor;
+}
+
+void PhysicsBody::SetOrientation(glm::quat newOrientation)
+{
+	orientation = newOrientation;
+}
+
+glm::quat PhysicsBody::GetOrientation()
+{
+	return orientation;
+}
+
+void PhysicsBody::CalculateInertiaTensor()
+{
+	glm::mat3 inertia(0.0f);
+	
+	for (auto& collider : colliders)
+	{
+		if (collider.type == COLLIDER_BOX)
+		{
+			BoxCollider* box = static_cast<BoxCollider*>(&collider);
+
+			glm::vec3 boxScale = box->GetScale();
+
+			boxScale.x *= 2;
+			boxScale.y *= 2;
+			boxScale.z *= 2;
+
+			inertia[0][0] = (1.0f / 12.0f) * mass * (boxScale.y * boxScale.y + boxScale.x * boxScale.x);
+			inertia[1][1] = (1.0f / 12.0f) * mass * (boxScale.z * boxScale.z + boxScale.x * boxScale.x);
+			inertia[2][2] = (1.0f / 12.0f) * mass * (boxScale.z * boxScale.z + boxScale.y * boxScale.y);
+
+			inertiaTensor = inertia;
+			inverseInertiaTensor = glm::inverse(inertia);
+		}
+		if (collider.type == COLLIDER_SPHERE)
+		{
+			SphereCollider* sphere = static_cast<SphereCollider*>(&collider);
+
+			float radius = sphere->GetRadius();
+
+			inertia[0][0] = (2.0 / 5.0) * mass * (radius * radius);
+			inertia[0][0] = (2.0 / 5.0) * mass * (radius * radius);
+			inertia[0][0] = (2.0 / 5.0) * mass * (radius * radius);
+
+			inertiaTensor = inertia;
+			inverseInertiaTensor = glm::inverse(inertia);
+		}
+	}
+
 }
