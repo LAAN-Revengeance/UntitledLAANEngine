@@ -177,10 +177,6 @@ void PhysicsBody::CalculateInertiaTensor()
 
 			glm::vec3 boxScale = box->GetScale();
 
-			boxScale.x *= 2;
-			boxScale.y *= 2;
-			boxScale.z *= 2;
-
 			inertia[0][0] = (1.0f / 12.0f) * mass * (boxScale.y * boxScale.y + boxScale.x * boxScale.x);
 			inertia[1][1] = (1.0f / 12.0f) * mass * (boxScale.z * boxScale.z + boxScale.x * boxScale.x);
 			inertia[2][2] = (1.0f / 12.0f) * mass * (boxScale.z * boxScale.z + boxScale.y * boxScale.y);
@@ -195,8 +191,8 @@ void PhysicsBody::CalculateInertiaTensor()
 			float radius = sphere->GetRadius();
 
 			inertia[0][0] = (2.0 / 5.0) * mass * (radius * radius);
-			inertia[0][0] = (2.0 / 5.0) * mass * (radius * radius);
-			inertia[0][0] = (2.0 / 5.0) * mass * (radius * radius);
+			inertia[1][1] = (2.0 / 5.0) * mass * (radius * radius);
+			inertia[2][2] = (2.0 / 5.0) * mass * (radius * radius);
 
 			inertiaTensor = inertia;
 			inverseInertiaTensor = glm::inverse(inertia);

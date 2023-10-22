@@ -7,9 +7,9 @@ function init()
 	input:SetMouseLock(false);
 	input:BindKey("Fire",KEY_SPACE);
 
-	scene:GetCamera().position = vec3:new(0,0,-20);
+	--scene:GetCamera().position = vec3:new(0,0,-20);
 
-	material = resources:CreateMaterial("default","","");
+	material = resources:CreateMaterial("Grass","","");
 	print("init lua");
 end
 
@@ -21,8 +21,7 @@ function update(deltaTime)
 end
 
 numThings = 0;
-spread = 20;
-upforce = 70;
+
 function keyInput(dt)
 		
 	if(input:GetKeyState("Fire"))
@@ -30,11 +29,17 @@ function keyInput(dt)
 		--print("Fire!");
 		--GameObject& ResourceManager::CreateGameObject(std::string objectName, std::string modelName, std::string shaderName)
 		nName = ("object" .. numThings);
-		ball = resources:CreateGameObject(nName, "Box", "default",material);
-		ball.physicsBody = physics:CreatePhysicsBody();
-		ball.physicsBody:SetMass(10);
+		ball = resources:CreateGameObject(nName, "Sphere", "default",material);
+		
+		ball.scale = vec3:new(0.1,0.1,0.1);
 
-		ball.physicsBody:SetVelocity(math.random(-spread,spread),math.random(upforce - 10,upforce),math.random(-spread,spread));
+		ball.physicsBody = physics:CreatePhysicsBody();
+			
+		physics:AddSphereCollider(ball.physicsBody,0.1);
+		ball.physicsBody:SetMass(0.1);
+		ball.physicsBody:SetGravity(false);
+
+		ball.physicsBody:SetVelocity(ball.position + vec3:new(-3,0,0));
 		scene:AddObject(ball);
 		numThings = numThings + 1;
 		--print(nName);

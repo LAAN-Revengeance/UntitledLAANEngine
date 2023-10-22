@@ -32,7 +32,7 @@
 		],
 		"PointLights" : null
 	},
-	"luaPath" : "resources/scripts/Lab1.lua",
+	"luaPath" : "resources/scripts/PhysicsTest.lua",
 	"objects" : 
 	[
 		{

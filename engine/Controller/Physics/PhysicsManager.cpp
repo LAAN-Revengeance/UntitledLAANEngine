@@ -232,9 +232,9 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 				glm::vec3 r2CrossNormal = glm::cross(r2, newVec);
 
 				float lambdaNumerator = restitution * (glm::dot(newVec, relativeVelocity) + glm::dot(angularVelocity1, r1CrossNormal) - glm::dot(angularVelocity2, r2CrossNormal));
-				auto lambdaDenominator = combinedInverseMass + (r1CrossNormal * body1Ptr.GetInverseInertiaTensor() * r1CrossNormal) + (r2CrossNormal * body2Ptr.GetInverseInertiaTensor() * r2CrossNormal);
+				float lambdaDenominator = combinedInverseMass + (glm::dot(r1CrossNormal, body1Ptr.GetInverseInertiaTensor() * r1CrossNormal) + glm::dot(r2CrossNormal, body2Ptr.GetInverseInertiaTensor() * r2CrossNormal));
 
-				auto lambda = lambdaNumerator / lambdaDenominator;
+				float lambda = lambdaNumerator / lambdaDenominator;
 
 				glm::vec3 collisionImpulse = lambda * newVec;
 				
