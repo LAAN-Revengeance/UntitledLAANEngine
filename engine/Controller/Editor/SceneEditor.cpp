@@ -520,10 +520,10 @@ void SceneEditor::DrawInspector()
 		//PHYSICS SETTINGS
 		if (inspectedObject->physicsBody)
 			ImGui::Text((std::string("PhysicsBody Position: ") + std::to_string(inspectedObject->physicsBody->GetPosition().x) + " | " + std::to_string(inspectedObject->physicsBody->GetPosition().y) + " | " + std::to_string(inspectedObject->physicsBody->GetPosition().z)).c_str());
-		//if (inspectedObject->physicsBody)
-		//	ImGui::Text((std::string("PhysicsBody Velocity: ") + std::to_string(inspectedObject->physicsBody->velocity.x) + " | " + std::to_string(inspectedObject->physicsBody->velocity.y) + " | " + std::to_string(inspectedObject->physicsBody->velocity.z)).c_str());
 		if (inspectedObject->physicsBody)
-			ImGui::Text((std::string("Total Mass: ") + std::to_string(inspectedObject->physicsBody->GetMass())).c_str());
+			ImGui::Text((std::string("PhysicsBody Velocity: ") + std::to_string(inspectedObject->physicsBody->velocity.x) + " | " + std::to_string(inspectedObject->physicsBody->velocity.y) + " | " + std::to_string(inspectedObject->physicsBody->velocity.z)).c_str());
+		if (inspectedObject->physicsBody)
+			ImGui::Text((std::string("Mass: ") + std::to_string(inspectedObject->physicsBody->GetMass())).c_str());
 		if (inspectedObject->physicsBody)
 			ImGui::Text((std::string("ID: ") + std::to_string(inspectedObject->physicsBody->GetID())).c_str());
 		ImGui::SeparatorText("Physics");

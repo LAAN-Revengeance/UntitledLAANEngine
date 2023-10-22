@@ -24,7 +24,7 @@ void PhysicsManager::Update(float deltaTime)
 	rp3dWorld->testCollision(mCallback);
 
 	// Exert gravity on each physics body that has it enabled
-	/*
+	
 	for (auto& physicsBody : physicsBodies)
 	{
 		if (physicsBody.second.useGravity)
@@ -32,7 +32,7 @@ void PhysicsManager::Update(float deltaTime)
 			physicsBody.second.SetVelocity(physicsBody.second.GetVelocity() + (deltaTime * physicsBody.second.gravity));
 		}
 	}
-	*/
+	
 
 	for (auto& physicsBody : physicsBodies)
 	{
@@ -211,7 +211,7 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 				body2ContactPoint.y = body2Contact.y;
 				body2ContactPoint.z = body2Contact.z;
 
-				float coefficecientOfRestitution = 0.4f;
+				float coefficecientOfRestitution = 0.6f;
 
 				glm::vec3 linearVelocity1 = body1Ptr.GetVelocity();
 				glm::vec3 angularVelocity1 = body1Ptr.GetAngularVelocity();

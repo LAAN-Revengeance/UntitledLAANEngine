@@ -29,7 +29,7 @@ function keyInput(dt)
 		if(not isDown)
 		then
 			--GameObject& ResourceManager::CreateGameObject(std::string objectName, std::string modelName, std::string shaderName)
-			scene:GetCamera().position = vec3:new(0,0,-3);
+			--scene:GetCamera().position = vec3:new(0,0,-3);
 			nName = ("object" .. numThings);
 			ball = resources:CreateGameObject(nName, "Sphere", "default",material);
 		
@@ -39,11 +39,10 @@ function keyInput(dt)
 			
 			physics:AddSphereCollider(ball.physicsBody,0.1);
 			ball.physicsBody:SetMass(0.1);
-			ball.physicsBody:SetGravity(true);
+			ball.physicsBody:SetGravity(false);
 
-			ball:SetPosition(vec3:new(-1,0,0));
+			ball.physicsBody:SetVelocity(ball.position + vec3:new(-1, 0, 0));
 
-			ball.physicsBody:SetVelocity(vec3:new(0, 0, 0));
 			scene:AddObject(ball);
 			numThings = numThings + 1;
 			--print(nName);
