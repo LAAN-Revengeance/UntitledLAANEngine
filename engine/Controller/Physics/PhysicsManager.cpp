@@ -22,8 +22,6 @@ void PhysicsManager::Update(float deltaTime)
 {
 	//run rp3d collision detection callback
 	rp3dWorld->testCollision(mCallback);
-
-	glm::quat test = { 10, 0, 0, 0 };
 	
 	for (auto& physicsBody : physicsBodies)
 	{
@@ -33,7 +31,6 @@ void PhysicsManager::Update(float deltaTime)
 		}
 	}
 	
-
 	for (auto& physicsBody : physicsBodies)
 	{
 		physicsBody.second.CalculateInertiaTensor();
@@ -195,14 +192,20 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 				
 				if (!body1Ptr->isKinematic)
 				{
+					body1Ptr->SetPosition(body1Ptr->GetPosition() + ((-(penetration / 2 )) * newVec));
+				}
+				else
+				{
 					body1Ptr->SetPosition(body1Ptr->GetPosition() + ((-(penetration )) * newVec));
 				}
 				
 				if (!body2Ptr->isKinematic)
 				{
+					body2Ptr->SetPosition(body2Ptr->GetPosition() - ((-(penetration / 2)) * newVec));
+				}
+				else {
 					body2Ptr->SetPosition(body2Ptr->GetPosition() - ((-(penetration)) * newVec));
 				}
-				
 
 				glm::vec3 body1ContactPoint;
 				body1ContactPoint.x = body1Contact.x;

@@ -6,6 +6,7 @@ function init()
 	--set inputs
 	input:SetMouseLock(false);
 	input:BindKey("Fire",KEY_SPACE);
+	scene:GetCamera().position = vec3:new(-1,0,-3);
 
 	material = resources:CreateMaterial("Grass","","");
 	
@@ -18,8 +19,6 @@ function update(deltaTime)
 end
 
 numThings = 0;
-spread = 20;
-upforce = 70;
 
 isDown = false;
 function keyInput(dt)
@@ -29,7 +28,6 @@ function keyInput(dt)
 		if(not isDown)
 		then
 			--GameObject& ResourceManager::CreateGameObject(std::string objectName, std::string modelName, std::string shaderName)
-			--scene:GetCamera().position = vec3:new(0,0,-3);
 			nName = ("object" .. numThings);
 			ball = resources:CreateGameObject(nName, "Sphere", "default",material);
 		
@@ -39,9 +37,9 @@ function keyInput(dt)
 			
 			physics:AddSphereCollider(ball.physicsBody,0.1);
 			ball.physicsBody:SetMass(0.1);
-			ball.physicsBody:SetGravity(true);
+			ball.physicsBody:SetGravity(false);
 
-			ball.physicsBody:SetVelocity(ball.position + vec3:new(-3, 0, 0));
+			ball.physicsBody:SetVelocity(ball.position + vec3:new(-0.5, 0, 0));
 
 			scene:AddObject(ball);
 			numThings = numThings + 1;

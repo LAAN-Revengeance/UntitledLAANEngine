@@ -21,8 +21,7 @@ glm::vec3 PhysicsBody::GetPosition()const
 {
 	if (body)
 	{
-		rp3d::Vector3 worldPos = body->getTransform().getPosition();
-		return { worldPos.x, worldPos.y, worldPos.z};
+		return { position.x, position.y, position.z};
 	}
 	return glm::vec3(0);
 }

@@ -7,7 +7,7 @@ function init()
 	input:SetMouseLock(false);
 	input:BindKey("Fire",KEY_SPACE);
 
-	--scene:GetCamera().position = vec3:new(0,0,-20);
+	scene:GetCamera().position = vec3:new(-1,0,-3);
 
 	material = resources:CreateMaterial("Grass","","");
 	print("init lua");
@@ -37,9 +37,9 @@ function keyInput(dt)
 			
 		physics:AddSphereCollider(ball.physicsBody,0.1);
 		ball.physicsBody:SetMass(0.1);
-		ball.physicsBody:SetGravity(true);
+		ball.physicsBody:SetGravity(false);
 
-		ball.physicsBody:SetVelocity(ball.position + vec3:new(0,10,0));
+		ball.physicsBody:SetVelocity(ball.position + vec3:new(-0.5,0,0));
 		scene:AddObject(ball);
 		numThings = numThings + 1;
 		--print(nName);
