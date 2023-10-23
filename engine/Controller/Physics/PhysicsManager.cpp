@@ -23,6 +23,7 @@ void PhysicsManager::Update(float deltaTime)
 	//run rp3d collision detection callback
 	rp3dWorld->testCollision(mCallback);
 	
+	// Exert gravity on each physics body that has it enabled
 	for (auto& physicsBody : physicsBodies)
 	{
 		if (physicsBody.second.useGravity)
@@ -31,6 +32,7 @@ void PhysicsManager::Update(float deltaTime)
 		}
 	}
 	
+	// Set linear and angular velocity of physics bodies that are calculated within the onContact function 
 	for (auto& physicsBody : physicsBodies)
 	{
 		physicsBody.second.CalculateInertiaTensor();
@@ -177,36 +179,40 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 			for (int x = 0; x < contactPair.getNbContactPoints(); x++)
 			{
 				ContactPoint contactPoint = contactPair.getContactPoint(x);
+				// Penetration depth between the two colliding bodies
 				float penetration = contactPoint.getPenetrationDepth();
 				rp3d::Vector3 contactNormal = contactPair.getContactPoint(x).getWorldNormal();
 				PhysicsBody* body1Ptr = physicsManager->GetPhysicsBody(id1);
 				PhysicsBody* body2Ptr = physicsManager->GetPhysicsBody(id2);
-				glm::vec3 newVec;
-				newVec.x = contactNormal.x;
-				newVec.y = contactNormal.y;
-				newVec.z = contactNormal.z;
+				
+				// Contact normal vector
+				glm::vec3 bodyContactNormal;
+				bodyContactNormal.x = contactNormal.x;
+				bodyContactNormal.y = contactNormal.y;
+				bodyContactNormal.z = contactNormal.z;
 
 				rp3d::Vector3 body1Contact = contactPair.getCollider1()->getLocalToWorldTransform() * contactPoint.getLocalPointOnCollider1();
 				rp3d::Vector3 body2Contact = contactPair.getCollider1()->getLocalToWorldTransform() * contactPoint.getLocalPointOnCollider2();
 				
-				
+				// Resolve penetration between the two colliding bodies
 				if (!body1Ptr->isKinematic)
 				{
-					body1Ptr->SetPosition(body1Ptr->GetPosition() + ((-(penetration / 2 )) * newVec));
+					body1Ptr->SetPosition(body1Ptr->GetPosition() + ((-(penetration / 2 )) * bodyContactNormal));
 				}
 				else
 				{
-					body1Ptr->SetPosition(body1Ptr->GetPosition() + ((-(penetration )) * newVec));
+					body1Ptr->SetPosition(body1Ptr->GetPosition() + ((-(penetration )) * bodyContactNormal));
 				}
 				
 				if (!body2Ptr->isKinematic)
 				{
-					body2Ptr->SetPosition(body2Ptr->GetPosition() - ((-(penetration / 2)) * newVec));
+					body2Ptr->SetPosition(body2Ptr->GetPosition() - ((-(penetration / 2)) * bodyContactNormal));
 				}
 				else {
-					body2Ptr->SetPosition(body2Ptr->GetPosition() - ((-(penetration)) * newVec));
+					body2Ptr->SetPosition(body2Ptr->GetPosition() - ((-(penetration)) * bodyContactNormal));
 				}
 
+				// Converting from rp3d::Vector3 to glm
 				glm::vec3 body1ContactPoint;
 				body1ContactPoint.x = body1Contact.x;
 				body1ContactPoint.y = body1Contact.y;
@@ -216,8 +222,10 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 				body2ContactPoint.y = body2Contact.y;
 				body2ContactPoint.z = body2Contact.z;
 
+				// Value for the ration of initial and final speed for the colliding bodies
 				float coefficecientOfRestitution = 0.6f;
 
+				// Linear and angular velocity of each body, before collision
 				glm::vec3 linearVelocity1 = body1Ptr->GetVelocity();
 				glm::vec3 angularVelocity1 = body1Ptr->GetAngularVelocity();
 
@@ -233,16 +241,20 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 
 				float combinedInverseMass = body1Ptr->GetInverseMass() + body2Ptr->GetInverseMass();
 
-				glm::vec3 r1CrossNormal = glm::cross(r1, newVec);
-				glm::vec3 r2CrossNormal = glm::cross(r2, newVec);
+				glm::vec3 r1CrossNormal = glm::cross(r1, bodyContactNormal);
+				glm::vec3 r2CrossNormal = glm::cross(r2, bodyContactNormal);
 
-				float lambdaNumerator = restitution * (glm::dot(newVec, relativeVelocity) + glm::dot(angularVelocity1, r1CrossNormal) - glm::dot(angularVelocity2, r2CrossNormal));
+				// Values for the frictionless collision impulse equation
+				float lambdaNumerator = restitution * (glm::dot(bodyContactNormal, relativeVelocity) + glm::dot(angularVelocity1, r1CrossNormal) - glm::dot(angularVelocity2, r2CrossNormal));
 				float lambdaDenominator = combinedInverseMass + (glm::dot(r1CrossNormal, body1Ptr->GetInverseInertiaTensor() * r1CrossNormal) + glm::dot(r2CrossNormal, body2Ptr->GetInverseInertiaTensor() * r2CrossNormal));
 
+				// Lambda, to be multiplied with the unit normal vector at the collision point
 				float lambda = lambdaNumerator / lambdaDenominator;
 
-				glm::vec3 collisionImpulse = lambda * newVec;
+				// Final frictionless collision impulse equation
+				glm::vec3 collisionImpulse = lambda * bodyContactNormal;
 				
+				// For each body, if it is not kinematic, ie. it is affected by outside forces, update its angular and linear velocity
 				if (!body1Ptr->isKinematic)
 				{
 					linearVelocity1 += collisionImpulse / body1Ptr->GetMass();

@@ -361,6 +361,7 @@ Scene& SceneLoader::LoadScene(const char* inName)
             go->physicsBody->GetCollider(i).SetOffset(nOffset);
             go->physicsBody->GetCollider(i).SetRotation(nRotation);
             go->physicsBody->GetCollider(i).SetMass(nMass);
+            go->physicsBody->SetMass(nMass);
         }
 
         //transform properties
