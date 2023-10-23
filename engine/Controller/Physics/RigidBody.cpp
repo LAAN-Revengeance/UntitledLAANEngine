@@ -35,16 +35,7 @@ glm::quat PhysicsBody::GetRotation() const
 
 void PhysicsBody::SetPosition(glm::vec3 newPosition)
 {
-	if (body)
-	{
-		rp3d::Quaternion temp;
-		glm::quat currentOrietation = orientation;
-		temp.x = orientation.x;
-		temp.y = orientation.y;
-		temp.z = orientation.z;
-		temp.x = orientation.w;
-		body->setTransform(rp3d::Transform({ newPosition.x,newPosition.y,newPosition.z }, temp));
-	}
+	position = newPosition;
 }
 
 void PhysicsBody::SetRotationEuler(float x, float y, float z)
@@ -165,14 +156,31 @@ void PhysicsBody::SetIsKinematic(bool value)
 	isKinematic = value;
 }
 
-void PhysicsBody::CalculateInertiaTensor()
+void PhysicsBody::UpdateBody()
 {
-	glm::mat3 inertia(0.0f);
+	rp3d::Vector3 tempPos;
+	tempPos.x = position.x;
+	tempPos.y = position.y;
+	tempPos.z = position.z;
+
+	rp3d::Quaternion tempQuat;
+	tempQuat.x = orientation.x;
+	tempQuat.y = orientation.y;
+	tempQuat.z = orientation.z;
+	tempQuat.w = orientation.w;
 	
+	rp3d::Transform temp = rp3d::Transform(tempPos, tempQuat);
+	body->setTransform(temp);
+}
+
+void PhysicsBody::CalculateInertiaTensor()
+{	
 	for (auto& collider : colliders)
 	{
 		if (collider.type == COLLIDER_BOX)
 		{
+			glm::mat3 inertia{};
+			
 			BoxCollider* box = static_cast<BoxCollider*>(&collider);
 
 			glm::vec3 boxScale = box->GetScale();
@@ -186,6 +194,8 @@ void PhysicsBody::CalculateInertiaTensor()
 		}
 		if (collider.type == COLLIDER_SPHERE)
 		{
+			glm::dmat3 inertia{};
+
 			SphereCollider* sphere = static_cast<SphereCollider*>(&collider);
 
 			float radius = sphere->GetRadius();

@@ -142,6 +142,12 @@ public:
 	glm::quat GetOrientation();
 
 	void SetIsKinematic(bool value);
+
+	void UpdateBody();
+
+	glm::quat orientation;
+
+	glm::vec3 position;
 private:
 	unsigned int ID = -1;
 
@@ -161,6 +167,4 @@ private:
 	glm::mat3 inertiaTensor = {};
 
 	glm::mat3 inverseInertiaTensor = {};
-
-	glm::quat orientation;
 };

@@ -75,7 +75,7 @@ public:
 		*	@param id - ID of physics body
 		*	@return Physics body with ID id
 		*/
-	PhysicsBody& GetPhysicsBody(unsigned int id);
+	PhysicsBody* GetPhysicsBody(unsigned int id);
 
 		/**
 		*	@brief Draw debug rendering of the physics world to currently bound draw buffer

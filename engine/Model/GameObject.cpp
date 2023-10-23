@@ -22,8 +22,10 @@ bool GameObject::CheckInFrustum(Frustum& frustum)
 
 void GameObject::SetPosition(glm::vec3 nPos)
 {
-	if(physicsBody)
-	physicsBody->SetPosition(nPos);
+	if (physicsBody)
+	{
+		physicsBody->SetPosition(nPos);
+	}
 	position = nPos;
 }
 
