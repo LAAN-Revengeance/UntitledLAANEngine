@@ -35,7 +35,17 @@ void PhysicsManager::Update(float deltaTime)
 	// Set linear and angular velocity of physics bodies that are calculated within the onContact function 
 	for (auto& physicsBody : physicsBodies)
 	{
+		// NOT ACTUALLY HOW FRICTION WORKS, DONT TRUST THIS, JUST TRYING STUFF OUT
+		glm::vec3 friction = { 0.99, 0.99, 0.99 }; 
+		
+		// ToDo: Move to somewhere else? Might not need to be calculated each frame, but will need to be calculated for a new physics body
 		physicsBody.second.CalculateInertiaTensor();
+		
+		// Just testing changes, should make bodies come to 'rest' by reducing their current linear and angular velocities over time
+		physicsBody.second.SetVelocity(physicsBody.second.GetVelocity() * friction);
+		physicsBody.second.SetAngularVelocity(physicsBody.second.GetAngularVelocity() * friction);
+		
+		// Actual physics updates for velocity and rotation
 		physicsBody.second.SetPosition(physicsBody.second.GetPosition() + physicsBody.second.GetVelocity() * deltaTime);
 		physicsBody.second.SetOrientation(glm::normalize(physicsBody.second.GetOrientation() + ((0.5f * glm::quat(0.0, physicsBody.second.GetAngularVelocity()) * physicsBody.second.GetOrientation()) * deltaTime)));
 
@@ -197,7 +207,7 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 				// Resolve penetration between the two colliding bodies
 				if (!body1Ptr->isKinematic)
 				{
-					body1Ptr->SetPosition(body1Ptr->GetPosition() + ((-(penetration / 2 )) * bodyContactNormal));
+					body1Ptr->SetPosition(body1Ptr->GetPosition() + ((-(penetration / 2)) * bodyContactNormal));
 				}
 				if (!body2Ptr->isKinematic)
 				{
@@ -245,7 +255,7 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 
 				// Final frictionless collision impulse equation
 				glm::vec3 collisionImpulse = lambda * bodyContactNormal;
-				
+
 				// For each body, if it is not kinematic, ie. it is affected by outside forces, update its angular and linear velocity
 				if (!body1Ptr->isKinematic)
 				{

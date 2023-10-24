@@ -542,9 +542,13 @@ void SceneEditor::DrawInspector()
 		}
 
 		if (inspectedObject->physicsBody)
-		if (ImGui::RadioButton("Use Gravity", inspectedObject->physicsBody->useGravity))
-		{
-			inspectedObject->physicsBody->useGravity = !inspectedObject->physicsBody->useGravity;
+			if (ImGui::RadioButton("Use Gravity", inspectedObject->physicsBody->useGravity))
+			{
+				inspectedObject->physicsBody->useGravity = !inspectedObject->physicsBody->useGravity;
+				if (!inspectedObject->physicsBody->useGravity)
+				{
+					inspectedObject->physicsBody->velocity.y = 0.0f;
+				}
 		}
 
 		if (inspectedObject->physicsBody) {

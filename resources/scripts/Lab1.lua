@@ -8,7 +8,8 @@ function init()
 	input:BindKey("Fire",KEY_SPACE);
 	input:BindKey("camF",KEY_W);
 	input:BindKey("camB",KEY_S);
-	input:BindKey("camD",KEY_LEFT_SHIFT);
+	input:BindKey("camU",KEY_LEFT_SHIFT);
+	input:BindKey("camD",KEY_LEFT_CONTROL);
 	input:BindKey("camL",KEY_A);
 	input:BindKey("camR",KEY_D);
 	input:BindKey("one",KEY_1);
@@ -18,7 +19,6 @@ function init()
 	input:BindKey("five",KEY_5);
 	input:BindKey("escape",KEY_ESCAPE);
 	input:BindKey("rapidfire",KEY_F);
-
 
 	material = resources:CreateMaterial("Grass","","");
 	player = resources:GetGameObject("player");
@@ -35,6 +35,7 @@ end
 numThings = 0;
 
 isDown = false;
+isDown2 = false;
 function keyInput(dt)
 	up = vec3:new(0,1,0);
 	camSpeed = 5 * dt;
@@ -64,12 +65,15 @@ function keyInput(dt)
 	then
 		player:SetPosition(player.position + camera.right:multiply(camSpeed));
 	end
-	if(input:GetKeyState("one"))
+	if(input:GetKeyState("camU"))
 	then
-		frontX = scene:GetCamera().front.x;
-		frontY = scene:GetCamera().front.y;
-		frontZ = scene:GetCamera().front.z;
+		player:SetPosition(player.position + vec3:new(0, 0.1, 0));
 	end
+	if(input:GetKeyState("camD"))
+	then
+		player:SetPosition(player.position  - vec3:new(0, 0.1, 0));
+	end
+	
 	if(input:GetKeyState("two"))
 	then
 		frontX = frontX * 2;
@@ -137,13 +141,40 @@ function keyInput(dt)
 			
 		physics:AddSphereCollider(ball.physicsBody,0.1);
 		ball.physicsBody:SetMass(0.1);
-		ball.physicsBody:SetGravity(false);
+		ball.physicsBody:SetGravity(true);
 
-		ball.physicsBody:SetVelocity(ball.position + vec3:new(frontX, frontY, frontZ));
+		ball.physicsBody:SetVelocity(ball.position + vec3:new(frontX * 5, frontY * 5, frontZ * 5));
 
 		scene:AddObject(ball);
 		numThings = numThings + 1;
 		--print(nName);
+	end
+	if(input:GetKeyState("one"))
+	then
+		if(not isDown2)
+		then
+			--GameObject& ResourceManager::CreateGameObject(std::string objectName, std::string modelName, std::string shaderName)
+			nName = ("object" .. numThings);
+			ball = resources:CreateGameObject(nName, "Sphere", "default",material);
+
+			ball.scale = vec3:new(0.1,0.1,0.1);
+
+			ball.physicsBody = physics:CreatePhysicsBody();
+			ball.physicsBody:SetPosition(vec3:new(0, 0, 0));
+			
+			physics:AddSphereCollider(ball.physicsBody,0.1);
+			ball.physicsBody:SetMass(0.1);
+			ball.physicsBody:SetGravity(false);
+
+			ball.physicsBody:SetVelocity(vec3:new(-1, 0, 0));
+
+			scene:AddObject(ball);
+			numThings = numThings + 1;
+			--print(nName);
+		end
+		isDown2 = true;
+	else
+		isDown2 = false;
 	end
 	
 end
