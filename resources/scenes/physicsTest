@@ -63,7 +63,7 @@
 			],
 			"position" : 
 			[
-				-0.66395741701126099,
+				-0.88197869062423706,
 				0.0,
 				0.0
 			],
@@ -140,8 +140,61 @@
 		},
 		{
 			"castShadows" : true,
-			"isKinematic" : false,
-			"name" : "new object",
+			"diff" : "Rock",
+			"isKinematic" : true,
+			"model" : "Cube",
+			"name" : "floor",
+			"physics" : 
+			[
+				{
+					"mass" : 1000.0,
+					"offset" : 
+					[
+						0.0,
+						0.0,
+						0.0
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						100.0,
+						1.0,
+						100.0
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				-0.86395740509033203,
+				-1.6000000238418579,
+				0.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale" : 
+			[
+				100.0,
+				1.0,
+				100.0
+			],
+			"shader" : "default",
+			"type" : "base",
+			"useGravity" : false
+		},
+		{
+			"castShadows" : true,
+			"name" : "player",
 			"physics" : null,
 			"position" : 
 			[
@@ -163,8 +216,7 @@
 				1.0
 			],
 			"shader" : "default",
-			"type" : "base",
-			"useGravity" : false
+			"type" : "base"
 		}
 	],
 	"resources" : 

@@ -307,6 +307,7 @@ void SceneEditor::DrawHeighrarchy()
 	}
 
 	ImGui::Text((std::string("Camera Position: ") + std::to_string(camera->position.x) + " | " + std::to_string(camera->position.y) + " | " + std::to_string(camera->position.z)).c_str());
+	ImGui::Text((std::string("Camera Front: ") + std::to_string(camera->front.x) + " | " + std::to_string(camera->front.y) + " | " + std::to_string(camera->front.z)).c_str());
 
 	if(engine->scene)
 	for (int i = 0; i < engine->scene->lights.point.size(); ++i)
@@ -383,7 +384,10 @@ void SceneEditor::DrawInspector()
 
 		if (tmpPosX != inspectedObject->position.x || tmpPosY != inspectedObject->position.y || tmpPosZ != inspectedObject->position.z) {
 			inspectedObject->SetPosition({ tmpPosX, tmpPosY, tmpPosZ });
-			inspectedObject->physicsBody->SetPosition({ tmpPosX, tmpPosY, tmpPosZ });
+			if (inspectedObject->physicsBody)
+			{
+				inspectedObject->physicsBody->SetPosition({ tmpPosX, tmpPosY, tmpPosZ });
+			}
 		}
 		
 		float tmpRotX = glm::degrees(inspectedObject->GetRotationEuler().x);

@@ -29,7 +29,7 @@ glm::vec3 PhysicsBody::GetPosition()const
 glm::quat PhysicsBody::GetRotation() const
 {
 	rp3d::Quaternion rp3dRot = body->getTransform().getOrientation();
-	return glm::quat(rp3dRot.w, rp3dRot.x, rp3dRot.y, rp3dRot.z);
+	return glm::quat(orientation.w, orientation.x, orientation.y, orientation.z);
 }
 
 void PhysicsBody::SetPosition(glm::vec3 newPosition)

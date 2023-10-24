@@ -58,10 +58,10 @@ void GameObject::Rotate(float x, float y, float z, float angle)
 void GameObject::SetRotation(glm::quat nRot)
 {
 	orientation = glm::normalize(nRot);
-	if (!physicsBody)
-		return;
-	physicsBody->SetRotation(nRot);
-	
+	if (physicsBody)
+	{
+		physicsBody->SetRotation(nRot);
+	}
 }
 
 void GameObject::SetScale(glm::vec3 nScale)

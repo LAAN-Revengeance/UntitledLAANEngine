@@ -96,7 +96,7 @@ void PhysicsManager::DrawPhysicsWorld(Camera& camera)
 		debugShader = new Shader("resources/shaders/Physics_Debug/Physics.vert", "resources/shaders/Physics_Debug/Physics.frag", "");
 
 	// Enable debug rendering 
-	rp3dWorld->setIsDebugRenderingEnabled(true);
+	rp3dWorld->setIsDebugRenderingEnabled(false);
 
 	//needs an update to generate verts
 	rp3dWorld->update(0.1f);
@@ -199,17 +199,9 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 				{
 					body1Ptr->SetPosition(body1Ptr->GetPosition() + ((-(penetration / 2 )) * bodyContactNormal));
 				}
-				else
-				{
-					body1Ptr->SetPosition(body1Ptr->GetPosition() + ((-(penetration )) * bodyContactNormal));
-				}
-				
 				if (!body2Ptr->isKinematic)
 				{
 					body2Ptr->SetPosition(body2Ptr->GetPosition() - ((-(penetration / 2)) * bodyContactNormal));
-				}
-				else {
-					body2Ptr->SetPosition(body2Ptr->GetPosition() - ((-(penetration)) * bodyContactNormal));
 				}
 
 				// Converting from rp3d::Vector3 to glm
