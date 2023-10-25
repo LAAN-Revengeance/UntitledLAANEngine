@@ -23,19 +23,16 @@ void PhysicsManager::Update(float deltaTime)
 	//run rp3d collision detection callback
 	rp3dWorld->testCollision(mCallback);
 	
-	// Exert gravity on each physics body that has it enabled
+	// Set linear and angular velocity of physics bodies that are calculated within the onContact function 
 	for (auto& physicsBody : physicsBodies)
 	{
+		// If physics body has gravity enabled, exert downward force on it
 		if (physicsBody.second.useGravity)
 		{
 			physicsBody.second.SetVelocity(physicsBody.second.GetVelocity() + (deltaTime * physicsBody.second.gravity));
 		}
-	}
-	
-	// Set linear and angular velocity of physics bodies that are calculated within the onContact function 
-	for (auto& physicsBody : physicsBodies)
-	{
-		// NOT ACTUALLY HOW FRICTION WORKS, DONT TRUST THIS, JUST TRYING STUFF OUT
+		
+		// NOT ACTUALLY HOW FRICTION/DAMPENING/WHATEVER WORKS, DONT TRUST THIS, JUST TRYING STUFF OUT
 		glm::vec3 friction = { 0.99, 0.99, 0.99 }; 
 		
 		// ToDo: Move to somewhere else? Might not need to be calculated each frame, but will need to be calculated for a new physics body
@@ -173,12 +170,26 @@ void PhysicsManager::ResetPhysicsWorld()
 	rp3dWorld = rp3dPhysicsCommon.createPhysicsWorld();
 }
 
+void ResolvePenetrations(float penetration, PhysicsBody* body1Ptr, PhysicsBody* body2Ptr, glm::vec3 bodyContactNormal)
+{
+	// Resolve penetration between the two colliding bodies
+	if (!body1Ptr->isKinematic)
+	{
+		body1Ptr->SetPosition(body1Ptr->GetPosition() + ((-(penetration / 2)) * bodyContactNormal));
+	}
+	if (!body2Ptr->isKinematic)
+	{
+		body2Ptr->SetPosition(body2Ptr->GetPosition() - ((-(penetration / 2)) * bodyContactNormal));
+	}
+}
+
 void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 {		
 	for (int i = 0; i < callbackData.getNbContactPairs(); i++)
 	{
 		const auto& contactPair  = callbackData.getContactPair(i);
 		
+		// Id of each physics body involved in the collision
 		unsigned int id1 = contactPair.getBody1()->getEntity().id;
 		unsigned int id2 = contactPair.getBody2()->getEntity().id;
 
@@ -191,40 +202,28 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 				ContactPoint contactPoint = contactPair.getContactPoint(x);
 				// Penetration depth between the two colliding bodies
 				float penetration = contactPoint.getPenetrationDepth();
+				
+				// Contact normal vector
 				rp3d::Vector3 contactNormal = contactPair.getContactPoint(x).getWorldNormal();
+				
+				// Pointer to physics bodies involved in the collision
 				PhysicsBody* body1Ptr = physicsManager->GetPhysicsBody(id1);
 				PhysicsBody* body2Ptr = physicsManager->GetPhysicsBody(id2);
 				
-				// Contact normal vector
-				glm::vec3 bodyContactNormal;
-				bodyContactNormal.x = contactNormal.x;
-				bodyContactNormal.y = contactNormal.y;
-				bodyContactNormal.z = contactNormal.z;
+				// Converting contact normal vector to glm
+				glm::vec3 bodyContactNormal = body1Ptr->Convertrp3dVector3ToGlm(contactNormal);
 
+				// Contact point on each body involved in the collision
 				rp3d::Vector3 body1Contact = contactPair.getCollider1()->getLocalToWorldTransform() * contactPoint.getLocalPointOnCollider1();
 				rp3d::Vector3 body2Contact = contactPair.getCollider1()->getLocalToWorldTransform() * contactPoint.getLocalPointOnCollider2();
 				
-				// Resolve penetration between the two colliding bodies
-				if (!body1Ptr->isKinematic)
-				{
-					body1Ptr->SetPosition(body1Ptr->GetPosition() + ((-(penetration / 2)) * bodyContactNormal));
-				}
-				if (!body2Ptr->isKinematic)
-				{
-					body2Ptr->SetPosition(body2Ptr->GetPosition() - ((-(penetration / 2)) * bodyContactNormal));
-				}
+				ResolvePenetrations(penetration, body1Ptr, body2Ptr, bodyContactNormal);
 
 				// Converting from rp3d::Vector3 to glm
-				glm::vec3 body1ContactPoint;
-				body1ContactPoint.x = body1Contact.x;
-				body1ContactPoint.y = body1Contact.y;
-				body1ContactPoint.z = body1Contact.z;
-				glm::vec3 body2ContactPoint;
-				body2ContactPoint.x = body2Contact.x;
-				body2ContactPoint.y = body2Contact.y;
-				body2ContactPoint.z = body2Contact.z;
+				glm::vec3 body1ContactPoint = body1Ptr->Convertrp3dVector3ToGlm(body1Contact);
+				glm::vec3 body2ContactPoint = body1Ptr->Convertrp3dVector3ToGlm(body2Contact);
 
-				// Value for the ration of initial and final speed for the colliding bodies
+				// Value for the ratio of initial and final speed for the colliding bodies
 				float coefficecientOfRestitution = 0.6f;
 
 				// Linear and angular velocity of each body, before collision
@@ -234,15 +233,21 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 				glm::vec3 linearVelocity2 = body2Ptr->GetVelocity();
 				glm::vec3 angularVelocity2 = body2Ptr->GetAngularVelocity();
 
+				// Distance from contact point to centre of mass. In this case, the mass is evenly distributed, 
+				// so it is simply at the centre of the physics body
 				glm::vec3 r1 = body1ContactPoint - (body1Ptr->GetPosition());
 				glm::vec3 r2 = body2ContactPoint - (body2Ptr->GetPosition());
 
+				// -(1 + coefficient of restitution), at the beginning of the frictionless impulse equation 
 				float restitution = -(1.0f + coefficecientOfRestitution);
 
+				// (V1 - V2), velocity of bodies before collision
 				glm::vec3 relativeVelocity = linearVelocity1 - linearVelocity2;
 
+				// (1/m1 + 1/m2), addition of inverse mass of body1 and body2
 				float combinedInverseMass = body1Ptr->GetInverseMass() + body2Ptr->GetInverseMass();
-
+				
+				// (r1 x n) and (r2 x n)
 				glm::vec3 r1CrossNormal = glm::cross(r1, bodyContactNormal);
 				glm::vec3 r2CrossNormal = glm::cross(r2, bodyContactNormal);
 

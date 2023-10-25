@@ -39,7 +39,7 @@ function keyInput(dt)
 		ball.physicsBody:SetMass(0.1);
 		ball.physicsBody:SetGravity(false);
 
-		ball.physicsBody:SetVelocity(ball.position + vec3:new(-0.5,0,0));
+		ball.physicsBody:SetVelocity(ball.position + vec3:new(-1,0,0));
 		scene:AddObject(ball);
 		numThings = numThings + 1;
 		--print(nName);

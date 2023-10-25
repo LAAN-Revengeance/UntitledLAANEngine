@@ -184,9 +184,9 @@ void PhysicsBody::CalculateInertiaTensor()
 
 			glm::vec3 boxScale = box->GetScale();
 
-			inertia[0][0] = (1.0f / 12.0f) * mass * (boxScale.y * boxScale.y + boxScale.x * boxScale.x);
-			inertia[1][1] = (1.0f / 12.0f) * mass * (boxScale.z * boxScale.z + boxScale.x * boxScale.x);
-			inertia[2][2] = (1.0f / 12.0f) * mass * (boxScale.z * boxScale.z + boxScale.y * boxScale.y);
+			inertia[0][0] = (1.0f / 3.0f) * mass * (boxScale.y * boxScale.y + boxScale.x * boxScale.x);
+			inertia[1][1] = (1.0f / 3.0f) * mass * (boxScale.z * boxScale.z + boxScale.x * boxScale.x);
+			inertia[2][2] = (1.0f / 3.0f) * mass * (boxScale.z * boxScale.z + boxScale.y * boxScale.y);
 
 			inertiaTensor = inertia;
 			inverseInertiaTensor = glm::inverse(inertia);
@@ -208,4 +208,14 @@ void PhysicsBody::CalculateInertiaTensor()
 		}
 	}
 
+}
+
+glm::vec3 PhysicsBody::Convertrp3dVector3ToGlm(rp3d::Vector3 vec)
+{
+	glm::vec3 temp;
+	temp.x = vec.x;
+	temp.y = vec.y;
+	temp.z = vec.z;
+
+	return temp;
 }

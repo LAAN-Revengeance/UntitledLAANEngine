@@ -421,8 +421,7 @@ void SceneEditor::DrawInspector()
 		if (ImGui::RadioButton("Cast Shadows", inspectedObject->isCastShadow))
 		{
 			inspectedObject->isCastShadow = !inspectedObject->isCastShadow;
-		}
-			
+		}			
 	
 		selectedShader = "";
 		if (inspectedObject->shader)
@@ -523,7 +522,6 @@ void SceneEditor::DrawInspector()
 		}
 		ImGui::DragFloat("Shine##materialShine", &inspectedObject->material.shine);
 
-
 		//PHYSICS SETTINGS
 		if (inspectedObject->physicsBody)
 			ImGui::Text((std::string("PhysicsBody Position: ") + std::to_string(inspectedObject->physicsBody->GetPosition().x) + " | " + std::to_string(inspectedObject->physicsBody->GetPosition().y) + " | " + std::to_string(inspectedObject->physicsBody->GetPosition().z)).c_str());
@@ -559,7 +557,6 @@ void SceneEditor::DrawInspector()
 				inspectedObject->physicsBody->SetMass(nMass);
 			}
 		}
-
 
 		//Box
 		if (ImGui::Button("Add Box Collider##box")){

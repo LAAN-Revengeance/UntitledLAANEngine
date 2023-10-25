@@ -166,7 +166,7 @@ function keyInput(dt)
 			ball.physicsBody:SetMass(0.1);
 			ball.physicsBody:SetGravity(false);
 
-			ball.physicsBody:SetVelocity(vec3:new(-1, 0, 0));
+			ball.physicsBody:SetVelocity(vec3:new(-4, 0, 0));
 
 			scene:AddObject(ball);
 			numThings = numThings + 1;

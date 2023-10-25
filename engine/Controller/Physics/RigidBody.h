@@ -145,6 +145,8 @@ public:
 
 	void UpdateBody();
 
+	glm::vec3 Convertrp3dVector3ToGlm(rp3d::Vector3 vec);
+
 	glm::quat orientation;
 
 	glm::vec3 position;
