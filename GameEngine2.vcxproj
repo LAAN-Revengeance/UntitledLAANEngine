@@ -162,9 +162,6 @@
     <ClCompile Include="engine\Controller\Lua\LuaFunction.h" />
     <ClCompile Include="engine\Controller\Lua\LuaGameBridge.cpp" />
     <ClCompile Include="engine\Controller\Lua\LuaManger.cpp" />
-    <ClCompile Include="engine\Controller\Physics\ForceGenerator\ForceRegister.cpp" />
-    <ClCompile Include="engine\Controller\Physics\ForceGenerator\ForceRegistry.cpp" />
-    <ClCompile Include="engine\Controller\Physics\ForceGenerator\GravityGenerator.cpp" />
     <ClCompile Include="engine\Controller\Physics\PhysicsIntegrator.cpp" />
     <ClCompile Include="engine\Controller\Physics\PhysicsManager.cpp" />
     <ClCompile Include="engine\Controller\Physics\RigidBody.cpp" />
@@ -230,9 +227,6 @@
     <ClInclude Include="Engine\Controller\md2Reader.h" />
     <ClInclude Include="Engine\Controller\Physics\Collider.h" />
     <ClInclude Include="engine\Controller\Physics\Collisionsolver.h" />
-    <ClInclude Include="engine\Controller\Physics\ForceGenerator\ForceGenerator.h" />
-    <ClInclude Include="engine\Controller\Physics\ForceGenerator\ForceRegister.h" />
-    <ClInclude Include="engine\Controller\Physics\ForceGenerator\GravityGenerator.h" />
     <ClInclude Include="engine\Controller\Physics\PhysicsIntegrator.h" />
     <ClInclude Include="engine\Controller\Physics\PhysicsManager.h" />
     <ClInclude Include="engine\Controller\Physics\RigidBody.h" />

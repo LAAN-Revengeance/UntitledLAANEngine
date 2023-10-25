@@ -5,8 +5,6 @@
 #include <Graphics/Graphics.h>
 #include <Mesh.h>
 #include "PhysicsIntegrator.h"
-#include "ForceGenerator/ForceRegister.h"
-#include "ForceGenerator/GravityGenerator.h"
 #include "Collisionsolver.h"
 
 class rp3dCollisionCallback : public rp3d::CollisionCallback {
