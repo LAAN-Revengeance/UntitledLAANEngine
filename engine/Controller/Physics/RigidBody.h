@@ -33,6 +33,8 @@ public:
 	*/
 	void ApplyForce(float x, float y, float z);
 
+	glm::vec3 GetForce();
+
 	/**
 	*	@brief Applies tourque to the body
 	*	@param x - tourque along x axis
@@ -41,6 +43,18 @@ public:
 	*	@return void
 	*/
 	void ApplyTorque(float x, float y, float z);
+
+	void ApplyLinearImpulse(glm::vec3 force)
+	{
+		linearVelocity += force * inverseMass;
+	}
+
+	void ApplyAngularImpulse(glm::vec3 force)
+	{
+		angularVelocity += inverseTensor * force;
+	}
+
+	glm::vec3 GetTorque();
 
 
 	/**
@@ -103,15 +117,45 @@ public:
 
 	float GetMass();
 
+	float GetInverseMass();
+
 	void DeleteCollider(unsigned int colliderIndex);
 
-	void SetVelocity(float x, float y, float z);
+	void SetLinearVelocity(float x, float y, float z);
 
-	void ClearAccumilator();
+	glm::vec3 GetLinearVelocity();
+
+	void SetAngularVelocity(float x, float y, float z);
+
+	glm::vec3 GetAngularVelocity();
+
+	void SetDamping(float newDamp) { damping = newDamp; }
+	float GetDamping() { return damping; }
+
+	glm::mat4 GetTransformMatrix()
+	{
+		glm::quat q = GetRotation();
+		glm::vec3 p = GetPosition();
+
+		glm::mat4 M = glm::translate(glm::mat4(1.0f), p) * glm::mat4_cast(q);
+
+		return M;
+	}
+
+	void ClearAccumulator();
 
 	void SetGravity(bool);
 
-		//if this object ignores external forces
+	void UpdateTensor();
+
+	glm::vec3 GetInverseTensor();
+
+	glm::vec3 GetInverseTensorWorld();
+
+	void SetCoRestitution(float e) { this->e = e; }
+	float GetCoRestitution() { return e; }
+
+	//if this object ignores external forces
 	bool isKinematic = false;
 
 	bool useGravity = true;
@@ -123,10 +167,24 @@ private:
 
 	std::vector<PhysicsCollider> colliders;
 
+	//physics vars
+	glm::vec3 linearVelocity;
+	glm::vec3 angularVelocity;
+
+	glm::vec3 force;
+	glm::vec3 torque;
+
+	float damping = 0.8f;
+
+	glm::vec3 inverseTensor;
+
+	float e = 0.6f;
+
 	//rp3d collision body, stores position and rotation in physics space.
 	//also stored rp3d collider objects
 	rp3d::CollisionBody* body = nullptr;
 
 	//mass of the rigidbody
+	float inverseMass = 1/1;
 	float mass = 1;
 };

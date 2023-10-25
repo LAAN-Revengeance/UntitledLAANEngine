@@ -235,7 +235,7 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 		"GetRotation", &PhysicsBody::GetRotation,
 		"SetPosition", &PhysicsBody::SetPosition,
 		"SetRotation", &PhysicsBody::SetRotation,
-		"SetVelocity", &PhysicsBody::SetVelocity,
+		"SetLinearVelocity", &PhysicsBody::SetLinearVelocity,
 		"SetMass", &PhysicsBody::SetMass,
 		"SetGravity", &PhysicsBody::SetGravity,
 		"GetID", &PhysicsBody::GetID

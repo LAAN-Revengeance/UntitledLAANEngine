@@ -1,0 +1,198 @@
+{
+	"Lighting" : 
+	{
+		"Ambient" : 
+		[
+			1.0,
+			1.0,
+			1.0
+		],
+		"DirectionLights" : 
+		[
+			{
+				"diffuse" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				],
+				"direction" : 
+				[
+					0.0,
+					1.0,
+					0.0
+				],
+				"specular" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				]
+			}
+		],
+		"PointLights" : null
+	},
+	"luaPath" : "",
+	"objects" : 
+	[
+		{
+			"castShadows" : true,
+			"diff" : "ro",
+			"isKinematic" : false,
+			"model" : "cube",
+			"name" : "new object",
+			"physics" : 
+			[
+				{
+					"mass" : 1.0,
+					"offset" : 
+					[
+						0.0,
+						0.0,
+						0.0
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.0,
+						1.0,
+						1.0
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				0.0,
+				2.3551130294799805,
+				-1.1200923919677734
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale" : 
+			[
+				1.0,
+				1.0,
+				1.0
+			],
+			"shader" : "default",
+			"type" : "base",
+			"useGravity" : true
+		},
+		{
+			"castShadows" : true,
+			"diff" : "ro",
+			"isKinematic" : false,
+			"model" : "cube",
+			"name" : "new object1",
+			"physics" : 
+			[
+				{
+					"mass" : 1.0,
+					"offset" : 
+					[
+						0.0,
+						0.0,
+						0.0
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.0,
+						1.0,
+						1.0
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale" : 
+			[
+				1.0,
+				1.0,
+				1.0
+			],
+			"shader" : "default",
+			"type" : "base",
+			"useGravity" : false
+		}
+	],
+	"resources" : 
+	{
+		"cubemaps" : null,
+		"models" : 
+		[
+			{
+				"name" : "cube",
+				"path" : "resources\\models\\Cube.obj",
+				"type" : "mesh"
+			}
+		],
+		"shaders" : 
+		[
+			{
+				"frag" : "resources/shaders/Water.frag",
+				"geom" : "",
+				"name" : "Water",
+				"vert" : "resources/shaders/Water.vert"
+			},
+			{
+				"frag" : "resources/shaders/Default.frag",
+				"geom" : "",
+				"name" : "default",
+				"vert" : "resources/shaders/Default.vert"
+			},
+			{
+				"frag" : "resources/shaders/Physics_Debug/Physics.frag",
+				"geom" : "",
+				"name" : "physics",
+				"vert" : "resources/shaders/Physics_Debug/Physics.vert"
+			},
+			{
+				"frag" : "resources/shaders/terrain/Terrain.frag",
+				"geom" : "",
+				"name" : "terrain",
+				"vert" : "resources/shaders/Default.vert"
+			}
+		],
+		"textures" : 
+		[
+			{
+				"name" : "default",
+				"path" : "resources/textures/default.png"
+			},
+			{
+				"name" : "ro",
+				"path" : "resources\\textures\\terrain\\rock.png"
+			}
+		]
+	},
+	"windowName" : "editor"
+}

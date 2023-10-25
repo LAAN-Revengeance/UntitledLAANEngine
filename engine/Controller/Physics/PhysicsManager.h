@@ -38,6 +38,11 @@ public:
 		*/
 	void Update(double deltaTime);
 
+	void IntegrateAcceleration(int id);
+	void IntegrateVelocity(int id);
+
+	void ResolveCollision(int id1, int id2, float penDepth, glm::vec3 contactNormal, glm::vec3 contact1, glm::vec3 contact2);
+
 		/**
 		*	@brief adds physics body to physics world, assign it to a game objects
 		*	@param go - game object to add a physicsbody to
@@ -77,6 +82,9 @@ public:
 		*/
 	PhysicsBody& GetPhysicsBody(unsigned int id);
 
+	void SetGravity(float newGravity) { gravity = newGravity; }
+	float GetGravity() { return gravity; }
+
 		/**
 		*	@brief Draw debug rendering of the physics world to currently bound draw buffer
 		*	@param camera - camera data used to render the physics debug data
@@ -96,6 +104,14 @@ private:
 	rp3d::PhysicsCommon rp3dPhysicsCommon;
 	rp3d::PhysicsWorld* rp3dWorld;
 	rp3dCollisionCallback mCallback;
+
+	//time vars
+	float timeStep = 1 / 50;
+	float elapsedTime = 0;
+	float dt = 0;
+
+	//Gravity
+	float gravity = (-9.81) * 1;
 
 	//debug rendering
 	Mesh* debugMesh = nullptr;
