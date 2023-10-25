@@ -1,7 +1,8 @@
 #include "GameObject.h"
 
 
-GameObject::GameObject(){}
+GameObject::GameObject(){
+}
 
 GameObject::~GameObject() {}
 
@@ -26,11 +27,39 @@ void GameObject::SetPosition(glm::vec3 nPos)
 	position = nPos;
 }
 
-void GameObject::SetRotation(glm::vec3 nRot)
+void GameObject::SetRotationEuler(float x, float y, float z)
 {
-	if (physicsBody)
-	physicsBody->SetRotation(nRot.x, nRot.y, nRot.z);
-	rotation = nRot;
+	if (!physicsBody)
+		return;
+
+	physicsBody->SetRotationEuler(x,y,z);
+
+	glm::mat4 modelMat(1.0f);
+	modelMat = glm::rotate(modelMat, (z), glm::vec3(0.0f, 0.0f, 1.0f));
+	modelMat = glm::rotate(modelMat, (y), glm::vec3(0.0f, 1.0f, 0.0f));
+	modelMat = glm::rotate(modelMat, (x), glm::vec3(1.0f, 0.0f, 0.0f));
+
+	SetRotation(glm::quat(modelMat));
+}
+
+void GameObject::Rotate(float x, float y, float z, float angle)
+{
+	glm::mat4 rotationMat = glm::mat4_cast(orientation);
+	rotationMat = glm::rotate(rotationMat, glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
+	rotationMat = glm::rotate(rotationMat, glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
+	rotationMat = glm::rotate(rotationMat, glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
+
+	SetRotation(glm::quat(rotationMat));
+}
+
+
+void GameObject::SetRotation(glm::quat nRot)
+{
+	orientation = glm::normalize(nRot);
+	if (!physicsBody)
+		return;
+	physicsBody->SetRotation(nRot);
+	
 }
 
 void GameObject::SetScale(glm::vec3 nScale)
@@ -52,33 +81,6 @@ void GameObject::Update(double dt)
 }
 
 
-glm::vec3 GameObject::GetUpVec()
-{
-	glm::mat4 rotationMatrix(1.0f);
-	rotationMatrix = glm::rotate(rotationMatrix, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-	rotationMatrix = glm::rotate(rotationMatrix, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-	rotationMatrix = glm::rotate(rotationMatrix, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-	return glm::normalize(glm::vec3(rotationMatrix[0][1], rotationMatrix[1][1], rotationMatrix[2][1]));
-}
-
-glm::vec3 GameObject::GetForwardVec()
-{
-	glm::mat4 rotationMatrix(1.0f);
-	rotationMatrix = glm::rotate(rotationMatrix, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-	rotationMatrix = glm::rotate(rotationMatrix, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-	rotationMatrix = glm::rotate(rotationMatrix, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-	return glm::normalize(glm::vec3(rotationMatrix[0][2], rotationMatrix[1][2], rotationMatrix[2][2]));
-}
-
-glm::vec3 GameObject::GetRightVec()
-{
-	glm::mat4 rotationMatrix(1.0f);
-	rotationMatrix = glm::rotate(rotationMatrix, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-	rotationMatrix = glm::rotate(rotationMatrix, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-	rotationMatrix = glm::rotate(rotationMatrix, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-	return glm::normalize(glm::vec3(rotationMatrix[0][0], rotationMatrix[1][0], rotationMatrix[2][0]));
-}
-
 void GameObject::LookAt(glm::vec3 lookvec)
 {
 	glm::vec3 dir = position - lookvec;
@@ -93,16 +95,19 @@ void GameObject::LookAt(glm::vec3 lookvec)
 	SetRotation(newRot);
 }
 
+glm::vec3 GameObject::GetRotationEuler()
+{
+	return (glm::eulerAngles(orientation));
+}
+
 glm::mat4 GameObject::GetTransformMatrix()
 {
 	glm::mat4 modelMat(1.0f);
 	//modelMat = glm::scale(modelMat, scale);
 	modelMat = glm::translate(modelMat, position);
 
-	//pitch roll and yaw rotationss
-	modelMat = glm::rotate(modelMat, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-	modelMat = glm::rotate(modelMat, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-	modelMat = glm::rotate(modelMat, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+	glm::mat4 rotationMat = glm::mat4_cast(orientation);
+	modelMat *= rotationMat;
 
 	return modelMat;
 }

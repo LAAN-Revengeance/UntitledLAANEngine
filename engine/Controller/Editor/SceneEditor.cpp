@@ -22,8 +22,8 @@ void SceneEditor::Update(double deltaTime)
 
 void SceneEditor::Draw(double deltaTime)
 {
-	if (engine->isRunning)
-		return;
+	//if (engine->isRunning)
+	//	return;
 
 	if (isPhysicDebug)
 		engine->scene->physicsWorld.DrawPhysicsWorld(*camera);
@@ -383,16 +383,16 @@ void SceneEditor::DrawInspector()
 			inspectedObject->SetPosition({ tmpPosX, tmpPosY, tmpPosZ });
 		}
 		
-		float tmpRotX = inspectedObject->rotation.x;
-		float tmpRotY = inspectedObject->rotation.y;
-		float tmpRotZ = inspectedObject->rotation.z;
+		float tmpRots[3];
+		tmpRots[0] = glm::degrees(inspectedObject->GetRotationEuler().x);
+		tmpRots[1] = glm::degrees(inspectedObject->GetRotationEuler().y);
+		tmpRots[2] = glm::degrees(inspectedObject->GetRotationEuler().z);
 		ImGui::Text("Rotation:");
-		ImGui::DragFloat("x rotation", &tmpRotX, 0.1f);
-		ImGui::DragFloat("y rotation", &tmpRotY, 0.1f);
-		ImGui::DragFloat("z rotation", &tmpRotZ, 0.1f);
-
-		if (tmpRotX != inspectedObject->rotation.x || tmpRotY != inspectedObject->rotation.y || tmpRotZ != inspectedObject->rotation.z) {
-			inspectedObject->SetRotation({ tmpRotX, tmpRotY, tmpRotZ });
+		ImGui::DragFloat3("##rot", tmpRots);
+		
+		glm::quat nOrientation = inspectedObject->orientation;
+		if (ImGui::gizmo3D("##gizmo2", nOrientation)) {
+			inspectedObject->SetRotation(nOrientation);
 		}
 
 		float tmpSclX = inspectedObject->scale.x;
@@ -519,18 +519,71 @@ void SceneEditor::DrawInspector()
 
 
 		//PHYSICS SETTINGS
+		if (inspectedObject->physicsBody)
+			ImGui::Text((std::string("PhysicsBody Position: ") + std::to_string(inspectedObject->physicsBody->GetPosition().x) + " | " + std::to_string(inspectedObject->physicsBody->GetPosition().y) + " | " + std::to_string(inspectedObject->physicsBody->GetPosition().z)).c_str());
+		if (inspectedObject->physicsBody)
+			ImGui::Text((std::string("PhysicsBody Velocity: ") + std::to_string(inspectedObject->physicsBody->velocity.x) + " | " + std::to_string(inspectedObject->physicsBody->velocity.y) + " | " + std::to_string(inspectedObject->physicsBody->velocity.z)).c_str());
+		
+		if (inspectedObject->physicsBody)
+			ImGui::Text((std::string("PhysicsBody Angular: ") + std::to_string(inspectedObject->physicsBody->angularVelocity.x) + " | " + std::to_string(inspectedObject->physicsBody->angularVelocity.y) + " | " + std::to_string(inspectedObject->physicsBody->angularVelocity.z)).c_str());
+		if (inspectedObject->physicsBody)
+			ImGui::Text((std::string("Total Mass: ") + std::to_string(inspectedObject->physicsBody->GetMass())).c_str());
+		if (inspectedObject->physicsBody)
+			ImGui::Text((std::string("Inverse Mass: ") + std::to_string(inspectedObject->physicsBody->GetInverseMass())).c_str());
+		if (inspectedObject->physicsBody)
+			ImGui::Text((std::string("ID: ") + std::to_string(inspectedObject->physicsBody->GetID())).c_str());
 		ImGui::SeparatorText("Physics");
+
 		if(inspectedObject->physicsBody)
 		if (ImGui::RadioButton("Is Kinematic", inspectedObject->physicsBody->isKinematic))
 		{
 			inspectedObject->physicsBody->isKinematic = !inspectedObject->physicsBody->isKinematic;
 		}
 
+		if (inspectedObject->physicsBody)
+		if (ImGui::RadioButton("Use Gravity", inspectedObject->physicsBody->useGravity))
+		{
+			inspectedObject->physicsBody->useGravity = !inspectedObject->physicsBody->useGravity;
+		}
+		
+		if (inspectedObject->physicsBody) {
+			if (ImGui::Button("Set Mass Infinite"))
+			{
+					inspectedObject->physicsBody->SetMassInf();
+			}
+		}
+
+		if (inspectedObject->physicsBody) {
+			float nMass = inspectedObject->physicsBody->GetMass();
+			if (ImGui::DragFloat("Mass##setmass", &nMass, 0.01f, 0.0f)) {
+				inspectedObject->physicsBody->SetMass(nMass);
+			}
+
+			float nBounce = inspectedObject->physicsBody->GetBounce();
+			if (ImGui::DragFloat("Bounce##setbounce", &nBounce, 0.01f, 0.0f, 1.0f)) {
+				inspectedObject->physicsBody->SetBounce(nBounce);
+			}
+
+			float nlDamp = inspectedObject->physicsBody->GetLinearDampening();
+			if (ImGui::DragFloat("LinearDampening##setLinDamp", &nlDamp, 0.01f, 0.0f, 1.0f)) {
+				inspectedObject->physicsBody->SetLinearDampening(nlDamp);
+			}
+
+			float naDamp = inspectedObject->physicsBody->GetAngularDampening();
+			if (ImGui::DragFloat("AngularDampening##setLinDamp", &naDamp, 0.01f, 0.0f, 1.0f)) {
+				inspectedObject->physicsBody->SetAngularDampening(naDamp);
+			}
+
+
+		}
+
+
 		//Box
 		if (ImGui::Button("Add Box Collider##box")){
 			if (!inspectedObject->physicsBody)
 				inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
 			engine->scene->physicsWorld.AddBoxCollider(*inspectedObject->physicsBody, {1.0f,1.0f,1.0f});
+			inspectedObject->physicsBody->CalcCenterOfMass();
 		}
 
 		//Sphere
@@ -538,6 +591,7 @@ void SceneEditor::DrawInspector()
 			if (!inspectedObject->physicsBody)
 				inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
 			engine->scene->physicsWorld.AddSphereCollider(*inspectedObject->physicsBody, 1.0f);
+			inspectedObject->physicsBody->CalcCenterOfMass();
 		}
 
 		//Capsule
@@ -545,6 +599,7 @@ void SceneEditor::DrawInspector()
 			if (!inspectedObject->physicsBody)
 				inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
 			engine->scene->physicsWorld.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f,2.0f);
+			inspectedObject->physicsBody->CalcCenterOfMass();
 		}
 
 		static const char* colliderNames[4] = {"Box Collider","Sphere Collider", "Capsule Collider", "Terrain Collider"};
@@ -561,18 +616,21 @@ void SceneEditor::DrawInspector()
 					if (ImGui::DragFloat3((std::string("position") + nodeName).c_str(), &nOffset.x, 0.01f))
 					{
 						it.SetOffset(nOffset);
+						pb->CalcCenterOfMass();
 					}
 
 					glm::vec3 nRotation = it.GetRotation();
 					if (ImGui::DragFloat3((std::string("rotation") + nodeName).c_str(), &nRotation.x, 0.01f))
 					{
 						it.SetRotation(nRotation);
+						pb->CalcCenterOfMass();
 					}
 
 					float nMass = it.GetMass();
 					if (ImGui::DragFloat((std::string("Mass") + nodeName).c_str(), &nMass, 0.01f))
 					{
 						it.SetMass(nMass);
+						pb->CalcCenterOfMass();
 					}
 					
 					if (it.GetType() == COLLIDER_BOX) {
@@ -613,6 +671,7 @@ void SceneEditor::DrawInspector()
 					if (ImGui::Button((std::string("Delete") + nodeName).c_str()))
 					{
 						pb->DeleteCollider(i);
+						inspectedObject->physicsBody->CalcCenterOfMass();
 					}
 					ImGui::TreePop();
 				}
@@ -1126,6 +1185,11 @@ void SceneEditor::DrawDebug(bool* showDebug)
 		isPhysicDebug = !isPhysicDebug;
 	}
 
+	if (ImGui::Button("Toggle Transform Widget"))
+	{
+		isShowWidget = !isShowWidget;
+	}
+
 	ImGui::End();
 
 }
@@ -1191,6 +1255,7 @@ void SceneEditor::Draw3DWidget()
 
 	ImGui::Begin("transformWidget", nullptr, flags);
 	
+	if(isShowWidget)
 	if (inspectedObject) {
 		ImGuizmo::SetOrthographic(false);
 		ImGuizmo::SetDrawlist();
@@ -1200,9 +1265,11 @@ void SceneEditor::Draw3DWidget()
 
 		if(camera)
 		if (ImGuizmo::Manipulate(glm::value_ptr(camera->GetView()), glm::value_ptr(camera->GetProjection()),
-			ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::MODE::LOCAL, glm::value_ptr(inspectTrans))) {
+			ImGuizmo::OPERATION::TRANSLATE | ImGuizmo::OPERATION::ROTATE, ImGuizmo::MODE::LOCAL, glm::value_ptr(inspectTrans))) {
 			glm::vec3 position = glm::vec3(inspectTrans[3]);
+			glm::quat rotation = glm::quat(inspectTrans);
 			inspectedObject->SetPosition(position);
+			inspectedObject->SetRotation(inspectTrans);
 		}
 	
 	}
@@ -1237,7 +1304,7 @@ void SceneEditor::CameraControl(double deltaTime)
 	input.SetMouseLock(true);
 	
 
-	float baseSpeed = 0.2;
+	float baseSpeed = 0.05;
 	float camSpeed = baseSpeed;
 	if (input.GetKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
 		camSpeed *= 10;

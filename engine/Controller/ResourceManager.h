@@ -26,6 +26,8 @@ public:
 		*/
 	static ResourceManager& Get();
 
+
+	Material CreateMaterial(std::string diff, std::string spec, std::string emiss);
 		/**
 		*	@brief Abstract factory method for creating game objects
 		*	@param objectName name of created game object
@@ -33,7 +35,7 @@ public:
 		*	@param shaderName name key for shader data, use "" to use default shader
 		*	@return a game object created using the selected parameters
 		*/
-	GameObject& CreateGameObject(std::string objectName, std::string modelName, std::string shaderName);
+	GameObject& CreateGameObject(std::string objectName, std::string modelName, std::string shaderName, Material material = Material());
 
 		/**
 		*	@brief Abstract factory method for creating terrain game objects

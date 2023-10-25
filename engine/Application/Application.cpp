@@ -5,7 +5,6 @@ Application::Application() :
 	game(&window, &eventDispatcher),
 	editor(&game)
 {
-	
 }
 
 Application::~Application()

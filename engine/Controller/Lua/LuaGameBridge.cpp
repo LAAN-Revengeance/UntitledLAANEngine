@@ -77,16 +77,13 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 		sol::constructors<GameObject()>(),
 		"name", &GameObject::name,
 		"position", &GameObject::position,
-		"rotation", &GameObject::rotation,
 		"scale", &GameObject::scale,
 		"SetPosition", &GameObject::SetPosition,
 		"SetRotation", &GameObject::SetRotation,
 		"GetDrawItem", &GameObject::GetDrawItem,
 		"LookAt", &GameObject::LookAt,
-		"GetForwardVec", &GameObject::GetForwardVec,
-		"GetRightVec", &GameObject::GetRightVec,
-		"GetUpVec", &GameObject::GetUpVec,
-		"GetID", &GameObject::GetID
+		"GetID", &GameObject::GetID,
+		"physicsBody", &GameObject::physicsBody
 	);
 
 	//expose terrain
@@ -116,6 +113,7 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 		"LoadAnimatedModel", &ResourceManager::LoadAnimatedModel,
 		"LoadShader", &ResourceManager::LoadShader,
 		"LoadCubemap", &ResourceManager::LoadCubemap,
+		"CreateMaterial", &ResourceManager::CreateMaterial,
 
 		"GetCubeMap", &ResourceManager::GetCubeMap,
 		"GetGameObject", &ResourceManager::GetGameObject,
@@ -221,22 +219,26 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 	//expose physics
 	luaManager->Expose_CPPClass<PhysicsManager>("PhysicsManager",
 		sol::no_constructor,
-		"AddPhysicsBody", &PhysicsManager::CreatePhysicsBody,
+		"CreatePhysicsBody", &PhysicsManager::CreatePhysicsBody,
 		"AddSphereCollider", &PhysicsManager::AddSphereCollider,
 		"AddBoxCollider", &PhysicsManager::AddBoxCollider,
 		"AddCapsuleCollider", &PhysicsManager::AddCapsuleCollider,
 		"GetPhysicsBody", &PhysicsManager::GetPhysicsBody
 	);
-	//luaState["physics"] = &PhysicsManager::Get();
+	
 
 	luaManager->Expose_CPPClass<PhysicsBody>("PhysicsBody",
 		sol::no_constructor,
 		"ApplyForce", &PhysicsBody::ApplyForce,
+		"ApplyForceImpulse", &PhysicsBody::ApplyForceImpulse,
 		"ApplyTorque", &PhysicsBody::ApplyTorque,
 		"GetPosition", &PhysicsBody::GetPosition,
 		"GetRotation", &PhysicsBody::GetRotation,
 		"SetPosition", &PhysicsBody::SetPosition,
 		"SetRotation", &PhysicsBody::SetRotation,
+		"SetVelocity", &PhysicsBody::SetVelocity,
+		"SetMass", &PhysicsBody::SetMass,
+		"SetGravity", &PhysicsBody::SetGravity,
 		"GetID", &PhysicsBody::GetID
 	);
 
@@ -281,6 +283,9 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 
 	luaManager->Expose_CPPReference("scene", *engine->scene);
 	luaManager->Expose_CPPReference("GUI", engine->guiRenderer);
+	luaManager->Expose_CPPReference("physics", engine->scene->physicsWorld);
+
+
 
 	engine->scene->luaState.LoadScript(luaPath);
 	engine->scene->UpdateFunction = luaManager->GetFunction<void, double>("update");
