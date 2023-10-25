@@ -147,9 +147,11 @@ public:
 
 	glm::vec3 Convertrp3dVector3ToGlm(rp3d::Vector3 vec);
 
-	glm::quat orientation;
+	void CalculateDamping(float deltaTime);
 
-	glm::vec3 position;
+	float GetDamping();
+
+	float dampingFactor = 0.05;
 private:
 	unsigned int ID = -1;
 
@@ -162,7 +164,13 @@ private:
 	//mass of the rigidbody
 	float mass = 1;
 
+	float damping;
+
 	glm::vec3 velocity;
+
+	glm::quat orientation;
+
+	glm::vec3 position;
 
 	glm::vec3 angularVelocity;
 

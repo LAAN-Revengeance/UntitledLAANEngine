@@ -30,18 +30,15 @@ void PhysicsManager::Update(float deltaTime)
 		if (physicsBody.second.useGravity)
 		{
 			physicsBody.second.SetVelocity(physicsBody.second.GetVelocity() + (deltaTime * physicsBody.second.gravity));
-		}
-		
-		// NOT ACTUALLY HOW FRICTION/DAMPENING/WHATEVER WORKS, DONT TRUST THIS, JUST TRYING STUFF OUT
-		glm::vec3 friction = { 0.99, 0.99, 0.99 }; 
-		
-		// TO DO: Move to somewhere else? Might not need to be calculated each frame, but will need to be calculated for a new physics body
-		physicsBody.second.CalculateInertiaTensor();
-		
-		// Just testing changes, should make bodies come to 'rest' by reducing their current linear and angular velocities over time
+		}	
+
+		physicsBody.second.CalculateDamping(deltaTime);
+		physicsBody.second.CalculateInertiaTensor();	
+		// Uncomment these lines for a scuffed method of making bodies slow down and eventually stop
+		//glm::vec3 friction = { 0.99, 0.99, 0.99 };
 		//physicsBody.second.SetVelocity(physicsBody.second.GetVelocity() * friction);
 		//physicsBody.second.SetAngularVelocity(physicsBody.second.GetAngularVelocity() * friction);
-		
+
 		// Actual physics updates for velocity and rotation
 		physicsBody.second.SetPosition(physicsBody.second.GetPosition() + physicsBody.second.GetVelocity() * deltaTime);
 		physicsBody.second.SetOrientation(glm::normalize(physicsBody.second.GetOrientation() + ((0.5f * glm::quat(0.0, physicsBody.second.GetAngularVelocity()) * physicsBody.second.GetOrientation()) * deltaTime)));
@@ -174,6 +171,7 @@ void ResolvePenetrations(float penetration, PhysicsBody* body1Ptr, PhysicsBody* 
 {
 	// Resolve penetration between the two colliding bodies
 	// Only occurs if the body is not kinematic, to prevent bodies that shouldn't be moving from still moving due to penetration
+	//TO DO: Causing an issue with straight on collisions, penetration pushes bodies away from each other causing flat items to not push each other properly
 	if (!body1Ptr->isKinematic)
 	{
 		body1Ptr->SetPosition(body1Ptr->GetPosition() + ((-(penetration / 2)) * bodyContactNormal));
@@ -185,11 +183,11 @@ void ResolvePenetrations(float penetration, PhysicsBody* body1Ptr, PhysicsBody* 
 }
 
 void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
-{		
+{			
 	for (int i = 0; i < callbackData.getNbContactPairs(); i++)
 	{
 		const auto& contactPair  = callbackData.getContactPair(i);
-		
+
 		// Id of each physics body involved in the collision
 		unsigned int id1 = contactPair.getBody1()->getEntity().id;
 		unsigned int id2 = contactPair.getBody2()->getEntity().id;
@@ -247,8 +245,8 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 
 				// (1/m1 + 1/m2), addition of inverse mass of body1 and body2
 				float combinedInverseMass = body1Ptr->GetInverseMass() + body2Ptr->GetInverseMass();
-				
-				// (r1 x n) and (r2 x n)
+				 
+				// (r1 x n) and (r2 x n) cross product
 				glm::vec3 r1CrossNormal = glm::cross(r1, bodyContactNormal);
 				glm::vec3 r2CrossNormal = glm::cross(r2, bodyContactNormal);
 
@@ -266,14 +264,18 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 				if (!body1Ptr->isKinematic)
 				{
 					linearVelocity1 += collisionImpulse / body1Ptr->GetMass();
-					angularVelocity1 += (lambda * body1Ptr->GetInverseInertiaTensor() * r1CrossNormal);
+					linearVelocity1 = linearVelocity1 * body1Ptr->GetDamping();
+					angularVelocity1 += (lambda * body1Ptr->GetInverseInertiaTensor() * r1CrossNormal); // w = w + lambda*inverse intertia tensor * (r1 x n) cross product
+					angularVelocity1 = angularVelocity1 * body1Ptr->GetDamping();
 					body1Ptr->SetVelocity(linearVelocity1);
 					body1Ptr->SetAngularVelocity(angularVelocity1);
 				}
 				if (!body2Ptr->isKinematic)
 				{
 					linearVelocity2 -= collisionImpulse / body2Ptr->GetMass();
+					linearVelocity2 = linearVelocity2 * body2Ptr->GetDamping();
 					angularVelocity2 -= (lambda * body2Ptr->GetInverseInertiaTensor() * r2CrossNormal);
+					angularVelocity2 = angularVelocity2 * body2Ptr->GetDamping();
 					body2Ptr->SetVelocity(linearVelocity2);
 					body2Ptr->SetAngularVelocity(angularVelocity2);
 				}
