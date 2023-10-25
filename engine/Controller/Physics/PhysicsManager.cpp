@@ -35,7 +35,7 @@ void PhysicsManager::Update(float deltaTime)
 		// NOT ACTUALLY HOW FRICTION/DAMPENING/WHATEVER WORKS, DONT TRUST THIS, JUST TRYING STUFF OUT
 		glm::vec3 friction = { 0.99, 0.99, 0.99 }; 
 		
-		// ToDo: Move to somewhere else? Might not need to be calculated each frame, but will need to be calculated for a new physics body
+		// TO DO: Move to somewhere else? Might not need to be calculated each frame, but will need to be calculated for a new physics body
 		physicsBody.second.CalculateInertiaTensor();
 		
 		// Just testing changes, should make bodies come to 'rest' by reducing their current linear and angular velocities over time
@@ -173,6 +173,7 @@ void PhysicsManager::ResetPhysicsWorld()
 void ResolvePenetrations(float penetration, PhysicsBody* body1Ptr, PhysicsBody* body2Ptr, glm::vec3 bodyContactNormal)
 {
 	// Resolve penetration between the two colliding bodies
+	// Only occurs if the body is not kinematic, to prevent bodies that shouldn't be moving from still moving due to penetration
 	if (!body1Ptr->isKinematic)
 	{
 		body1Ptr->SetPosition(body1Ptr->GetPosition() + ((-(penetration / 2)) * bodyContactNormal));
@@ -203,7 +204,7 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 				// Penetration depth between the two colliding bodies
 				float penetration = contactPoint.getPenetrationDepth();
 				
-				// Contact normal vector
+				// Contact normal vector at the point of contact
 				rp3d::Vector3 contactNormal = contactPair.getContactPoint(x).getWorldNormal();
 				
 				// Pointer to physics bodies involved in the collision
@@ -215,7 +216,7 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 
 				// Contact point on each body involved in the collision
 				rp3d::Vector3 body1Contact = contactPair.getCollider1()->getLocalToWorldTransform() * contactPoint.getLocalPointOnCollider1();
-				rp3d::Vector3 body2Contact = contactPair.getCollider1()->getLocalToWorldTransform() * contactPoint.getLocalPointOnCollider2();
+				rp3d::Vector3 body2Contact = contactPair.getCollider2()->getLocalToWorldTransform() * contactPoint.getLocalPointOnCollider2();
 				
 				ResolvePenetrations(penetration, body1Ptr, body2Ptr, bodyContactNormal);
 

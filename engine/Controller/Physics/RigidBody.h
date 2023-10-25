@@ -131,7 +131,7 @@ public:
 
 	glm::mat3 GetInverseInertiaTensor();
 
-	void SetIntertiaTensor(glm::mat3 tensor);
+	void SetInertiaTensor(glm::mat3 tensor);
 
 	void CalculateInertiaTensor();
 

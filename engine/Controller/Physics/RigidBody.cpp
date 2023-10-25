@@ -135,7 +135,7 @@ glm::mat3 PhysicsBody::GetInverseInertiaTensor()
 	return inverseInertiaTensor;
 }
 
-void PhysicsBody::SetIntertiaTensor(glm::mat3 tensor)
+void PhysicsBody::SetInertiaTensor(glm::mat3 tensor)
 {
 	inertiaTensor = tensor;
 }
@@ -178,22 +178,22 @@ void PhysicsBody::CalculateInertiaTensor()
 	{
 		if (collider.type == COLLIDER_BOX)
 		{
-			glm::mat3 inertia{};
+			glm::mat3 inertia(0.0f);
 			
 			BoxCollider* box = static_cast<BoxCollider*>(&collider);
 
 			glm::vec3 boxScale = box->GetScale();
 
-			inertia[0][0] = (1.0f / 3.0f) * mass * (boxScale.y * boxScale.y + boxScale.x * boxScale.x);
-			inertia[1][1] = (1.0f / 3.0f) * mass * (boxScale.z * boxScale.z + boxScale.x * boxScale.x);
-			inertia[2][2] = (1.0f / 3.0f) * mass * (boxScale.z * boxScale.z + boxScale.y * boxScale.y);
+			inertia[0][0] = (1.0f / 12.0f) * mass * (boxScale.y * boxScale.y + boxScale.x * boxScale.x);
+			inertia[1][1] = (1.0f / 12.0f) * mass * (boxScale.z * boxScale.z + boxScale.x * boxScale.x);
+			inertia[2][2] = (1.0f / 12.0f) * mass * (boxScale.z * boxScale.z + boxScale.y * boxScale.y);
 
 			inertiaTensor = inertia;
 			inverseInertiaTensor = glm::inverse(inertia);
 		}
 		if (collider.type == COLLIDER_SPHERE)
 		{
-			glm::dmat3 inertia{};
+			glm::dmat3 inertia(0.0f);
 
 			SphereCollider* sphere = static_cast<SphereCollider*>(&collider);
 
