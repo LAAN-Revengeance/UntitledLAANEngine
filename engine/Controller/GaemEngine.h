@@ -5,7 +5,7 @@
 #include <InputManager.h>
 #include <Timer.h>
 #include <Window.h>
-#include <Event/EventDispatcher.h>
+#include <Debug/DebugDrawables.h>
 
 /**
 *	@Class GameEngine
@@ -31,6 +31,8 @@ private:
 	GUIRenderer guiRenderer;
 	Window* window;
 	GaemEvents::EventDispatcher* eventDispatcher;
+
+	GaemGizmo::Line testLine;
 
 	friend class SceneEditor;
 	friend class LuaGameBridge;

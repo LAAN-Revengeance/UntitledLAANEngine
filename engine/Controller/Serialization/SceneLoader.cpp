@@ -316,6 +316,11 @@ Scene& SceneLoader::LoadScene(const char* inName)
 
         go->physicsBody = scene->physicsWorld.CreatePhysicsBody();
         go->physicsBody->isKinematic = jobj["isKinematic"].asBool();
+        go->physicsBody->useGravity = jobj["useGravity"].asBool();
+        go->physicsBody->SetBounce(jobj["bounce"].asFloat());
+        go->physicsBody->SetLinearDampening ( jobj["dampLinear"].asFloat());
+        go->physicsBody->SetAngularDampening(jobj["dampAngle"].asFloat());
+
         for (int i = 0; i < jobj["physics"].size(); i++)
         {
             glm::vec3 nOffset;
@@ -361,6 +366,12 @@ Scene& SceneLoader::LoadScene(const char* inName)
             go->physicsBody->GetCollider(i).SetRotation(nRotation);
             go->physicsBody->GetCollider(i).SetMass(nMass);
         }
+        go->physicsBody->CalcCenterOfMass();
+
+        if (jobj["infMass"].asBool()) {
+            go->physicsBody->SetMassInf();
+        }
+
 
         //transform properties
         go->name = jobj["name"].asString();
@@ -373,10 +384,11 @@ Scene& SceneLoader::LoadScene(const char* inName)
         go->scale.y = jobj["scale"][1].asFloat();
         go->scale.z = jobj["scale"][2].asFloat();
 
-        go->rotation.x = jobj["rotation"][0].asFloat();
-        go->rotation.y = jobj["rotation"][1].asFloat();
-        go->rotation.z = jobj["rotation"][2].asFloat();
-
+        go->orientation.x = jobj["rotation"][0].asFloat();
+        go->orientation.y = jobj["rotation"][1].asFloat();
+        go->orientation.z = jobj["rotation"][2].asFloat();
+        go->orientation.w = jobj["rotation"][3].asFloat();
+        go->SetRotation(go->orientation);
         
         res.StoreGameObject(go);
         scene->AddObject(*go);
@@ -413,9 +425,10 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
     jobj["scale"].append(obj->scale.y);
     jobj["scale"].append(obj->scale.z);
 
-    jobj["rotation"].append(obj->rotation.x);
-    jobj["rotation"].append(obj->rotation.y);
-    jobj["rotation"].append(obj->rotation.z);
+    jobj["rotation"].append(obj->orientation.x);
+    jobj["rotation"].append(obj->orientation.y);
+    jobj["rotation"].append(obj->orientation.z);
+    jobj["rotation"].append(obj->orientation.w);
 
     //pointer
     if (obj->model_data)
@@ -479,8 +492,24 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
     }
 
     jobj["physics"] = jphysicsBody;
-    if(physicsBody)
-    jobj["isKinematic"] = obj->physicsBody->isKinematic;
+
+    if (physicsBody) {
+        jobj["isKinematic"] = obj->physicsBody->isKinematic;
+        jobj["useGravity"] = obj->physicsBody->useGravity;
+        jobj["bounce"] = obj->physicsBody->GetBounce();
+        jobj["dampLinear"] = obj->physicsBody->GetLinearDampening();
+        jobj["dampAngle"] = obj->physicsBody->GetAngularDampening();
+
+
+        if (obj->physicsBody->GetInverseMass() == 0) {
+            jobj["infMass"] = true;
+        }
+        else {
+            jobj["infMass"] = false;
+        }
+    }
+
+
     //end physicsbody
 
     if (dynamic_cast<Terrain*>(obj)) {

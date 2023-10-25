@@ -149,9 +149,9 @@ void Renderer::DrawShadowMaps(Camera& cam, Scene& scene)
 				continue;
 			glm::mat4 modelMat(1.0f);
 			modelMat = glm::translate(modelMat, obj->position);
-			modelMat = glm::rotate(modelMat, glm::radians(obj->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-			modelMat = glm::rotate(modelMat, glm::radians(obj->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-			modelMat = glm::rotate(modelMat, glm::radians(obj->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+			glm::mat4 rotationMat = glm::mat4_cast(obj->orientation);
+			modelMat *= rotationMat;
+
 			modelMat = glm::scale(modelMat, obj->scale);
 
 			dirShadowShader.SetUniform("model", modelMat);
@@ -348,10 +348,8 @@ void Renderer::RenderScene(Camera& cam, Scene& scene, double deltaTime) {
 			modelMat = glm::translate(modelMat, obj->position);
 			
 			//pitch roll and yaw rotationss
-			modelMat = glm::rotate(modelMat, glm::radians(obj->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-			modelMat = glm::rotate(modelMat, glm::radians(obj->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-			modelMat = glm::rotate(modelMat, glm::radians(obj->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-
+			glm::mat4 rotationMat = glm::mat4_cast(obj->orientation);
+			modelMat *= rotationMat;
 			modelMat = glm::scale(modelMat, obj->scale);
 			if (obj->shader) {
 				BindMaterial(obj->material,obj->shader);

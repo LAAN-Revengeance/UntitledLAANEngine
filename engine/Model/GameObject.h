@@ -6,6 +6,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/vector_angle.hpp>
 #include <glm/gtx/euler_angles.hpp>
+#include <glm/gtc/quaternion.hpp>
 #include <Physics/RigidBody.h>
 
 /**
@@ -48,12 +49,25 @@ public:
 	void SetPosition(glm::vec3 nPos);
 
 		/**
+		*	@brief Set the current rotation using euler angles
+		*	@param x rotation along x axis
+		*	@param y rotation along y axis
+		*	@param z rotation along z axis
+		*	@return void
+		*	@warning this is a very unstable function and may lead to
+		*	undesirable behaviour along the Y axis -+90 degrees due to gimbal lock
+		*/
+	void SetRotationEuler(float x, float y, float z);
+
+		/**
 		*	@brief Set the current rotation in world space, also updates
 		*	the rigidbody rotation data.
 		*	@param nRot new rotation in degrees
 		*	@return void
 		*/
-	void SetRotation(glm::vec3 nRot);
+	void SetRotation(glm::quat nRot);
+
+	void Rotate(float x, float y, float z, float angle);
 
 		/**
 		*	@brief Set the current scale in world space, also updates
@@ -74,24 +88,6 @@ public:
 		*	@return void
 		*/
 	virtual void Update(double dt);
-
-		/**
-		*	@brief calculates this objects up vector.
-		*	@return this objects up vector
-		*/
-	glm::vec3 GetUpVec();
-
-		/**
-		*	@brief calculates this objects forward vector.
-		*	@return this objects forward vector
-		*/
-	glm::vec3 GetForwardVec();
-
-		/**
-		*	@brief calculates this objects right vector.
-		*	@return this objects right vector
-		*/
-	glm::vec3 GetRightVec();
 	
 		/**
 		*	@brief rotates this game object to face a direction
@@ -99,15 +95,15 @@ public:
 		*	@return this objects right vector
 		*/
 	void LookAt(glm::vec3 lookvec);
-
+	glm::vec3 GetRotationEuler();
 	glm::mat4 GetTransformMatrix();
-		
+
 		///Position in worldspace
 	glm::vec3 position = {0,0,0};
 		///Scale along each axis
 	glm::vec3 scale =	{1,1,1};
 		///Rotation in degrees
-	glm::vec3 rotation = {0,0,0};
+	glm::quat orientation = glm::quat(1,0,0,0);
 
 		///3D model data
 	DrawItem *model_data = nullptr;

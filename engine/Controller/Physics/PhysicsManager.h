@@ -4,6 +4,10 @@
 #include <map>
 #include <Graphics/Graphics.h>
 #include <Mesh.h>
+#include "PhysicsIntegrator.h"
+#include "ForceGenerator/ForceRegister.h"
+#include "ForceGenerator/GravityGenerator.h"
+#include "Collisionsolver.h"
 
 class rp3dCollisionCallback : public rp3d::CollisionCallback {
 
@@ -19,7 +23,7 @@ private:
 /**
 *	@Class PhysicsManager
 *	@brief Singleton class used for managing rigidbodies, collisions and physics
-*	resolution.
+*	resolution. acts as an abstraction of the physics world.
 *
 *	@author Andres Comeros-Ochtman, Nathan Choo
 *	@version 1.0
@@ -71,14 +75,6 @@ public:
 	void AddCapsuleCollider(PhysicsBody& pb, float radius, float height);
 
 		/**
-		*	@brief resolves the collision between two physicsbodies
-		*	@param b1 - first physicsbody
-		*	@param b2 - second physicsbody
-		*	@return void
-		*/
-	void ResolveCollision(PhysicsBody& b1, PhysicsBody& b2, float penetrationDepth, glm::vec3 contactNormal);
-
-		/**
 		*	@brief Get a physics body based on its ID
 		*	@param id - ID of physics body
 		*	@return Physics body with ID id
@@ -92,23 +88,22 @@ public:
 		*/
 	void DrawPhysicsWorld(Camera& camera);
 
-	void DeletePhysicsBody(PhysicsBody* physicsBody);
+		/**
+		*	@brief Delete a physicsbody from the physics world
+		*	@param physicsBody reference to body being deleted
+		*	@return void
+		*/
+	void DeletePhysicsBody(PhysicsBody* );
 
+		/**
+		*	@brief Reset the state of the physics world
+		*	@return void
+		*/
 	void ResetPhysicsWorld();
-
-	void SetGravity(float newGravity) { gravity = newGravity; }
-	float GetGravity() { return gravity; }
 private:
-	
-	//dont trust copying just yet
-	PhysicsManager(const PhysicsManager&) = delete;
-	PhysicsManager& operator = (const PhysicsManager&) = delete;
 
 	//ID to physics body map
 	std::map<unsigned int, PhysicsBody> physicsBodies;
-
-	//Gravity
-	float gravity = -9.81;
 
 	//rp3d collision world
 	rp3d::PhysicsCommon rp3dPhysicsCommon;
@@ -118,6 +113,9 @@ private:
 	//debug rendering
 	Mesh* debugMesh = nullptr;
 	Shader* debugShader = nullptr;
+
+	//timers stuff
+	double accumilator = 0.0;
 
 	//friendship
 	friend class rp3dCollisionCallback;

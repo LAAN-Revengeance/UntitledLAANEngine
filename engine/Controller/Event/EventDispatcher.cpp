@@ -1,4 +1,5 @@
 #include "EventDispatcher.h"
+
 namespace GaemEvents {
 	void EventDispatcher::Post(const Event& event)
 	{

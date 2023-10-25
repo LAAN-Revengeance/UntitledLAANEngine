@@ -45,8 +45,13 @@
     <ClCompile Include="engine\Application\Application.cpp" />
     <ClCompile Include="engine\Controller\Lua\LuaGameBridge.cpp" />
     <ClCompile Include="engine\Controller\Lua\LuaFunction.h" />
-    <ClCompile Include="engine\Controller\Event\EventDispatcher.h" />
     <ClCompile Include="engine\Controller\Event\EventDispatcher.cpp" />
+    <ClCompile Include="engine\Controller\Physics\PhysicsIntegrator.cpp" />
+    <ClCompile Include="engine\Controller\Physics\ForceGenerator\GravityGenerator.cpp" />
+    <ClCompile Include="engine\Controller\Physics\ForceGenerator\ForceRegistry.cpp" />
+    <ClCompile Include="engine\Controller\Physics\ForceGenerator\ForceRegister.cpp" />
+    <ClCompile Include="engine\Controller\Physics\CollisionSolver.cpp" />
+    <ClCompile Include="engine\View\Debug\DebugDrawables.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\Controller\GaemEngine.h" />
@@ -114,6 +119,14 @@
     <ClInclude Include="engine\Application\Application.h" />
     <ClInclude Include="engine\Controller\Lua\LuaGameBridge.h" />
     <ClInclude Include="engine\Controller\Event\Event.h" />
+    <ClInclude Include="engine\Controller\Physics\PhysicsIntegrator.h" />
+    <ClInclude Include="engine\Controller\Event\EventDispatcher.h" />
+    <ClInclude Include="engine\Controller\Physics\ForceGenerator\ForceGenerator.h" />
+    <ClInclude Include="engine\Controller\Physics\ForceGenerator\GravityGenerator.h" />
+    <ClInclude Include="engine\Controller\Physics\ForceGenerator\ForceRegister.h" />
+    <ClInclude Include="engine\Controller\Physics\Collisionsolver.h" />
+    <ClInclude Include="engine\Controller\Utils\GaemUtils.h" />
+    <ClInclude Include="engine\View\Debug\DebugDrawables.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Model\Graphics\Shaders\Cube_map.frag" />

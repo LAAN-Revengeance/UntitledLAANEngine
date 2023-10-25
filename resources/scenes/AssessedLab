@@ -1,0 +1,276 @@
+{
+	"Lighting" : 
+	{
+		"Ambient" : 
+		[
+			0.32843136787414551,
+			0.32843136787414551,
+			0.32843136787414551
+		],
+		"DirectionLights" : 
+		[
+			{
+				"diffuse" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				],
+				"direction" : 
+				[
+					-0.43096205592155457,
+					0.83278584480285645,
+					-0.34747651219367981
+				],
+				"specular" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				]
+			}
+		],
+		"PointLights" : null
+	},
+	"luaPath" : "resources\\scripts\\Lab1.lua",
+	"objects" : 
+	[
+		{
+			"bounce" : 0.0,
+			"castShadows" : true,
+			"dampAngle" : 1.0,
+			"dampLinear" : 1.0,
+			"diff" : "Grass",
+			"infMass" : true,
+			"isKinematic" : true,
+			"model" : "Cube",
+			"name" : "Floor",
+			"physics" : 
+			[
+				{
+					"mass" : 1.0,
+					"offset" : 
+					[
+						0.0,
+						0.0,
+						0.0
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						10.0,
+						0.5,
+						10.0
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale" : 
+			[
+				10.0,
+				0.5,
+				10.0
+			],
+			"shader" : "default",
+			"spec" : "Grass",
+			"type" : "base",
+			"useGravity" : false
+		},
+		{
+			"bounce" : 0.30000001192092896,
+			"castShadows" : true,
+			"dampAngle" : 1.0,
+			"dampLinear" : 1.0,
+			"diff" : "Rock",
+			"infMass" : false,
+			"isKinematic" : false,
+			"model" : "Cube",
+			"name" : "Target",
+			"physics" : 
+			[
+				{
+					"mass" : 2.0,
+					"offset" : 
+					[
+						0.0,
+						0.0,
+						0.0
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						0.20000000298023224,
+						0.30000001192092896,
+						0.029999999329447746
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				0.0,
+				0.80000001192092896,
+				0.53929626941680908
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale" : 
+			[
+				0.20000000298023224,
+				0.30000001192092896,
+				0.029999999329447746
+			],
+			"shader" : "default",
+			"spec" : "Rock",
+			"type" : "base",
+			"useGravity" : false
+		},
+		{
+			"bounce" : 0.30000001192092896,
+			"castShadows" : true,
+			"dampAngle" : 1.0,
+			"dampLinear" : 1.0,
+			"diff" : "Rock",
+			"infMass" : false,
+			"isKinematic" : false,
+			"model" : "Cube",
+			"name" : "Target1",
+			"physics" : 
+			[
+				{
+					"mass" : 2.0,
+					"offset" : 
+					[
+						0.0,
+						0.0,
+						0.0
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						0.20000000298023224,
+						0.30000001192092896,
+						0.029999999329447746
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				0.0,
+				0.80000001192092896,
+				0.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale" : 
+			[
+				0.20000000298023224,
+				0.30000001192092896,
+				0.029999999329447746
+			],
+			"shader" : "default",
+			"spec" : "Rock",
+			"type" : "base",
+			"useGravity" : false
+		}
+	],
+	"resources" : 
+	{
+		"cubemaps" : null,
+		"models" : 
+		[
+			{
+				"name" : "Cube",
+				"path" : "resources\\models\\Cube.obj",
+				"type" : "mesh"
+			},
+			{
+				"name" : "Sphere",
+				"path" : "resources\\models\\Sphere.obj",
+				"type" : "mesh"
+			}
+		],
+		"shaders" : 
+		[
+			{
+				"frag" : "resources/shaders/Water.frag",
+				"geom" : "",
+				"name" : "Water",
+				"vert" : "resources/shaders/Water.vert"
+			},
+			{
+				"frag" : "resources/shaders/Default.frag",
+				"geom" : "",
+				"name" : "default",
+				"vert" : "resources/shaders/Default.vert"
+			},
+			{
+				"frag" : "resources/shaders/Physics_Debug/Physics.frag",
+				"geom" : "",
+				"name" : "physics",
+				"vert" : "resources/shaders/Physics_Debug/Physics.vert"
+			},
+			{
+				"frag" : "resources/shaders/terrain/Terrain.frag",
+				"geom" : "",
+				"name" : "terrain",
+				"vert" : "resources/shaders/Default.vert"
+			}
+		],
+		"textures" : 
+		[
+			{
+				"name" : "Grass",
+				"path" : "resources\\textures\\terrain\\grass.png"
+			},
+			{
+				"name" : "Rock",
+				"path" : "resources\\textures\\terrain\\rock.png"
+			},
+			{
+				"name" : "default",
+				"path" : "resources/textures/default.png"
+			}
+		]
+	},
+	"windowName" : "editor"
+}
