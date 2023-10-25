@@ -143,7 +143,7 @@
 			"diff" : "Rock",
 			"isKinematic" : true,
 			"model" : "Cube",
-			"name" : "Target1",
+			"name" : "boxWall1",
 			"physics" : 
 			[
 				{
@@ -197,7 +197,7 @@
 			"diff" : "Rock",
 			"isKinematic" : true,
 			"model" : "Cube",
-			"name" : "Target11",
+			"name" : "boxWall2",
 			"physics" : 
 			[
 				{
@@ -251,7 +251,7 @@
 			"diff" : "Rock",
 			"isKinematic" : true,
 			"model" : "Cube",
-			"name" : "Target111",
+			"name" : "boxWall3",
 			"physics" : 
 			[
 				{
@@ -305,7 +305,7 @@
 			"diff" : "Rock",
 			"isKinematic" : true,
 			"model" : "Cube",
-			"name" : "Target112",
+			"name" : "boxWall4",
 			"physics" : 
 			[
 				{
@@ -349,6 +349,60 @@
 				2.0,
 				3.0,
 				0.5
+			],
+			"shader" : "default",
+			"type" : "base",
+			"useGravity" : false
+		},
+		{
+			"castShadows" : true,
+			"diff" : "Rock",
+			"isKinematic" : false,
+			"model" : "Cube",
+			"name" : "Target2",
+			"physics" : 
+			[
+				{
+					"mass" : 1.0,
+					"offset" : 
+					[
+						0.0,
+						0.0,
+						0.0
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						0.029999999329447746,
+						0.30000001192092896,
+						0.20000000298023224
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				-2.8728489875793457,
+				0.0,
+				0.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale" : 
+			[
+				0.029999999329447746,
+				0.30000001192092896,
+				0.20000000298023224
 			],
 			"shader" : "default",
 			"type" : "base",
@@ -415,9 +469,9 @@
 			"physics" : null,
 			"position" : 
 			[
-				2.7994844913482666,
-				10.400003433227539,
-				13.244345664978027
+				0.0,
+				0.0,
+				0.0
 			],
 			"rotation" : 
 			[

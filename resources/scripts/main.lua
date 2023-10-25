@@ -128,6 +128,15 @@ function mouseMoveFunc(dt)
 		camera.Yaw =  camera.Yaw - xoffset
 		camera.Pitch = camera.Pitch - yoffset
 
+		if (camera.Pitch > 89.0)
+		then
+			camera.Pitch = 89.0
+		end
+		if (camera.Pitch < -89.0)
+		then
+			camera.Pitch = -89.0
+		end
+
 		camera:UpdateCameraVectors();
 	end;
 end

@@ -42,8 +42,8 @@ void PhysicsManager::Update(float deltaTime)
 		physicsBody.second.CalculateInertiaTensor();
 		
 		// Just testing changes, should make bodies come to 'rest' by reducing their current linear and angular velocities over time
-		physicsBody.second.SetVelocity(physicsBody.second.GetVelocity() * friction);
-		physicsBody.second.SetAngularVelocity(physicsBody.second.GetAngularVelocity() * friction);
+		//physicsBody.second.SetVelocity(physicsBody.second.GetVelocity() * friction);
+		//physicsBody.second.SetAngularVelocity(physicsBody.second.GetAngularVelocity() * friction);
 		
 		// Actual physics updates for velocity and rotation
 		physicsBody.second.SetPosition(physicsBody.second.GetPosition() + physicsBody.second.GetVelocity() * deltaTime);

@@ -529,6 +529,8 @@ void SceneEditor::DrawInspector()
 			ImGui::Text((std::string("PhysicsBody Position: ") + std::to_string(inspectedObject->physicsBody->GetPosition().x) + " | " + std::to_string(inspectedObject->physicsBody->GetPosition().y) + " | " + std::to_string(inspectedObject->physicsBody->GetPosition().z)).c_str());
 		if (inspectedObject->physicsBody)
 			ImGui::Text((std::string("PhysicsBody Velocity: ") + std::to_string(inspectedObject->physicsBody->velocity.x) + " | " + std::to_string(inspectedObject->physicsBody->velocity.y) + " | " + std::to_string(inspectedObject->physicsBody->velocity.z)).c_str());
+		//if (inspectedObject->physicsBody)
+			//ImGui::Text((std::string("PhysicsBody Rotation: ") + std::to_string(inspectedObject->physicsBody->orientation.x) + " | " + std::to_string(inspectedObject->physicsBody->orientation.y) + " | " + std::to_string(inspectedObject->physicsBody->orientation.z)).c_str());
 		if (inspectedObject->physicsBody)
 			ImGui::Text((std::string("Mass: ") + std::to_string(inspectedObject->physicsBody->GetMass())).c_str());
 		if (inspectedObject->physicsBody)
