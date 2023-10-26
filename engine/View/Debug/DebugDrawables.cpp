@@ -36,9 +36,15 @@ void GaemGizmo::Line::Render(glm::mat4 projection, glm::mat4 view, Shader* shade
 	if (_vertCount <= 0) return;
 
 	shader->Use();
+
+	glm::mat4 modelMat(1.0f);
+	modelMat = glm::translate(modelMat, _position);
+
+
 	//Set view and projection matricies
 	shader->SetUniform("view", view);
 	shader->SetUniform("projection", projection);
+	shader->SetUniform("model", modelMat);
 	shader->SetUniform("color", _color);
 	
 	_vao.Bind();

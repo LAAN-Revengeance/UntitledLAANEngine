@@ -24,6 +24,7 @@ GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher
 		positions.push_back(nVec);
 	}
 	testLine.SetLine(positions);
+	testLine.SetPosition({0,10,0});
 }
 
 GameEngine::~GameEngine() {
