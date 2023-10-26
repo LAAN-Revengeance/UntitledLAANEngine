@@ -78,6 +78,9 @@ GaemGizmo::Box::Box(glm::vec3 position, glm::vec3 scale)
 {
 	_scale = scale;
 	_position = position;
+	if (!_vao) {
+		SetVertexBuffer();
+	}
 }
 
 GaemGizmo::Box::~Box()
@@ -113,14 +116,14 @@ void GaemGizmo::Box::Render(glm::mat4 projection, glm::mat4 view, Shader* shader
 void GaemGizmo::Box::SetVertexBuffer()
 {
 	float vertices[] = {
-	1.0,	1.0,	1.0,
-	0.0f,	1.0,	1.0,
-	1.0,	1.0,	0.0f,
-	0.0f,	1.0,	0.0f,
-	1.0,	0.0f,	1.0,
-	0.0f,	0.0f,	1.0,
-	0.0f,	0.0f,	0.0f,
-	1.0,	0.0f,	0.0f
+		0.5,    0.5,    0.5,
+	   -0.5f,   0.5,    0.5,
+		0.5,    0.5,   -0.5f,
+	   -0.5f,   0.5,   -0.5f,
+		0.5,   -0.5f,   0.5,
+	   -0.5f,  -0.5f,   0.5,
+	   -0.5f,  -0.5f,  -0.5f,
+		0.5,   -0.5f,  -0.5f
 	};
 
 	unsigned int elements[] = {

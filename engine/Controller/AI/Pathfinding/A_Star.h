@@ -1,6 +1,6 @@
 #pragma once
 #include "PathNode.h"
-#include <limits>
+#include <float.h>
 #include <vector>
 
 namespace GaemPathing {
@@ -14,13 +14,13 @@ namespace GaemPathing {
 		AS_Node* parent;
 
 		//distance to goal line of sight, ignoring nodes
-		float lineOfSight = std::numeric_limits<float>::max();
+		float lineOfSight = FLT_MAX;
 
 		//estimated cost to reach this node from start
-		float local = std::numeric_limits<float>::max();
+		float local = FLT_MAX;
 
 		//estimated cost to reach goal from start, passing though this node
-		float global = std::numeric_limits<float>::max();
+		float global = FLT_MAX;
 
 		bool visited = false;
 	};

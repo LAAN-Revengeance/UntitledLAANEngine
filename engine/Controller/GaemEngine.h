@@ -6,6 +6,7 @@
 #include <Timer.h>
 #include <Window.h>
 #include <Debug/DebugDrawables.h>
+#include <AI/Pathfinding/A_Star.h>
 
 /**
 *	@Class GameEngine
@@ -31,6 +32,12 @@ private:
 	GUIRenderer guiRenderer;
 	Window* window;
 	GaemEvents::EventDispatcher* eventDispatcher;
+
+
+	//temp
+	std::vector<GaemPathing::PathNode*> nodes;
+	std::vector<GaemGizmo::DebugGizmo*> gizmos;
+	
 
 	friend class SceneEditor;
 	friend class LuaGameBridge;
