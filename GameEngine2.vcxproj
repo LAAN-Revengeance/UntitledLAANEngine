@@ -284,6 +284,8 @@
     <None Include="resources\shaders\Default.frag" />
     <None Include="resources\shaders\Default.vert" />
     <None Include="resources\shaders\Depth.frag" />
+    <None Include="resources\shaders\gizmo_debug\line.frag" />
+    <None Include="resources\shaders\gizmo_debug\line.vert" />
     <None Include="resources\shaders\hologram\Holo.frag" />
     <None Include="resources\shaders\screen\screen.vert" />
     <None Include="resources\shaders\screen\screen.frag" />

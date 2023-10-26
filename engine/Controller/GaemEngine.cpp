@@ -2,6 +2,7 @@
 #include <string.h>
 #include <iostream>
 #include <functional>
+#include <cmath> 
 
 GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher):
 	renderer(nWindow),
@@ -19,7 +20,7 @@ GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher
 	std::vector<glm::vec3> positions;
 	for (int i = 0; i < 10; i++)
 	{
-		glm::vec3 nVec(i * 2.0f, 0.0f, i * 0.5f);
+		glm::vec3 nVec(powf(i, 2), 0.0f, powf(i,2));
 		positions.push_back(nVec);
 	}
 	testLine.SetLine(positions);
@@ -55,7 +56,7 @@ void GameEngine::Draw(double deltaTime)
 		return;
 	renderer.RenderScene(scene->camera, *scene, deltaTime);
 
-	//testLine.Render(scene->camera.GetProjection(),scene->camera.GetView(), );
+	testLine.Render(scene->camera.GetProjection(),scene->camera.GetView(),ResourceManager::Get().GetShader("line"));
 }
 
 

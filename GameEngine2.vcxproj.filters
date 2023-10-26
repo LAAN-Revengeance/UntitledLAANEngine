@@ -148,6 +148,8 @@
     <None Include="resources\shaders\screen\screen.vert" />
     <None Include="resources\shaders\shadow\shadow.vert" />
     <None Include="resources\shaders\shadow\shadow.frag" />
+    <None Include="resources\shaders\gizmo_debug\line.frag" />
+    <None Include="resources\shaders\gizmo_debug\line.vert" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="dependencies\lib\liblua54.a" />
