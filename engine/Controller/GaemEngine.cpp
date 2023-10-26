@@ -24,7 +24,13 @@ GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher
 		positions.push_back(nVec);
 	}
 	testLine.SetLine(positions);
-	testLine.SetPosition({0,10,0});
+
+	testBox.SetScale({ 2, 2, 2 });
+	testBox.SetPosition({ 2, 2, 2 });
+	testBox.SetColor({ 0,0,1,0.1 });
+	testBox2.SetColor({ 1,0,0,0.1 });
+
+
 }
 
 GameEngine::~GameEngine() {
@@ -58,6 +64,8 @@ void GameEngine::Draw(double deltaTime)
 	renderer.RenderScene(scene->camera, *scene, deltaTime);
 
 	testLine.Render(scene->camera.GetProjection(),scene->camera.GetView(),ResourceManager::Get().GetShader("line"));
+	testBox.Render(scene->camera.GetProjection(),scene->camera.GetView(),ResourceManager::Get().GetShader("line"));
+	testBox2.Render(scene->camera.GetProjection(),scene->camera.GetView(),ResourceManager::Get().GetShader("line"));
 }
 
 

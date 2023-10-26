@@ -12,6 +12,7 @@ GaemGizmo::Line::Line(std::vector<glm::vec3>& positions, glm::vec3 position)
 
 GaemGizmo::Line::~Line()
 {
+	_vao.Delete();
 }
 
 void GaemGizmo::Line::SetLine(std::vector<glm::vec3>& positions)
@@ -64,12 +65,19 @@ void GaemGizmo::DebugGizmo::SetPosition(glm::vec3 position)
 	_position = position;
 }
 
+VAO* GaemGizmo::Box::_vao = nullptr;
+
 GaemGizmo::Box::Box()
 {
+	if (!_vao) {
+        SetVertexBuffer();
+	}
 }
 
 GaemGizmo::Box::Box(glm::vec3 position, glm::vec3 scale)
 {
+	_scale = scale;
+	_position = position;
 }
 
 GaemGizmo::Box::~Box()
@@ -78,8 +86,51 @@ GaemGizmo::Box::~Box()
 
 void GaemGizmo::Box::SetScale(glm::vec3 scale)
 {
+	_scale = scale;
 }
 
 void GaemGizmo::Box::Render(glm::mat4 projection, glm::mat4 view, Shader* shader)
 {
+    shader->Use();
+
+    glm::mat4 modelMat(1.0f);
+    modelMat = glm::translate(modelMat, _position);
+    modelMat = glm::scale(modelMat, _scale);
+
+    //Set view and projection matricies
+    shader->SetUniform("view", view);
+    shader->SetUniform("projection", projection);
+    shader->SetUniform("model", modelMat);
+    shader->SetUniform("color", _color);
+
+    _vao->Bind();
+
+	glDrawElements(GL_TRIANGLE_STRIP, 14, GL_UNSIGNED_INT, 0);
+
+    _vao->UnBind();
+}
+
+void GaemGizmo::Box::SetVertexBuffer()
+{
+	float vertices[] = {
+	1.0,	1.0,	1.0,
+	0.0f,	1.0,	1.0,
+	1.0,	1.0,	0.0f,
+	0.0f,	1.0,	0.0f,
+	1.0,	0.0f,	1.0,
+	0.0f,	0.0f,	1.0,
+	0.0f,	0.0f,	0.0f,
+	1.0,	0.0f,	0.0f
+	};
+
+	unsigned int elements[] = {
+	3, 2, 6, 7, 4, 2, 0,
+	3, 1, 6, 5, 4, 1, 0
+	};
+
+    _vao = new VAO();
+    VBO nVBO(vertices, sizeof(vertices));
+	EBO nEBO(elements, sizeof(elements));
+
+    _vao->AddAttribute(nVBO, 0, 3, GL_FLOAT, 3 * sizeof(float), (void*)0);
 }

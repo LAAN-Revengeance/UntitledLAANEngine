@@ -33,6 +33,8 @@ private:
 	GaemEvents::EventDispatcher* eventDispatcher;
 
 	GaemGizmo::Line testLine;
+	GaemGizmo::Box testBox;
+	GaemGizmo::Box testBox2;
 
 	friend class SceneEditor;
 	friend class LuaGameBridge;
