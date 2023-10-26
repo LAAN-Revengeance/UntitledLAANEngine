@@ -2,7 +2,7 @@
 #include <glm/glm.hpp>
 #include <map>
 
-namespace GaemPath{
+namespace GaemPathing{
 
 	class PathNode
 	{
@@ -14,9 +14,10 @@ namespace GaemPath{
 		void RemoveNeighbour(PathNode* neighbour);
 		void ClearNeighbours();
 
+		bool obstacle = false;
+		glm::vec3 _position = { 0,0,0 };
 	private:
-		glm::vec3 _position = {0,0,0};
-
+		
 		//stores pointer to adjacent node and the cost of conection
 		std::map<PathNode*, float> _neighbours;
 	};
