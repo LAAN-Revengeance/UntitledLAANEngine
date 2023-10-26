@@ -27,14 +27,17 @@ namespace GaemPathing{
 		void Draw(glm::mat4 projection, glm::mat4 view, Shader* shader);
 
 	private:
-		void UpdateModel();
 
 		glm::vec3 _position = { 0,0,0 };
 
 		bool _obstacle = false;
-		GaemGizmo::Box box;
+
 		//stores pointer to adjacent node and the cost of conection
 		std::map<PathNode*, float> _neighbours;
+
+		//debug rendering
+		void UpdateModel();
 		std::map<PathNode*, GaemGizmo::Line*> lines;
+		GaemGizmo::Box box;
 	};
 }

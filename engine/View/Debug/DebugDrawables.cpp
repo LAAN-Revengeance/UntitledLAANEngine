@@ -35,6 +35,7 @@ void GaemGizmo::Line::SetLine(std::vector<glm::vec3>& positions)
 void GaemGizmo::Line::Render(glm::mat4 projection, glm::mat4 view, Shader* shader)
 {
 	if (_vertCount <= 0) return;
+	glLineWidth(_width);
 
 	shader->Use();
 
@@ -53,6 +54,11 @@ void GaemGizmo::Line::Render(glm::mat4 projection, glm::mat4 view, Shader* shade
 	glDrawArrays(GL_LINE_STRIP,0, _vertCount);
 
 	_vao.UnBind();
+}
+
+void GaemGizmo::Line::SetWidth(float width)
+{
+	_width = width;
 }
 
 void GaemGizmo::DebugGizmo::SetColor(glm::vec4 color)

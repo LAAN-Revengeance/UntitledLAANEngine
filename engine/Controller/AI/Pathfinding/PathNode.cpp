@@ -53,9 +53,9 @@ void GaemPathing::PathNode::Draw(glm::mat4 projection, glm::mat4 view, Shader* s
 
 void GaemPathing::PathNode::UpdateModel()
 {
-	box.SetScale({ 0.3,0.3,0.3 });
+	box.SetScale({ 2,2,2 });
 	if (_obstacle) {
-		box.SetColor({ 0.3,0.3,0.3,1.0 });
+		box.SetColor({ 0.1,0.1,0.1,1.0 });
 	}
 	else {
 		box.SetColor({ 0.0,0.0,1.0,1.0 });
@@ -70,7 +70,10 @@ void GaemPathing::PathNode::UpdateModel()
 
 	for (auto& neighbour : _neighbours) {
 		std::vector<glm::vec3> pos({_position,neighbour.first->_position});
-		lines.insert({ neighbour.first , new GaemGizmo::Line(pos,{0,0,0}) });
+
+		GaemGizmo::Line* nLine = new GaemGizmo::Line(pos, { 0,0,0 });
+		nLine->SetColor({ 0.3,0.3,0.3,1 });
+		lines.insert({ neighbour.first , nLine });
 	}
 }
 

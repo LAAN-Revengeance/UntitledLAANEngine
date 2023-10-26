@@ -36,8 +36,7 @@ private:
 
 	//temp
 	std::vector<GaemPathing::PathNode*> nodes;
-	std::vector<GaemGizmo::DebugGizmo*> gizmos;
-	
+	GaemGizmo::Line path;
 
 	friend class SceneEditor;
 	friend class LuaGameBridge;

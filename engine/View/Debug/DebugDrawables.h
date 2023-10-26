@@ -32,11 +32,13 @@ namespace GaemGizmo {
 		~Line();
 		void SetLine(std::vector<glm::vec3>& positions);
 		void Render(glm::mat4 projection, glm::mat4 view, Shader* shader);
+		void SetWidth(float width);
 
 	private:
 		
 		//number of verts in line
 		unsigned int _vertCount = 0;
+		float _width = 5;
 		VAO _vao;
 	};
 

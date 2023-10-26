@@ -4,6 +4,7 @@
 #include <functional>
 #include <cmath> 
 #include <Utils/GaemUtils.h>
+#include <AI/Pathfinding/A_Star.h>
 
 GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher):
 	renderer(nWindow),
@@ -21,39 +22,52 @@ GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher
 
 	//temp test code
 	for (size_t i = 0; i < 16; i++)
-	{
-		
+	{	
 		for (size_t j = 0; j < 16; j++)
 		{
-			GaemPathing::PathNode* node = new GaemPathing::PathNode({ i,0,j });
+			GaemPathing::PathNode* node = new GaemPathing::PathNode({ i * 2,0,j * 2 });
 			nodes.push_back(node);
 
-			//GaemGizmo::Box* nodeIndicator = new GaemGizmo::Box({ i,0,j }, {0.3f,0.3f,0.3f});
-			//nodeIndicator->SetColor({0,0,1,1});
-			//gizmos.push_back(nodeIndicator);
-
-			for (auto& n : nodes)
-			{
-				if (n->GetNeighbours().find(node) == n->GetNeighbours().end() && n != node)
-				{
-					float dist = glm::length(n->GetPosition() - node->GetPosition());
-					if (dist < 1.1f) {
-						node->AddNeighbour(n);
-						//std::cout << "cum\n";
-						//gaemutils::PrintVec3("pos1",n->_position);
-						//gaemutils::PrintVec3("pos2", node->_position);
-						//std::cout << "--------\n";
-						//std::vector<glm::vec3>pos({ n->_position, node->_position });
-						//GaemGizmo::Line* connectionIndicator = new GaemGizmo::Line(pos, {0,0,0});
-						//connectionIndicator->SetColor({ 1,0,0,1.0 });
-						//gizmos.push_back(connectionIndicator);
-					}
-				}
-
-			}
+			if (rand() % 10 == 0)
+				node->SetObstacle(true);
 		}
 
 	}
+
+	for (auto& currentNode : nodes)
+	{
+		for (auto& potentialN : nodes) {
+			if (currentNode->GetNeighbours().find(potentialN) == currentNode->GetNeighbours().end() && currentNode != potentialN) {
+
+				float dist = glm::length(currentNode->GetPosition() - potentialN->GetPosition());
+				if (dist < 2.2f) {
+					currentNode->AddNeighbour(potentialN);
+
+				}
+			
+			}
+		}
+		
+	}
+
+
+	//unsigned int i = 0;
+	//for (auto& node : nodes)
+	//{
+	//	std::cout << "node " << i << ": " << node->GetNeighbours().size() << "\n";
+	//		++i;
+	//}
+
+	std::vector<glm::vec3> positions = GaemPathing::FindPathA_Star(nodes[0], nodes[nodes.size() - 1], nodes);
+
+	for (auto& pos : positions)
+	{
+		gaemutils::PrintVec3("pos",pos);
+	}
+	path.SetLine(positions);
+	path.SetColor({ 1,0,0,1 });
+	path.SetWidth(10);
+	path.SetPosition({0,2,0});
 
 }
 
@@ -86,10 +100,12 @@ void GameEngine::Draw(double deltaTime)
 		return;
 	renderer.RenderScene(scene->camera, *scene, deltaTime);
 
+
+	//temp
 	for (auto& node : nodes)
 	{
 		node->Draw(scene->camera.GetProjection(), scene->camera.GetView(), ResourceManager::Get().GetShader("line"));
-		//gizmo->Render(scene->camera.GetProjection(), scene->camera.GetView(),ResourceManager::Get().GetShader("line"));
+		path.Render(scene->camera.GetProjection(), scene->camera.GetView(), ResourceManager::Get().GetShader("line"));
 	}
 }
 
