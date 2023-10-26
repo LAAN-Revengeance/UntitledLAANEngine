@@ -5,6 +5,7 @@
 #include <cmath> 
 #include <Utils/GaemUtils.h>
 #include <AI/Pathfinding/A_Star.h>
+#include <time.h>
 
 GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher):
 	renderer(nWindow),
@@ -19,7 +20,7 @@ GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher
 	//bind renderer resize handler to windowResize event
 	eventDispatcher->Subscribe("windowResize", std::bind(&Renderer::HandleResizeEvent,&renderer, std::placeholders::_1));
 
-
+	srand(time(NULL));
 	//temp test code
 	for (size_t i = 0; i < 16; i++)
 	{	
@@ -28,7 +29,8 @@ GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher
 			GaemPathing::PathNode* node = new GaemPathing::PathNode({ i * 2,0,j * 2 });
 			nodes.push_back(node);
 
-			if (rand() % 10 == 0)
+			
+			if (rand() % 3 == 0)
 				node->SetObstacle(true);
 		}
 
