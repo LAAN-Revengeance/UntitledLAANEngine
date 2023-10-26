@@ -45,12 +45,14 @@ ResourceManager::ResourceManager(){
 
 		//default shader
 	LoadShader("default","resources/shaders/Default.vert", "resources/shaders/Default.frag", "");
+		//default gizmo shader
+	LoadShader("line", "resources/shaders/gizmo_debug/line.vert", "resources/shaders/gizmo_debug/line.frag", "");
 		//default physics debug
 	LoadShader("physics","resources/shaders/Physics_Debug/Physics.vert", "resources/shaders/Physics_Debug/Physics.frag", "");
 		//default terrain shader
 	LoadShader("terrain", "resources/shaders/Default.vert", "resources/shaders/terrain/Terrain.frag", "");
 		//default Water shader
-	LoadShader("Water","resources/shaders/Water.vert", "resources/shaders/Water.frag", "");
+	LoadShader("water","resources/shaders/Water.vert", "resources/shaders/Water.frag", "");
 		//default texture
 	LoadTexture("default", "resources/textures/default.png");
 }

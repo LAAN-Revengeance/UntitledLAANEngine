@@ -32,8 +32,6 @@ private:
 	Window* window;
 	GaemEvents::EventDispatcher* eventDispatcher;
 
-	GaemGizmo::Line testLine;
-
 	friend class SceneEditor;
 	friend class LuaGameBridge;
 };
