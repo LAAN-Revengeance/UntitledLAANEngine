@@ -1,7 +1,6 @@
 #pragma once
 #include <Graphics/Graphics.h>
 #include <glm/glm.hpp>
-#include <glm/gtx/quaternion.hpp>
 
 namespace GaemGizmo {
 
