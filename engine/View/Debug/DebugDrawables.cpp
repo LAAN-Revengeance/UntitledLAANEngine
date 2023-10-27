@@ -12,13 +12,15 @@ GaemGizmo::Line::Line(std::vector<glm::vec3>& positions, glm::vec3 position)
 
 GaemGizmo::Line::~Line()
 {
-	_vao.Delete();
+	//_vao.Delete();
 }
 
 void GaemGizmo::Line::SetLine(std::vector<glm::vec3>& positions)
 {
-	if (positions.size() <= 0)
+	if (positions.size() <= 0) {
+		_vertCount = 0;
 		return;
+	}
 
 	_vao.Delete();
 
@@ -35,12 +37,14 @@ void GaemGizmo::Line::SetLine(std::vector<glm::vec3>& positions)
 void GaemGizmo::Line::Render(glm::mat4 projection, glm::mat4 view, Shader* shader)
 {
 	if (_vertCount <= 0) return;
+	glLineWidth(_width);
 
 	shader->Use();
 
 	glm::mat4 modelMat(1.0f);
 	modelMat = glm::translate(modelMat, _position);
-
+	modelMat = glm::scale(modelMat, {1,1,1});
+	
 
 	//Set view and projection matricies
 	shader->SetUniform("view", view);
@@ -53,6 +57,22 @@ void GaemGizmo::Line::Render(glm::mat4 projection, glm::mat4 view, Shader* shade
 	glDrawArrays(GL_LINE_STRIP,0, _vertCount);
 
 	_vao.UnBind();
+}
+
+void GaemGizmo::Line::RenderFront(glm::mat4 projection, glm::mat4 view, Shader* shader)
+{
+	bool depthTest = glIsEnabled(GL_DEPTH_TEST);
+
+	glDisable(GL_DEPTH_TEST);
+	Render(projection,view,shader);
+
+	if(depthTest)
+		glEnable(GL_DEPTH_TEST);
+}
+
+void GaemGizmo::Line::SetWidth(float width)
+{
+	_width = width;
 }
 
 void GaemGizmo::DebugGizmo::SetColor(glm::vec4 color)
@@ -78,6 +98,9 @@ GaemGizmo::Box::Box(glm::vec3 position, glm::vec3 scale)
 {
 	_scale = scale;
 	_position = position;
+	if (!_vao) {
+		SetVertexBuffer();
+	}
 }
 
 GaemGizmo::Box::~Box()
@@ -113,14 +136,14 @@ void GaemGizmo::Box::Render(glm::mat4 projection, glm::mat4 view, Shader* shader
 void GaemGizmo::Box::SetVertexBuffer()
 {
 	float vertices[] = {
-	1.0,	1.0,	1.0,
-	0.0f,	1.0,	1.0,
-	1.0,	1.0,	0.0f,
-	0.0f,	1.0,	0.0f,
-	1.0,	0.0f,	1.0,
-	0.0f,	0.0f,	1.0,
-	0.0f,	0.0f,	0.0f,
-	1.0,	0.0f,	0.0f
+		0.5,    0.5,    0.5,
+	   -0.5f,   0.5,    0.5,
+		0.5,    0.5,   -0.5f,
+	   -0.5f,   0.5,   -0.5f,
+		0.5,   -0.5f,   0.5,
+	   -0.5f,  -0.5f,   0.5,
+	   -0.5f,  -0.5f,  -0.5f,
+		0.5,   -0.5f,  -0.5f
 	};
 
 	unsigned int elements[] = {

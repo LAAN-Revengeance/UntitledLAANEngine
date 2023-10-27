@@ -155,6 +155,9 @@
     <ClCompile Include="dependencies\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="dependencies\include\jsoncpp.cpp" />
     <ClCompile Include="engine\Application\Application.cpp" />
+    <ClCompile Include="engine\Controller\AI\Pathfinding\A_Star.cpp" />
+    <ClCompile Include="engine\Controller\AI\Pathfinding\PathNode.cpp" />
+    <ClCompile Include="engine\Controller\AI\Pathfinding\PathNodeManager.cpp" />
     <ClCompile Include="engine\Controller\Physics\CollisionSolver.cpp" />
     <ClCompile Include="engine\Controller\Event\EventDispatcher.cpp" />
     <ClCompile Include="engine\Controller\GaemEngine.cpp" />
@@ -217,6 +220,9 @@
     <ClInclude Include="dependencies\include\json\json-forwards.h" />
     <ClInclude Include="dependencies\include\json\json.h" />
     <ClInclude Include="engine\Application\Application.h" />
+    <ClInclude Include="engine\Controller\AI\Pathfinding\A_Star.h" />
+    <ClInclude Include="engine\Controller\AI\Pathfinding\PathNode.h" />
+    <ClInclude Include="engine\Controller\AI\Pathfinding\PathNodeManager.h" />
     <ClInclude Include="engine\Controller\AudioDataTypes.h" />
     <ClInclude Include="engine\Controller\Event\Event.h" />
     <ClInclude Include="engine\Controller\Event\EventDispatcher.h" />

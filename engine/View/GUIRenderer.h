@@ -34,8 +34,10 @@ struct GUIStyle {
 class GUIRenderer
 {
 public:
-		///Default constructor. Private becuase singleton
+		///constructors
+	GUIRenderer();
 	GUIRenderer(Window* window);
+
 		///Default Destructor.
 	~GUIRenderer();
 		/**

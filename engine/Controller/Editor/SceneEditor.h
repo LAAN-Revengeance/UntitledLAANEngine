@@ -71,8 +71,11 @@ private:
 
 	bool isFreecam = false;
 	bool isPhysicDebug = true;
+	bool isPathDebug = true;
 	bool isShowWidget = true;
 
 		///Main GUI Renderer
 	GUIRenderer& guirenderer;
+	GaemGizmo::Line pathDebugLine;
+
 };

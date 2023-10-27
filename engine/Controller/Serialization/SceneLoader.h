@@ -67,4 +67,12 @@ private:
 		*/
 	static Json::Value LightsToJson(Lights* lights);
 
+
+		/**
+		*	@brief Serializes navigation nodes
+		*	@param pathmanager path manager with nodes to serialize
+		*	@return Json::Value nodes as json collection
+		*/
+	static Json::Value NavNodesToJson(GaemPathing::PathNodeManager* pathmanager);
+
 };
