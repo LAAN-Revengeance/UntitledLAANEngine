@@ -7,6 +7,9 @@ SceneEditor::SceneEditor(GameEngine* nEngine):
 	engine->isRunning = false;
 	UseScene(engine->scene);
 	pathDebugLine.SetWidth(10);
+	selectedNavNodeBox.SetScale({ 0.7, 0.7, 0.7 });
+	selectedNavNodeBox.SetColor({0.0,1.0,1.0,0.8});
+	selectedNavNodeBox.SetEnabled(false);
 }
 
 SceneEditor::~SceneEditor()
@@ -32,6 +35,7 @@ void SceneEditor::Draw(double deltaTime)
 	if (isPathDebug) {
 		engine->scene->pathManager.DrawDebug(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
 		pathDebugLine.RenderFront(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
+		selectedNavNodeBox.Render(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
 	}
 
 	guirenderer.StartGUI();
@@ -728,8 +732,6 @@ void SceneEditor::DrawInspector()
 
 			ImGui::SeparatorText("Test Path");
 
-		
-
 			static GaemPathing::PathNode* testStartNode = nullptr;
 			static GaemPathing::PathNode* testEndNode = nullptr;
 
@@ -838,6 +840,9 @@ void SceneEditor::DrawInspector()
 			int i = 0;
 			GaemPathing::PathNode* delNode = nullptr;
 
+			if(pathNodeManager->GetNodes().empty())
+				selectedNavNodeBox.SetEnabled(false);
+
 			for (auto& node : pathNodeManager->GetNodes()) {
 				
 				std::string nodeID = std::string("##node") + std::to_string(i);
@@ -845,7 +850,8 @@ void SceneEditor::DrawInspector()
 				//ImGui::Text(std::to_string(node->GetID()).c_str());
 				if (ImGui::Button(std::to_string(node->GetID()).c_str(), {30,20}))
 				{
-
+					selectedNavNodeBox.SetEnabled(true);
+					selectedNavNodeBox.SetPosition(node->GetPosition());
 				}
 
 				ImGui::SameLine();

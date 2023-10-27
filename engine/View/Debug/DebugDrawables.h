@@ -16,9 +16,12 @@ namespace GaemGizmo {
 
 		void SetColor(glm::vec4 color);
 		void SetPosition(glm::vec3 position);
+
+		void SetEnabled(bool enabled);
 	protected:
 		glm::vec4 _color = { 1.0f,0.0f,0.0f,1.0f };
 		glm::vec3 _position = {0.0f,0.0f,0.0f};
+		bool _enabled = true;
 	};
 
 	//######################################

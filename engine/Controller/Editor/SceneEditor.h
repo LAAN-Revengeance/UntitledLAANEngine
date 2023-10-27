@@ -77,5 +77,6 @@ private:
 		///Main GUI Renderer
 	GUIRenderer& guirenderer;
 	GaemGizmo::Line pathDebugLine;
+	GaemGizmo::Box selectedNavNodeBox;
 
 };
