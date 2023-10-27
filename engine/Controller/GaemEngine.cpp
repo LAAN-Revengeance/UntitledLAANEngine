@@ -30,10 +30,9 @@ GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher
 			nodes.push_back(node);
 
 			
-			if (rand() % 3 == 0)
+			if (rand() % 10 == 0)
 				node->SetObstacle(true);
 		}
-
 	}
 
 	for (auto& currentNode : nodes)
@@ -42,30 +41,15 @@ GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher
 			if (currentNode->GetNeighbours().find(potentialN) == currentNode->GetNeighbours().end() && currentNode != potentialN) {
 
 				float dist = glm::length(currentNode->GetPosition() - potentialN->GetPosition());
-				if (dist < 2.2f) {
+				if (dist < 3.0f) {
 					currentNode->AddNeighbour(potentialN);
-
 				}
-			
 			}
 		}
 		
 	}
+	std::vector<glm::vec3> positions = GaemPathing::FindPathA_Star(nodes[0], nodes[nodes.size()-1], nodes);
 
-
-	//unsigned int i = 0;
-	//for (auto& node : nodes)
-	//{
-	//	std::cout << "node " << i << ": " << node->GetNeighbours().size() << "\n";
-	//		++i;
-	//}
-
-	std::vector<glm::vec3> positions = GaemPathing::FindPathA_Star(nodes[0], nodes[nodes.size() - 1], nodes);
-
-	for (auto& pos : positions)
-	{
-		gaemutils::PrintVec3("pos",pos);
-	}
 	path.SetLine(positions);
 	path.SetColor({ 1,0,0,1 });
 	path.SetWidth(10);

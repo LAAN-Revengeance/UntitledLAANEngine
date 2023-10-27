@@ -33,7 +33,6 @@ std::vector<glm::vec3> GaemPathing::FindPathA_Star(PathNode* start, PathNode* en
 		AS_Node* currentNode = listNotTestedNodes.front();
 
 		currentNode->visited = true;
-		std::cout << currentNode->node->GetNeighbours().size() << "\n";
 		for (auto& pNeighbour : currentNode->node->GetNeighbours()) {
 		
 			AS_Node* aNeighbour = mapNode.at(pNeighbour.first);
@@ -58,12 +57,8 @@ std::vector<glm::vec3> GaemPathing::FindPathA_Star(PathNode* start, PathNode* en
 	AS_Node* p = nodeEnd;
 	while (p->parent)
 	{
-		std::cout << "huh?\n";
 		pathVec.push_back(p->node->GetPosition());
 		p = p->parent;
 	}
-
-
-	std::cout << "done!\n";
 	return pathVec;
 }
