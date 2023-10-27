@@ -27,6 +27,9 @@ namespace GaemPathing{
 
 		void Draw(glm::mat4 projection, glm::mat4 view, Shader* shader);
 
+		void UpdateConnections(std::vector<PathNode*> nodes, float distance);
+		void UpdateConnections();
+		void UpdateModel();
 	private:
 
 		glm::vec3 _position = { 0,0,0 };
@@ -37,7 +40,7 @@ namespace GaemPathing{
 		std::map<PathNode*, float> _neighbours;
 
 		//debug rendering
-		void UpdateModel();
+	
 		std::map<PathNode*, GaemGizmo::Line*> lines;
 		GaemGizmo::Box box;
 	};

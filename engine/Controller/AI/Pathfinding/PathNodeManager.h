@@ -11,7 +11,7 @@ namespace GaemPathing {
 		PathNodeManager();
 		~PathNodeManager();
 
-		PathNode* AddNode(glm::vec3 position);
+		PathNode* AddNode(glm::vec3 position, bool obstacle);
 		void DeleteNode(PathNode* node);
 
 		void DrawDebug(glm::mat4 projection, glm::mat4 view, Shader* shader);
@@ -20,11 +20,14 @@ namespace GaemPathing {
 
 		void SetMaxConnectionDist(float distance);
 
+		void UpdateNodes();
+
+		std::vector<GaemPathing::PathNode*>& GetNodes();
+
 	private:
 
-		float _maxConnectionDist = 1.0f;
+		float _maxConnectionDist = 5.0f;
 		std::vector<GaemPathing::PathNode*> _nodes;
-
 	};
 
 }

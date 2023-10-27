@@ -15,6 +15,10 @@ void GaemPathing::PathNode::SetPosition(glm::vec3 position)
 {
 	_position = position;
 	UpdateModel();
+
+	for (auto& neighbour : _neighbours) {
+		neighbour.first->UpdateModel();
+	}
 }
 
 void GaemPathing::PathNode::SetObstacle(bool obstacle)
@@ -49,6 +53,34 @@ void GaemPathing::PathNode::Draw(glm::mat4 projection, glm::mat4 view, Shader* s
 	box.Render(projection, view,shader);
 	for (auto& line : lines)
 		line.second->Render(projection, view, shader);
+}
+
+void GaemPathing::PathNode::UpdateConnections(std::vector<PathNode*> nodes, float distance)
+{
+	_neighbours.clear();
+	for(auto node : nodes)
+	{
+		float dist = glm::distance(_position, node->GetPosition());
+		if (dist <= distance) {
+			_neighbours.insert({node,dist});
+		}
+	}
+	UpdateModel();
+}
+
+void GaemPathing::PathNode::UpdateConnections()
+{
+	//remove null neighbour references
+	for (auto& neighbour : _neighbours) {
+		if (neighbour.first == nullptr) {
+			_neighbours.erase(neighbour.first);
+		}
+		else {
+			neighbour.second = glm::distance(_position,neighbour.first->GetPosition());
+		}
+	}
+	UpdateModel();
+
 }
 
 void GaemPathing::PathNode::UpdateModel()

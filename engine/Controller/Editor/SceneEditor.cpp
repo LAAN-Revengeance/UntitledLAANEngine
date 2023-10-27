@@ -28,6 +28,9 @@ void SceneEditor::Draw(double deltaTime)
 	if (isPhysicDebug)
 		engine->scene->physicsWorld.DrawPhysicsWorld(*camera);
 
+	if (isPathDebug)
+		engine->scene->PathManager.DrawDebug(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
+
 	guirenderer.StartGUI();
 	Draw3DWidget();
 	DrawInspector();
@@ -717,7 +720,60 @@ void SceneEditor::DrawInspector()
 		}
 
 		if (ImGui::BeginTabItem("Navigation")) {
-			ImGui::Text("deeze");
+			
+			GaemPathing::PathNodeManager* pathNodeManager = &engine->scene->PathManager;
+
+			ImGui::SeparatorText("Create Node");
+			static glm::vec3 nNodePos(0.0f);
+			static bool nIsObstacle = false;
+			static float neighbourDist = pathNodeManager->GetMaxConnectionDist();
+
+			if (ImGui::DragFloat("NeighbourDistance##nodeNDist", &neighbourDist, 0.2f, 0.0f, FLT_MAX)) {
+				pathNodeManager->SetMaxConnectionDist(neighbourDist);
+			}
+			ImGui::DragFloat3("position##nodePos",&nNodePos.x);
+			ImGui::Checkbox("Obstacle##nodeObstacle", &nIsObstacle);
+			if (ImGui::Button("Add Node##nodeAdd")) 
+			{
+				pathNodeManager->AddNode(nNodePos,nIsObstacle);
+			}
+
+			if (ImGui::Button("Update Nodes##updateNodes")) {
+				pathNodeManager->UpdateNodes();
+			}
+
+			ImGui::SeparatorText("Nodes");
+			int i = 0;
+			GaemPathing::PathNode* delNode = nullptr;
+
+			for (auto& node : pathNodeManager->GetNodes()) {
+				
+				std::string nodeID = std::string("##node") + std::to_string(i);
+
+
+				glm::vec3 cPos = node->GetPosition();
+				if (ImGui::DragFloat3(nodeID.c_str(), &cPos.x)) {
+					node->SetPosition(cPos);
+				}
+
+				ImGui::SameLine();
+
+				bool cObstacle = node->GetObstacle();
+				if (ImGui::Checkbox(nodeID.c_str(), &cObstacle)) {
+					node->SetObstacle(cObstacle);
+				}
+				ImGui::SameLine();
+				if (ImGui::Button(("Delete" + nodeID).c_str())) {
+					delNode = node;
+				}
+
+				i++;
+			}
+
+			if (delNode) {
+				pathNodeManager->DeleteNode(delNode);
+			}
+
 			ImGui::EndTabItem();
 		}
 
@@ -1196,6 +1252,11 @@ void SceneEditor::DrawDebug(bool* showDebug)
 	if (ImGui::Button("Toggle Physics Debug"))
 	{
 		isPhysicDebug = !isPhysicDebug;
+	}
+
+	if (ImGui::Button("Toggle Pathing Debug"))
+	{
+		isPathDebug = !isPathDebug;
 	}
 
 	if (ImGui::Button("Toggle Transform Widget"))

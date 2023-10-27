@@ -5,6 +5,7 @@
 #include <map>
 #include <Physics/PhysicsManager.h>
 #include <Lua/LuaFunction.h>
+#include <AI/Pathfinding/PathNodeManager.h>
 
 /**
 *	@Class Scene
@@ -100,5 +101,8 @@ public:
 	std::map<std::string,GameObject*> gameObjects;
 		///same as gameObjects but by key is ID.
 	std::map<int, GameObject*> gameObjectsID;
+		
+		///AI navigation data
+	GaemPathing::PathNodeManager PathManager;
 private:
 };
