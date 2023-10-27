@@ -19,6 +19,7 @@ void Application::Run()
 		timer.Update();
 
 		double deltaTime = timer.DeltaTime();
+		window.PollEvents();
 
 		game.Draw(deltaTime);
 		editor.Draw(deltaTime);
@@ -27,6 +28,6 @@ void Application::Run()
 		editor.Update(deltaTime);
 		
 		window.SwapBuffers();
-		window.PollEvents();
+
 	}
 }
