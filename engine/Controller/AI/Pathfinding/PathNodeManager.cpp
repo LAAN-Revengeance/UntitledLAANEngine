@@ -45,11 +45,6 @@ void GaemPathing::PathNodeManager::DeleteNode(PathNode* node)
     delete node;
     node = nullptr;
 
-    //update deleted nodes neighbours
-    for (auto& neighbour : neighbours) {
-        if (neighbour.first != nullptr)
-            neighbour.first->UpdateConnections();
-    }
 }
 
 void GaemPathing::PathNodeManager::DrawDebug(glm::mat4 projection, glm::mat4 view, Shader* shader)

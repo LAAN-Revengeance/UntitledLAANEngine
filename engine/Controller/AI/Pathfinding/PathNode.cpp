@@ -72,7 +72,7 @@ void GaemPathing::PathNode::UpdateConnections()
 {
 	//remove null neighbour references
 	for (auto& neighbour : _neighbours) {
-		if (neighbour.first == nullptr) {
+		if (neighbour.first != nullptr) {
 			_neighbours.erase(neighbour.first);
 		}
 		else {
