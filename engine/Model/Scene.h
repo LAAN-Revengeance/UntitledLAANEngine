@@ -103,6 +103,6 @@ public:
 	std::map<int, GameObject*> gameObjectsID;
 		
 		///AI navigation data
-	GaemPathing::PathNodeManager PathManager;
+	GaemPathing::PathNodeManager pathManager;
 private:
 };

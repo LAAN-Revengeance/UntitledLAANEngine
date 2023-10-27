@@ -109,6 +109,16 @@ void GaemPathing::PathNode::UpdateModel()
 	}
 }
 
+unsigned int GaemPathing::PathNode::GetID()
+{
+	return ID;
+}
+
+void GaemPathing::PathNode::SetID(unsigned int id)
+{
+	ID = id;
+}
+
 void GaemPathing::PathNode::AddNeighbour(PathNode* neighbour)
 {
 	float distance = glm::length(neighbour->_position - _position);

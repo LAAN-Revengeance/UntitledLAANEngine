@@ -28,6 +28,11 @@ namespace GaemPathing {
 
 		float _maxConnectionDist = 5.0f;
 		std::vector<GaemPathing::PathNode*> _nodes;
+
+		unsigned int nextID = 1;
+		std::map<unsigned int, PathNode*> _idMap;
+
+		friend class SceneLoader;
 	};
 
 }

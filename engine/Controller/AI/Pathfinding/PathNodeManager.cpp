@@ -11,6 +11,11 @@ GaemPathing::PathNodeManager::~PathNodeManager()
 GaemPathing::PathNode* GaemPathing::PathNodeManager::AddNode(glm::vec3 position, bool obstacle)
 {
     PathNode* nNode = new PathNode(position);
+
+    nNode->ID = nextID;
+    nextID++;
+    _idMap.insert({ nNode->ID,nNode});
+
     nNode->SetObstacle(obstacle);
     for (auto& node : _nodes) {
         
@@ -40,6 +45,7 @@ void GaemPathing::PathNodeManager::DeleteNode(PathNode* node)
         neighbour.first->RemoveNeighbour(node);
     }
 
+    _idMap.erase(node->GetID());
     _nodes.erase(std::remove(_nodes.begin(), _nodes.end(), node), _nodes.end());
 
     delete node;

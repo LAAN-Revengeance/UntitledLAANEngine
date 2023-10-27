@@ -164,6 +164,10 @@ void SceneLoader::SaveScene(Scene* scene, const std::string outName)
     Lighting["PointLights"] = PointLights;
     root["Lighting"] = Lighting;
 
+    //navigation data
+    root["navigation"] = NavNodesToJson(&scene->pathManager);
+
+
     //serialize game objects
     for (auto& it : scene->gameObjects)
     {
@@ -280,6 +284,40 @@ Scene& SceneLoader::LoadScene(const char* inName)
         float quadratic = PntLights[i]["quadratic"].asFloat();
 
         scene->lights.AddPointLight(pos,dif,spe,constant,linear,quadratic);
+    }
+
+    //load navigation data
+    Json::Value navNodes = sceneJSON["navigation"]["nodes"];
+
+    GaemPathing::PathNodeManager& pathManager = scene->pathManager;
+    for (unsigned int i = 0; i < navNodes.size(); i++) {
+        
+        GaemPathing::PathNode* node = new GaemPathing::PathNode();
+
+        node->SetID(navNodes[i]["ID"].asUInt());
+
+        node->SetObstacle(navNodes[i]["obstacle"].asBool());
+
+        glm::vec3 pos;
+        pos.x = navNodes[i]["position"][0].asFloat();
+        pos.y = navNodes[i]["position"][1].asFloat();
+        pos.z = navNodes[i]["position"][2].asFloat();
+        node->SetPosition(pos);
+
+        pathManager._nodes.push_back(node);
+        pathManager._idMap.insert({node->GetID(),node});
+    }
+
+    for (unsigned int i = 0; i < navNodes.size(); i++) 
+    {
+        Json::Value jNeighbours =  navNodes[i]["neighbours"];
+
+        GaemPathing::PathNode* node = pathManager._nodes[i];
+
+        for (unsigned int j = 0; j < jNeighbours.size(); j++)
+        {
+            node->AddNeighbour(pathManager._idMap.at(jNeighbours[j].asUInt()));
+        }
     }
 
     //populate scene
@@ -533,4 +571,30 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
 Json::Value SceneLoader::LightsToJson(Lights* lights)
 {
     return Json::Value();
+}
+
+Json::Value SceneLoader::NavNodesToJson(GaemPathing::PathNodeManager* pathmanager)
+{
+
+    std::vector<GaemPathing::PathNode*>& nodes = pathmanager->GetNodes();
+
+    Json::Value nodeObjs;
+
+    for (auto& node : nodes) {
+        Json::Value nObj;
+
+        nObj["position"].append(node->GetPosition().x);
+        nObj["position"].append(node->GetPosition().y);
+        nObj["position"].append(node->GetPosition().z);
+        nObj["obstacle"] = node->GetObstacle();
+        nObj["ID"] = node->GetID();
+
+        for (auto& neighbour : node->GetNeighbours()) {
+            nObj["neighbours"].append(neighbour.first->GetID());
+        }
+
+        nodeObjs["nodes"].append(nObj);
+    }
+
+    return nodeObjs;
 }

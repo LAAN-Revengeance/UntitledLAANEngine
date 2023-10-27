@@ -29,7 +29,7 @@ void SceneEditor::Draw(double deltaTime)
 		engine->scene->physicsWorld.DrawPhysicsWorld(*camera);
 
 	if (isPathDebug)
-		engine->scene->PathManager.DrawDebug(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
+		engine->scene->pathManager.DrawDebug(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
 
 	guirenderer.StartGUI();
 	Draw3DWidget();
@@ -721,7 +721,7 @@ void SceneEditor::DrawInspector()
 
 		if (ImGui::BeginTabItem("Navigation")) {
 			
-			GaemPathing::PathNodeManager* pathNodeManager = &engine->scene->PathManager;
+			GaemPathing::PathNodeManager* pathNodeManager = &engine->scene->pathManager;
 
 			ImGui::SeparatorText("Create Node");
 			static glm::vec3 nNodePos(0.0f);
@@ -750,7 +750,8 @@ void SceneEditor::DrawInspector()
 				
 				std::string nodeID = std::string("##node") + std::to_string(i);
 
-
+				ImGui::Text(std::to_string(node->GetID()).c_str());
+					ImGui::SameLine();
 				glm::vec3 cPos = node->GetPosition();
 				if (ImGui::DragFloat3(nodeID.c_str(), &cPos.x)) {
 					node->SetPosition(cPos);

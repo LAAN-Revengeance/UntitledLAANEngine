@@ -30,6 +30,9 @@ namespace GaemPathing{
 		void UpdateConnections(std::vector<PathNode*> nodes, float distance);
 		void UpdateConnections();
 		void UpdateModel();
+
+		unsigned int GetID();
+		void SetID(unsigned int id);
 	private:
 
 		glm::vec3 _position = { 0,0,0 };
@@ -40,8 +43,12 @@ namespace GaemPathing{
 		std::map<PathNode*, float> _neighbours;
 
 		//debug rendering
-	
 		std::map<PathNode*, GaemGizmo::Line*> lines;
 		GaemGizmo::Box box;
+
+		//node ID, used as refernce for serialization
+		unsigned int ID = 0;
+
+		friend class PathNodeManager;
 	};
 }
