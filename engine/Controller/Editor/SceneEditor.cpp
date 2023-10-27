@@ -796,12 +796,18 @@ void SceneEditor::DrawInspector()
 					pathDebugLine.SetColor({ 1.0f, 0.0f, 0.0f, 1.0f });
 					pathDebugLine.SetLine(path);
 				}
+				else {
+					isValid = "Missing start or end node";
+					isValidColor = { 1.0f, 0.6f, 0.0f, 1.0f };
+				
+				}
 
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Clear Test Path")) {
 				std::vector<glm::vec3> path;
 				pathDebugLine.SetLine(path);
+				isValid = "";
 			}
 
 
