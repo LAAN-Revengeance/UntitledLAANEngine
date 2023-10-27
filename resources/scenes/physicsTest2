@@ -464,9 +464,29 @@
 		},
 		{
 			"castShadows" : true,
-			"isKinematic" : false,
+			"isKinematic" : true,
 			"name" : "player",
-			"physics" : null,
+			"physics" : 
+			[
+				{
+					"height" : 2.0,
+					"mass" : 1.0,
+					"offset" : 
+					[
+						0.0,
+						0.0,
+						0.0
+					],
+					"radius" : 1.0,
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"type" : 3
+				}
+			],
 			"position" : 
 			[
 				-1.6819086074829102,

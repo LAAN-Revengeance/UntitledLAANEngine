@@ -229,3 +229,13 @@ float PhysicsBody::GetDamping()
 {
 	return damping;
 }
+
+float PhysicsBody::GetDampingFactor()
+{
+	return dampingFactor;
+}
+
+void PhysicsBody::SetDampingFactor(float dampingValue)
+{
+	dampingFactor = dampingValue;
+}

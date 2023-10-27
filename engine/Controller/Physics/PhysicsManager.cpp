@@ -34,10 +34,6 @@ void PhysicsManager::Update(float deltaTime)
 
 		physicsBody.second.CalculateDamping(deltaTime);
 		physicsBody.second.CalculateInertiaTensor();	
-		// Uncomment these lines for a scuffed method of making bodies slow down and eventually stop
-		//glm::vec3 friction = { 0.99, 0.99, 0.99 };
-		//physicsBody.second.SetVelocity(physicsBody.second.GetVelocity() * friction);
-		//physicsBody.second.SetAngularVelocity(physicsBody.second.GetAngularVelocity() * friction);
 
 		// Actual physics updates for velocity and rotation
 		physicsBody.second.SetPosition(physicsBody.second.GetPosition() + physicsBody.second.GetVelocity() * deltaTime);

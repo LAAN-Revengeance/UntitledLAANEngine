@@ -151,6 +151,10 @@ public:
 
 	float GetDamping();
 
+	float GetDampingFactor();
+
+	void SetDampingFactor(float dampingValue);
+
 	float dampingFactor = 0.05;
 private:
 	unsigned int ID = -1;

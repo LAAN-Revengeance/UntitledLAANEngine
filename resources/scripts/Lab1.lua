@@ -137,13 +137,13 @@ function keyInput(dt)
 		ball.scale = vec3:new(0.1,0.1,0.1);
 
 		ball.physicsBody = physics:CreatePhysicsBody();
-		ball.physicsBody:SetPosition(vec3:new(camX, camY, camZ));
+		ball.physicsBody:SetPosition(player.position);
 			
 		physics:AddSphereCollider(ball.physicsBody,0.1);
 		ball.physicsBody:SetMass(0.1);
 		ball.physicsBody:SetGravity(true);
 
-		ball.physicsBody:SetVelocity(ball.position + vec3:new(frontX * 5, frontY * 5, frontZ * 5));
+		ball.physicsBody:SetVelocity(vec3:new(frontX * 5, frontY * 5, frontZ * 5));
 
 		scene:AddObject(ball);
 		numThings = numThings + 1;
@@ -160,7 +160,7 @@ function keyInput(dt)
 			ball.scale = vec3:new(0.1,0.1,0.1);
 
 			ball.physicsBody = physics:CreatePhysicsBody();
-			ball.physicsBody:SetPosition(vec3:new(0, 0, 0));
+			--ball.physicsBody:SetPosition(vec3:new(0, 0, 0));
 			
 			physics:AddSphereCollider(ball.physicsBody,0.1);
 			ball.physicsBody:SetMass(0.1);

@@ -524,15 +524,14 @@ void SceneEditor::DrawInspector()
 
 		//PHYSICS SETTINGS
 		if (inspectedObject->physicsBody)
+		{
 			ImGui::Text((std::string("PhysicsBody Position: ") + std::to_string(inspectedObject->physicsBody->GetPosition().x) + " | " + std::to_string(inspectedObject->physicsBody->GetPosition().y) + " | " + std::to_string(inspectedObject->physicsBody->GetPosition().z)).c_str());
-		if (inspectedObject->physicsBody)
 			ImGui::Text((std::string("PhysicsBody Velocity: ") + std::to_string(inspectedObject->physicsBody->velocity.x) + " | " + std::to_string(inspectedObject->physicsBody->velocity.y) + " | " + std::to_string(inspectedObject->physicsBody->velocity.z)).c_str());
-		if (inspectedObject->physicsBody)
 			ImGui::Text((std::string("PhysicsBody Rotation: ") + std::to_string(inspectedObject->physicsBody->orientation.x) + " | " + std::to_string(inspectedObject->physicsBody->orientation.y) + " | " + std::to_string(inspectedObject->physicsBody->orientation.z)).c_str());
-		if (inspectedObject->physicsBody)
 			ImGui::Text((std::string("Mass: ") + std::to_string(inspectedObject->physicsBody->GetMass())).c_str());
-		if (inspectedObject->physicsBody)
 			ImGui::Text((std::string("ID: ") + std::to_string(inspectedObject->physicsBody->GetID())).c_str());
+		}
+			
 		ImGui::SeparatorText("Physics");
 
 		if(inspectedObject->physicsBody)
@@ -555,6 +554,13 @@ void SceneEditor::DrawInspector()
 			float nMass = inspectedObject->physicsBody->GetMass();
 			if (ImGui::DragFloat("Mass##setmass", &nMass, 0.01f, 0.0f)) {
 				inspectedObject->physicsBody->SetMass(nMass);
+			}
+		}
+
+		if (inspectedObject->physicsBody) {
+			float damping = inspectedObject->physicsBody->GetDampingFactor();
+			if (ImGui::DragFloat("Damping", &damping, 0.01f, 0.01f, 1.0f)) {
+				inspectedObject->physicsBody->SetDampingFactor(damping);
 			}
 		}
 
