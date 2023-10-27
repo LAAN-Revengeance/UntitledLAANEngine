@@ -4,7 +4,6 @@
 #include <functional>
 #include <cmath> 
 #include <Utils/GaemUtils.h>
-#include <AI/Pathfinding/A_Star.h>
 #include <time.h>
 
 GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher):
@@ -19,42 +18,6 @@ GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher
 
 	//bind renderer resize handler to windowResize event
 	eventDispatcher->Subscribe("windowResize", std::bind(&Renderer::HandleResizeEvent,&renderer, std::placeholders::_1));
-
-	srand(time(NULL));
-	//temp test code
-	for (size_t i = 0; i < 16; i++)
-	{	
-		for (size_t j = 0; j < 16; j++)
-		{
-			GaemPathing::PathNode* node = new GaemPathing::PathNode({ i * 2,0,j * 2 });
-			nodes.push_back(node);
-
-			
-			if (rand() % 10 == 0)
-				node->SetObstacle(true);
-		}
-	}
-
-	for (auto& currentNode : nodes)
-	{
-		for (auto& potentialN : nodes) {
-			if (currentNode->GetNeighbours().find(potentialN) == currentNode->GetNeighbours().end() && currentNode != potentialN) {
-
-				float dist = glm::length(currentNode->GetPosition() - potentialN->GetPosition());
-				if (dist < 3.0f) {
-					currentNode->AddNeighbour(potentialN);
-				}
-			}
-		}
-		
-	}
-	std::vector<glm::vec3> positions = GaemPathing::FindPathA_Star(nodes[0], nodes[nodes.size()-1], nodes);
-
-	path.SetLine(positions);
-	path.SetColor({ 1,0,0,1 });
-	path.SetWidth(10);
-	path.SetPosition({0,2,0});
-
 }
 
 GameEngine::~GameEngine() {
@@ -86,13 +49,6 @@ void GameEngine::Draw(double deltaTime)
 		return;
 	renderer.RenderScene(scene->camera, *scene, deltaTime);
 
-
-	//temp
-	for (auto& node : nodes)
-	{
-		node->Draw(scene->camera.GetProjection(), scene->camera.GetView(), ResourceManager::Get().GetShader("line"));
-		path.Render(scene->camera.GetProjection(), scene->camera.GetView(), ResourceManager::Get().GetShader("line"));
-	}
 }
 
 

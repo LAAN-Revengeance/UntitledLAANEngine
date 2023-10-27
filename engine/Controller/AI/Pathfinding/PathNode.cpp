@@ -84,6 +84,12 @@ void GaemPathing::PathNode::AddNeighbour(PathNode* neighbour)
 	UpdateModel();
 }
 
+void GaemPathing::PathNode::AddNeighbour(PathNode* neighbour, float cost)
+{
+	_neighbours.insert({ neighbour,cost });
+	UpdateModel();
+}
+
 void GaemPathing::PathNode::RemoveNeighbour(PathNode* neighbour)
 {
 	_neighbours.erase(neighbour);

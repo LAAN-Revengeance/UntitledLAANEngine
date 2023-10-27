@@ -19,6 +19,7 @@ namespace GaemPathing{
 
 
 		void AddNeighbour(PathNode* neighbour);
+		void AddNeighbour(PathNode* neighbour,float cost);
 		void RemoveNeighbour(PathNode* neighbour);
 		void ClearNeighbours();
 
