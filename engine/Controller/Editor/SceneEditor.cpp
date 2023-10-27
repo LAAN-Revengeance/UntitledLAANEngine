@@ -6,6 +6,7 @@ SceneEditor::SceneEditor(GameEngine* nEngine):
 {
 	engine->isRunning = false;
 	UseScene(engine->scene);
+	pathDebugLine.SetWidth(10);
 }
 
 SceneEditor::~SceneEditor()

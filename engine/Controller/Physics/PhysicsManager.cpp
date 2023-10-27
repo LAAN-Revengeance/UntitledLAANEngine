@@ -111,6 +111,7 @@ void PhysicsManager::DrawPhysicsWorld(Camera& camera)
 	int nTri = debugRenderer.getNbTriangles();
 
 	if (nTri > 0) {
+		glLineWidth(1);
 		glDisable(GL_CULL_FACE);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glClearColor(1, 0, 0, 0);

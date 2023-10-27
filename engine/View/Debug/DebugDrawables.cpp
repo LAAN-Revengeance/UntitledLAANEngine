@@ -61,9 +61,13 @@ void GaemGizmo::Line::Render(glm::mat4 projection, glm::mat4 view, Shader* shade
 
 void GaemGizmo::Line::RenderFront(glm::mat4 projection, glm::mat4 view, Shader* shader)
 {
+	bool depthTest = glIsEnabled(GL_DEPTH_TEST);
+
 	glDisable(GL_DEPTH_TEST);
 	Render(projection,view,shader);
-	glEnable(GL_DEPTH_TEST);
+
+	if(depthTest)
+		glEnable(GL_DEPTH_TEST);
 }
 
 void GaemGizmo::Line::SetWidth(float width)
