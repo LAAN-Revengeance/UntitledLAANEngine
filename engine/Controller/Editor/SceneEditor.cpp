@@ -860,6 +860,7 @@ void SceneEditor::DrawInspector()
 				ImGui::PushItemWidth(220);
 				if (ImGui::DragFloat3(nodeID.c_str(), &cPos.x)) {
 					node->SetPosition(cPos);
+					selectedNavNodeBox.SetPosition(node->GetPosition());
 				}
 				ImGui::PopItemWidth();
 
