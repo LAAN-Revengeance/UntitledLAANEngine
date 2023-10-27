@@ -842,12 +842,20 @@ void SceneEditor::DrawInspector()
 				
 				std::string nodeID = std::string("##node") + std::to_string(i);
 
-				ImGui::Text(std::to_string(node->GetID()).c_str());
-					ImGui::SameLine();
+				//ImGui::Text(std::to_string(node->GetID()).c_str());
+				if (ImGui::Button(std::to_string(node->GetID()).c_str(), {30,20}))
+				{
+
+				}
+
+				ImGui::SameLine();
 				glm::vec3 cPos = node->GetPosition();
+
+				ImGui::PushItemWidth(220);
 				if (ImGui::DragFloat3(nodeID.c_str(), &cPos.x)) {
 					node->SetPosition(cPos);
 				}
+				ImGui::PopItemWidth();
 
 				ImGui::SameLine();
 
