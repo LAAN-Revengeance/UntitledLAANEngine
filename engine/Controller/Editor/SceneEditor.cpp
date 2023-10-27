@@ -7,6 +7,9 @@ SceneEditor::SceneEditor(GameEngine* nEngine):
 	engine->isRunning = false;
 	UseScene(engine->scene);
 	pathDebugLine.SetWidth(10);
+	selectedNavNodeBox.SetScale({ 0.7, 0.7, 0.7 });
+	selectedNavNodeBox.SetColor({0.0,1.0,1.0,0.8});
+	selectedNavNodeBox.SetEnabled(false);
 }
 
 SceneEditor::~SceneEditor()
@@ -32,6 +35,7 @@ void SceneEditor::Draw(double deltaTime)
 	if (isPathDebug) {
 		engine->scene->pathManager.DrawDebug(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
 		pathDebugLine.RenderFront(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
+		selectedNavNodeBox.Render(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
 	}
 
 	guirenderer.StartGUI();
@@ -728,8 +732,6 @@ void SceneEditor::DrawInspector()
 
 			ImGui::SeparatorText("Test Path");
 
-		
-
 			static GaemPathing::PathNode* testStartNode = nullptr;
 			static GaemPathing::PathNode* testEndNode = nullptr;
 
@@ -796,12 +798,18 @@ void SceneEditor::DrawInspector()
 					pathDebugLine.SetColor({ 1.0f, 0.0f, 0.0f, 1.0f });
 					pathDebugLine.SetLine(path);
 				}
+				else {
+					isValid = "Missing start or end node";
+					isValidColor = { 1.0f, 0.6f, 0.0f, 1.0f };
+				
+				}
 
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Clear Test Path")) {
 				std::vector<glm::vec3> path;
 				pathDebugLine.SetLine(path);
+				isValid = "";
 			}
 
 
@@ -832,16 +840,28 @@ void SceneEditor::DrawInspector()
 			int i = 0;
 			GaemPathing::PathNode* delNode = nullptr;
 
+			if(pathNodeManager->GetNodes().empty())
+				selectedNavNodeBox.SetEnabled(false);
+
 			for (auto& node : pathNodeManager->GetNodes()) {
 				
 				std::string nodeID = std::string("##node") + std::to_string(i);
 
-				ImGui::Text(std::to_string(node->GetID()).c_str());
-					ImGui::SameLine();
+				//ImGui::Text(std::to_string(node->GetID()).c_str());
+				if (ImGui::Button(std::to_string(node->GetID()).c_str(), {30,20}))
+				{
+					selectedNavNodeBox.SetEnabled(true);
+					selectedNavNodeBox.SetPosition(node->GetPosition());
+				}
+
+				ImGui::SameLine();
 				glm::vec3 cPos = node->GetPosition();
+
+				ImGui::PushItemWidth(220);
 				if (ImGui::DragFloat3(nodeID.c_str(), &cPos.x)) {
 					node->SetPosition(cPos);
 				}
+				ImGui::PopItemWidth();
 
 				ImGui::SameLine();
 

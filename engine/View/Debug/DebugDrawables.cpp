@@ -36,7 +36,7 @@ void GaemGizmo::Line::SetLine(std::vector<glm::vec3>& positions)
 
 void GaemGizmo::Line::Render(glm::mat4 projection, glm::mat4 view, Shader* shader)
 {
-	if (_vertCount <= 0) return;
+	if (_vertCount <= 0 || !_enabled) return;
 	glLineWidth(_width);
 
 	shader->Use();
@@ -85,6 +85,11 @@ void GaemGizmo::DebugGizmo::SetPosition(glm::vec3 position)
 	_position = position;
 }
 
+void GaemGizmo::DebugGizmo::SetEnabled(bool enabled)
+{
+	_enabled = enabled;
+}
+
 VAO* GaemGizmo::Box::_vao = nullptr;
 
 GaemGizmo::Box::Box()
@@ -114,6 +119,8 @@ void GaemGizmo::Box::SetScale(glm::vec3 scale)
 
 void GaemGizmo::Box::Render(glm::mat4 projection, glm::mat4 view, Shader* shader)
 {
+	if (!_enabled) return;
+
     shader->Use();
 
     glm::mat4 modelMat(1.0f);
