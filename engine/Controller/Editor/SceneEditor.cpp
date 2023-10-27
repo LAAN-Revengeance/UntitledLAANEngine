@@ -786,18 +786,21 @@ void SceneEditor::DrawInspector()
 					if (path.size() > 1) {
 
 						isValid = "Path is valid";
-						pathDebugLine.SetColor({1.0f, 0.0f, 0.0f, 1.0f});
-						pathDebugLine.SetLine(path);
-
 						isValidColor = { 0.0f, 1.0f, 0.2f, 1.0f };
-
 					}
 					else {
 						isValid = "Path is invalid";
 						isValidColor = { 1.0f, 0.0f, 0.0f, 1.0f };
 					}
+					pathDebugLine.SetColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+					pathDebugLine.SetLine(path);
 				}
 
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Clear Test Path")) {
+				std::vector<glm::vec3> path;
+				pathDebugLine.SetLine(path);
 			}
 
 

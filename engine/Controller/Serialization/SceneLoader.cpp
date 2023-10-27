@@ -289,12 +289,16 @@ Scene& SceneLoader::LoadScene(const char* inName)
     //load navigation data
     Json::Value navNodes = sceneJSON["navigation"]["nodes"];
 
+    unsigned int maxID = 0;
     GaemPathing::PathNodeManager& pathManager = scene->pathManager;
     for (unsigned int i = 0; i < navNodes.size(); i++) {
         
         GaemPathing::PathNode* node = new GaemPathing::PathNode();
 
         node->SetID(navNodes[i]["ID"].asUInt());
+
+        if (maxID < node->GetID())
+            maxID = node->GetID() + 1;
 
         node->SetObstacle(navNodes[i]["obstacle"].asBool());
 
@@ -319,6 +323,7 @@ Scene& SceneLoader::LoadScene(const char* inName)
             node->AddNeighbour(pathManager._idMap.at(jNeighbours[j].asUInt()));
         }
     }
+    pathManager.nextID = maxID + 1;
 
     //populate scene
     scene->skybox = res.GetCubeMap(sceneJSON["skybox"].asString());

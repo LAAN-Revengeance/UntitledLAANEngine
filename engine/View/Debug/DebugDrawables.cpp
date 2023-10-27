@@ -17,8 +17,10 @@ GaemGizmo::Line::~Line()
 
 void GaemGizmo::Line::SetLine(std::vector<glm::vec3>& positions)
 {
-	if (positions.size() <= 0)
+	if (positions.size() <= 0) {
+		_vertCount = 0;
 		return;
+	}
 
 	_vao.Delete();
 
