@@ -10,7 +10,8 @@ namespace GaemGizmo {
 
 	class DebugGizmo {
 	public:
-		virtual ~DebugGizmo() {};
+		DebugGizmo() {};
+		virtual ~DebugGizmo() { };
 		virtual void Render(glm::mat4 projection, glm::mat4 view, Shader* shader) = 0;
 
 		void SetColor(glm::vec4 color);
@@ -32,6 +33,7 @@ namespace GaemGizmo {
 		~Line();
 		void SetLine(std::vector<glm::vec3>& positions);
 		void Render(glm::mat4 projection, glm::mat4 view, Shader* shader);
+		void RenderFront(glm::mat4 projection, glm::mat4 view, Shader* shader);
 		void SetWidth(float width);
 
 	private:

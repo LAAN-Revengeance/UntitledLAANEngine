@@ -12,7 +12,7 @@ GaemGizmo::Line::Line(std::vector<glm::vec3>& positions, glm::vec3 position)
 
 GaemGizmo::Line::~Line()
 {
-	_vao.Delete();
+	//_vao.Delete();
 }
 
 void GaemGizmo::Line::SetLine(std::vector<glm::vec3>& positions)
@@ -41,7 +41,8 @@ void GaemGizmo::Line::Render(glm::mat4 projection, glm::mat4 view, Shader* shade
 
 	glm::mat4 modelMat(1.0f);
 	modelMat = glm::translate(modelMat, _position);
-
+	modelMat = glm::scale(modelMat, {1,1,1});
+	
 
 	//Set view and projection matricies
 	shader->SetUniform("view", view);
@@ -54,6 +55,13 @@ void GaemGizmo::Line::Render(glm::mat4 projection, glm::mat4 view, Shader* shade
 	glDrawArrays(GL_LINE_STRIP,0, _vertCount);
 
 	_vao.UnBind();
+}
+
+void GaemGizmo::Line::RenderFront(glm::mat4 projection, glm::mat4 view, Shader* shader)
+{
+	glDisable(GL_DEPTH_TEST);
+	Render(projection,view,shader);
+	glEnable(GL_DEPTH_TEST);
 }
 
 void GaemGizmo::Line::SetWidth(float width)

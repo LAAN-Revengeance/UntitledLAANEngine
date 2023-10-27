@@ -76,4 +76,6 @@ private:
 
 		///Main GUI Renderer
 	GUIRenderer& guirenderer;
+	GaemGizmo::Line pathDebugLine;
+
 };

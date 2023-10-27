@@ -60,5 +60,6 @@ std::vector<glm::vec3> GaemPathing::FindPathA_Star(PathNode* start, PathNode* en
 		pathVec.push_back(p->node->GetPosition());
 		p = p->parent;
 	}
+	pathVec.push_back(start->GetPosition());
 	return pathVec;
 }

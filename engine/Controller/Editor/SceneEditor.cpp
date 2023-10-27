@@ -28,8 +28,10 @@ void SceneEditor::Draw(double deltaTime)
 	if (isPhysicDebug)
 		engine->scene->physicsWorld.DrawPhysicsWorld(*camera);
 
-	if (isPathDebug)
+	if (isPathDebug) {
 		engine->scene->pathManager.DrawDebug(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
+		pathDebugLine.RenderFront(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
+	}
 
 	guirenderer.StartGUI();
 	Draw3DWidget();
@@ -722,6 +724,86 @@ void SceneEditor::DrawInspector()
 		if (ImGui::BeginTabItem("Navigation")) {
 			
 			GaemPathing::PathNodeManager* pathNodeManager = &engine->scene->pathManager;
+
+			ImGui::SeparatorText("Test Path");
+
+		
+
+			static GaemPathing::PathNode* testStartNode = nullptr;
+			static GaemPathing::PathNode* testEndNode = nullptr;
+
+
+			static std::string startName = "";
+			if (testStartNode) {
+				startName = std::to_string(testStartNode->GetID());
+			}
+			else {
+				startName = "";
+			}
+
+			static std::string endName = "";
+			if (testEndNode) {
+				endName = std::to_string(testEndNode->GetID());
+			}
+			else {
+				endName = "";
+			}
+			ImGui::Text("Start Node:");
+			if (ImGui::BeginCombo("##startNodeTest", startName.c_str()))
+			{
+				if (ImGui::Selectable("--None--"))
+					testStartNode = nullptr;
+				for (auto& node : pathNodeManager->GetNodes())
+				{
+					if (ImGui::Selectable(std::to_string(node->GetID()).c_str())) {
+						testStartNode = node;
+					}
+				}
+				ImGui::EndCombo();
+			}
+
+			ImGui::Text("End Node:");
+			if (ImGui::BeginCombo("##endNodeTest", endName.c_str()))
+			{
+				if (ImGui::Selectable("--None--"))
+					testEndNode = nullptr;
+				for (auto& node : pathNodeManager->GetNodes())
+				{
+					if (ImGui::Selectable(std::to_string(node->GetID()).c_str())) {
+						testEndNode = node;
+					}
+				}
+				ImGui::EndCombo();
+			}
+
+			static std::string isValid = "";
+			static ImVec4 isValidColor;
+
+			if (ImGui::Button("Test Path"))
+			{
+				if (testStartNode && testEndNode) {
+					std::vector<glm::vec3> path = GaemPathing::FindPathA_Star(testStartNode, testEndNode, pathNodeManager->GetNodes());
+					if (path.size() > 1) {
+
+						isValid = "Path is valid";
+						pathDebugLine.SetColor({1.0f, 0.0f, 0.0f, 1.0f});
+						pathDebugLine.SetLine(path);
+
+						isValidColor = { 0.0f, 1.0f, 0.2f, 1.0f };
+
+					}
+					else {
+						isValid = "Path is invalid";
+						isValidColor = { 1.0f, 0.0f, 0.0f, 1.0f };
+					}
+				}
+
+			}
+
+
+			ImGui::PushStyleColor(ImGuiCol_Text, isValidColor);
+			ImGui::Text(isValid.c_str());
+			ImGui::PopStyleColor();
 
 			ImGui::SeparatorText("Create Node");
 			static glm::vec3 nNodePos(0.0f);
