@@ -11,10 +11,10 @@ GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher
 	isRunning(true),
 	scene(new Scene),
 	window(nWindow),
-	eventDispatcher(nDispatcher),
-	guiRenderer(nWindow)
+	eventDispatcher(nDispatcher)
 {
 	InputManager::Get().Init(nWindow);
+	guiRenderer.Init(nWindow);
 
 	//bind renderer resize handler to windowResize event
 	eventDispatcher->Subscribe("windowResize", std::bind(&Renderer::HandleResizeEvent,&renderer, std::placeholders::_1));
