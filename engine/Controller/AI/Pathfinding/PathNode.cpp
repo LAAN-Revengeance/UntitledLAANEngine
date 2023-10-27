@@ -26,10 +26,10 @@ void GaemPathing::PathNode::SetObstacle(bool obstacle)
 	_obstacle = obstacle;
 
 	if (_obstacle) {
-		box.SetColor({0.3,0.3,0.3,1.0});
+		box.SetColor(_color_Obstacle);
 	}
 	else {
-		box.SetColor({0.0,0.0,1.0,1.0});
+		box.SetColor(_color_Active);
 	}
 }
 
@@ -85,12 +85,12 @@ void GaemPathing::PathNode::UpdateConnections()
 
 void GaemPathing::PathNode::UpdateModel()
 {
-	box.SetScale({ 2,2,2 });
+	box.SetScale(_box_Scale);
 	if (_obstacle) {
-		box.SetColor({ 0.1,0.1,0.1,1.0 });
+		box.SetColor(_color_Obstacle);
 	}
 	else {
-		box.SetColor({ 0.0,0.0,1.0,1.0 });
+		box.SetColor(_color_Active);
 	}
 
 	box.SetPosition(_position);
@@ -104,7 +104,7 @@ void GaemPathing::PathNode::UpdateModel()
 		std::vector<glm::vec3> pos({_position,neighbour.first->_position});
 
 		GaemGizmo::Line* nLine = new GaemGizmo::Line(pos, { 0,0,0 });
-		nLine->SetColor({ 0.3,0.3,0.3,1 });
+		nLine->SetColor(_color_connection);
 		lines.insert({ neighbour.first , nLine });
 	}
 }

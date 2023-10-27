@@ -50,5 +50,12 @@ namespace GaemPathing{
 		unsigned int ID = 0;
 
 		friend class PathNodeManager;
+
+	protected:
+
+		glm::vec3 _box_Scale = { 0.5f, 0.5f, 0.5f };
+		glm::vec4 _color_Obstacle =		{ 0.0f, 0.0f, 0.2f, 1.0f };
+		glm::vec4 _color_Active =		{ 0.0f, 0.0f, 1.0f, 1.0f };
+		glm::vec4 _color_connection =	{ 0.0f, 1.0f, 0.3f, 1.0f };
 	};
 }
