@@ -156,7 +156,6 @@
     <ClCompile Include="dependencies\include\jsoncpp.cpp" />
     <ClCompile Include="engine\Application\Application.cpp" />
     <ClCompile Include="engine\Controller\FCM.cpp" />
-    <ClCompile Include="engine\Controller\FCMNodes.cpp" />
     <ClCompile Include="engine\Controller\Physics\CollisionSolver.cpp" />
     <ClCompile Include="engine\Controller\Event\EventDispatcher.cpp" />
     <ClCompile Include="engine\Controller\GaemEngine.cpp" />
@@ -223,7 +222,6 @@
     <ClInclude Include="engine\Controller\Event\Event.h" />
     <ClInclude Include="engine\Controller\Event\EventDispatcher.h" />
     <ClInclude Include="engine\Controller\FCM.h" />
-    <ClInclude Include="engine\Controller\FCMNodes.h" />
     <ClInclude Include="engine\Controller\GaemEngine.h" />
     <ClInclude Include="engine\Controller\InputManager.h" />
     <ClInclude Include="engine\Controller\Lua\LuaGameBridge.h" />

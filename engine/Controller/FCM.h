@@ -1,13 +1,32 @@
 #pragma once
-#include "FCMNodes.h"
+#include <iostream>
+#include <vector>
+
+struct Concept
+{
+	std::string name;
+	float value;
+};
+
+struct Relationship
+{
+	std::string concept1;
+	std::string concept2;
+	float weighting;
+};
 
 class FCM
 {
 public:
 	FCM() {};
-	void AddNode(std::string concept, float conceptValue, std::string relationshipNode1, std::string relationshipNode2, float relationshipWeighting);
-	void AddConcept(std::string concept, float value);
-	void AddRelationship(std::string concpept1, std::string concept2, float weighting);
+
+	void AddConcept(std::string Name, float Value);
+	void AddRelationship(std::string Concept1, std::string Concept2, float Weighting);
+	float GetConceptValue(std::string conceptName);
+	float GetRelationshipWeighting(std::string concept1, std::string concept2);
+	void SetConceptValue(std::string conceptName, float value);
+	void Run();
 private:
-	std::vector<FCMNodes> nodes;
+	std::vector<Concept> concepts;
+	std::vector<Relationship> relationships;
 };
