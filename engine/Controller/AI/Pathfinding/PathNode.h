@@ -7,9 +7,9 @@ namespace GaemPathing{
 
     /**
     *   @class PathNode
-    *   @brief Represents a node in a pathfinding system.
+    *   @brief Represents a node in the pathfinding system.
     *
-    *   This class provides functionalities to represent a node the pathfinding system.
+    *   Provides functionalities to represent a node the pathfinding system.
     * 
     *   @author Andres Comeros-Ochtman
 	*   @version 1.0
@@ -31,7 +31,7 @@ namespace GaemPathing{
 
         /**
         *   @brief Set the position of the node.
-        *   @param position New position to set.
+        *   @param position new position to set.
         */
         void SetPosition(glm::vec3 position);
 
@@ -120,9 +120,35 @@ namespace GaemPathing{
         */
         void SetID(unsigned int id);
 
+        /**
+         * @brief sets the scale of this node, the size it occupys
+         * @param size the new scale of this node
+        */
+        void SetSize(glm::vec3 size);
+
+        /**
+         * @brief Get the size of this node
+         * @return the size of this node
+        */
+        glm::vec3 GetSize();
+
+        /**
+         * @brief returns if a point is within the bounds of this node
+         * @param position location to check if in node bounds
+         * @return if position is in the nodes area
+        */
+        bool ContainsPoint(glm::vec3 position);
+
     private:
 
+        ///represents the area this node occupys, used to tell if a position is within the node
+        glm::vec3 _size = {1,1,1};
+        glm::vec3 _sizeHalf = {0.5,0.5,0.5};
+
+        ///node position
         glm::vec3 _position = { 0,0,0 };
+
+        ///if this node can be visited
         bool _obstacle = false;
 
         ///stores pointer to adjacent node and the cost of conection
@@ -138,9 +164,10 @@ namespace GaemPathing{
         friend class PathNodeManager;
 
     protected:
-        glm::vec3 _box_Scale = { 0.5f, 0.5f, 0.5f };
-        glm::vec4 _color_Obstacle = { 0.0f, 0.0f, 0.2f, 1.0f };
-        glm::vec4 _color_Active = { 0.0f, 0.0f, 1.0f, 1.0f };
+        //debug visuals
+        //glm::vec3 _box_Scale = { 0.5f, 0.5f, 0.5f };
+        glm::vec4 _color_Obstacle = { 0.0f, 0.0f, 0.2f, 0.3f };
+        glm::vec4 _color_Active = { 0.0f, 0.0f, 1.0f, 0.3f };
         glm::vec4 _color_connection = { 0.0f, 1.0f, 0.3f, 1.0f };
     };
 }

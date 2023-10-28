@@ -49,6 +49,12 @@ public:
 	void SetPosition(glm::vec3 nPos);
 
 		/**
+		*	@brief returns current postion of this game object
+		*	@return the current position in worldspace
+		*/
+	glm::vec3 GetPosition();
+
+		/**
 		*	@brief Set the current rotation using euler angles
 		*	@param x rotation along x axis
 		*	@param y rotation along y axis
@@ -66,7 +72,13 @@ public:
 		*	@return void
 		*/
 	void SetRotation(glm::quat nRot);
-
+		/**
+		*	@brief rotate around a specified axix
+		*	@param x axis X value
+		*	@param y axis Y value
+		*	@param z axis Z value
+		*	@param angle angle in radians to rotate around the axis
+		*/
 	void Rotate(float x, float y, float z, float angle);
 
 		/**

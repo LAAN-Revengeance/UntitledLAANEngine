@@ -1,4 +1,5 @@
 #include "OBJReader.h"
+#include <Utils/DebugLogger.h>
 
 OBJData *ReadObjFile(const char* fileName) {
 	
@@ -16,7 +17,9 @@ OBJData *ReadObjFile(const char* fileName) {
 	std::fstream file;
 	file.open(fileName, std::ios::in);
 	if (!file) {
-		std::cout << "ERROR: COULD NOT READ FILE: " << fileName << std::endl;
+
+		DebugLogger::Log(GAEM_ERROR, std::string("Could not read file: ") + fileName);
+	
 		return objData;
 	}
 

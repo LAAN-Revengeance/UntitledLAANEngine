@@ -66,7 +66,7 @@ namespace GaemPathing {
 		 * @brief return reference to the netowork nodes
 		 * @return vector of nodes from the network
 		*/
-		std::vector<GaemPathing::PathNode*>& GetNodes();
+		const std::vector<GaemPathing::PathNode*>& GetNodes();
 
 	private:
 

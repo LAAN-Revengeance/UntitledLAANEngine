@@ -6,7 +6,7 @@
 #include <SoundEngine.h>
 #include <GaemEngine.h>
 #include <lua/LuaGameBridge.h>
-
+#include <Utils/DebugLogger.h>
 
 /**
 *	@Class SceneEditor
@@ -16,12 +16,12 @@
 *	@date 16/08/2023
 */
 
-const int LAAN_ENGINE_VERSION = 1;
+const int LAAN_ENGINE_VERSION = 2;
 
 class SceneEditor
 {
 public:
-	SceneEditor(GameEngine* nEngine);
+	SceneEditor(GameEngine* nEngine, DebugLogger* logger);
 	~SceneEditor();
 	void Update(double deltaTime);
 	void Draw(double deltaTime);
@@ -38,10 +38,12 @@ private:
 	void DrawMenu();
 	void DrawResources();
 	void DrawWindowSettings(bool* showChangeWindow);
-	void DrawDebug(bool* showDebugMenu);
 	void DrawOpenFile(bool* showOpenFile);
 	void DrawSaveFile(bool* showSaveFile);
 	void Draw3DWidget();
+
+	void DrawDebug();
+	void DrawNPCInspector();
 
 	//Input methods
 	void CameraControl(double deltaTime);
@@ -79,4 +81,6 @@ private:
 	GaemGizmo::Line pathDebugLine;
 	GaemGizmo::Box selectedNavNodeBox;
 
+	//debug logging
+	DebugLogger* _logger;
 };

@@ -3,7 +3,7 @@
 Application::Application() :
 	window(1920,1080,"Application",&eventDispatcher),
 	game(&window, &eventDispatcher),
-	editor(&game)
+	editor(&game, &logger)
 {
 }
 
@@ -28,6 +28,5 @@ void Application::Run()
 		editor.Update(deltaTime);
 		
 		window.SwapBuffers();
-
 	}
 }

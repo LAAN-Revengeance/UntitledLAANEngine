@@ -1,8 +1,9 @@
 #include "SceneEditor.h"
 
-SceneEditor::SceneEditor(GameEngine* nEngine):
+SceneEditor::SceneEditor(GameEngine* nEngine, DebugLogger* logger):
 	engine(nEngine),
-	guirenderer(nEngine->guiRenderer)
+	guirenderer(nEngine->guiRenderer),
+	_logger(logger)
 {
 	engine->isRunning = false;
 	UseScene(engine->scene);
@@ -104,7 +105,8 @@ void SceneEditor::DrawHeighrarchy()
 	ImGui::CollapsingHeader("Scene Objects", ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Leaf);
 	ImGui::SeparatorText("GameObjects");
 
-	if (ImGui::Button("Add Object")) {
+
+	if (ImGui::Button("Add Object", {100,0})) {
 		
 		std::string name = "new object";
 		std::string nName = name;
@@ -116,6 +118,24 @@ void SceneEditor::DrawHeighrarchy()
 			++nSuffix;
 		}
 		GameObject& go = res.CreateGameObject(nName,"","");
+		engine->scene->AddObject(go);
+	}
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Add NPC", { 100,0 })) {
+
+		std::string name = "new NPC";
+		std::string nName = name;
+		int nSuffix = 1;
+		while (res.objects.find(nName) != res.objects.end())
+		{
+			nName = name;
+			nName.append(std::to_string(nSuffix));
+			++nSuffix;
+		}
+		NPC_GameObject& go = res.CreateNPC(nName, "", "");
+		go.SetPathManager(&engine->scene->pathManager);
 		engine->scene->AddObject(go);
 	}
 
@@ -157,11 +177,19 @@ void SceneEditor::DrawHeighrarchy()
 					nName.append(std::to_string(nSuffix));
 					++nSuffix;
 				}
-				GameObject& go = res.CreateGameObject(nName, "", "");
-				go = *pair.second;
-				go.name = nName;
+				GameObject* go;
+				
+				if (dynamic_cast<NPC_GameObject*>(pair.second) != nullptr) {
+					go = &res.CreateNPC(nName, "", "");
+				}
+				else {
+					go = &res.CreateGameObject(nName, "", "");
+				}
+				
+				go = pair.second;
+				go->name = nName;
 
-				go.physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+				go->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
 				
 				if(pair.second->physicsBody)
 				for (int i = 0; i < pair.second->physicsBody->GetNumColliders(); ++i)
@@ -170,24 +198,24 @@ void SceneEditor::DrawHeighrarchy()
 					switch (pair.second->physicsBody->GetCollider(i).GetType())
 					{
 					case COLLIDER_BOX:
-						engine->scene->physicsWorld.AddBoxCollider(*go.physicsBody,static_cast<BoxCollider*>(&nCollider)->GetScale());
+						engine->scene->physicsWorld.AddBoxCollider(*go->physicsBody,static_cast<BoxCollider*>(&nCollider)->GetScale());
 						break;
 					case COLLIDER_SPHERE:
-						engine->scene->physicsWorld.AddSphereCollider(*go.physicsBody, static_cast<SphereCollider*>(&nCollider)->GetRadius());
+						engine->scene->physicsWorld.AddSphereCollider(*go->physicsBody, static_cast<SphereCollider*>(&nCollider)->GetRadius());
 						break;
 					case COLLIDER_CAPSULE:
-						engine->scene->physicsWorld.AddCapsuleCollider(*go.physicsBody, static_cast<CapsuleCollider*>(&nCollider)->GetRadius(), static_cast<CapsuleCollider*>(&nCollider)->GetHeight());
+						engine->scene->physicsWorld.AddCapsuleCollider(*go->physicsBody, static_cast<CapsuleCollider*>(&nCollider)->GetRadius(), static_cast<CapsuleCollider*>(&nCollider)->GetHeight());
 						break;
 					default:
 						break;
 					}
-					go.physicsBody->GetCollider(i).SetOffset(nCollider.GetOffset());
-					go.physicsBody->GetCollider(i).SetRotation(nCollider.GetRotation());
+					go->physicsBody->GetCollider(i).SetOffset(nCollider.GetOffset());
+					go->physicsBody->GetCollider(i).SetRotation(nCollider.GetRotation());
 
 					
 				}
 
-				engine->scene->AddObject(go);
+				engine->scene->AddObject(*go);
 			}
 			ImGui::TreePop();
 		}
@@ -697,9 +725,12 @@ void SceneEditor::DrawInspector()
 							++i;
 						}
 					}
+					ImGui::Dummy(ImVec2(0.0f, 20.0f));
 				}
-
 				
+				if (dynamic_cast<NPC_GameObject*>(inspectedObject)) {
+					DrawNPCInspector();
+				}
 
 				changeObject = false;
 			}
@@ -768,7 +799,7 @@ void SceneEditor::DrawInspector()
 			if (ImGui::Button("Test Path"))
 			{
 				if (testStartNode && testEndNode) {
-					std::vector<glm::vec3> path = GaemPathing::FindPathA_Star(testStartNode, testEndNode, pathNodeManager->GetNodes());
+					std::vector<glm::vec3> path = GaemPathing::FindPathA_StarPositions(testStartNode, testEndNode, pathNodeManager->GetNodes());
 					if (path.size() > 1) {
 
 						isValid = "Path is valid";
@@ -802,17 +833,19 @@ void SceneEditor::DrawInspector()
 
 			ImGui::SeparatorText("Create Node");
 			static glm::vec3 nNodePos(0.0f);
+			static float nNodeSize = 0.0f;
 			static bool nIsObstacle = false;
 			static float neighbourDist = pathNodeManager->GetMaxConnectionDist();
 
 			if (ImGui::DragFloat("NeighbourDistance##nodeNDist", &neighbourDist, 0.2f, 0.0f, FLT_MAX)) {
 				pathNodeManager->SetMaxConnectionDist(neighbourDist);
 			}
-			ImGui::DragFloat3("position##nodePos",&nNodePos.x);
-			ImGui::Checkbox("Obstacle##nodeObstacle", &nIsObstacle);
-			if (ImGui::Button("Add Node##nodeAdd")) 
+			ImGui::DragFloat3("position##nnodePos",&nNodePos.x);
+			ImGui::DragFloat("size##nnodescale", &nNodeSize);
+			ImGui::Checkbox("Obstacle##nnodeObstacle", &nIsObstacle);
+			if (ImGui::Button("Add Node##nnodeAdd")) 
 			{
-				pathNodeManager->AddNode(nNodePos,nIsObstacle);
+				pathNodeManager->AddNode(nNodePos, nIsObstacle)->SetSize({ nNodeSize ,nNodeSize, nNodeSize});
 			}
 
 			if (ImGui::Button("Update Nodes##updateNodes")) {
@@ -822,6 +855,7 @@ void SceneEditor::DrawInspector()
 			ImGui::SeparatorText("Nodes");
 			int i = 0;
 			GaemPathing::PathNode* delNode = nullptr;
+			static GaemPathing::PathNode* selectedNode = nullptr;
 
 			if(pathNodeManager->GetNodes().empty())
 				selectedNavNodeBox.SetEnabled(false);
@@ -829,30 +863,85 @@ void SceneEditor::DrawInspector()
 			for (auto& node : pathNodeManager->GetNodes()) {
 				
 				std::string nodeID = std::string("##node") + std::to_string(i);
-;
+
+				bool selectedButton = false;
+
+				if (selectedNode)
+					if (node->GetID() == selectedNode->GetID())
+						selectedButton = true;
+
+				if (selectedButton) {
+					ImGui::PushStyleColor(ImGuiCol_Button, { 0.0,1.0,1.0,1.0 });
+					ImGui::PushStyleColor(ImGuiCol_Text, { 0.0,0.0,0.0,1.0 });
+				}
 				if (ImGui::Button(std::to_string(node->GetID()).c_str(), {30,20}))
 				{
+					selectedNode = node;
+
 					selectedNavNodeBox.SetEnabled(true);
 					selectedNavNodeBox.SetPosition(node->GetPosition());
+					selectedNavNodeBox.SetScale(node->GetSize() * 1.1f);
+				}
+				if (selectedButton) {
+					ImGui::PopStyleColor();
+					ImGui::PopStyleColor();
+				}
+				if (ImGui::IsItemHovered())
+				{
+					ImGui::BeginTooltip();
+					ImGui::Text("Node ID");
+					ImGui::EndTooltip();
 				}
 
 				ImGui::SameLine();
+				
 				glm::vec3 cPos = node->GetPosition();
-
-				ImGui::PushItemWidth(220);
+				ImGui::PushItemWidth(160);
 				if (ImGui::DragFloat3(nodeID.c_str(), &cPos.x)) {
 					node->SetPosition(cPos);
 					selectedNavNodeBox.SetEnabled(true);
 					selectedNavNodeBox.SetPosition(node->GetPosition());
+					selectedNavNodeBox.SetScale(node->GetSize() * 1.1f);
+					selectedNode = node;
 				}
 				ImGui::PopItemWidth();
 
+				if (ImGui::IsItemHovered())
+				{
+					ImGui::BeginTooltip();
+					ImGui::Text("node position");
+					ImGui::EndTooltip();
+				}
+
 				ImGui::SameLine();
 
+				float cScale = node->GetSize().x;
+				ImGui::PushItemWidth(60);
+				if (ImGui::DragFloat((nodeID + "scaleSet").c_str(), &cScale, 0.1f, 0.0f, FLT_MAX)) {
+					node->SetSize({ cScale ,cScale ,cScale });
+				}
+				ImGui::PopItemWidth();
+
+				if (ImGui::IsItemHovered())
+				{
+					ImGui::BeginTooltip();
+					ImGui::Text("node scale");
+					ImGui::EndTooltip();
+				}
+
+				ImGui::SameLine();
 				bool cObstacle = node->GetObstacle();
 				if (ImGui::Checkbox(nodeID.c_str(), &cObstacle)) {
 					node->SetObstacle(cObstacle);
 				}
+
+				if (ImGui::IsItemHovered())
+				{
+					ImGui::BeginTooltip();
+					ImGui::Text("set obstacle");
+					ImGui::EndTooltip();
+				}
+
 				ImGui::SameLine();
 				if (ImGui::Button(("Delete" + nodeID).c_str())) {
 					delNode = node;
@@ -868,8 +957,19 @@ void SceneEditor::DrawInspector()
 			ImGui::EndTabItem();
 		}
 
+
+		if (ImGui::BeginTabItem("Debug")) {
+			
+			DrawDebug();
+
+
+			ImGui::EndTabItem();
+		}
+
 		ImGui::EndTabBar();
 	}
+
+
 
 	
 	guirenderer.EndWindow();
@@ -878,7 +978,6 @@ void SceneEditor::DrawInspector()
 void SceneEditor::DrawMenu()
 {
 	static bool showChangeWindow = false;
-	static bool showDebug = false;
 	static bool showOpenFile = false;
 	static bool showSaveFile = false;
 	float width = 1.0; float height = 0.06; float posY = 0.0; float posX = 0.0;
@@ -953,6 +1052,15 @@ void SceneEditor::DrawMenu()
 			ImGui::EndMenu();
 		}
 
+		if (ImGui::BeginMenu("View")) {
+			ImGui::MenuItem("(Toggle Debug Rendering)", NULL, false, false);
+			ImGui::MenuItem("Debug Physics", NULL, &isPhysicDebug);
+			ImGui::MenuItem("Debug Pathfinding", NULL, &isPathDebug);
+			ImGui::MenuItem("Debug Transform Gizmo", NULL, &isShowWidget);
+
+			ImGui::EndMenu();
+		}
+
 		if (ImGui::BeginMenu("Help")) {
 
 			if (ImGui::BeginMenu("About")) {
@@ -973,7 +1081,6 @@ void SceneEditor::DrawMenu()
 
 				ImGui::EndMenu();
 			}
-			ImGui::MenuItem("Debug",NULL,&showDebug);
 
 			ImGui::EndMenu();
 		}
@@ -1009,7 +1116,6 @@ void SceneEditor::DrawMenu()
 
 	guirenderer.EndWindow();
 
-	DrawDebug(&showDebug);
 	DrawWindowSettings(&showChangeWindow);
 	DrawSaveFile(&showSaveFile);
 }
@@ -1310,14 +1416,8 @@ void SceneEditor::DrawWindowSettings(bool* showChangeWindow)
 	ImGui::End();
 }
 
-void SceneEditor::DrawDebug(bool* showDebug)
+void SceneEditor::DrawDebug()
 {
-	if (!(*showDebug))
-		return;
-
-	ImGui::SetNextWindowSize({ 300,200 });
-	ImGui::Begin("Debug", showDebug);
-	
 	double fps = engine->renderer.GetFPS();
 	ImGui::Text("Current FPS:");
 	ImGui::SameLine();
@@ -1339,24 +1439,15 @@ void SceneEditor::DrawDebug(bool* showDebug)
 		sprintf(overlay, "avg %f", average);
 		ImGui::PlotLines("##FPS", values, IM_ARRAYSIZE(values), values_offset, overlay, 0.0f, 200.0f, ImVec2(0, 80.0f));
 	}
+	ImGui::Dummy(ImVec2(0.0f, 10.0f));
+	ImGui::Text("Console Output:");
+	ImGui::BeginChild("scrolling", ImVec2(0, 0), true, ImGuiWindowFlags_HorizontalScrollbar);
+	std::string consoleOutput = _logger->streamCapture.GetBuffer();
 
-	if (ImGui::Button("Toggle Physics Debug"))
-	{
-		isPhysicDebug = !isPhysicDebug;
-	}
-
-	if (ImGui::Button("Toggle Pathing Debug"))
-	{
-		isPathDebug = !isPathDebug;
-	}
-
-	if (ImGui::Button("Toggle Transform Widget"))
-	{
-		isShowWidget = !isShowWidget;
-	}
-
-	ImGui::End();
-
+	ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + ImGui::GetContentRegionAvail().x);
+	ImGui::TextUnformatted(consoleOutput.c_str());
+	ImGui::PopTextWrapPos();
+	ImGui::EndChild();
 }
 
 void SceneEditor::DrawOpenFile(bool* showOpenFile)
@@ -1440,6 +1531,80 @@ void SceneEditor::Draw3DWidget()
 	}
 
 	guirenderer.EndWindow();
+}
+
+void SceneEditor::DrawNPCInspector()
+{
+	if (!inspectedObject)return;
+	NPC_GameObject* inspectedNPC = static_cast<NPC_GameObject*>(inspectedObject);
+	if (!inspectedNPC) return;
+
+	//NPC Path Finding settings
+	if (ImGui::CollapsingHeader("-- Path Finding --")) {
+		
+		ImGui::SeparatorText("Move settings");
+		float tmpSpeed = inspectedNPC->GetMoveSpeed();
+		ImGui::Text("Move Speed:");
+		if (ImGui::DragFloat("##npcmvSpeed", &tmpSpeed,0.1f,0.0f, FLT_MAX)) {
+			inspectedNPC->SetMoveSpeed(tmpSpeed);
+		}
+
+		bool tmpisMoving = inspectedNPC->GetIsMoving();
+		if (ImGui::Checkbox("Pathing active",&tmpisMoving)) {
+			inspectedNPC->SetIsMoving(tmpisMoving);
+		}
+
+		ImGui::SeparatorText("Path Selection");
+
+
+		GaemPathing::PathNodeManager* pathNodeManager = &engine->scene->pathManager;
+		std::string targetNodeName = "node ";
+
+		if (inspectedNPC->GetTargetNode()) {
+			targetNodeName += std::to_string(inspectedNPC->GetTargetNode()->GetID());
+		}
+			 
+
+		ImGui::Text("Target Node:");
+		if (ImGui::BeginCombo("##targetNode", targetNodeName.c_str()))
+		{
+			if (ImGui::Selectable("--None--"))
+				inspectedNPC->CancelPath();
+			for (auto& node : pathNodeManager->GetNodes())
+			{
+				if (ImGui::Selectable(std::to_string(node->GetID()).c_str())) {
+					inspectedNPC->MoveToPoint(node, pathNodeManager->GetNodes());
+				}
+			}
+			ImGui::EndCombo();
+		}
+
+		ImGui::Text("Current Node:");
+		std::string currentNodeName = "node: ";
+		if (inspectedNPC->GetCurrentNode()) {
+			ImGui::Text((currentNodeName + std::to_string(inspectedNPC->GetCurrentNode()->GetID())).c_str());
+		}
+		
+		ImGui::Text("Next Node:");
+		std::string nextNodeName = "node: ";
+		if (inspectedNPC->GetNextNode()) {
+			ImGui::Text((nextNodeName + std::to_string(inspectedNPC->GetNextNode()->GetID())).c_str());
+		}
+
+		ImGui::Dummy(ImVec2(0.0f, 20.0f));
+	}
+
+	//NPC Emotion Settings
+	if (ImGui::CollapsingHeader("-- Emotion --")) {
+		ImGui::Text("Emotion stuff yo");
+		ImGui::Dummy(ImVec2(0.0f, 20.0f));
+	}
+
+	//NPC affordance Settings(might just make this for game objects in general)
+	if (ImGui::CollapsingHeader("-- Affordances --")) {
+		ImGui::Text("Affordance stuff yo");
+		ImGui::Dummy(ImVec2(0.0f, 20.0f));
+	}
 }
 
 void SceneEditor::CameraControl(double deltaTime)

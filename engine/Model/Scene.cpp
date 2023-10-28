@@ -44,7 +44,7 @@ Lights& Scene::GetLights() {
 	return lights;
 }
 
-GameObject& Scene::GetObject(std::string objName) {
+GameObject& Scene::GetGameObject(std::string objName) {
 	return *gameObjects.at(objName);
 }
 

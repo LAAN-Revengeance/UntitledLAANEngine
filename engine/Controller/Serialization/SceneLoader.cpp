@@ -308,6 +308,12 @@ Scene& SceneLoader::LoadScene(const char* inName)
         pos.z = navNodes[i]["position"][2].asFloat();
         node->SetPosition(pos);
 
+        glm::vec3 scale;
+        scale.x = navNodes[i]["size"][0].asFloat();
+        scale.y = navNodes[i]["size"][1].asFloat();
+        scale.z = navNodes[i]["size"][2].asFloat();
+        node->SetSize(scale);
+
         pathManager._nodes.push_back(node);
         pathManager._idMap.insert({node->GetID(),node});
     }
@@ -337,6 +343,11 @@ Scene& SceneLoader::LoadScene(const char* inName)
         if (jobj["type"].asString() == "terrain") {
           
             go = res.GetGameObject(jobj["name"].asString());
+        }
+        else if (jobj["type"].asString() == "npc") {
+            
+            go = &res.CreateNPC(objects[i]["name"].asString(), objects[i]["model"].asString(), objects[i]["shader"].asString());
+            dynamic_cast<NPC_GameObject*>(go)->SetMoveSpeed(objects[i]["moveSpeed"].asFloat());
         }
         else {
             go = &res.CreateGameObject(objects[i]["name"].asString(), objects[i]["model"].asString(), objects[i]["shader"].asString());
@@ -567,6 +578,11 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
         if(ter->GetHeightTexture())
             jobj["height_texture"] = ter->GetHeightTexture()->name;
     }
+    else if (dynamic_cast<NPC_GameObject*>(obj)) {
+        NPC_GameObject* npc = dynamic_cast<NPC_GameObject*>(obj);
+        jobj["type"] = "npc";
+        jobj["moveSpeed"] = npc->GetMoveSpeed();
+    }
     else {
         jobj["type"] = "base";
     }
@@ -581,7 +597,7 @@ Json::Value SceneLoader::LightsToJson(Lights* lights)
 Json::Value SceneLoader::NavNodesToJson(GaemPathing::PathNodeManager* pathmanager)
 {
 
-    std::vector<GaemPathing::PathNode*>& nodes = pathmanager->GetNodes();
+    const std::vector<GaemPathing::PathNode*>& nodes = pathmanager->GetNodes();
 
     Json::Value nodeObjs;
 
@@ -591,6 +607,11 @@ Json::Value SceneLoader::NavNodesToJson(GaemPathing::PathNodeManager* pathmanage
         nObj["position"].append(node->GetPosition().x);
         nObj["position"].append(node->GetPosition().y);
         nObj["position"].append(node->GetPosition().z);
+
+        nObj["size"].append(node->GetSize().x);
+        nObj["size"].append(node->GetSize().y);
+        nObj["size"].append(node->GetSize().z);
+
         nObj["obstacle"] = node->GetObstacle();
         nObj["ID"] = node->GetID();
 

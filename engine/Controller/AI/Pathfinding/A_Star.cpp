@@ -1,14 +1,28 @@
 #include "A_Star.h"
 
-std::vector<glm::vec3> GaemPathing::FindPathA_Star(PathNode* start, PathNode* end, std::vector<PathNode*>& nodes)
+std::vector<glm::vec3> GaemPathing::FindPathA_StarPositions(PathNode* start, PathNode* end, const std::vector<PathNode*>& nodes)
 {
 
+	std::stack<PathNode*> nodeStack = FindPathA_StarPositionsNodes(start, end, nodes);
+	std::vector<glm::vec3> pathVec;
+
+
+	while (!nodeStack.empty()) {
+		pathVec.push_back(nodeStack.top()->GetPosition());
+		nodeStack.pop();
+	}
+
+	return pathVec;
+}
+
+std::stack<GaemPathing::PathNode*> GaemPathing::FindPathA_StarPositionsNodes(PathNode* start, PathNode* end, const std::vector<PathNode*>& nodes)
+{
 	//create AS_Star nodes and fill out map
 	std::map<PathNode*, AS_Node*> mapNode;
 	for (auto& node : nodes)
 	{
 		AS_Node* nNode = new AS_Node(node, end);
-		mapNode.insert({node,nNode});
+		mapNode.insert({ node,nNode });
 	}
 
 	//start point
@@ -34,9 +48,9 @@ std::vector<glm::vec3> GaemPathing::FindPathA_Star(PathNode* start, PathNode* en
 
 		currentNode->visited = true;
 		for (auto& pNeighbour : currentNode->node->GetNeighbours()) {
-		
+
 			AS_Node* aNeighbour = mapNode.at(pNeighbour.first);
-			
+
 			//check if current node is shortest path to this node
 			float possibleNewLocal = currentNode->local + pNeighbour.second;
 			if (aNeighbour->local > possibleNewLocal && !aNeighbour->node->GetObstacle()) {
@@ -51,15 +65,15 @@ std::vector<glm::vec3> GaemPathing::FindPathA_Star(PathNode* start, PathNode* en
 		listNotTestedNodes.pop_front();
 	}
 
-	std::vector<glm::vec3> pathVec;
+	std::stack<PathNode*> PathStack;
 
 
 	AS_Node* p = nodeEnd;
 	while (p->parent)
 	{
-		pathVec.push_back(p->node->GetPosition());
+		PathStack.push(p->node);
 		p = p->parent;
 	}
-	pathVec.push_back(start->GetPosition());
-	return pathVec;
+	PathStack.push(start);
+	return PathStack;
 }

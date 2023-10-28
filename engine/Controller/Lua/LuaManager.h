@@ -1,5 +1,6 @@
 #pragma once
 #include <sol/sol.hpp>
+#include <Utils/DebugLogger.h>
 
 template<class T, typename ...Args>
 class LuaFunction;
@@ -123,7 +124,7 @@ inline T LuaManager::GetData(const char* luaName)
 		return luaState.get<T>(luaName);
 	}
 	catch (const sol::error& e) {
-		std::cout << "ERROR: could not get data: " << e.what() << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("Could not get data: ") + e.what());
 		return T();
 	}
 }

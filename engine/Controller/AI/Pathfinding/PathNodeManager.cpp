@@ -82,7 +82,7 @@ void GaemPathing::PathNodeManager::UpdateNodes()
     }
 }
 
-std::vector<GaemPathing::PathNode*>& GaemPathing::PathNodeManager::GetNodes()
+const std::vector<GaemPathing::PathNode*>& GaemPathing::PathNodeManager::GetNodes()
 {
     return _nodes;
 }

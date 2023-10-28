@@ -139,8 +139,11 @@ void PhysicsManager::DrawPhysicsWorld(Camera& camera)
 
 void PhysicsManager::DeletePhysicsBody(PhysicsBody* physicsBody)
 {
-	if(physicsBody)
+	if (physicsBody) {
 		rp3dWorld->destroyCollisionBody(physicsBody->body);
+		
+		physicsBodies.erase(physicsBody->GetID());
+	}
 }
 
 void PhysicsManager::ResetPhysicsWorld()
