@@ -1266,6 +1266,14 @@ void SceneEditor::DrawResources()
 				std::string extension = std::string(audioPath).substr(idx + 1);
 
 				//soundEngine.AddSound(audioName, audioPath);
+				sound.AddSound(audioName, audioPath);
+			}
+
+			//test button TBR
+			if (ImGui::Button("play Audio")) {
+
+				sound.PlayDynamicSound(audioName, {0,0,0});
+
 			}
 
 			int colCount = (viewport->Size.x * windowWidth) / (resourceWidth + (style.ItemSpacing.x * 2));
@@ -1282,6 +1290,14 @@ void SceneEditor::DrawResources()
 			//	ImGui::Text(audioNames[i].c_str());
 			//	ImGui::NextColumn();
 			//}
+			std::vector<std::string> audioNames = sound.GetAudioNames();
+
+			for (int i = 0; i < audioNames.size(); i++)
+			{
+				ImGui::Image((void*)(intptr_t)shaderIcon->ID, ImVec2(resourceWidth, resourceWidth));
+				ImGui::Text(audioNames[i].c_str());
+				ImGui::NextColumn();
+			}
 			ImGui::EndTabItem();
 		}
 		ImGui::EndTabBar();

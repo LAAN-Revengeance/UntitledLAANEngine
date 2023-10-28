@@ -275,9 +275,10 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 		"playSound", &SoundEngine::PlaySound,
 		"playLoop", &SoundEngine::PlayLoop,
 		"addSound", &SoundEngine::AddSound,
-		"playSoundAtPosition", &SoundEngine::PlaySoundAtPosition,
+		"playDynamicSound", &SoundEngine::PlayDynamicSound,
 		"playLoopAtPosition", &SoundEngine::PlayLoopAtPosition,
-		"setUserPosition", &SoundEngine::SetUserPosition
+		"setUserPosition", &SoundEngine::SetUserPosition,
+		"setVolume", &SoundEngine::SetVolume
 	);
 	luaManager->luaState["Sound"] = &SoundEngine::Get();
 

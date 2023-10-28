@@ -50,6 +50,7 @@ private:
 	void SetLuaFile(std::string nluaFile);
 
 	GameEngine* engine;
+	SoundEngine sound = SoundEngine::Get();
 
 	//File Save Functions
 	std::string FilterFilePath(std::string filePath);
