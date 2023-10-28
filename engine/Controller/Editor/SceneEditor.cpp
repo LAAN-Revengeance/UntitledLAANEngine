@@ -847,31 +847,68 @@ void SceneEditor::DrawInspector()
 
 					selectedNavNodeBox.SetEnabled(true);
 					selectedNavNodeBox.SetPosition(node->GetPosition());
+					selectedNavNodeBox.SetScale(node->GetSize() * 1.1f);
 				}
-
 				if (selectedButton) {
 					ImGui::PopStyleColor();
 					ImGui::PopStyleColor();
 				}
+				if (ImGui::IsItemHovered())
+				{
+					ImGui::BeginTooltip();
+					ImGui::Text("Node ID");
+					ImGui::EndTooltip();
+				}
 
 				ImGui::SameLine();
+				
 				glm::vec3 cPos = node->GetPosition();
-
-				ImGui::PushItemWidth(220);
+				ImGui::PushItemWidth(160);
 				if (ImGui::DragFloat3(nodeID.c_str(), &cPos.x)) {
 					node->SetPosition(cPos);
 					selectedNavNodeBox.SetEnabled(true);
 					selectedNavNodeBox.SetPosition(node->GetPosition());
+					selectedNavNodeBox.SetScale(node->GetSize() * 1.1f);
 					selectedNode = node;
 				}
 				ImGui::PopItemWidth();
 
+				if (ImGui::IsItemHovered())
+				{
+					ImGui::BeginTooltip();
+					ImGui::Text("node position");
+					ImGui::EndTooltip();
+				}
+
 				ImGui::SameLine();
 
+				float cScale = node->GetSize().x;
+				ImGui::PushItemWidth(60);
+				if (ImGui::DragFloat((nodeID + "scaleSet").c_str(), &cScale, 0.1f, 0.0f, FLT_MAX)) {
+					node->SetSize({ cScale ,cScale ,cScale });
+				}
+				ImGui::PopItemWidth();
+
+				if (ImGui::IsItemHovered())
+				{
+					ImGui::BeginTooltip();
+					ImGui::Text("node scale");
+					ImGui::EndTooltip();
+				}
+
+				ImGui::SameLine();
 				bool cObstacle = node->GetObstacle();
 				if (ImGui::Checkbox(nodeID.c_str(), &cObstacle)) {
 					node->SetObstacle(cObstacle);
 				}
+
+				if (ImGui::IsItemHovered())
+				{
+					ImGui::BeginTooltip();
+					ImGui::Text("set obstacle");
+					ImGui::EndTooltip();
+				}
+
 				ImGui::SameLine();
 				if (ImGui::Button(("Delete" + nodeID).c_str())) {
 					delNode = node;

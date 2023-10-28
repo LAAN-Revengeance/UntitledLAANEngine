@@ -175,6 +175,7 @@
     <ClCompile Include="engine\Controller\Editor\SceneEditor.cpp" />
     <ClCompile Include="engine\Model\GameObject.cpp" />
     <ClCompile Include="engine\Model\Camera.cpp" />
+    <ClCompile Include="engine\Model\GameObjects\NPC_GameObject.cpp" />
     <ClCompile Include="engine\View\Debug\DebugDrawables.cpp" />
     <ClCompile Include="engine\View\MD2\MD2Reader.cpp" />
     <ClCompile Include="Engine\Controller\Timer.cpp" />

@@ -85,7 +85,7 @@ void GaemPathing::PathNode::UpdateConnections()
 
 void GaemPathing::PathNode::UpdateModel()
 {
-	box.SetScale(_box_Scale);
+	box.SetScale(_size);
 	if (_obstacle) {
 		box.SetColor(_color_Obstacle);
 	}
@@ -117,6 +117,17 @@ unsigned int GaemPathing::PathNode::GetID()
 void GaemPathing::PathNode::SetID(unsigned int id)
 {
 	ID = id;
+}
+
+void GaemPathing::PathNode::SetSize(glm::vec3 size)
+{
+	_size = size;
+	UpdateModel();
+}
+
+glm::vec3 GaemPathing::PathNode::GetSize()
+{
+	return _size;
 }
 
 void GaemPathing::PathNode::AddNeighbour(PathNode* neighbour)

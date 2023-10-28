@@ -52,6 +52,7 @@
     <ClCompile Include="engine\Controller\AI\Pathfinding\A_Star.cpp" />
     <ClCompile Include="engine\Controller\AI\Pathfinding\PathNode.cpp" />
     <ClCompile Include="engine\Controller\AI\Pathfinding\PathNodeManager.cpp" />
+    <ClCompile Include="engine\Model\GameObjects\NPC_GameObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\Controller\GaemEngine.h" />
