@@ -21,8 +21,10 @@ private:
 	PathNodeManager* _pathManager = nullptr;
 	float _moveSpeed = 1.0f;
 	bool _isMoving = false;
-	std::vector<PathNode*> _currentPath;
+	std::stack<PathNode*> _currentPath;
+
 	PathNode* _currentNode = nullptr;
+	PathNode* _nextNode = nullptr;
 	PathNode* _targetNode = nullptr;
 };
 
