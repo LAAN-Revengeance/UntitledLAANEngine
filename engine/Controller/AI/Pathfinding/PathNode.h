@@ -132,10 +132,18 @@ namespace GaemPathing{
         */
         glm::vec3 GetSize();
 
+        /**
+         * @brief returns if a point is within the bounds of this node
+         * @param position location to check if in node bounds
+         * @return if position is in the nodes area
+        */
+        bool ContainsPoint(glm::vec3 position);
+
     private:
 
         ///represents the area this node occupys, used to tell if a position is within the node
         glm::vec3 _size = {1,1,1};
+        glm::vec3 _sizeHalf = {0.5,0.5,0.5};
 
         ///node position
         glm::vec3 _position = { 0,0,0 };

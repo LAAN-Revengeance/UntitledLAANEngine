@@ -122,12 +122,24 @@ void GaemPathing::PathNode::SetID(unsigned int id)
 void GaemPathing::PathNode::SetSize(glm::vec3 size)
 {
 	_size = size;
+	_sizeHalf = _size / 2.0f;
 	UpdateModel();
 }
 
 glm::vec3 GaemPathing::PathNode::GetSize()
 {
 	return _size;
+}
+
+bool GaemPathing::PathNode::ContainsPoint(glm::vec3 position)
+{
+	glm::vec3 min = _position - _sizeHalf;
+	glm::vec3 max = _position + _sizeHalf;
+
+	return	(position.x >= min.x && position.x <= max.x) &&
+			(position.y >= min.y && position.y <= max.y) &&
+			(position.z >= min.z && position.z <= max.z);
+
 }
 
 void GaemPathing::PathNode::AddNeighbour(PathNode* neighbour)
