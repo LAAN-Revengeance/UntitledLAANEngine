@@ -13,6 +13,32 @@ void FCM::AddRelationship(std::string Concept1, std::string Concept2, float Weig
 	return;
 }
 
+Concept FCM::GetConcept(std::string conceptName)
+{
+	for (int i = 0; i < concepts.size(); i++)
+	{
+		if (concepts[i].name == conceptName)
+			return concepts[i];
+	}
+
+	std::cout << "Error: No node of name " << conceptName << " was found." << std::endl;
+
+	return;
+}
+
+Relationship FCM::GetRelationshop(std::string concept1, std::string concept2)
+{
+	for (int i = 0; i < relationships.size(); i++)
+	{
+		if (relationships[i].concept1 == concept1 && relationships[i].concept2 == concept2)
+			return relationships[i];
+	}
+
+	std::cout << "Error: No relationship between " << concept1 << " and " << concept2 << " was found." << std::endl;
+
+	return;
+}
+
 float FCM::GetConceptValue(std::string conceptName)
 {
 	for (int i = 0; i < concepts.size(); i++)
@@ -64,9 +90,15 @@ void FCM::Run()
 		{
 			if (concepts[i].name == relationships[i].concept1)
 			{
-				float initialValue = GetConceptValue(relationships[i].concept2);
+				Concept concept1 = GetConcept(relationships[i].concept1);
+				Concept concept2 = GetConcept(relationships[i].concept2);
+				float initialValue = concept2.value;
 				float weighting = GetRelationshipWeighting(relationships[i].concept1, relationships[i].concept2);
-				float finalValue = initialValue + (concepts[i].value * weighting);
+				float conceptValue = concept1.value / concept1.threshold;
+				float finalValue = initialValue + (conceptValue * weighting);
+				if (finalValue > concept1.threshold)
+					finalValue = concept1.threshold;
+
 				SetConceptValue(relationships[i].concept2, finalValue);
 			}
 		}

@@ -23,6 +23,8 @@ public:
 
 	void AddConcept(std::string name, float value, float threshold);
 	void AddRelationship(std::string concept1, std::string concept2, float weighting);
+	Concept GetConcept(std::string conceptName);
+	Relationship GetRelationshop(std::string concept1, std::string concept2);
 	float GetConceptValue(std::string conceptName);
 	float GetRelationshipWeighting(std::string concept1, std::string concept2);
 	void SetConceptValue(std::string conceptName, float value);
