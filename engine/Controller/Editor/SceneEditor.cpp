@@ -104,7 +104,8 @@ void SceneEditor::DrawHeighrarchy()
 	ImGui::CollapsingHeader("Scene Objects", ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_Leaf);
 	ImGui::SeparatorText("GameObjects");
 
-	if (ImGui::Button("Add Object")) {
+
+	if (ImGui::Button("Add Object", {100,0})) {
 		
 		std::string name = "new object";
 		std::string nName = name;
@@ -121,7 +122,7 @@ void SceneEditor::DrawHeighrarchy()
 
 	ImGui::SameLine();
 
-	if (ImGui::Button("Add NPC")) {
+	if (ImGui::Button("Add NPC", { 100,0 })) {
 
 		std::string name = "new NPC";
 		std::string nName = name;
@@ -133,6 +134,7 @@ void SceneEditor::DrawHeighrarchy()
 			++nSuffix;
 		}
 		NPC_GameObject& go = res.CreateNPC(nName, "", "");
+		go.SetPathManager(&engine->scene->pathManager);
 		engine->scene->AddObject(go);
 	}
 
@@ -1530,15 +1532,72 @@ void SceneEditor::Draw3DWidget()
 
 void SceneEditor::DrawNPCInspector()
 {
+	if (!inspectedObject)return;
+	NPC_GameObject* inspectedNPC = static_cast<NPC_GameObject*>(inspectedObject);
+	if (!inspectedNPC) return;
+
+	//NPC Path Finding settings
 	if (ImGui::CollapsingHeader("-- Path Finding --")) {
-		ImGui::Text("Pathing stuff yo");
+		
+		ImGui::SeparatorText("Move settings");
+		float tmpSpeed = inspectedNPC->GetMoveSpeed();
+		ImGui::Text("Move Speed:");
+		if (ImGui::DragFloat("##npcmvSpeed", &tmpSpeed,0.1f,0.0f, FLT_MAX)) {
+			inspectedNPC->SetMoveSpeed(tmpSpeed);
+		}
+
+		bool tmpisMoving = inspectedNPC->GetIsMoving();
+		if (ImGui::Checkbox("Pathing active",&tmpisMoving)) {
+			inspectedNPC->SetIsMoving(tmpisMoving);
+		}
+
+		ImGui::SeparatorText("Path Selection");
+
+
+		GaemPathing::PathNodeManager* pathNodeManager = &engine->scene->pathManager;
+		std::string targetNodeName = "node ";
+
+		if (inspectedNPC->GetTargetNode()) {
+			targetNodeName += std::to_string(inspectedNPC->GetTargetNode()->GetID());
+		}
+			 
+
+		ImGui::Text("Target Node:");
+		if (ImGui::BeginCombo("##targetNode", targetNodeName.c_str()))
+		{
+			if (ImGui::Selectable("--None--"))
+				inspectedNPC->CancelPath();
+			for (auto& node : pathNodeManager->GetNodes())
+			{
+				if (ImGui::Selectable(std::to_string(node->GetID()).c_str())) {
+					inspectedNPC->MoveToPoint(node, pathNodeManager->GetNodes());
+				}
+			}
+			ImGui::EndCombo();
+		}
+
+		ImGui::Text("Current Node:");
+		std::string currentNodeName = "node: ";
+		if (inspectedNPC->GetCurrentNode()) {
+			ImGui::Text((currentNodeName + std::to_string(inspectedNPC->GetCurrentNode()->GetID())).c_str());
+		}
+		
+		ImGui::Text("Next Node:");
+		std::string nextNodeName = "node: ";
+		if (inspectedNPC->GetNextNode()) {
+			ImGui::Text((nextNodeName + std::to_string(inspectedNPC->GetNextNode()->GetID())).c_str());
+		}
+
 		ImGui::Dummy(ImVec2(0.0f, 20.0f));
 	}
 
+	//NPC Emotion Settings
 	if (ImGui::CollapsingHeader("-- Emotion --")) {
 		ImGui::Text("Emotion stuff yo");
 		ImGui::Dummy(ImVec2(0.0f, 20.0f));
 	}
+
+	//NPC affordance Settings(might just make this for game objects in general)
 	if (ImGui::CollapsingHeader("-- Affordances --")) {
 		ImGui::Text("Affordance stuff yo");
 		ImGui::Dummy(ImVec2(0.0f, 20.0f));

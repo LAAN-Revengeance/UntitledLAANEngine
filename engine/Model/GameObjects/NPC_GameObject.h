@@ -12,8 +12,21 @@ public:
 	void Update(double dt);
 
 	void MoveToPoint(GaemPathing::PathNode* targetNode,const std::vector<GaemPathing::PathNode*> nodes);
+	void CancelPath();
 
 	void SetPathManager(GaemPathing::PathNodeManager* pathManager);
+
+
+
+	GaemPathing::PathNode* GetTargetNode();
+	GaemPathing::PathNode* GetCurrentNode();
+	GaemPathing::PathNode* GetNextNode();
+
+
+	float GetMoveSpeed();
+	void SetMoveSpeed(float speed);
+	bool GetIsMoving();
+	void SetIsMoving(bool isMoving);
 
 private:
 	
@@ -25,7 +38,6 @@ private:
 	std::stack<GaemPathing::PathNode*> _currentPath;
 
 	GaemPathing::PathNode* _currentNode = nullptr;
-	GaemPathing::PathNode* _nextNode = nullptr;
 	GaemPathing::PathNode* _targetNode = nullptr;
 };
 
