@@ -53,6 +53,7 @@
     <ClCompile Include="engine\Model\GameObjects\NPC_GameObject.cpp" />
     <ClCompile Include="engine\Controller\Serialization\ProjectLoader.cpp" />
     <ClCompile Include="Engine\Controller\Serialization\SceneLoader.cpp" />
+    <ClCompile Include="engine\Controller\Editor\DebugLogger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\Controller\GaemEngine.h" />
@@ -129,6 +130,8 @@
     <ClInclude Include="engine\Model\GameObjects\NPC_GameObject.h" />
     <ClInclude Include="engine\Controller\Serialization\ProjectLoader.h" />
     <ClInclude Include="Engine\Controller\Serialization\SceneLoader.h" />
+    <ClInclude Include="engine\Controller\Editor\StreamCapture.h" />
+    <ClInclude Include="engine\Controller\Editor\DebugLogger.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Model\Graphics\Shaders\Cube_map.frag" />

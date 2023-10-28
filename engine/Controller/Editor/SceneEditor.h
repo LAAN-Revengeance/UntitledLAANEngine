@@ -6,7 +6,7 @@
 #include <SoundEngine.h>
 #include <GaemEngine.h>
 #include <lua/LuaGameBridge.h>
-
+#include <Editor/DebugLogger.h>
 
 /**
 *	@Class SceneEditor
@@ -21,7 +21,7 @@ const int LAAN_ENGINE_VERSION = 2;
 class SceneEditor
 {
 public:
-	SceneEditor(GameEngine* nEngine);
+	SceneEditor(GameEngine* nEngine, DebugLogger* logger);
 	~SceneEditor();
 	void Update(double deltaTime);
 	void Draw(double deltaTime);
@@ -81,4 +81,6 @@ private:
 	GaemGizmo::Line pathDebugLine;
 	GaemGizmo::Box selectedNavNodeBox;
 
+	//debug logging
+	DebugLogger* _logger;
 };

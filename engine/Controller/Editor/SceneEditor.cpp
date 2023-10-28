@@ -1,8 +1,9 @@
 #include "SceneEditor.h"
 
-SceneEditor::SceneEditor(GameEngine* nEngine):
+SceneEditor::SceneEditor(GameEngine* nEngine, DebugLogger* logger):
 	engine(nEngine),
-	guirenderer(nEngine->guiRenderer)
+	guirenderer(nEngine->guiRenderer),
+	_logger(logger)
 {
 	engine->isRunning = false;
 	UseScene(engine->scene);
@@ -44,8 +45,6 @@ void SceneEditor::Draw(double deltaTime)
 	DrawHeighrarchy();
 	DrawMenu();
 	DrawResources();
-
-	ImGui::ShowDemoWindow();
 	guirenderer.EndGUI();
 }
 
@@ -1438,24 +1437,15 @@ void SceneEditor::DrawDebug()
 		sprintf(overlay, "avg %f", average);
 		ImGui::PlotLines("##FPS", values, IM_ARRAYSIZE(values), values_offset, overlay, 0.0f, 200.0f, ImVec2(0, 80.0f));
 	}
+	ImGui::Dummy(ImVec2(0.0f, 10.0f));
+	ImGui::Text("Console Output:");
+	ImGui::BeginChild("scrolling", ImVec2(0, 0), true, ImGuiWindowFlags_HorizontalScrollbar);
+	std::string consoleOutput = _logger->streamCapture.GetBuffer();
 
-	if (ImGui::Button("Toggle Physics Debug"))
-	{
-		isPhysicDebug = !isPhysicDebug;
-	}
-
-	if (ImGui::Button("Toggle Pathing Debug"))
-	{
-		isPathDebug = !isPathDebug;
-	}
-
-	if (ImGui::Button("Toggle Transform Widget"))
-	{
-		isShowWidget = !isShowWidget;
-	}
-
-
-
+	ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + ImGui::GetContentRegionAvail().x);
+	ImGui::TextUnformatted(consoleOutput.c_str());
+	ImGui::PopTextWrapPos();
+	ImGui::EndChild();
 }
 
 void SceneEditor::DrawOpenFile(bool* showOpenFile)
