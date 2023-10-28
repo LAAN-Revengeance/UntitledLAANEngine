@@ -19,10 +19,10 @@
 				"ID" : 1,
 				"neighbours" : 
 				[
-					1,
 					6,
-					5,
-					2
+					1,
+					2,
+					5
 				],
 				"obstacle" : false,
 				"position" : 
@@ -42,11 +42,11 @@
 				"ID" : 2,
 				"neighbours" : 
 				[
-					1,
-					6,
 					3,
-					5,
+					6,
+					1,
 					2,
+					5,
 					7
 				],
 				"obstacle" : false,
@@ -67,10 +67,10 @@
 				"ID" : 3,
 				"neighbours" : 
 				[
-					4,
-					6,
-					8,
 					3,
+					6,
+					4,
+					8,
 					2,
 					7
 				],
@@ -92,9 +92,9 @@
 				"ID" : 4,
 				"neighbours" : 
 				[
+					3,
 					4,
 					8,
-					3,
 					7
 				],
 				"obstacle" : false,
@@ -115,10 +115,10 @@
 				"ID" : 5,
 				"neighbours" : 
 				[
-					1,
 					6,
-					5,
-					2
+					1,
+					2,
+					5
 				],
 				"obstacle" : false,
 				"position" : 
@@ -138,11 +138,11 @@
 				"ID" : 6,
 				"neighbours" : 
 				[
-					1,
-					6,
 					3,
-					5,
+					6,
+					1,
 					2,
+					5,
 					7
 				],
 				"obstacle" : false,
@@ -163,10 +163,10 @@
 				"ID" : 7,
 				"neighbours" : 
 				[
-					4,
-					6,
-					8,
 					3,
+					6,
+					4,
+					8,
 					2,
 					7
 				],
@@ -188,9 +188,9 @@
 				"ID" : 8,
 				"neighbours" : 
 				[
+					3,
 					4,
 					8,
-					3,
 					7
 				],
 				"obstacle" : false,
@@ -209,43 +209,7 @@
 			}
 		]
 	},
-	"objects" : 
-	[
-		{
-			"bounce" : 0.0,
-			"castShadows" : true,
-			"dampAngle" : 0.0,
-			"dampLinear" : 0.0,
-			"diff" : "Rock",
-			"infMass" : false,
-			"isKinematic" : false,
-			"model" : "Cube",
-			"name" : "new NPC",
-			"physics" : null,
-			"position" : 
-			[
-				0.49770212173461914,
-				0.0,
-				2.9982779026031494
-			],
-			"rotation" : 
-			[
-				0.0,
-				0.0,
-				0.0,
-				1.0
-			],
-			"scale" : 
-			[
-				0.10000000149011612,
-				0.10000000149011612,
-				0.10000000149011612
-			],
-			"shader" : "default",
-			"type" : "base",
-			"useGravity" : false
-		}
-	],
+	"objects" : null,
 	"resources" : 
 	{
 		"cubemaps" : null,

@@ -14,19 +14,29 @@ void DebugLogger::Log(unsigned int type, const std::string message)
 	switch (type)
 	{
 	case GAEM_ERROR:
-		std::cout << "[Gaem ERROR--][" <<GetTimeStamp() << "]: " << message << "\n";
+		std::cout << "[Gaem ERR][" <<GetTimeStamp() << "]" << message << "\n";
 		break;
 	case GAEM_LOG:
-		std::cout << "[Gaem LOG----][" << GetTimeStamp() << "]: " << message << "\n";
+		std::cout << "[Gaem LOG][" << GetTimeStamp() << "]" << message << "\n";
 		break;
 	case GAEM_DEBUG:
-		std::cout << "[Gaem DEBUG--][" << GetTimeStamp() << "]: " << message << "\n";
+		std::cout << "[Gaem DBG][" << GetTimeStamp() << "]" << message << "\n";
 		break;
 	case GAEM_WARNING:
-		std::cout << "[Gaem WARNING][" << GetTimeStamp() << "]: " << message << "\n";
+		std::cout << "[Gaem WRN][" << GetTimeStamp() << "]" << message << "\n";
 		break;
 	default:
 		break;
+	}
+}
+
+void DebugLogger::Log(unsigned int type, const std::string message, GameObject* obj)
+{
+	if (obj) {
+		auto fullMessage = "[" + obj->name + "]: " + message;
+		Log(type, fullMessage);
+	}else{
+		Log(type, message);
 	}
 }
 

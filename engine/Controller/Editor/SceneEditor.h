@@ -6,7 +6,7 @@
 #include <SoundEngine.h>
 #include <GaemEngine.h>
 #include <lua/LuaGameBridge.h>
-#include <Editor/DebugLogger.h>
+#include <Utils/DebugLogger.h>
 
 /**
 *	@Class SceneEditor

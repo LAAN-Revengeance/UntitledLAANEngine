@@ -1,5 +1,6 @@
 #include "NPC_GameObject.h"
 #include <Utils/GaemUtils.h>
+#include <Utils/DebugLogger.h>
 
 using namespace GaemPathing;
 
@@ -37,21 +38,84 @@ void NPC_GameObject::MoveToPoint(PathNode* targetNode, const std::vector<PathNod
 		if (node->ContainsPoint(position)) {
 			_currentNode = node;
 			inNetwork = true;
-			std::cout << "in network!\n";
 			break;
 		}
 	}
 
 	if (!inNetwork) {
 		_isMoving = false;
-		std::cout << "not in network, cannot path!\n";
-		return;
+		DebugLogger::Log(GAEM_LOG, "Not in network, searching for available node", this);
+		if (_currentNode) {
+			DebugLogger::Log(GAEM_LOG, "Pathing to last visited node", this);
+			_returningToNetwork = true;
+			_isMoving = true;
+		}
+		else {
+			_currentNode = FindClosestNode(_pathManager->GetNodes());
+			if (_currentNode == nullptr) {
+				DebugLogger::Log(GAEM_LOG, "Pating to closest node", this);
+				_isMoving = false;
+				return;
+			}
+			_isMoving = true;
+			_returningToNetwork = true;
+		}
+		_isMoving = true;
 	}
 
 	//find path required to get there
 	_currentPath = GaemPathing::FindPathA_StarPositionsNodes(_currentNode,_targetNode,_pathManager->GetNodes());
 
 	_isMoving = true;
+}
+
+GaemPathing::PathNode* NPC_GameObject::FindClosestNode(const std::vector<GaemPathing::PathNode*> nodes)
+{
+	if (nodes.empty()) {
+		DebugLogger::Log(GAEM_ERROR, "Could not find closest  node", this);
+		return nullptr;
+	}
+		
+	PathNode* closestNode = nodes[0];
+	float squareDist = glm::distance2(closestNode->GetPosition(), position);
+
+	for (auto& node : nodes)
+	{
+		float sqrTestDist = glm::distance2(node->GetPosition(), position);
+		if (sqrTestDist < squareDist) {
+			
+			closestNode = node;
+			squareDist = sqrTestDist;
+		}
+	}
+	DebugLogger::Log(GAEM_LOG, "Closest node found", this);
+
+	return closestNode;
+}
+
+GaemPathing::PathNode* NPC_GameObject::FindFurthestNode(const std::vector<GaemPathing::PathNode*> nodes)
+{
+	if (nodes.empty()) {
+		DebugLogger::Log(GAEM_ERROR, "Could not find furthest node", this);
+		return nullptr;
+	}
+	
+
+	PathNode* furthestNode = nodes[0];
+	float squareDist = glm::distance2(furthestNode->GetPosition(), position);
+
+	for (auto& node : nodes)
+	{
+		float sqrTestDist = glm::distance2(node->GetPosition(), position);
+		if (sqrTestDist > squareDist) {
+
+			furthestNode = node;
+			squareDist = sqrTestDist;
+		}
+	}
+	DebugLogger::Log(GAEM_LOG, "Furthest node found", this);
+
+	return furthestNode;
 }
 
 void NPC_GameObject::CancelPath()
@@ -108,15 +172,30 @@ void NPC_GameObject::SetIsMoving(bool isMoving)
 
 void NPC_GameObject::UpdatePathing(double dt)
 {
+	if (_returningToNetwork) {
+		//move towards point
+		glm::vec3 offset = (glm::normalize(_currentNode->GetPosition() - GetPosition()) * (float)dt) * _moveSpeed;
+		SetPosition(GetPosition() + offset);
+		if (_currentNode->ContainsPoint(position)) {
+			_returningToNetwork = false;
+			DebugLogger::Log(GAEM_LOG, "Rejoined network", this);
+		}
+		return;
+	}
+
 	if (!_pathManager)return;
 
+	if (_currentPath.top()->GetObstacle()) {
+		MoveToPoint(_targetNode, _pathManager->GetNodes());
+		return;
+	}
 
 	if (_currentPath.top()->ContainsPoint(position)) {
 		_currentNode = _currentPath.top();
 		_currentPath.pop();
 
 		if (_currentPath.empty()) {
-			std::cout << "reached destination!\n";
+			DebugLogger::Log(GAEM_LOG, "Destination Reached", this);
 			CancelPath();
 			return;
 		}

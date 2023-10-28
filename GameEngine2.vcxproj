@@ -158,7 +158,7 @@
     <ClCompile Include="engine\Controller\AI\Pathfinding\A_Star.cpp" />
     <ClCompile Include="engine\Controller\AI\Pathfinding\PathNode.cpp" />
     <ClCompile Include="engine\Controller\AI\Pathfinding\PathNodeManager.cpp" />
-    <ClCompile Include="engine\Controller\Editor\DebugLogger.cpp" />
+    <ClCompile Include="engine\Controller\Utils\DebugLogger.cpp" />
     <ClCompile Include="engine\Controller\Physics\CollisionSolver.cpp" />
     <ClCompile Include="engine\Controller\Event\EventDispatcher.cpp" />
     <ClCompile Include="engine\Controller\GaemEngine.cpp" />
@@ -226,8 +226,8 @@
     <ClInclude Include="engine\Controller\AI\Pathfinding\PathNode.h" />
     <ClInclude Include="engine\Controller\AI\Pathfinding\PathNodeManager.h" />
     <ClInclude Include="engine\Controller\AudioDataTypes.h" />
-    <ClInclude Include="engine\Controller\Editor\DebugLogger.h" />
-    <ClInclude Include="engine\Controller\Editor\StreamCapture.h" />
+    <ClInclude Include="engine\Controller\Utils\DebugLogger.h" />
+    <ClInclude Include="engine\Controller\Utils\StreamCapture.h" />
     <ClInclude Include="engine\Controller\Event\Event.h" />
     <ClInclude Include="engine\Controller\Event\EventDispatcher.h" />
     <ClInclude Include="engine\Controller\GaemEngine.h" />
