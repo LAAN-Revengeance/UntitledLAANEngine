@@ -308,6 +308,12 @@ Scene& SceneLoader::LoadScene(const char* inName)
         pos.z = navNodes[i]["position"][2].asFloat();
         node->SetPosition(pos);
 
+        glm::vec3 scale;
+        scale.x = navNodes[i]["size"][0].asFloat();
+        scale.y = navNodes[i]["size"][1].asFloat();
+        scale.z = navNodes[i]["size"][2].asFloat();
+        node->SetSize(scale);
+
         pathManager._nodes.push_back(node);
         pathManager._idMap.insert({node->GetID(),node});
     }
@@ -591,6 +597,11 @@ Json::Value SceneLoader::NavNodesToJson(GaemPathing::PathNodeManager* pathmanage
         nObj["position"].append(node->GetPosition().x);
         nObj["position"].append(node->GetPosition().y);
         nObj["position"].append(node->GetPosition().z);
+
+        nObj["size"].append(node->GetSize().x);
+        nObj["size"].append(node->GetSize().y);
+        nObj["size"].append(node->GetSize().z);
+
         nObj["obstacle"] = node->GetObstacle();
         nObj["ID"] = node->GetID();
 
