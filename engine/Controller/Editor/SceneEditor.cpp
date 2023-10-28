@@ -63,6 +63,7 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 	UseScene(nProject.scene);
 	luaFilePath = nProject.luaPath;
 	windowName = nProject.windowName;
+	Window::GetActiveWindow()->SetName(windowName);
 
 	saveFilePath = path;
 
@@ -1302,7 +1303,7 @@ void SceneEditor::DrawWindowSettings(bool* showChangeWindow)
 	if (ImGui::Button("Set Window Title##420"))
 	{
 		windowName = str0;
-		//window->SetName(windowName);
+		Window::GetActiveWindow()->SetName(windowName);
 	}
 
 	ImGui::End();
