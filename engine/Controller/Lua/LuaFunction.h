@@ -2,6 +2,7 @@
 #include <sol/sol.hpp>
 #include <type_traits>
 #include "LuaManager.h"
+#include <Utils/DebugLogger.h>
 
 template<class T, typename ...Args>
 class LuaFunction
@@ -43,8 +44,13 @@ public:
 	}
 
 	LuaFunction(const char* luaName, LuaManager* luaState) {
-		std::cout << "Function Loaded: " << luaName << "\n";
 		solFunc = luaState->luaState[luaName];
+		if (solFunc.valid()) {
+			DebugLogger::Log(GAEM_LOG, std::string("Lua function loaded: ") + luaName);
+		}
+		else {
+			DebugLogger::Log(GAEM_ERROR, std::string("Could not load Lua function: ") + luaName);
+		}
 	}
 
 	~LuaFunction() {

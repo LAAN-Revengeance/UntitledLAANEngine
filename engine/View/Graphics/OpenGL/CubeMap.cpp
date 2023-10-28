@@ -122,7 +122,6 @@ void CubeMap::SetTextures(std::vector<std::string>& nTextures) {
         }
         else
         {
-            std::cout << "FAILED TO LOAD IMAGE: " << nTextures[i] << std::endl;
             stbi_image_free(data);
         }
     }

@@ -1,5 +1,5 @@
 #include "ResourceManager.h"
-
+#include <Utils/DebugLogger.h>
 
 ResourceManager& ResourceManager::Get() {
 	
@@ -161,7 +161,7 @@ void ResourceManager::LoadTexture(std::string resName, std::string fileName) {
 	}
 	catch (const std::exception&)
 	{
-		std::cout << "Error: Could not create: " << resName << std::endl;
+		DebugLogger::Log(GAEM_ERROR,std::string("Could not create: ") + resName);
 	}
 }
 
@@ -179,7 +179,7 @@ void ResourceManager::LoadAnimatedModel(std::string resName, std::string fileNam
 	}
 	catch (const std::exception&)
 	{
-		std::cout << "Error: Could not create: " << resName << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("Could not create: ") + resName);
 	}
 }
 
@@ -195,7 +195,7 @@ void ResourceManager::LoadModel(std::string resName, std::string fileName) {
 	}
 	catch (const std::exception&)
 	{
-		std::cout << "Error: Could not create: " << resName << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("Could not create: ") + resName);
 	}
 }
 
@@ -214,7 +214,7 @@ void ResourceManager::LoadShader(std::string resName, std::string vertPath, std:
 	}
 	catch (const std::exception&)
 	{
-		std::cout << "Error: Could not create: " << resName << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("Could not create: ") + resName);
 		return;
 	}
 	nshader->name = resName;
@@ -236,7 +236,7 @@ void ResourceManager::LoadCubemap(std::string resName, std::string right, std::s
 	}
 	catch (const std::exception&)
 	{
-		std::cout << "Error: Could not create: " << resName << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("Could not create: ") + resName);
 	}
 }
 
@@ -248,7 +248,7 @@ Texture* ResourceManager::GetTexture(std::string resName) {
 	}
 	catch (const std::exception& e)
 	{
-		std::cout << "ERROR: Texture: '" << resName << "' does not exist: " << e.what() << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("Texture: " + resName + "does not exist: " + e.what()));
 		texture = textures.at("default");
 	}
 	return texture;
@@ -268,7 +268,7 @@ DrawItem* ResourceManager::GetModel(std::string resName) {
 	}
 	catch (const std::exception& e)
 	{
-		std::cout << "ERROR: Model: '" << resName << "' does not exist: " << e.what() << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("Draw Item: " + resName + "does not exist: " + e.what()));
 		model = nullptr;
 	}
 	return model;
@@ -282,7 +282,7 @@ Shader* ResourceManager::GetShader(std::string resName) {
 	}
 	catch (const std::exception& e)
 	{
-		std::cout << "ERROR: Shader: '" << resName << "' does not exist: " << e.what() << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("Shader: " + resName + "does not exist: " + e.what()));
 		shader = nullptr;
 	}
 	return shader;
@@ -296,7 +296,7 @@ CubeMap* ResourceManager::GetCubeMap(std::string resName) {
 	}
 	catch (const std::exception& e)
 	{
-		std::cout << "ERROR: Cubemap: '" << resName << "' does not exist: " << e.what() << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("CubeMap: " + resName + "does not exist: " + e.what()));
 		cubemap = nullptr;
 	}
 	return cubemap;
@@ -312,7 +312,7 @@ GameObject* ResourceManager::GetGameObject(std::string resName)
 	}
 	catch (const std::exception& e)
 	{
-		std::cout << "ERROR: gameObject: '" << resName << "' does not exist: " << e.what() << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("GameObject: " + resName + "does not exist: " + e.what()));
 		gameObject = nullptr;
 	}
 	return gameObject;
