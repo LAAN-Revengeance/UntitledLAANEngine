@@ -581,7 +581,7 @@ Json::Value SceneLoader::LightsToJson(Lights* lights)
 Json::Value SceneLoader::NavNodesToJson(GaemPathing::PathNodeManager* pathmanager)
 {
 
-    std::vector<GaemPathing::PathNode*>& nodes = pathmanager->GetNodes();
+    const std::vector<GaemPathing::PathNode*>& nodes = pathmanager->GetNodes();
 
     Json::Value nodeObjs;
 

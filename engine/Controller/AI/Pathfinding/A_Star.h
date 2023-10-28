@@ -53,7 +53,7 @@ namespace GaemPathing {
 	 * @param nodes all the possible nodes in the network
 	 * @return path from start node to the end node(will only contain the location of start node if no path found)
 	*/
-	std::vector<glm::vec3> FindPathA_StarPositions(PathNode* start, PathNode* end, std::vector<PathNode*>& nodes);
+	std::vector<glm::vec3> FindPathA_StarPositions(PathNode* start, PathNode* end, const std::vector<PathNode*>& nodes);
 
 	/**
 	 * @brief returns an array of nodes generated using the A* algorithm.
@@ -62,5 +62,5 @@ namespace GaemPathing {
 	 * @param nodes all the possible nodes in the network
 	 * @return path from start node to the end node(will only contain the start node if no path found)
 	*/
-	std::vector<PathNode*> FindPathA_StarPositionsNodes(PathNode* start, PathNode* end, std::vector<PathNode*>& nodes);
+	std::vector<PathNode*> FindPathA_StarPositionsNodes(PathNode* start, PathNode* end, const std::vector<PathNode*>& nodes);
 }

@@ -12,13 +12,13 @@ public:
 
 	void Update(double dt);
 
-	void SetPath(std::vector<glm::vec3>& path);
 	void MoveToPoint(PathNode* node);
 
 private:
 	
-
-	float _moveSpeed;
-	std::vector<glm::vec3> _currentPath;
+	float _moveSpeed = 1.0f;
+	std::vector<PathNode*> _currentPath;
+	PathNode* _currentNode = nullptr;
+	PathNode* _targetNode = nullptr;
 };
 

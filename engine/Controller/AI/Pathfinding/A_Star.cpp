@@ -1,6 +1,6 @@
 #include "A_Star.h"
 
-std::vector<glm::vec3> GaemPathing::FindPathA_StarPositions(PathNode* start, PathNode* end, std::vector<PathNode*>& nodes)
+std::vector<glm::vec3> GaemPathing::FindPathA_StarPositions(PathNode* start, PathNode* end, const std::vector<PathNode*>& nodes)
 {
 
 	std::vector<PathNode*> nodeVec = FindPathA_StarPositionsNodes(start, end, nodes);
@@ -13,7 +13,7 @@ std::vector<glm::vec3> GaemPathing::FindPathA_StarPositions(PathNode* start, Pat
 	return pathVec;
 }
 
-std::vector<GaemPathing::PathNode*> GaemPathing::FindPathA_StarPositionsNodes(PathNode* start, PathNode* end, std::vector<PathNode*>& nodes)
+std::vector<GaemPathing::PathNode*> GaemPathing::FindPathA_StarPositionsNodes(PathNode* start, PathNode* end, const std::vector<PathNode*>& nodes)
 {
 	//create AS_Star nodes and fill out map
 	std::map<PathNode*, AS_Node*> mapNode;
