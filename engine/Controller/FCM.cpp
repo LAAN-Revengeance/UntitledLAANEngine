@@ -3,6 +3,7 @@
 void FCM::AddConcept(std::string name, float value, float threshold)
 {
 	concepts.push_back({ name, value, threshold });
+	std::cout << "Here" << std::endl;
 
 	return;
 }
@@ -10,6 +11,9 @@ void FCM::AddConcept(std::string name, float value, float threshold)
 void FCM::AddRelationship(std::string Concept1, std::string Concept2, float Weighting)
 {
 	relationships.push_back({ Concept1, Concept2, Weighting });
+
+	std::cout << "Here1" << std::endl;
+
 	return;
 }
 
@@ -23,7 +27,9 @@ Concept FCM::GetConcept(std::string conceptName)
 
 	std::cout << "Error: No node of name " << conceptName << " was found." << std::endl;
 
-	return;
+	Concept empty;
+
+	return empty;
 }
 
 Relationship FCM::GetRelationshop(std::string concept1, std::string concept2)
@@ -36,7 +42,9 @@ Relationship FCM::GetRelationshop(std::string concept1, std::string concept2)
 
 	std::cout << "Error: No relationship between " << concept1 << " and " << concept2 << " was found." << std::endl;
 
-	return;
+	Relationship Empty;
+
+	return Empty;
 }
 
 float FCM::GetConceptValue(std::string conceptName)

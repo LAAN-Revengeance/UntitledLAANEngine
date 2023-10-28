@@ -6,6 +6,8 @@ SceneEditor::SceneEditor(GameEngine* nEngine):
 {
 	engine->isRunning = false;
 	UseScene(engine->scene);
+
+	emotionManager.InitFCM();
 }
 
 SceneEditor::~SceneEditor()

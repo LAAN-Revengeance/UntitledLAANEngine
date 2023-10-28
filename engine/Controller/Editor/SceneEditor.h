@@ -6,6 +6,7 @@
 #include <SoundEngine.h>
 #include <GaemEngine.h>
 #include <lua/LuaGameBridge.h>
+#include <EmotionManger.h>
 
 
 /**
@@ -75,4 +76,6 @@ private:
 
 		///Main GUI Renderer
 	GUIRenderer& guirenderer;
+
+	EmotionManager emotionManager;
 };
