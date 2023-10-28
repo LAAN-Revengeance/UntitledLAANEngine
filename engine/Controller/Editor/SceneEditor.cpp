@@ -380,343 +380,324 @@ void SceneEditor::DrawInspector()
 					inspectedObject->name = cmObjName;
 					res.StoreGameObject(inspectedObject);
 				}
-
+				ImGui::Dummy(ImVec2(0.0f, 10.0f));
 				//TRANSFORM SETTINGS
-				ImGui::SeparatorText("Transform");
-				float tmpPosX = inspectedObject->position.x;
-				float tmpPosY = inspectedObject->position.y;
-				float tmpPosZ = inspectedObject->position.z;
-				ImGui::Text("Position:");
-				ImGui::DragFloat("x position", &tmpPosX, 0.1f);
-				ImGui::DragFloat("y position", &tmpPosY, 0.1f);
-				ImGui::DragFloat("z position", &tmpPosZ, 0.1f);
+				if (ImGui::CollapsingHeader("-- Transform --")) {
+					float tmpPosX = inspectedObject->position.x;
+					float tmpPosY = inspectedObject->position.y;
+					float tmpPosZ = inspectedObject->position.z;
+					ImGui::Text("Position:");
+					ImGui::DragFloat("x position", &tmpPosX, 0.1f);
+					ImGui::DragFloat("y position", &tmpPosY, 0.1f);
+					ImGui::DragFloat("z position", &tmpPosZ, 0.1f);
 
-				if (tmpPosX != inspectedObject->position.x || tmpPosY != inspectedObject->position.y || tmpPosZ != inspectedObject->position.z) {
-					inspectedObject->SetPosition({ tmpPosX, tmpPosY, tmpPosZ });
+					if (tmpPosX != inspectedObject->position.x || tmpPosY != inspectedObject->position.y || tmpPosZ != inspectedObject->position.z) {
+						inspectedObject->SetPosition({ tmpPosX, tmpPosY, tmpPosZ });
+					}
+
+					float tmpRots[3];
+					tmpRots[0] = glm::degrees(inspectedObject->GetRotationEuler().x);
+					tmpRots[1] = glm::degrees(inspectedObject->GetRotationEuler().y);
+					tmpRots[2] = glm::degrees(inspectedObject->GetRotationEuler().z);
+					ImGui::Text("Rotation:");
+					ImGui::DragFloat3("##rot", tmpRots);
+
+					glm::quat nOrientation = inspectedObject->orientation;
+					if (ImGui::gizmo3D("##gizmo2", nOrientation)) {
+						inspectedObject->SetRotation(nOrientation);
+					}
+
+					float tmpSclX = inspectedObject->scale.x;
+					float tmpSclY = inspectedObject->scale.y;
+					float tmpSclZ = inspectedObject->scale.z;
+					ImGui::Text("Scale:");
+					ImGui::DragFloat("x scale", &tmpSclX, 0.01f);
+					ImGui::DragFloat("y scale", &tmpSclY, 0.01f);
+					ImGui::DragFloat("z scale", &tmpSclZ, 0.01f);
+
+					if (tmpSclX != inspectedObject->scale.x || tmpSclY != inspectedObject->scale.y || tmpSclZ != inspectedObject->scale.z) {
+						inspectedObject->SetScale({ tmpSclX, tmpSclY, tmpSclZ });
+					}
+					ImGui::Dummy(ImVec2(0.0f, 20.0f));
 				}
-
-				float tmpRots[3];
-				tmpRots[0] = glm::degrees(inspectedObject->GetRotationEuler().x);
-				tmpRots[1] = glm::degrees(inspectedObject->GetRotationEuler().y);
-				tmpRots[2] = glm::degrees(inspectedObject->GetRotationEuler().z);
-				ImGui::Text("Rotation:");
-				ImGui::DragFloat3("##rot", tmpRots);
-
-				glm::quat nOrientation = inspectedObject->orientation;
-				if (ImGui::gizmo3D("##gizmo2", nOrientation)) {
-					inspectedObject->SetRotation(nOrientation);
-				}
-
-				float tmpSclX = inspectedObject->scale.x;
-				float tmpSclY = inspectedObject->scale.y;
-				float tmpSclZ = inspectedObject->scale.z;
-				ImGui::Text("Scale:");
-				ImGui::DragFloat("x scale", &tmpSclX, 0.01f);
-				ImGui::DragFloat("y scale", &tmpSclY, 0.01f);
-				ImGui::DragFloat("z scale", &tmpSclZ, 0.01f);
-
-				if (tmpSclX != inspectedObject->scale.x || tmpSclY != inspectedObject->scale.y || tmpSclZ != inspectedObject->scale.z) {
-					inspectedObject->SetScale({ tmpSclX, tmpSclY, tmpSclZ });
-				}
+				
 
 				//Rendering SETTINGS
-				ImGui::SeparatorText("Rendering");
-				static std::string selectedShader;
-				static std::string selectedMesh;
+				if (ImGui::CollapsingHeader("-- Rendering --")) {
+					static std::string selectedShader;
+					static std::string selectedMesh;
 
-				if (ImGui::RadioButton("Cast Shadows", inspectedObject->isCastShadow))
-				{
-					inspectedObject->isCastShadow = !inspectedObject->isCastShadow;
-				}
-
-
-				selectedShader = "";
-				if (inspectedObject->shader)
-					selectedShader = inspectedObject->shader->name;
-				selectedMesh = "";
-				if (inspectedObject->model_data)
-					selectedMesh = inspectedObject->model_data->name;
-
-
-				ImGui::Text("Shader:");
-				if (ImGui::BeginCombo("##objectShader", selectedShader.c_str()))
-				{
-					for (auto it : res.shaders)
+					if (ImGui::RadioButton("Cast Shadows", inspectedObject->isCastShadow))
 					{
-						if (ImGui::Selectable(it.first.c_str())) {
-							selectedShader = it.first;
-							inspectedObject->shader = it.second;
-						}
+						inspectedObject->isCastShadow = !inspectedObject->isCastShadow;
 					}
-					ImGui::EndCombo();
-				}
-				ImGui::Text("Mesh:");
 
-				if (ImGui::BeginCombo("##modelMesh", selectedMesh.c_str()))
-				{
-					if (ImGui::Selectable("--None--"))
-						inspectedObject->model_data = nullptr;
-					for (auto it : res.models)
+
+					selectedShader = "";
+					if (inspectedObject->shader)
+						selectedShader = inspectedObject->shader->name;
+					selectedMesh = "";
+					if (inspectedObject->model_data)
+						selectedMesh = inspectedObject->model_data->name;
+
+
+					ImGui::Text("Shader:");
+					if (ImGui::BeginCombo("##objectShader", selectedShader.c_str()))
 					{
-						if (ImGui::Selectable(it.first.c_str())) {
-							selectedMesh = it.first;
-							inspectedObject->model_data = it.second;
-						}
-					}
-					ImGui::EndCombo();
-				}
-				ImGui::Text("Material:");
-				std::string diffName = "";
-				if (!inspectedObject->material.diffuseTexture.empty())
-					diffName = inspectedObject->material.diffuseTexture[0]->name;
-				if (ImGui::BeginCombo("Diffuse##dinspectedModel", diffName.c_str()))
-				{
-					if (ImGui::Selectable("--None--"))
-						inspectedObject->material.diffuseTexture.clear();
-					for (auto it : res.textures)
-					{
-						if (ImGui::Selectable(it.first.c_str())) {
-							if (inspectedObject->material.diffuseTexture.empty()) {
-								inspectedObject->material.diffuseTexture.push_back(it.second);
-							}
-							else {
-								inspectedObject->material.diffuseTexture[0] = it.second;
+						for (auto it : res.shaders)
+						{
+							if (ImGui::Selectable(it.first.c_str())) {
+								selectedShader = it.first;
+								inspectedObject->shader = it.second;
 							}
 						}
+						ImGui::EndCombo();
 					}
-					ImGui::EndCombo();
-				}
-				std::string specName = "";
-				if (!inspectedObject->material.specularMap.empty())
-					specName = inspectedObject->material.specularMap[0]->name;
-				if (ImGui::BeginCombo("Specular##dinspectedModel", specName.c_str()))
-				{
-					if (ImGui::Selectable("--None--"))
-						inspectedObject->material.specularMap.clear();
-					for (auto it : res.textures)
+					ImGui::Text("Mesh:");
+
+					if (ImGui::BeginCombo("##modelMesh", selectedMesh.c_str()))
 					{
-						if (ImGui::Selectable(it.first.c_str())) {
-							if (inspectedObject->material.specularMap.empty()) {
-								inspectedObject->material.specularMap.push_back(it.second);
-							}
-							else {
-								inspectedObject->material.specularMap[0] = it.second;
+						if (ImGui::Selectable("--None--"))
+							inspectedObject->model_data = nullptr;
+						for (auto it : res.models)
+						{
+							if (ImGui::Selectable(it.first.c_str())) {
+								selectedMesh = it.first;
+								inspectedObject->model_data = it.second;
 							}
 						}
+						ImGui::EndCombo();
 					}
-					ImGui::EndCombo();
-				}
-
-				std::string emissName = "";
-				if (!inspectedObject->material.emissionMap.empty())
-					emissName = inspectedObject->material.emissionMap[0]->name;
-				if (ImGui::BeginCombo("Emissive##dinspectedModel", emissName.c_str()))
-				{
-					if (ImGui::Selectable("--None--"))
-						inspectedObject->material.emissionMap.clear();
-					for (auto it : res.textures)
+					ImGui::Text("Material:");
+					std::string diffName = "";
+					if (!inspectedObject->material.diffuseTexture.empty())
+						diffName = inspectedObject->material.diffuseTexture[0]->name;
+					if (ImGui::BeginCombo("Diffuse##dinspectedModel", diffName.c_str()))
 					{
-						if (ImGui::Selectable(it.first.c_str())) {
-							if (inspectedObject->material.emissionMap.empty()) {
-								inspectedObject->material.emissionMap.push_back(it.second);
-							}
-							else {
-								inspectedObject->material.emissionMap[0] = it.second;
+						if (ImGui::Selectable("--None--"))
+							inspectedObject->material.diffuseTexture.clear();
+						for (auto it : res.textures)
+						{
+							if (ImGui::Selectable(it.first.c_str())) {
+								if (inspectedObject->material.diffuseTexture.empty()) {
+									inspectedObject->material.diffuseTexture.push_back(it.second);
+								}
+								else {
+									inspectedObject->material.diffuseTexture[0] = it.second;
+								}
 							}
 						}
+						ImGui::EndCombo();
 					}
-					ImGui::EndCombo();
-				}
-				ImGui::DragFloat("Shine##materialShine", &inspectedObject->material.shine);
+					std::string specName = "";
+					if (!inspectedObject->material.specularMap.empty())
+						specName = inspectedObject->material.specularMap[0]->name;
+					if (ImGui::BeginCombo("Specular##dinspectedModel", specName.c_str()))
+					{
+						if (ImGui::Selectable("--None--"))
+							inspectedObject->material.specularMap.clear();
+						for (auto it : res.textures)
+						{
+							if (ImGui::Selectable(it.first.c_str())) {
+								if (inspectedObject->material.specularMap.empty()) {
+									inspectedObject->material.specularMap.push_back(it.second);
+								}
+								else {
+									inspectedObject->material.specularMap[0] = it.second;
+								}
+							}
+						}
+						ImGui::EndCombo();
+					}
 
+					std::string emissName = "";
+					if (!inspectedObject->material.emissionMap.empty())
+						emissName = inspectedObject->material.emissionMap[0]->name;
+					if (ImGui::BeginCombo("Emissive##dinspectedModel", emissName.c_str()))
+					{
+						if (ImGui::Selectable("--None--"))
+							inspectedObject->material.emissionMap.clear();
+						for (auto it : res.textures)
+						{
+							if (ImGui::Selectable(it.first.c_str())) {
+								if (inspectedObject->material.emissionMap.empty()) {
+									inspectedObject->material.emissionMap.push_back(it.second);
+								}
+								else {
+									inspectedObject->material.emissionMap[0] = it.second;
+								}
+							}
+						}
+						ImGui::EndCombo();
+					}
+					ImGui::DragFloat("Shine##materialShine", &inspectedObject->material.shine);
+					ImGui::Dummy(ImVec2(0.0f, 20.0f));
+				}
+				
 
 				//PHYSICS SETTINGS
-				if (inspectedObject->physicsBody)
-					ImGui::Text((std::string("PhysicsBody Position: ") + std::to_string(inspectedObject->physicsBody->GetPosition().x) + " | " + std::to_string(inspectedObject->physicsBody->GetPosition().y) + " | " + std::to_string(inspectedObject->physicsBody->GetPosition().z)).c_str());
-				if (inspectedObject->physicsBody)
-					ImGui::Text((std::string("PhysicsBody Velocity: ") + std::to_string(inspectedObject->physicsBody->velocity.x) + " | " + std::to_string(inspectedObject->physicsBody->velocity.y) + " | " + std::to_string(inspectedObject->physicsBody->velocity.z)).c_str());
+				if (ImGui::CollapsingHeader("-- Physics --")) {
+					if (inspectedObject->physicsBody)
+						ImGui::Text((std::string("PhysicsBody Position: ") + std::to_string(inspectedObject->physicsBody->GetPosition().x) + " | " + std::to_string(inspectedObject->physicsBody->GetPosition().y) + " | " + std::to_string(inspectedObject->physicsBody->GetPosition().z)).c_str());
+					if (inspectedObject->physicsBody)
+						ImGui::Text((std::string("PhysicsBody Velocity: ") + std::to_string(inspectedObject->physicsBody->velocity.x) + " | " + std::to_string(inspectedObject->physicsBody->velocity.y) + " | " + std::to_string(inspectedObject->physicsBody->velocity.z)).c_str());
 
-				if (inspectedObject->physicsBody)
-					ImGui::Text((std::string("PhysicsBody Angular: ") + std::to_string(inspectedObject->physicsBody->angularVelocity.x) + " | " + std::to_string(inspectedObject->physicsBody->angularVelocity.y) + " | " + std::to_string(inspectedObject->physicsBody->angularVelocity.z)).c_str());
-				if (inspectedObject->physicsBody)
-					ImGui::Text((std::string("Total Mass: ") + std::to_string(inspectedObject->physicsBody->GetMass())).c_str());
-				if (inspectedObject->physicsBody)
-					ImGui::Text((std::string("Inverse Mass: ") + std::to_string(inspectedObject->physicsBody->GetInverseMass())).c_str());
-				if (inspectedObject->physicsBody)
-					ImGui::Text((std::string("ID: ") + std::to_string(inspectedObject->physicsBody->GetID())).c_str());
-				ImGui::SeparatorText("Physics");
+					if (inspectedObject->physicsBody)
+						ImGui::Text((std::string("PhysicsBody Angular: ") + std::to_string(inspectedObject->physicsBody->angularVelocity.x) + " | " + std::to_string(inspectedObject->physicsBody->angularVelocity.y) + " | " + std::to_string(inspectedObject->physicsBody->angularVelocity.z)).c_str());
+					if (inspectedObject->physicsBody)
+						ImGui::Text((std::string("Total Mass: ") + std::to_string(inspectedObject->physicsBody->GetMass())).c_str());
+					if (inspectedObject->physicsBody)
+						ImGui::Text((std::string("Inverse Mass: ") + std::to_string(inspectedObject->physicsBody->GetInverseMass())).c_str());
+					if (inspectedObject->physicsBody)
+						ImGui::Text((std::string("ID: ") + std::to_string(inspectedObject->physicsBody->GetID())).c_str());
 
-				if (inspectedObject->physicsBody)
-					if (ImGui::RadioButton("Is Kinematic", inspectedObject->physicsBody->isKinematic))
-					{
-						inspectedObject->physicsBody->isKinematic = !inspectedObject->physicsBody->isKinematic;
-					}
-
-				if (inspectedObject->physicsBody)
-					if (ImGui::RadioButton("Use Gravity", inspectedObject->physicsBody->useGravity))
-					{
-						inspectedObject->physicsBody->useGravity = !inspectedObject->physicsBody->useGravity;
-					}
-
-				if (inspectedObject->physicsBody) {
-					if (ImGui::Button("Set Mass Infinite"))
-					{
-						inspectedObject->physicsBody->SetMassInf();
-					}
-				}
-
-				if (inspectedObject->physicsBody) {
-					float nMass = inspectedObject->physicsBody->GetMass();
-					if (ImGui::DragFloat("Mass##setmass", &nMass, 0.01f, 0.0f)) {
-						inspectedObject->physicsBody->SetMass(nMass);
-					}
-
-					float nBounce = inspectedObject->physicsBody->GetBounce();
-					if (ImGui::DragFloat("Bounce##setbounce", &nBounce, 0.01f, 0.0f, 1.0f)) {
-						inspectedObject->physicsBody->SetBounce(nBounce);
-					}
-
-					float nlDamp = inspectedObject->physicsBody->GetLinearDampening();
-					if (ImGui::DragFloat("LinearDampening##setLinDamp", &nlDamp, 0.01f, 0.0f, 1.0f)) {
-						inspectedObject->physicsBody->SetLinearDampening(nlDamp);
-					}
-
-					float naDamp = inspectedObject->physicsBody->GetAngularDampening();
-					if (ImGui::DragFloat("AngularDampening##setLinDamp", &naDamp, 0.01f, 0.0f, 1.0f)) {
-						inspectedObject->physicsBody->SetAngularDampening(naDamp);
-					}
-
-
-				}
-
-
-				//Box
-				if (ImGui::Button("Add Box Collider##box")) {
-					if (!inspectedObject->physicsBody)
-						inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
-					engine->scene->physicsWorld.AddBoxCollider(*inspectedObject->physicsBody, { 1.0f,1.0f,1.0f });
-					inspectedObject->physicsBody->CalcCenterOfMass();
-				}
-
-				//Sphere
-				if (ImGui::Button("Add Sphere Collider##sphere")) {
-					if (!inspectedObject->physicsBody)
-						inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
-					engine->scene->physicsWorld.AddSphereCollider(*inspectedObject->physicsBody, 1.0f);
-					inspectedObject->physicsBody->CalcCenterOfMass();
-				}
-
-				//Capsule
-				if (ImGui::Button("Add Capsule Collider##capsule")) {
-					if (!inspectedObject->physicsBody)
-						inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
-					engine->scene->physicsWorld.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f, 2.0f);
-					inspectedObject->physicsBody->CalcCenterOfMass();
-				}
-
-				static const char* colliderNames[4] = { "Box Collider","Sphere Collider", "Capsule Collider", "Terrain Collider" };
-				if (inspectedObject->physicsBody) {
-
-					PhysicsBody* pb = inspectedObject->physicsBody;
-					unsigned int i = 0;
-					for (auto& it : pb->colliders)
-					{
-
-						std::string nodeName = std::string("##") + std::to_string(i);
-						if (ImGui::TreeNodeEx((std::string(colliderNames[it.GetType() - 1]) + nodeName).c_str())) {
-							glm::vec3 nOffset = it.GetOffset();
-							if (ImGui::DragFloat3((std::string("position") + nodeName).c_str(), &nOffset.x, 0.01f))
-							{
-								it.SetOffset(nOffset);
-								pb->CalcCenterOfMass();
-							}
-
-							glm::vec3 nRotation = it.GetRotation();
-							if (ImGui::DragFloat3((std::string("rotation") + nodeName).c_str(), &nRotation.x, 0.01f))
-							{
-								it.SetRotation(nRotation);
-								pb->CalcCenterOfMass();
-							}
-
-							float nMass = it.GetMass();
-							if (ImGui::DragFloat((std::string("Mass") + nodeName).c_str(), &nMass, 0.01f))
-							{
-								it.SetMass(nMass);
-								pb->CalcCenterOfMass();
-							}
-
-							if (it.GetType() == COLLIDER_BOX) {
-
-								glm::vec3 nScale = static_cast<BoxCollider*>(&it)->GetScale();
-								if (ImGui::DragFloat3((std::string("scale") + nodeName).c_str(), &nScale.x, 0.01f))
-								{
-									static_cast<BoxCollider*>(&it)->SetScale(nScale);
-								}
-							}
-
-							if (it.GetType() == COLLIDER_SPHERE) {
-
-								float nRadius = static_cast<SphereCollider*>(&it)->GetRadius();
-								if (ImGui::DragFloat((std::string("Radius") + nodeName).c_str(), &nRadius, 0.01f))
-								{
-									if (nRadius > 0)
-										static_cast<SphereCollider*>(&it)->SetRadius(nRadius);
-								}
-							}
-
-							if (it.GetType() == COLLIDER_CAPSULE) {
-
-								float nRadius = static_cast<CapsuleCollider*>(&it)->GetRadius();
-								float nHeight = static_cast<CapsuleCollider*>(&it)->GetHeight();
-								if (ImGui::DragFloat((std::string("Radius") + nodeName).c_str(), &nRadius, 0.01f))
-								{
-									if (nRadius > 0)
-										static_cast<CapsuleCollider*>(&it)->SetRadius(nRadius);
-								}
-								if (ImGui::DragFloat((std::string("Height") + nodeName).c_str(), &nHeight, 0.01f))
-								{
-									if (nHeight > 0)
-										static_cast<CapsuleCollider*>(&it)->SetHeight(nHeight);
-								}
-							}
-
-							if (ImGui::Button((std::string("Delete") + nodeName).c_str()))
-							{
-								pb->DeleteCollider(i);
-								inspectedObject->physicsBody->CalcCenterOfMass();
-							}
-							ImGui::TreePop();
+					if (inspectedObject->physicsBody)
+						if (ImGui::RadioButton("Is Kinematic", inspectedObject->physicsBody->isKinematic))
+						{
+							inspectedObject->physicsBody->isKinematic = !inspectedObject->physicsBody->isKinematic;
 						}
-						++i;
-					}
-				}
 
-				//std::string dName = std::string("Dir Light##" + std::to_string(i));
+					if (inspectedObject->physicsBody)
+						if (ImGui::RadioButton("Use Gravity", inspectedObject->physicsBody->useGravity))
+						{
+							inspectedObject->physicsBody->useGravity = !inspectedObject->physicsBody->useGravity;
+						}
 
-				//AUDIO SETTINGS
-				/*
-				*
-				* Another WIP, rather than playing a sound, this will
-				* add a sound to the object that can be played through
-				* scripting
-				*
-				ImGui::SeparatorText("Audio");
-
-				std::vector<std::string> audioNames = soundEngine.GetAudioNames();
-
-				ImGui::Text("Add Audio");
-				if (ImGui::BeginCombo("##audio", " "))
-				{
-					for (int i = 0; i < audioNames.size(); i++)
-					{
-						if (ImGui::Selectable(audioNames[i].c_str())) {
-							soundEngine.PlayLoopAtPosition(audioNames[i], inspectedObject->position);
+					if (inspectedObject->physicsBody) {
+						if (ImGui::Button("Set Mass Infinite"))
+						{
+							inspectedObject->physicsBody->SetMassInf();
 						}
 					}
-					ImGui::EndCombo();
+
+					if (inspectedObject->physicsBody) {
+						float nMass = inspectedObject->physicsBody->GetMass();
+						if (ImGui::DragFloat("Mass##setmass", &nMass, 0.01f, 0.0f)) {
+							inspectedObject->physicsBody->SetMass(nMass);
+						}
+
+						float nBounce = inspectedObject->physicsBody->GetBounce();
+						if (ImGui::DragFloat("Bounce##setbounce", &nBounce, 0.01f, 0.0f, 1.0f)) {
+							inspectedObject->physicsBody->SetBounce(nBounce);
+						}
+
+						float nlDamp = inspectedObject->physicsBody->GetLinearDampening();
+						if (ImGui::DragFloat("LinearDampening##setLinDamp", &nlDamp, 0.01f, 0.0f, 1.0f)) {
+							inspectedObject->physicsBody->SetLinearDampening(nlDamp);
+						}
+
+						float naDamp = inspectedObject->physicsBody->GetAngularDampening();
+						if (ImGui::DragFloat("AngularDampening##setLinDamp", &naDamp, 0.01f, 0.0f, 1.0f)) {
+							inspectedObject->physicsBody->SetAngularDampening(naDamp);
+						}
+
+
+					}
+
+
+					//Box
+					if (ImGui::Button("Add Box Collider##box")) {
+						if (!inspectedObject->physicsBody)
+							inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+						engine->scene->physicsWorld.AddBoxCollider(*inspectedObject->physicsBody, { 1.0f,1.0f,1.0f });
+						inspectedObject->physicsBody->CalcCenterOfMass();
+					}
+
+					//Sphere
+					if (ImGui::Button("Add Sphere Collider##sphere")) {
+						if (!inspectedObject->physicsBody)
+							inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+						engine->scene->physicsWorld.AddSphereCollider(*inspectedObject->physicsBody, 1.0f);
+						inspectedObject->physicsBody->CalcCenterOfMass();
+					}
+
+					//Capsule
+					if (ImGui::Button("Add Capsule Collider##capsule")) {
+						if (!inspectedObject->physicsBody)
+							inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+						engine->scene->physicsWorld.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f, 2.0f);
+						inspectedObject->physicsBody->CalcCenterOfMass();
+					}
+
+					static const char* colliderNames[4] = { "Box Collider","Sphere Collider", "Capsule Collider", "Terrain Collider" };
+					if (inspectedObject->physicsBody) {
+
+						PhysicsBody* pb = inspectedObject->physicsBody;
+						unsigned int i = 0;
+						for (auto& it : pb->colliders)
+						{
+
+							std::string nodeName = std::string("##") + std::to_string(i);
+							if (ImGui::TreeNodeEx((std::string(colliderNames[it.GetType() - 1]) + nodeName).c_str())) {
+								glm::vec3 nOffset = it.GetOffset();
+								if (ImGui::DragFloat3((std::string("position") + nodeName).c_str(), &nOffset.x, 0.01f))
+								{
+									it.SetOffset(nOffset);
+									pb->CalcCenterOfMass();
+								}
+
+								glm::vec3 nRotation = it.GetRotation();
+								if (ImGui::DragFloat3((std::string("rotation") + nodeName).c_str(), &nRotation.x, 0.01f))
+								{
+									it.SetRotation(nRotation);
+									pb->CalcCenterOfMass();
+								}
+
+								float nMass = it.GetMass();
+								if (ImGui::DragFloat((std::string("Mass") + nodeName).c_str(), &nMass, 0.01f))
+								{
+									it.SetMass(nMass);
+									pb->CalcCenterOfMass();
+								}
+
+								if (it.GetType() == COLLIDER_BOX) {
+
+									glm::vec3 nScale = static_cast<BoxCollider*>(&it)->GetScale();
+									if (ImGui::DragFloat3((std::string("scale") + nodeName).c_str(), &nScale.x, 0.01f))
+									{
+										static_cast<BoxCollider*>(&it)->SetScale(nScale);
+									}
+								}
+
+								if (it.GetType() == COLLIDER_SPHERE) {
+
+									float nRadius = static_cast<SphereCollider*>(&it)->GetRadius();
+									if (ImGui::DragFloat((std::string("Radius") + nodeName).c_str(), &nRadius, 0.01f))
+									{
+										if (nRadius > 0)
+											static_cast<SphereCollider*>(&it)->SetRadius(nRadius);
+									}
+								}
+
+								if (it.GetType() == COLLIDER_CAPSULE) {
+
+									float nRadius = static_cast<CapsuleCollider*>(&it)->GetRadius();
+									float nHeight = static_cast<CapsuleCollider*>(&it)->GetHeight();
+									if (ImGui::DragFloat((std::string("Radius") + nodeName).c_str(), &nRadius, 0.01f))
+									{
+										if (nRadius > 0)
+											static_cast<CapsuleCollider*>(&it)->SetRadius(nRadius);
+									}
+									if (ImGui::DragFloat((std::string("Height") + nodeName).c_str(), &nHeight, 0.01f))
+									{
+										if (nHeight > 0)
+											static_cast<CapsuleCollider*>(&it)->SetHeight(nHeight);
+									}
+								}
+
+								if (ImGui::Button((std::string("Delete") + nodeName).c_str()))
+								{
+									pb->DeleteCollider(i);
+									inspectedObject->physicsBody->CalcCenterOfMass();
+								}
+								ImGui::TreePop();
+							}
+							++i;
+						}
+					}
 				}
 
-				*/
+				
 
 				changeObject = false;
 			}
@@ -846,8 +827,7 @@ void SceneEditor::DrawInspector()
 			for (auto& node : pathNodeManager->GetNodes()) {
 				
 				std::string nodeID = std::string("##node") + std::to_string(i);
-
-				//ImGui::Text(std::to_string(node->GetID()).c_str());
+;
 				if (ImGui::Button(std::to_string(node->GetID()).c_str(), {30,20}))
 				{
 					selectedNavNodeBox.SetEnabled(true);
@@ -860,6 +840,7 @@ void SceneEditor::DrawInspector()
 				ImGui::PushItemWidth(220);
 				if (ImGui::DragFloat3(nodeID.c_str(), &cPos.x)) {
 					node->SetPosition(cPos);
+					selectedNavNodeBox.SetEnabled(true);
 					selectedNavNodeBox.SetPosition(node->GetPosition());
 				}
 				ImGui::PopItemWidth();

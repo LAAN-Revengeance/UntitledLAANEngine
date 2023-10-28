@@ -149,9 +149,9 @@ void Mesh::Render(glm::mat4 projection, glm::mat4 view, Shader* shader, bool isE
 }
 
 void Mesh::FreeData() {
-	vbo.Delete();
-	ivbo.Delete();
-	ebo.Delete();
+	//vbo.Delete();
+	//ivbo.Delete();
+	//ebo.Delete();
 	vao.Delete();
 }
 

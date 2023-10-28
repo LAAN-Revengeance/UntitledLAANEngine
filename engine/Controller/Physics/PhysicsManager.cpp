@@ -131,7 +131,6 @@ void PhysicsManager::DrawPhysicsWorld(Camera& camera)
 
 		debugMesh->SetDebugVertexData((float*)&tri->point1.x, nTri * 3);
 		debugMesh->Render(proj, view, debugShader, false, GL_TRIANGLES);
-
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
