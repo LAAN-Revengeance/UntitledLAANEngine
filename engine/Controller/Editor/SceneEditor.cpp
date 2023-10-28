@@ -174,11 +174,19 @@ void SceneEditor::DrawHeighrarchy()
 					nName.append(std::to_string(nSuffix));
 					++nSuffix;
 				}
-				GameObject& go = res.CreateGameObject(nName, "", "");
-				go = *pair.second;
-				go.name = nName;
+				GameObject* go;
+				
+				if (dynamic_cast<NPC_GameObject*>(pair.second) != nullptr) {
+					go = &res.CreateNPC(nName, "", "");
+				}
+				else {
+					go = &res.CreateGameObject(nName, "", "");
+				}
+				
+				go = pair.second;
+				go->name = nName;
 
-				go.physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+				go->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
 				
 				if(pair.second->physicsBody)
 				for (int i = 0; i < pair.second->physicsBody->GetNumColliders(); ++i)
@@ -187,24 +195,24 @@ void SceneEditor::DrawHeighrarchy()
 					switch (pair.second->physicsBody->GetCollider(i).GetType())
 					{
 					case COLLIDER_BOX:
-						engine->scene->physicsWorld.AddBoxCollider(*go.physicsBody,static_cast<BoxCollider*>(&nCollider)->GetScale());
+						engine->scene->physicsWorld.AddBoxCollider(*go->physicsBody,static_cast<BoxCollider*>(&nCollider)->GetScale());
 						break;
 					case COLLIDER_SPHERE:
-						engine->scene->physicsWorld.AddSphereCollider(*go.physicsBody, static_cast<SphereCollider*>(&nCollider)->GetRadius());
+						engine->scene->physicsWorld.AddSphereCollider(*go->physicsBody, static_cast<SphereCollider*>(&nCollider)->GetRadius());
 						break;
 					case COLLIDER_CAPSULE:
-						engine->scene->physicsWorld.AddCapsuleCollider(*go.physicsBody, static_cast<CapsuleCollider*>(&nCollider)->GetRadius(), static_cast<CapsuleCollider*>(&nCollider)->GetHeight());
+						engine->scene->physicsWorld.AddCapsuleCollider(*go->physicsBody, static_cast<CapsuleCollider*>(&nCollider)->GetRadius(), static_cast<CapsuleCollider*>(&nCollider)->GetHeight());
 						break;
 					default:
 						break;
 					}
-					go.physicsBody->GetCollider(i).SetOffset(nCollider.GetOffset());
-					go.physicsBody->GetCollider(i).SetRotation(nCollider.GetRotation());
+					go->physicsBody->GetCollider(i).SetOffset(nCollider.GetOffset());
+					go->physicsBody->GetCollider(i).SetRotation(nCollider.GetRotation());
 
 					
 				}
 
-				engine->scene->AddObject(go);
+				engine->scene->AddObject(*go);
 			}
 			ImGui::TreePop();
 		}
