@@ -64,8 +64,10 @@ void FCM::Run()
 		{
 			if (concepts[i].name == relationships[i].concept1)
 			{
-				float weighting = GetConceptValue(relationships[i].concept2);
-
+				float initialValue = GetConceptValue(relationships[i].concept2);
+				float weighting = GetRelationshipWeighting(relationships[i].concept1, relationships[i].concept2);
+				float finalValue = initialValue + (concepts[i].value * weighting);
+				SetConceptValue(relationships[i].concept2, finalValue);
 			}
 		}
 	}
