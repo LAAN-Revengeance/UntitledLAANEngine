@@ -722,9 +722,12 @@ void SceneEditor::DrawInspector()
 							++i;
 						}
 					}
+					ImGui::Dummy(ImVec2(0.0f, 20.0f));
 				}
-
 				
+				if (dynamic_cast<NPC_GameObject*>(inspectedObject)) {
+					DrawNPCInspector();
+				}
 
 				changeObject = false;
 			}
@@ -951,6 +954,8 @@ void SceneEditor::DrawInspector()
 
 		ImGui::EndTabBar();
 	}
+
+
 
 	
 	guirenderer.EndWindow();
@@ -1521,6 +1526,23 @@ void SceneEditor::Draw3DWidget()
 	}
 
 	guirenderer.EndWindow();
+}
+
+void SceneEditor::DrawNPCInspector()
+{
+	if (ImGui::CollapsingHeader("-- Path Finding --")) {
+		ImGui::Text("Pathing stuff yo");
+		ImGui::Dummy(ImVec2(0.0f, 20.0f));
+	}
+
+	if (ImGui::CollapsingHeader("-- Emotion --")) {
+		ImGui::Text("Emotion stuff yo");
+		ImGui::Dummy(ImVec2(0.0f, 20.0f));
+	}
+	if (ImGui::CollapsingHeader("-- Affordances --")) {
+		ImGui::Text("Affordance stuff yo");
+		ImGui::Dummy(ImVec2(0.0f, 20.0f));
+	}
 }
 
 void SceneEditor::CameraControl(double deltaTime)

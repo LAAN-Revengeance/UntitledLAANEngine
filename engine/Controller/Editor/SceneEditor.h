@@ -43,6 +43,8 @@ private:
 	void DrawSaveFile(bool* showSaveFile);
 	void Draw3DWidget();
 
+	void DrawNPCInspector();
+
 	//Input methods
 	void CameraControl(double deltaTime);
 	void CheckKeys();
