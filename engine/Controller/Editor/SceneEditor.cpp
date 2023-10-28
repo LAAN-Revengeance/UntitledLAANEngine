@@ -44,6 +44,8 @@ void SceneEditor::Draw(double deltaTime)
 	DrawHeighrarchy();
 	DrawMenu();
 	DrawResources();
+
+	ImGui::ShowDemoWindow();
 	guirenderer.EndGUI();
 }
 
@@ -954,6 +956,15 @@ void SceneEditor::DrawInspector()
 			ImGui::EndTabItem();
 		}
 
+
+		if (ImGui::BeginTabItem("Debug")) {
+			
+			DrawDebug();
+
+
+			ImGui::EndTabItem();
+		}
+
 		ImGui::EndTabBar();
 	}
 
@@ -966,7 +977,6 @@ void SceneEditor::DrawInspector()
 void SceneEditor::DrawMenu()
 {
 	static bool showChangeWindow = false;
-	static bool showDebug = false;
 	static bool showOpenFile = false;
 	static bool showSaveFile = false;
 	float width = 1.0; float height = 0.06; float posY = 0.0; float posX = 0.0;
@@ -1041,6 +1051,15 @@ void SceneEditor::DrawMenu()
 			ImGui::EndMenu();
 		}
 
+		if (ImGui::BeginMenu("View")) {
+			ImGui::MenuItem("(Toggle Debug Rendering)", NULL, false, false);
+			ImGui::MenuItem("Debug Physics", NULL, &isPhysicDebug);
+			ImGui::MenuItem("Debug Pathfinding", NULL, &isPathDebug);
+			ImGui::MenuItem("Debug Transform Gizmo", NULL, &isShowWidget);
+
+			ImGui::EndMenu();
+		}
+
 		if (ImGui::BeginMenu("Help")) {
 
 			if (ImGui::BeginMenu("About")) {
@@ -1061,7 +1080,6 @@ void SceneEditor::DrawMenu()
 
 				ImGui::EndMenu();
 			}
-			ImGui::MenuItem("Debug",NULL,&showDebug);
 
 			ImGui::EndMenu();
 		}
@@ -1097,7 +1115,6 @@ void SceneEditor::DrawMenu()
 
 	guirenderer.EndWindow();
 
-	DrawDebug(&showDebug);
 	DrawWindowSettings(&showChangeWindow);
 	DrawSaveFile(&showSaveFile);
 }
@@ -1398,14 +1415,8 @@ void SceneEditor::DrawWindowSettings(bool* showChangeWindow)
 	ImGui::End();
 }
 
-void SceneEditor::DrawDebug(bool* showDebug)
+void SceneEditor::DrawDebug()
 {
-	if (!(*showDebug))
-		return;
-
-	ImGui::SetNextWindowSize({ 300,200 });
-	ImGui::Begin("Debug", showDebug);
-	
 	double fps = engine->renderer.GetFPS();
 	ImGui::Text("Current FPS:");
 	ImGui::SameLine();
@@ -1443,7 +1454,7 @@ void SceneEditor::DrawDebug(bool* showDebug)
 		isShowWidget = !isShowWidget;
 	}
 
-	ImGui::End();
+
 
 }
 
