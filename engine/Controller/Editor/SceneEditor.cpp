@@ -19,6 +19,8 @@ void SceneEditor::Update(double deltaTime)
 	if (!engine->isRunning)
 		CameraControl(deltaTime);
 
+	emotionManager.RunFCM(emotionManager.GetFCM());
+
 	CheckKeys();
 }
 
