@@ -119,6 +119,23 @@ void SceneEditor::DrawHeighrarchy()
 		engine->scene->AddObject(go);
 	}
 
+	ImGui::SameLine();
+
+	if (ImGui::Button("Add NPC")) {
+
+		std::string name = "new NPC";
+		std::string nName = name;
+		int nSuffix = 1;
+		while (res.objects.find(nName) != res.objects.end())
+		{
+			nName = name;
+			nName.append(std::to_string(nSuffix));
+			++nSuffix;
+		}
+		NPC_GameObject& go = res.CreateNPC(nName, "", "");
+		engine->scene->AddObject(go);
+	}
+
 	int j = 0;
 	std::string delname = "";
 	if(engine->scene)

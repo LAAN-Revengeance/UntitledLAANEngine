@@ -1,5 +1,12 @@
 #include "NPC_GameObject.h"
 
+using namespace GaemPathing;
+
+NPC_GameObject::NPC_GameObject()
+{
+
+}
+
 NPC_GameObject::NPC_GameObject(PathNodeManager* pathManager) :
 	_pathManager(pathManager)
 {
@@ -19,6 +26,7 @@ void NPC_GameObject::Update(double dt)
 
 void NPC_GameObject::MoveToPoint(PathNode* targetNode, const std::vector<PathNode*> nodes)
 {
+	if (!_pathManager)return;
 	_targetNode = targetNode;
 	
 	//find current node
@@ -44,8 +52,15 @@ void NPC_GameObject::MoveToPoint(PathNode* targetNode, const std::vector<PathNod
 	_isMoving = true;
 }
 
+void NPC_GameObject::SetPathManager(PathNodeManager* pathManager)
+{
+	_pathManager = pathManager;
+}
+
 void NPC_GameObject::UpdatePathing(double dt)
 {
+	if (!_pathManager)return;
+
 	if (_targetNode == nullptr) {
 		_isMoving = false;
 		while (!_currentPath.empty())

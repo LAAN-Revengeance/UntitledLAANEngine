@@ -169,10 +169,10 @@
     <ClCompile Include="engine\Controller\Physics\PhysicsManager.cpp" />
     <ClCompile Include="engine\Controller\Physics\RigidBody.cpp" />
     <ClCompile Include="Engine\Controller\ResourceManager.cpp" />
-    <ClCompile Include="engine\Controller\Serialization\ProjectLoader.cpp" />
-    <ClCompile Include="Engine\Controller\Serialization\SceneLoader.cpp" />
     <ClCompile Include="engine\Controller\Editor\FileExplorer.cpp" />
     <ClCompile Include="engine\Controller\Editor\SceneEditor.cpp" />
+    <ClCompile Include="engine\Controller\Serialization\ProjectLoader.cpp" />
+    <ClCompile Include="Engine\Controller\Serialization\SceneLoader.cpp" />
     <ClCompile Include="engine\Model\GameObject.cpp" />
     <ClCompile Include="engine\Model\Camera.cpp" />
     <ClCompile Include="engine\Model\GameObjects\NPC_GameObject.cpp" />

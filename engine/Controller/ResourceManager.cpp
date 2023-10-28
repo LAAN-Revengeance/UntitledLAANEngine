@@ -88,6 +88,35 @@ GameObject& ResourceManager::CreateGameObject(std::string objectName, std::strin
 	return *gameObject;
 }
 
+NPC_GameObject& ResourceManager::CreateNPC(std::string objectName, std::string modelName, std::string shaderName, Material material)
+{
+	NPC_GameObject* gameObject = new NPC_GameObject();
+	gameObject->name = objectName;
+	gameObject->SetID(IDIndex);
+	IDIndex++;
+
+	gameObject->material = material;
+
+	if (!modelName.empty())
+		gameObject->model_data = GetModel(modelName);
+
+	if (!shaderName.empty()) {
+		gameObject->shader = GetShader(shaderName);
+	}
+	else if (shaders.find("default") != shaders.end()) {
+		gameObject->shader = shaders.at("default");
+	}
+
+	if (objects.find(objectName) != objects.end()) {
+		delete objects[objectName];
+		objects[objectName] = gameObject;
+	}
+	else {
+		objects.insert({ objectName, gameObject });
+	}
+	return *gameObject;
+}
+
 
 Terrain& ResourceManager::CreateTerrain(std::string terrainName, std::string heightMapName, std::vector<std::string> layerTextures, std::string detailName, std::string specularName, std::string emissiveName, float texScale, float scaleX, float scaleY, float scaleZ) {
 	

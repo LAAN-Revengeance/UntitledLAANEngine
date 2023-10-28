@@ -2,29 +2,30 @@
 #include <GameObject.h>
 #include <AI/Pathfinding/PathNodeManager.h>
 
-using namespace GaemPathing;
-
 class NPC_GameObject : public GameObject
 {
 public:
-	NPC_GameObject(PathNodeManager* pathManager);
+	NPC_GameObject();
+	NPC_GameObject(GaemPathing::PathNodeManager* pathManager);
 	~NPC_GameObject();
 
 	void Update(double dt);
 
-	void MoveToPoint(PathNode* targetNode,const std::vector<PathNode*> nodes);
+	void MoveToPoint(GaemPathing::PathNode* targetNode,const std::vector<GaemPathing::PathNode*> nodes);
+
+	void SetPathManager(GaemPathing::PathNodeManager* pathManager);
 
 private:
 	
 	void UpdatePathing(double dt);
 
-	PathNodeManager* _pathManager = nullptr;
+	GaemPathing::PathNodeManager* _pathManager = nullptr;
 	float _moveSpeed = 1.0f;
 	bool _isMoving = false;
-	std::stack<PathNode*> _currentPath;
+	std::stack<GaemPathing::PathNode*> _currentPath;
 
-	PathNode* _currentNode = nullptr;
-	PathNode* _nextNode = nullptr;
-	PathNode* _targetNode = nullptr;
+	GaemPathing::PathNode* _currentNode = nullptr;
+	GaemPathing::PathNode* _nextNode = nullptr;
+	GaemPathing::PathNode* _targetNode = nullptr;
 };
 
