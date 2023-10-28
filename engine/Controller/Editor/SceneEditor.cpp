@@ -822,6 +822,7 @@ void SceneEditor::DrawInspector()
 			ImGui::SeparatorText("Nodes");
 			int i = 0;
 			GaemPathing::PathNode* delNode = nullptr;
+			static GaemPathing::PathNode* selectedNode = nullptr;
 
 			if(pathNodeManager->GetNodes().empty())
 				selectedNavNodeBox.SetEnabled(false);
@@ -829,11 +830,28 @@ void SceneEditor::DrawInspector()
 			for (auto& node : pathNodeManager->GetNodes()) {
 				
 				std::string nodeID = std::string("##node") + std::to_string(i);
-;
+
+				bool selectedButton = false;
+
+				if (selectedNode)
+					if (node->GetID() == selectedNode->GetID())
+						selectedButton = true;
+
+				if (selectedButton) {
+					ImGui::PushStyleColor(ImGuiCol_Button, { 0.0,1.0,1.0,1.0 });
+					ImGui::PushStyleColor(ImGuiCol_Text, { 0.0,0.0,0.0,1.0 });
+				}
 				if (ImGui::Button(std::to_string(node->GetID()).c_str(), {30,20}))
 				{
+					selectedNode = node;
+
 					selectedNavNodeBox.SetEnabled(true);
 					selectedNavNodeBox.SetPosition(node->GetPosition());
+				}
+
+				if (selectedButton) {
+					ImGui::PopStyleColor();
+					ImGui::PopStyleColor();
 				}
 
 				ImGui::SameLine();
@@ -844,6 +862,7 @@ void SceneEditor::DrawInspector()
 					node->SetPosition(cPos);
 					selectedNavNodeBox.SetEnabled(true);
 					selectedNavNodeBox.SetPosition(node->GetPosition());
+					selectedNode = node;
 				}
 				ImGui::PopItemWidth();
 
