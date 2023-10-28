@@ -1,8 +1,8 @@
 #include "FCM.h"
 
-void FCM::AddConcept(std::string name, float value)
+void FCM::AddConcept(std::string name, float value, float threshold)
 {
-	concepts.push_back({ name, value });
+	concepts.push_back({ name, value, threshold });
 
 	return;
 }
@@ -40,7 +40,20 @@ float FCM::GetRelationshipWeighting(std::string concept1, std::string concept2)
 
 void FCM::SetConceptValue(std::string conceptName, float value)
 {
+	bool found = false;
+	for (int i = 0; i < concepts.size(); i++)
+	{
+		if (concepts[i].name == conceptName)
+		{
+			concepts[i].value = value;
+			found = true;
+		}
+	}
 
+	if (!found)
+	{
+		std::cout << "Error: concept name " << conceptName << " was not found." << std::endl;
+	}
 }
 
 void FCM::Run()
@@ -51,7 +64,8 @@ void FCM::Run()
 		{
 			if (concepts[i].name == relationships[i].concept1)
 			{
-				relationships[i].concept2
+				float weighting = GetConceptValue(relationships[i].concept2);
+
 			}
 		}
 	}

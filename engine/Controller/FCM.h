@@ -6,6 +6,7 @@ struct Concept
 {
 	std::string name;
 	float value;
+	float threshold;
 };
 
 struct Relationship
@@ -20,8 +21,8 @@ class FCM
 public:
 	FCM() {};
 
-	void AddConcept(std::string Name, float Value);
-	void AddRelationship(std::string Concept1, std::string Concept2, float Weighting);
+	void AddConcept(std::string name, float value, float threshold);
+	void AddRelationship(std::string concept1, std::string concept2, float weighting);
 	float GetConceptValue(std::string conceptName);
 	float GetRelationshipWeighting(std::string concept1, std::string concept2);
 	void SetConceptValue(std::string conceptName, float value);
