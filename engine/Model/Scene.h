@@ -72,7 +72,7 @@ public:
 		*	@param objName name of object to be retrieved
 		*	@return Game object with name objName
 		*/
-	GameObject& GetObject(std::string objName);
+	GameObject& GetGameObject(std::string objName);
 
 		/**
 		*	@brief Get an object in the scene based on its ID

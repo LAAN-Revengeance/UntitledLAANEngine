@@ -126,8 +126,8 @@ void NPC_GameObject::UpdatePathing(double dt)
 	glm::vec3 offset = (glm::normalize(_currentPath.top()->GetPosition() - GetPosition()) * (float)dt) * _moveSpeed ;
 	SetPosition(GetPosition() + offset);
 
-	gaemutils::PrintVec3("top position", _currentPath.top()->GetPosition());
+	
 	//look at point direction
-	//LookAt(_nextNode->GetPosition());
+	LookAt(_currentPath.top()->GetPosition());
 
 }

@@ -140,7 +140,7 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 		"SetSkybox", &Scene::SetSkybox,
 		"GetCamera", &Scene::GetCamera,
 		"GetLights", &Scene::GetLights,
-		"GetObject", &Scene::GetObject
+		"GetObject", &Scene::GetGameObject
 	);
 
 	//expose camera

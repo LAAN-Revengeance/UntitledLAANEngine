@@ -91,7 +91,7 @@ public:
 		*	@param physicsBody reference to body being deleted
 		*	@return void
 		*/
-	void DeletePhysicsBody(PhysicsBody* );
+	void DeletePhysicsBody(PhysicsBody* physicsBody);
 
 		/**
 		*	@brief Reset the state of the physics world
