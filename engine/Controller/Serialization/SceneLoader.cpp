@@ -344,6 +344,11 @@ Scene& SceneLoader::LoadScene(const char* inName)
           
             go = res.GetGameObject(jobj["name"].asString());
         }
+        else if (jobj["type"].asString() == "npc") {
+            
+            go = &res.CreateNPC(objects[i]["name"].asString(), objects[i]["model"].asString(), objects[i]["shader"].asString());
+            dynamic_cast<NPC_GameObject*>(go)->SetMoveSpeed(objects[i]["moveSpeed"].asFloat());
+        }
         else {
             go = &res.CreateGameObject(objects[i]["name"].asString(), objects[i]["model"].asString(), objects[i]["shader"].asString());
         }
@@ -572,6 +577,11 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
 
         if(ter->GetHeightTexture())
             jobj["height_texture"] = ter->GetHeightTexture()->name;
+    }
+    else if (dynamic_cast<NPC_GameObject*>(obj)) {
+        NPC_GameObject* npc = dynamic_cast<NPC_GameObject*>(obj);
+        jobj["type"] = "npc";
+        jobj["moveSpeed"] = npc->GetMoveSpeed();
     }
     else {
         jobj["type"] = "base";
