@@ -380,6 +380,7 @@ void SceneEditor::DrawInspector()
 					res.objects.erase(inspectedObject->name);
 					inspectedObject->name = cmObjName;
 					res.StoreGameObject(inspectedObject);
+					cmObjName[0] = '\n';
 				}
 				ImGui::Dummy(ImVec2(0.0f, 10.0f));
 				//TRANSFORM SETTINGS
