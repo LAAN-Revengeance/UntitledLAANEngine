@@ -48,16 +48,30 @@ void NPC_GameObject::UpdatePathing(double dt)
 {
 	if (_targetNode == nullptr) {
 		_isMoving = false;
-		//_currentPath.clear();
+		while (!_currentPath.empty())
+			_currentPath.pop();
 	}
 	
 	//check if at next node yet
 	if (_nextNode->ContainsPoint(position)) {
-		//_nextNode = 
+
+		//reached destination
+		if (_nextNode == _targetNode) {
+			_isMoving = false;
+			_targetNode = nullptr;
+			_nextNode = nullptr;
+			return;
+		}
+
+		_currentNode = _nextNode;
+
+		_nextNode = _currentPath.top();
+		_currentPath.pop();
 	}
 
 	//move towards point
-
+	glm::vec3 offset = glm::normalize(GetPosition() + _nextNode->GetPosition()) * _moveSpeed;
+	SetPosition(GetPosition() + offset);
 
 	//look at point direction
 	LookAt(_nextNode->GetPosition());

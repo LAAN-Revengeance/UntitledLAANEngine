@@ -27,6 +27,11 @@ void GameObject::SetPosition(glm::vec3 nPos)
 	position = nPos;
 }
 
+glm::vec3 GameObject::GetPosition()
+{
+	return position;
+}
+
 void GameObject::SetRotationEuler(float x, float y, float z)
 {
 	if (!physicsBody)
