@@ -833,17 +833,19 @@ void SceneEditor::DrawInspector()
 
 			ImGui::SeparatorText("Create Node");
 			static glm::vec3 nNodePos(0.0f);
+			static float nNodeSize = 0.0f;
 			static bool nIsObstacle = false;
 			static float neighbourDist = pathNodeManager->GetMaxConnectionDist();
 
 			if (ImGui::DragFloat("NeighbourDistance##nodeNDist", &neighbourDist, 0.2f, 0.0f, FLT_MAX)) {
 				pathNodeManager->SetMaxConnectionDist(neighbourDist);
 			}
-			ImGui::DragFloat3("position##nodePos",&nNodePos.x);
-			ImGui::Checkbox("Obstacle##nodeObstacle", &nIsObstacle);
-			if (ImGui::Button("Add Node##nodeAdd")) 
+			ImGui::DragFloat3("position##nnodePos",&nNodePos.x);
+			ImGui::DragFloat("size##nnodescale", &nNodeSize);
+			ImGui::Checkbox("Obstacle##nnodeObstacle", &nIsObstacle);
+			if (ImGui::Button("Add Node##nnodeAdd")) 
 			{
-				pathNodeManager->AddNode(nNodePos,nIsObstacle);
+				pathNodeManager->AddNode(nNodePos, nIsObstacle)->SetSize({ nNodeSize ,nNodeSize, nNodeSize});
 			}
 
 			if (ImGui::Button("Update Nodes##updateNodes")) {
