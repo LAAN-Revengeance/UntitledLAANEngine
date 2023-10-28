@@ -768,7 +768,7 @@ void SceneEditor::DrawInspector()
 			if (ImGui::Button("Test Path"))
 			{
 				if (testStartNode && testEndNode) {
-					std::vector<glm::vec3> path = GaemPathing::FindPathA_Star(testStartNode, testEndNode, pathNodeManager->GetNodes());
+					std::vector<glm::vec3> path = GaemPathing::FindPathA_StarPositions(testStartNode, testEndNode, pathNodeManager->GetNodes());
 					if (path.size() > 1) {
 
 						isValid = "Path is valid";

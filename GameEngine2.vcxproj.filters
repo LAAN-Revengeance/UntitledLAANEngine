@@ -127,6 +127,7 @@
     <ClInclude Include="engine\Controller\AI\Pathfinding\A_Star.h" />
     <ClInclude Include="engine\Controller\AI\Pathfinding\PathNode.h" />
     <ClInclude Include="engine\Controller\AI\Pathfinding\PathNodeManager.h" />
+    <ClInclude Include="engine\Model\GameObjects\NPC_GameObject.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Model\Graphics\Shaders\Cube_map.frag" />

@@ -66,7 +66,13 @@ public:
 		*	@return void
 		*/
 	void SetRotation(glm::quat nRot);
-
+		/**
+		*	@brief rotate around a specified axix
+		*	@param x axis X value
+		*	@param y axis Y value
+		*	@param z axis Z value
+		*	@param angle angle in radians to rotate around the axis
+		*/
 	void Rotate(float x, float y, float z, float angle);
 
 		/**

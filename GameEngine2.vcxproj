@@ -244,6 +244,7 @@
     <ClInclude Include="engine\Controller\Editor\SceneEditor.h" />
     <ClInclude Include="engine\Controller\Utils\GaemUtils.h" />
     <ClInclude Include="Engine\Model\GameObject.h" />
+    <ClInclude Include="engine\Model\GameObjects\NPC_GameObject.h" />
     <ClInclude Include="engine\Model\Lighting.h" />
     <ClInclude Include="engine\Model\Material.h" />
     <ClInclude Include="engine\View\AnimatedDrawItem.h" />
