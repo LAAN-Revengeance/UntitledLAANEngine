@@ -8,6 +8,7 @@
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <Physics/RigidBody.h>
+#include <Utils/DebugLogger.h>
 
 /**
 *	@Class GameObject

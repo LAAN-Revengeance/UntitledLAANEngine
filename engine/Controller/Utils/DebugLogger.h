@@ -3,7 +3,6 @@
 #include "StreamCapture.h"
 #include <chrono>
 #include <iomanip>
-#include <GameObject.h>
 
 const unsigned int GAEM_ERROR	= 0;
 const unsigned int GAEM_LOG		= 1;
@@ -18,10 +17,18 @@ public:
 
 
 	static void Log(unsigned int type,const std::string message);
-	static void Log(unsigned int type,const std::string message, GameObject* obj);
+	static void Log(unsigned int type,const std::string message, std::string name);
+
+	static void SetLogLevel(unsigned int type, bool isActive);
+	static bool GetLogLevel(unsigned int type);
 
 	StreamCapture streamCapture;
 private:
+
+	static bool log_err;
+	static bool log_log;
+	static bool log_dbg;
+	static bool log_wrn;
 
 	static std::string GetTimeStamp();
 };

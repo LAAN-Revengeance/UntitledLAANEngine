@@ -44,16 +44,16 @@ void NPC_GameObject::MoveToPoint(PathNode* targetNode, const std::vector<PathNod
 
 	if (!inNetwork) {
 		_isMoving = false;
-		DebugLogger::Log(GAEM_LOG, "Not in network, searching for available node", this);
+		DebugLogger::Log(GAEM_LOG, "Not in network, searching for available node", name);
 		if (_currentNode) {
-			DebugLogger::Log(GAEM_LOG, "Pathing to last visited node", this);
+			DebugLogger::Log(GAEM_LOG, "Pathing to last visited node", name);
 			_returningToNetwork = true;
 			_isMoving = true;
 		}
 		else {
 			_currentNode = FindClosestNode(_pathManager->GetNodes());
 			if (_currentNode == nullptr) {
-				DebugLogger::Log(GAEM_LOG, "Pating to closest node", this);
+				DebugLogger::Log(GAEM_LOG, "Pating to closest node", name);
 				_isMoving = false;
 				return;
 			}
@@ -72,7 +72,7 @@ void NPC_GameObject::MoveToPoint(PathNode* targetNode, const std::vector<PathNod
 GaemPathing::PathNode* NPC_GameObject::FindClosestNode(const std::vector<GaemPathing::PathNode*> nodes)
 {
 	if (nodes.empty()) {
-		DebugLogger::Log(GAEM_ERROR, "Could not find closest  node", this);
+		DebugLogger::Log(GAEM_ERROR, "Could not find closest  node", name);
 		return nullptr;
 	}
 		
@@ -88,7 +88,7 @@ GaemPathing::PathNode* NPC_GameObject::FindClosestNode(const std::vector<GaemPat
 			squareDist = sqrTestDist;
 		}
 	}
-	DebugLogger::Log(GAEM_LOG, "Closest node found", this);
+	DebugLogger::Log(GAEM_LOG, "Closest node found", name);
 
 	return closestNode;
 }
@@ -96,7 +96,7 @@ GaemPathing::PathNode* NPC_GameObject::FindClosestNode(const std::vector<GaemPat
 GaemPathing::PathNode* NPC_GameObject::FindFurthestNode(const std::vector<GaemPathing::PathNode*> nodes)
 {
 	if (nodes.empty()) {
-		DebugLogger::Log(GAEM_ERROR, "Could not find furthest node", this);
+		DebugLogger::Log(GAEM_ERROR, "Could not find furthest node", name);
 		return nullptr;
 	}
 	
@@ -113,7 +113,7 @@ GaemPathing::PathNode* NPC_GameObject::FindFurthestNode(const std::vector<GaemPa
 			squareDist = sqrTestDist;
 		}
 	}
-	DebugLogger::Log(GAEM_LOG, "Furthest node found", this);
+	DebugLogger::Log(GAEM_LOG, "Furthest node found", name);
 
 	return furthestNode;
 }
@@ -178,7 +178,7 @@ void NPC_GameObject::UpdatePathing(double dt)
 		SetPosition(GetPosition() + offset);
 		if (_currentNode->ContainsPoint(position)) {
 			_returningToNetwork = false;
-			DebugLogger::Log(GAEM_LOG, "Rejoined network", this);
+			DebugLogger::Log(GAEM_LOG, "Rejoined network", name);
 		}
 		return;
 	}
@@ -195,7 +195,7 @@ void NPC_GameObject::UpdatePathing(double dt)
 		_currentPath.pop();
 
 		if (_currentPath.empty()) {
-			DebugLogger::Log(GAEM_LOG, "Destination Reached", this);
+			DebugLogger::Log(GAEM_LOG, "Destination Reached", name);
 			CancelPath();
 			return;
 		}

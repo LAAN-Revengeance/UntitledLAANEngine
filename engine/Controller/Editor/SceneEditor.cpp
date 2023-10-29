@@ -1042,7 +1042,7 @@ void SceneEditor::DrawMenu()
 					SetLuaFile(FilterFilePath(lpath).c_str());
 				}
 				else {
-					std::cout << "ERROR: Could not load lua file " << lpath << std::endl;
+					DebugLogger::Log(GAEM_ERROR,"Could not load lua file" + lpath);
 				}
 
 			}
@@ -1324,13 +1324,11 @@ void SceneEditor::DrawResources()
 						ImGui::DragInt  (std::string("##endAnim"+it.first).c_str(), &it.second.end    , 1, 0, inspectedMD2->header.num_frames); ImGui::NextColumn();
 						ImGui::DragFloat(std::string("##spdAnim"+it.first).c_str(), &it.second.speed  , 1, 0, inspectedMD2->header.num_frames); ImGui::NextColumn();
 						if (ImGui::Button((std::string("Delete##") + it.first).c_str())) {
-							std::cout << delteItem << std::endl;
 							delteItem = it.first;
 						}
 						ImGui::NextColumn();
 					}
 					if (delteItem.compare("") != 0) {
-						std::cout << delteItem << std::endl;
 						inspectedMD2->animations.erase(delteItem);
 					}
 
@@ -1441,9 +1439,21 @@ void SceneEditor::DrawDebug()
 	}
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 	ImGui::Text("Console Output:");
+
+
+	bool bErr = DebugLogger::GetLogLevel(GAEM_ERROR);
+	bool bLog = DebugLogger::GetLogLevel(GAEM_LOG);
+	bool bDbg = DebugLogger::GetLogLevel(GAEM_DEBUG);
+	bool bWrn = DebugLogger::GetLogLevel(GAEM_WARNING);
+
+	
+	if (ImGui::Checkbox("Log Errors ", &bErr)) { DebugLogger::SetLogLevel(GAEM_ERROR, bErr); } ImGui::SameLine();
+	if (ImGui::Checkbox("Log Message", &bLog)) { DebugLogger::SetLogLevel(GAEM_LOG,bLog); }
+	if (ImGui::Checkbox("Log Debug  ", &bDbg)) { DebugLogger::SetLogLevel(GAEM_DEBUG, bDbg); }ImGui::SameLine();
+	if (ImGui::Checkbox("Log Warning", &bWrn)) { DebugLogger::SetLogLevel(GAEM_WARNING, bWrn); }
+
 	ImGui::BeginChild("scrolling", ImVec2(0, 0), true, ImGuiWindowFlags_HorizontalScrollbar);
 	std::string consoleOutput = _logger->streamCapture.GetBuffer();
-
 	ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + ImGui::GetContentRegionAvail().x);
 	ImGui::TextUnformatted(consoleOutput.c_str());
 	ImGui::PopTextWrapPos();
