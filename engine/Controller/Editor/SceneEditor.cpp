@@ -840,7 +840,7 @@ void SceneEditor::DrawInspector()
 
 			ImGui::SeparatorText("Create Node");
 			static glm::vec3 nNodePos(0.0f);
-			static float nNodeSize = 0.0f;
+			static float nNodeSize = 1.0f;
 			static bool nIsObstacle = false;
 			static float neighbourDist = pathNodeManager->GetMaxConnectionDist();
 
