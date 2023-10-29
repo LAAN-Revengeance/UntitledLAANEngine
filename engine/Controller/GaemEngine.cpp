@@ -40,7 +40,6 @@ void GameEngine::Update(double deltaTime)
 	for (auto& it : scene->gameObjects) {
 		it.second->Update(deltaTime);
 	}
-	
 }
 
 void GameEngine::Draw(double deltaTime)
