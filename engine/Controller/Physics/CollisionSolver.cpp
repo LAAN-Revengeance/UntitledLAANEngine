@@ -32,8 +32,8 @@ void CollisionSolver::ResolvePenetrationLinear(CollisionData& cd)
 	}
 
 	//Average out the corrections
-	totalCorrectionB1 = (totalCorrectionB1 / static_cast<float>(cd.numContacts)) * b1->GetInverseMass();
-	totalCorrectionB2 = (totalCorrectionB2 / static_cast<float>(cd.numContacts)) * b2->GetInverseMass();
+	totalCorrectionB1 = (totalCorrectionB1 / static_cast<float>(cd.numContacts));
+	totalCorrectionB2 = (totalCorrectionB2 / static_cast<float>(cd.numContacts));
 
 	glm::vec3 nb1Pos = b1->GetPosition() + (totalCorrectionB1);
 	glm::vec3 nb2Pos = b2->GetPosition() + (totalCorrectionB2);
