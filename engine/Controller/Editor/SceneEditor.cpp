@@ -186,7 +186,6 @@ void SceneEditor::DrawHeighrarchy()
 					go = &res.CreateGameObject(nName, "", "");
 				}
 				
-				go = pair.second;
 				go->name = nName;
 
 				go->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
