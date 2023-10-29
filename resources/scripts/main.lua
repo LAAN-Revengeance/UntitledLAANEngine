@@ -23,7 +23,6 @@ function update(deltaTime)
 	
 	keyInput(deltaTime)
 	mouseMoveFunc(deltaTime)
-
 end
 
 

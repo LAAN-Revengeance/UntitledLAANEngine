@@ -29,9 +29,9 @@ void SoundEngine::PlayDynamicSound(std::string audioName, glm::vec3 pos)
 {
 	//check if ISound is already set
 	if (audio[audioName].sound)
-		engine->play3D(audio[audioName].filepath.c_str(), vec3D(pos.x, pos.y, pos.z), false, false, true);
+		engine->play3D(audio[audioName].filepath.c_str(), irrklang::vec3df(pos.x, pos.y, pos.z), false, false, true);
 	else
-		audio[audioName].sound = engine->play3D(audio[audioName].filepath.c_str(), vec3D(pos.x, pos.y, pos.z), false, false, true);
+		audio[audioName].sound = engine->play3D(audio[audioName].filepath.c_str(), irrklang::vec3df(pos.x, pos.y, pos.z), false, false, true);
 }
 
 void SoundEngine::PlayLoop(std::string audioName)
@@ -69,14 +69,14 @@ void SoundEngine::PlayLoopAtPosition(std::string audioName, glm::vec3 pos)
 {
 	//check if ISound is already set
 	if (audio[audioName].sound)
-		engine->play3D(audio[audioName].filepath.c_str(), vec3D(pos.x, pos.y, pos.z), true, false, true);
+		engine->play3D(audio[audioName].filepath.c_str(), irrklang::vec3df(pos.x, pos.y, pos.z), true, false, true);
 	else 
-		audio[audioName].sound = engine->play3D(audio[audioName].filepath.c_str(), vec3D(pos.x, pos.y, pos.z), false, false, true);
+		audio[audioName].sound = engine->play3D(audio[audioName].filepath.c_str(), irrklang::vec3df(pos.x, pos.y, pos.z), false, false, true);
 }
 
 void SoundEngine::SetUserPosition(glm::vec3 pos)
 {
-	engine->setListenerPosition(vec3D(pos.x, pos.y, pos.z), vec3D(0,0,0));
+	engine->setListenerPosition(irrklang::vec3df(pos.x, pos.y, pos.z), irrklang::vec3df(0,0,0));
 }
 
 void SoundEngine::UpdateUserPosition(glm::vec3 pos, glm::vec3 lookDir, glm::vec3 velocity, glm::vec3 upDir)
@@ -132,7 +132,7 @@ float SoundEngine::GetVolume(std::string audioName)
 
 void SoundEngine::SetAudioPosition(std::string audioName, glm::vec3 pos)
 {
-	vec3df position(pos.x, pos.y, pos.z);
+	irrklang::vec3df position(pos.x, pos.y, pos.z);
 
 	if (audio[audioName].sound)
 		audio[audioName].sound->setPosition(position);
@@ -147,3 +147,5 @@ void SoundEngine::UpdateDynamicAudio()
 {
 
 }
+
+

@@ -7,15 +7,10 @@
 #include <irrKlang/irrKlang.h>
 #pragma comment(lib, "irrKlang.lib")
 
-#define AudioEngine irrklang::ISoundEngine*
-#define vec3D irrklang::vec3df
-
-using namespace irrklang;
-
 struct audioData
 {
 	std::string filepath;
-	ISound* sound;
+	irrklang::ISound* sound;
 };
 
 class SoundEngine
@@ -58,7 +53,7 @@ public:
 	void UpdateDynamicAudio();
 private:
 
-	AudioEngine engine;
+	irrklang::ISoundEngine* engine;
 	std::vector<std::string> audioNames;
 	std::map<std::string, audioData> audio;
 	//std::map<std::string, irrklang::ISound*> dynamicAudio;

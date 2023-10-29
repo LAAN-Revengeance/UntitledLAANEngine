@@ -281,10 +281,15 @@
     <None Include="Engine\Model\Graphics\Shaders\Depth.frag" />
     <None Include="Engine\Model\Graphics\Shaders\Instance\Instance.vert" />
     <None Include="Engine\Model\Graphics\Shaders\Instance\InstanceDepth.frag" />
+    <None Include="glfw3.dll" />
+    <None Include="ikpMP3.dll" />
+    <None Include="imgui.ini" />
+    <None Include="irrKlang.dll" />
     <None Include="lua54.dll" />
     <None Include="resources\scripts\keybinds.lua" />
     <None Include="resources\scripts\main.lua" />
     <None Include="resources\scripts\menu.lua" />
+    <None Include="resources\scripts\soundtest.lua" />
     <None Include="resources\shaders\Cube_map.frag" />
     <None Include="resources\shaders\Cube_map.vert" />
     <None Include="resources\shaders\Default.frag" />

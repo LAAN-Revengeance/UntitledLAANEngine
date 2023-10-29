@@ -1234,8 +1234,6 @@ void SceneEditor::DrawResources()
 			}
 			ImGui::EndChild();
 
-
-
 			ImGui::Columns(1);
 			ImGui::EndTabItem();
 		}
@@ -1271,9 +1269,7 @@ void SceneEditor::DrawResources()
 
 			//test button TBR
 			if (ImGui::Button("play Audio")) {
-
 				sound.PlayDynamicSound(audioName, {0,0,0});
-
 			}
 
 			int colCount = (viewport->Size.x * windowWidth) / (resourceWidth + (style.ItemSpacing.x * 2));

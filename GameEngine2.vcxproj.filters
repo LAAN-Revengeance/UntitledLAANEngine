@@ -156,6 +156,11 @@
     <None Include="resources\shaders\shadow\shadow.frag" />
     <None Include="resources\shaders\gizmo_debug\line.frag" />
     <None Include="resources\shaders\gizmo_debug\line.vert" />
+    <None Include="irrKlang.dll" />
+    <None Include="glfw3.dll" />
+    <None Include="ikpMP3.dll" />
+    <None Include="imgui.ini" />
+    <None Include="resources\scripts\soundtest.lua" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="dependencies\lib\liblua54.a" />

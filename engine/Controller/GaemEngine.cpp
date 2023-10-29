@@ -48,7 +48,6 @@ void GameEngine::Draw(double deltaTime)
 	if (!scene)
 		return;
 	renderer.RenderScene(scene->camera, *scene, deltaTime);
-
 }
 
 
