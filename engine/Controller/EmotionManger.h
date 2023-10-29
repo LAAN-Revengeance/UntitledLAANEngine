@@ -7,4 +7,5 @@ public:
 	EmotionManager() {};
 private:
 	std::vector<OCCModel> occModels;
+	//std::vector<OCCEvent> events;
 };

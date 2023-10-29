@@ -2,6 +2,7 @@
 
 #include <FCM.h>
 #include <GameObjects/NPC_GameObject.h>
+#include <OCCEvent.h>
 
 class OCCModel
 {

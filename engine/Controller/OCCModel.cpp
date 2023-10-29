@@ -17,6 +17,7 @@ void OCCModel::InitAngerFCM(std::string eventName, float eventStrength, std::str
 	FCM attackFCM;
 	attackFCM.AddConcept(eventName, eventStrength, 1);
 	attackFCM.AddConcept(emotion, 0, 1);
+	attackFCM.AddConcept("Action", 0, 1);
 
 	this->fcm = attackFCM;
 
@@ -27,12 +28,23 @@ void OCCModel::InitFearFCM(std::string eventName, float eventStrength, std::stri
 {
 	FCM fearFCM;
 	fearFCM.AddConcept(eventName, eventStrength, 1);
-	fearFCM.AddConcept("Likelihood", 0.8, 1);
+	fearFCM.AddConcept("Likelihood", 0, 1);
 	fearFCM.AddConcept(emotion, 0, 1);
+	fearFCM.AddConcept("Action", 0, 1);
 	fearFCM.AddRelationship(eventName, "Likelihood", 1);
 	fearFCM.AddRelationship("Likelihood", emotion, 1);
 
 	this->fcm = fearFCM;
 
 	return;
+}
+
+float OCCModel::GetEmotionValue(std::string Emotion)
+{
+	return this->fcm.GetConceptValue(Emotion);
+}
+
+float OCCModel::GetActionValue()
+{
+	return this->fcm.GetConceptValue("Action");
 }
