@@ -26,6 +26,26 @@ void NPC_GameObject::Update(double dt)
 		UpdatePathing(dt);
 }
 
+void NPC_GameObject::AddEmotion(std::string name)
+{
+	this->emotions.push_back({ name });
+}
+
+void AddEmotion(std::string name, float strength)
+{
+
+}
+
+void GetEmotions()
+{
+
+}
+
+void GetEmotion(std::string emotionName)
+{
+
+}
+
 void NPC_GameObject::MoveToPoint(PathNode* targetNode, const std::vector<PathNode*> nodes)
 {
 	if (!_pathManager)return;

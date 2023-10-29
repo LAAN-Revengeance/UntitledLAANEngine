@@ -156,11 +156,13 @@
     <ClCompile Include="dependencies\include\jsoncpp.cpp" />
     <ClCompile Include="engine\Application\Application.cpp" />
     <ClCompile Include="engine\Controller\EmotionManager.cpp" />
+    <ClCompile Include="engine\Controller\Emotion.cpp" />
     <ClCompile Include="engine\Controller\FCM.cpp" />
     <ClCompile Include="engine\Controller\OCCModel.cpp" />
     <ClCompile Include="engine\Controller\AI\Pathfinding\A_Star.cpp" />
     <ClCompile Include="engine\Controller\AI\Pathfinding\PathNode.cpp" />
     <ClCompile Include="engine\Controller\AI\Pathfinding\PathNodeManager.cpp" />
+    <ClCompile Include="engine\Controller\Personality.cpp" />
     <ClCompile Include="engine\Controller\Utils\DebugLogger.cpp" />
     <ClCompile Include="engine\Controller\Physics\CollisionSolver.cpp" />
     <ClCompile Include="engine\Controller\Event\EventDispatcher.cpp" />
@@ -230,6 +232,8 @@
     <ClInclude Include="engine\Controller\AI\Pathfinding\PathNodeManager.h" />
     <ClInclude Include="engine\Controller\AudioDataTypes.h" />
     <ClInclude Include="engine\Controller\EmotionManger.h" />
+    <ClInclude Include="engine\Controller\Emotion.h" />
+    <ClInclude Include="engine\Controller\Personality.h" />
     <ClInclude Include="engine\Controller\Utils\DebugLogger.h" />
     <ClInclude Include="engine\Controller\Utils\StreamCapture.h" />
     <ClInclude Include="engine\Controller\Event\Event.h" />

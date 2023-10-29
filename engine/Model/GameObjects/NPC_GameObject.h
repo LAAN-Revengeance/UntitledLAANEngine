@@ -1,6 +1,8 @@
 #pragma once
 #include <GameObject.h>
 #include <AI/Pathfinding/PathNodeManager.h>
+#include <Emotion.h>
+#include <Personality.h>
 
 class NPC_GameObject : public GameObject
 {
@@ -21,7 +23,12 @@ public:
 	//#		EMOTION MODELING/FCM
 	//#########################################
 
-	//emotions go here
+	std::vector<Emotion> emotions;
+	Personality personality;
+	void AddEmotion(std::string name);
+	void AddEmotion(std::string name, float strength);
+	void GetEmotions();
+	void GetEmotion(std::string emotionName);
 
 	//#########################################
 	//#		NAVIGATION/PATHFINDING
