@@ -585,12 +585,20 @@ void SceneEditor::DrawInspector()
 						if (ImGui::RadioButton("Is Kinematic", inspectedObject->physicsBody->isKinematic))
 						{
 							inspectedObject->physicsBody->isKinematic = !inspectedObject->physicsBody->isKinematic;
+							if (inspectedObject->physicsBody->isKinematic)
+							{
+								inspectedObject->physicsBody->SetVelocity(0.0f, 0.0f, 0.0f);
+							}
 						}
 
 					if (inspectedObject->physicsBody)
 						if (ImGui::RadioButton("Use Gravity", inspectedObject->physicsBody->useGravity))
 						{
 							inspectedObject->physicsBody->useGravity = !inspectedObject->physicsBody->useGravity;
+							if (inspectedObject->physicsBody->useGravity)
+							{
+								inspectedObject->physicsBody->velocity.y = 0.0f;
+							}
 						}
 
 					if (inspectedObject->physicsBody) {
