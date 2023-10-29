@@ -6,8 +6,6 @@ SceneEditor::SceneEditor(GameEngine* nEngine):
 {
 	engine->isRunning = false;
 	UseScene(engine->scene);
-
-	emotionManager.InitFCM();
 }
 
 SceneEditor::~SceneEditor()
@@ -18,8 +16,6 @@ void SceneEditor::Update(double deltaTime)
 {
 	if (!engine->isRunning)
 		CameraControl(deltaTime);
-
-	emotionManager.RunFCM(emotionManager.GetFCM());
 
 	CheckKeys();
 }
