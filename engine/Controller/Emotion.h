@@ -5,7 +5,6 @@ class Emotion
 {
 public:
 	Emotion();
-	~Emotion();
 	Emotion(std::string name);
 	Emotion(std::string name, float emotionStrength);
 	Emotion(std::string name, float emotionStrength, float reactionStrength);

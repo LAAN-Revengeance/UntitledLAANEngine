@@ -3,7 +3,7 @@
 class Personality
 {
 public:
-	Personality() {};
+	Personality();
 
 	void SetOpenness(float value);
 	void SetConscientiousness(float value);

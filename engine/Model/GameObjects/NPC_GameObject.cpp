@@ -46,8 +46,14 @@ Emotion NPC_GameObject::GetEmotion(std::string emotionName)
 	for (int i = 0; i < this->emotions.size(); i++)
 	{
 		if (this->emotions[i].GetEmotionName() == emotionName)
-			return this->emotions[i].GetEmotionName();
+			return this->emotions[i];
 	}
+
+	std::cout << "Error: no emotion with the name " << emotionName << " was found." << std::endl;
+
+	Emotion empty;
+
+	return empty;
 }
 
 void NPC_GameObject::MoveToPoint(PathNode* targetNode, const std::vector<PathNode*> nodes)
