@@ -31,19 +31,23 @@ void NPC_GameObject::AddEmotion(std::string name)
 	this->emotions.push_back({ name });
 }
 
-void AddEmotion(std::string name, float strength)
+void NPC_GameObject::AddEmotion(std::string name, float strength)
 {
-
+	this->emotions.push_back({ name, strength });
 }
 
-void GetEmotions()
+std::vector<Emotion> NPC_GameObject::GetEmotions()
 {
-
+	return this->emotions;
 }
 
-void GetEmotion(std::string emotionName)
+Emotion NPC_GameObject::GetEmotion(std::string emotionName)
 {
-
+	for (int i = 0; i < this->emotions.size(); i++)
+	{
+		if (this->emotions[i].GetEmotionName() == emotionName)
+			return this->emotions[i].GetEmotionName();
+	}
 }
 
 void NPC_GameObject::MoveToPoint(PathNode* targetNode, const std::vector<PathNode*> nodes)

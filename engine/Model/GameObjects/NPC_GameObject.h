@@ -27,8 +27,8 @@ public:
 	Personality personality;
 	void AddEmotion(std::string name);
 	void AddEmotion(std::string name, float strength);
-	void GetEmotions();
-	void GetEmotion(std::string emotionName);
+	std::vector<Emotion> GetEmotions();
+	Emotion GetEmotion(std::string emotionName);
 
 	//#########################################
 	//#		NAVIGATION/PATHFINDING

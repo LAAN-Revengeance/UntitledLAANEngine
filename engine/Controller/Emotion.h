@@ -14,7 +14,7 @@ public:
 	void SetEmotionStrength(float emotionStrength);
 	void SetReactionStrength(float reactionStrength);
 
-	std::string GetEmotion();
+	std::string GetEmotionName();
 	float GetEmotionStrength();
 	float GetReactionStrength();
 private:

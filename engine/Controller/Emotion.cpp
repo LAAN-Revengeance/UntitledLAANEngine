@@ -42,7 +42,7 @@ void Emotion::SetReactionStrength(float reactionStrength)
 	this->reactionStrength = reactionStrength;
 }
 
-std::string Emotion::GetEmotion()
+std::string Emotion::GetEmotionName()
 {
 	return this->emotion;
 }
