@@ -9,6 +9,7 @@
 #include <glm/gtc/quaternion.hpp>
 #include <Physics/RigidBody.h>
 #include <Utils/DebugLogger.h>
+#include "../Controller/Affordance.h"
 
 /**
 *	@Class GameObject
@@ -140,6 +141,9 @@ public:
 		
 		//Material properties
 	Material material;
+
+		/// The affordances that this game object has, determines what actions can be performed
+	std::vector<Affordance> affordances;
 protected:
 		///Unique identifier
 	unsigned int ID = 0;

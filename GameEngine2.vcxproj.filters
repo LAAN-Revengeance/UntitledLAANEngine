@@ -54,6 +54,8 @@
     <ClCompile Include="engine\Controller\Serialization\ProjectLoader.cpp" />
     <ClCompile Include="Engine\Controller\Serialization\SceneLoader.cpp" />
     <ClCompile Include="engine\Controller\Utils\DebugLogger.cpp" />
+    <ClCompile Include="engine\Controller\Actions.cpp" />
+    <ClCompile Include="engine\Controller\Affordance.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\Controller\GaemEngine.h" />
@@ -132,6 +134,8 @@
     <ClInclude Include="Engine\Controller\Serialization\SceneLoader.h" />
     <ClInclude Include="engine\Controller\Utils\StreamCapture.h" />
     <ClInclude Include="engine\Controller\Utils\DebugLogger.h" />
+    <ClInclude Include="engine\Controller\Actions.h" />
+    <ClInclude Include="engine\Controller\Affordance.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Model\Graphics\Shaders\Cube_map.frag" />

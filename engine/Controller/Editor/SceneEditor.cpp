@@ -735,6 +735,48 @@ void SceneEditor::DrawInspector()
 					ImGui::Dummy(ImVec2(0.0f, 20.0f));
 				}
 				
+				// Object affordance settings
+				if (ImGui::CollapsingHeader("-- Affordances --")) {
+					ImGui::Text("Affordance stuff yo");
+					ImGui::Dummy(ImVec2(0.0f, 20.0f));
+					// JUST INITIAL TESTING CODE FOR MODIFYING AN AFFORDANCE WITHIN THE EDITOR
+					float newWeightValue;
+					bool exists = false;
+					if (ImGui::Button("Add sit affordance"))
+					{
+						Affordance temp = { Actions::SIT, 1.0f };
+						for (auto& Affordance : inspectedObject->affordances)
+						{
+							if (Affordance.GetAction() == Actions::SIT)
+							{
+								exists = true;
+							}
+						}
+						if(!exists)
+						inspectedObject->affordances.push_back(temp);
+					}
+					if (ImGui::DragFloat("Sit weight", &newWeightValue, 0.01f, 0.0f, 1.0f))
+					{
+						for (auto& Affordance : inspectedObject->affordances)
+						{
+							if (Affordance.GetAction() == Actions::SIT)
+							{
+								Affordance.SetWeight(newWeightValue);
+							}
+						}
+					}
+					if (ImGui::Button("Test sitting affordance"))
+					{
+						for (auto& Affordance : inspectedObject->affordances)
+						{
+							if (Affordance.GetAction() == Actions::SIT)
+							{
+								std::cout << "This object affords sitting, with a weight of " << Affordance.GetWeight() << std::endl;
+							}
+						}
+					}
+				}
+
 				if (dynamic_cast<NPC_GameObject*>(inspectedObject)) {
 					DrawNPCInspector();
 				}
@@ -1614,12 +1656,6 @@ void SceneEditor::DrawNPCInspector()
 	//NPC Emotion Settings
 	if (ImGui::CollapsingHeader("-- Emotion --")) {
 		ImGui::Text("Emotion stuff yo");
-		ImGui::Dummy(ImVec2(0.0f, 20.0f));
-	}
-
-	//NPC affordance Settings(might just make this for game objects in general)
-	if (ImGui::CollapsingHeader("-- Affordances --")) {
-		ImGui::Text("Affordance stuff yo");
 		ImGui::Dummy(ImVec2(0.0f, 20.0f));
 	}
 }
