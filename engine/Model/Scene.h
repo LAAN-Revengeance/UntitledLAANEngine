@@ -5,6 +5,7 @@
 #include <map>
 #include <Physics/PhysicsManager.h>
 #include <Lua/LuaFunction.h>
+#include <AI/Pathfinding/PathNodeManager.h>
 
 /**
 *	@Class Scene
@@ -71,7 +72,7 @@ public:
 		*	@param objName name of object to be retrieved
 		*	@return Game object with name objName
 		*/
-	GameObject& GetObject(std::string objName);
+	GameObject& GetGameObject(std::string objName);
 
 		/**
 		*	@brief Get an object in the scene based on its ID
@@ -100,5 +101,8 @@ public:
 	std::map<std::string,GameObject*> gameObjects;
 		///same as gameObjects but by key is ID.
 	std::map<int, GameObject*> gameObjectsID;
+		
+		///AI navigation data
+	GaemPathing::PathNodeManager pathManager;
 private:
 };

@@ -3,6 +3,14 @@
 
 bool GUIRenderer::isDrawing = false;
 
+GUIRenderer::GUIRenderer()
+{
+	flags =
+		ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoSavedSettings |
+		ImGuiWindowFlags_NoTitleBar;
+}
+
 GUIRenderer::GUIRenderer(Window* window) : _window(window) {
 	//set flags
 	flags = 

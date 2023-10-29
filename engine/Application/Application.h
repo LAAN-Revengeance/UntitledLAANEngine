@@ -18,4 +18,5 @@ private:
 	GameEngine game;
 	SceneEditor editor;
 	Timer timer;
+	DebugLogger logger;
 };

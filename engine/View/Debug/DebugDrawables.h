@@ -1,7 +1,6 @@
 #pragma once
 #include <Graphics/Graphics.h>
 #include <glm/glm.hpp>
-#include <glm/gtx/quaternion.hpp>
 
 namespace GaemGizmo {
 
@@ -11,14 +10,18 @@ namespace GaemGizmo {
 
 	class DebugGizmo {
 	public:
-		virtual ~DebugGizmo() {};
+		DebugGizmo() {};
+		virtual ~DebugGizmo() { };
 		virtual void Render(glm::mat4 projection, glm::mat4 view, Shader* shader) = 0;
 
 		void SetColor(glm::vec4 color);
 		void SetPosition(glm::vec3 position);
+
+		void SetEnabled(bool enabled);
 	protected:
 		glm::vec4 _color = { 1.0f,0.0f,0.0f,1.0f };
 		glm::vec3 _position = {0.0f,0.0f,0.0f};
+		bool _enabled = true;
 	};
 
 	//######################################
@@ -33,11 +36,14 @@ namespace GaemGizmo {
 		~Line();
 		void SetLine(std::vector<glm::vec3>& positions);
 		void Render(glm::mat4 projection, glm::mat4 view, Shader* shader);
+		void RenderFront(glm::mat4 projection, glm::mat4 view, Shader* shader);
+		void SetWidth(float width);
 
 	private:
 		
 		//number of verts in line
 		unsigned int _vertCount = 0;
+		float _width = 5;
 		VAO _vao;
 	};
 

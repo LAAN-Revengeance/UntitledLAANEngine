@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include <Utils/DebugLogger.h>
 
 void Renderer::BindMaterial(Material& material, Shader* shader)
 {
@@ -185,7 +186,7 @@ void Renderer::Init(Window* window) {
 	//glad required to access GL functions
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
-		std::cout << "ERROR: Could not load glad" << std::endl;
+		DebugLogger::Log(GAEM_ERROR, "Could not load glad");
 		return;
 	}
 
@@ -236,7 +237,8 @@ void Renderer::Init(Window* window) {
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-		std::cout << "ERROR: Framebuffer could not be created." << std::endl;
+
+		DebugLogger::Log(GAEM_ERROR, "Framebuffer could not be created.");
 	}
 	//done setting up frame buffer so unbind
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);

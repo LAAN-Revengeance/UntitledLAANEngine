@@ -111,6 +111,7 @@ void PhysicsManager::DrawPhysicsWorld(Camera& camera)
 	int nTri = debugRenderer.getNbTriangles();
 
 	if (nTri > 0) {
+		glLineWidth(1);
 		glDisable(GL_CULL_FACE);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glClearColor(1, 0, 0, 0);
@@ -130,7 +131,6 @@ void PhysicsManager::DrawPhysicsWorld(Camera& camera)
 
 		debugMesh->SetDebugVertexData((float*)&tri->point1.x, nTri * 3);
 		debugMesh->Render(proj, view, debugShader, false, GL_TRIANGLES);
-
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
@@ -139,8 +139,11 @@ void PhysicsManager::DrawPhysicsWorld(Camera& camera)
 
 void PhysicsManager::DeletePhysicsBody(PhysicsBody* physicsBody)
 {
-	if(physicsBody)
+	if (physicsBody) {
 		rp3dWorld->destroyCollisionBody(physicsBody->body);
+		
+		physicsBodies.erase(physicsBody->GetID());
+	}
 }
 
 void PhysicsManager::ResetPhysicsWorld()

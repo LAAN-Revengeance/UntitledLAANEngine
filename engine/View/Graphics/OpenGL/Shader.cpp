@@ -37,7 +37,6 @@ Shader::Shader(const char *vertShader, const char *fragShader, const char* geomS
 	if (!success) 
 	{
 		glGetProgramInfoLog(ID, 512, NULL, infoLog);
-		std::cout << "FAILED TO LINK SHADER PROGRAM:\n" << infoLog << std::endl;
 	}
 	else {
 		isValid = true;
@@ -139,10 +138,6 @@ std::string Shader::ReadFile(const char* fileName) {
 	buffer << fileStream.rdbuf();
 	shaderString = buffer.str();
 
-	if(!fileStream)
-		std::cout << "SHADER FILE READ ERROR!: COULD NOT READ: " << fileName << std::endl;
-	
-
 	return shaderString;
 }
 
@@ -165,7 +160,6 @@ unsigned int Shader::CreateVertexShader(const char* filePath)
 	if (!success)
 	{
 		glGetShaderInfoLog(vertID, 512, NULL, infoLog);
-		std::cout << "FAILED TO COMPILE VERTEX SHADER:\n" << infoLog << std::endl;
 		return 0;
 	}
 	return vertID;
@@ -190,7 +184,6 @@ unsigned int Shader::CreateFragmentShader(const char* filePath)
 
 	if (!success) {
 		glGetShaderInfoLog(fragID, 512, NULL, infoLog);
-		std::cout << "FAILED TO COMPILE FRAGMENT SHADER:\n" << infoLog << std::endl;
 		return 0;
 	}
 	return fragID;
@@ -215,7 +208,6 @@ unsigned int Shader::CreateGeometryShader(const char* filePath)
 
 	if (!success) {
 		glGetShaderInfoLog(geoID, 512, NULL, infoLog);
-		std::cout << "FAILED TO COMPILE GEOMETRY SHADER:\n" << infoLog << std::endl;
 		return 0;
 	}
 	return geoID;

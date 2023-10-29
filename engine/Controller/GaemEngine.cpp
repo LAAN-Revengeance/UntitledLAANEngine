@@ -3,20 +3,21 @@
 #include <iostream>
 #include <functional>
 #include <cmath> 
+#include <Utils/GaemUtils.h>
+#include <time.h>
 
 GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher):
 	renderer(nWindow),
 	isRunning(true),
 	scene(new Scene),
 	window(nWindow),
-	eventDispatcher(nDispatcher),
-	guiRenderer(nWindow)
+	eventDispatcher(nDispatcher)
 {
 	InputManager::Get().Init(nWindow);
+	guiRenderer.Init(nWindow);
 
 	//bind renderer resize handler to windowResize event
 	eventDispatcher->Subscribe("windowResize", std::bind(&Renderer::HandleResizeEvent,&renderer, std::placeholders::_1));
-
 }
 
 GameEngine::~GameEngine() {
@@ -43,10 +44,10 @@ void GameEngine::Update(double deltaTime)
 
 void GameEngine::Draw(double deltaTime)
 {
-
 	if (!scene)
 		return;
 	renderer.RenderScene(scene->camera, *scene, deltaTime);
+
 }
 
 

@@ -164,6 +164,10 @@ void SceneLoader::SaveScene(Scene* scene, const std::string outName)
     Lighting["PointLights"] = PointLights;
     root["Lighting"] = Lighting;
 
+    //navigation data
+    root["navigation"] = NavNodesToJson(&scene->pathManager);
+
+
     //serialize game objects
     for (auto& it : scene->gameObjects)
     {
@@ -282,6 +286,51 @@ Scene& SceneLoader::LoadScene(const char* inName)
         scene->lights.AddPointLight(pos,dif,spe,constant,linear,quadratic);
     }
 
+    //load navigation data
+    Json::Value navNodes = sceneJSON["navigation"]["nodes"];
+
+    unsigned int maxID = 0;
+    GaemPathing::PathNodeManager& pathManager = scene->pathManager;
+    for (unsigned int i = 0; i < navNodes.size(); i++) {
+        
+        GaemPathing::PathNode* node = new GaemPathing::PathNode();
+
+        node->SetID(navNodes[i]["ID"].asUInt());
+
+        if (maxID < node->GetID())
+            maxID = node->GetID() + 1;
+
+        node->SetObstacle(navNodes[i]["obstacle"].asBool());
+
+        glm::vec3 pos;
+        pos.x = navNodes[i]["position"][0].asFloat();
+        pos.y = navNodes[i]["position"][1].asFloat();
+        pos.z = navNodes[i]["position"][2].asFloat();
+        node->SetPosition(pos);
+
+        glm::vec3 scale;
+        scale.x = navNodes[i]["size"][0].asFloat();
+        scale.y = navNodes[i]["size"][1].asFloat();
+        scale.z = navNodes[i]["size"][2].asFloat();
+        node->SetSize(scale);
+
+        pathManager._nodes.push_back(node);
+        pathManager._idMap.insert({node->GetID(),node});
+    }
+
+    for (unsigned int i = 0; i < navNodes.size(); i++) 
+    {
+        Json::Value jNeighbours =  navNodes[i]["neighbours"];
+
+        GaemPathing::PathNode* node = pathManager._nodes[i];
+
+        for (unsigned int j = 0; j < jNeighbours.size(); j++)
+        {
+            node->AddNeighbour(pathManager._idMap.at(jNeighbours[j].asUInt()));
+        }
+    }
+    pathManager.nextID = maxID + 1;
+
     //populate scene
     scene->skybox = res.GetCubeMap(sceneJSON["skybox"].asString());
     Json::Value objects = sceneJSON["objects"];
@@ -294,6 +343,11 @@ Scene& SceneLoader::LoadScene(const char* inName)
         if (jobj["type"].asString() == "terrain") {
           
             go = res.GetGameObject(jobj["name"].asString());
+        }
+        else if (jobj["type"].asString() == "npc") {
+            
+            go = &res.CreateNPC(objects[i]["name"].asString(), objects[i]["model"].asString(), objects[i]["shader"].asString());
+            dynamic_cast<NPC_GameObject*>(go)->SetMoveSpeed(objects[i]["moveSpeed"].asFloat());
         }
         else {
             go = &res.CreateGameObject(objects[i]["name"].asString(), objects[i]["model"].asString(), objects[i]["shader"].asString());
@@ -524,6 +578,11 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
         if(ter->GetHeightTexture())
             jobj["height_texture"] = ter->GetHeightTexture()->name;
     }
+    else if (dynamic_cast<NPC_GameObject*>(obj)) {
+        NPC_GameObject* npc = dynamic_cast<NPC_GameObject*>(obj);
+        jobj["type"] = "npc";
+        jobj["moveSpeed"] = npc->GetMoveSpeed();
+    }
     else {
         jobj["type"] = "base";
     }
@@ -533,4 +592,35 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
 Json::Value SceneLoader::LightsToJson(Lights* lights)
 {
     return Json::Value();
+}
+
+Json::Value SceneLoader::NavNodesToJson(GaemPathing::PathNodeManager* pathmanager)
+{
+
+    const std::vector<GaemPathing::PathNode*>& nodes = pathmanager->GetNodes();
+
+    Json::Value nodeObjs;
+
+    for (auto& node : nodes) {
+        Json::Value nObj;
+
+        nObj["position"].append(node->GetPosition().x);
+        nObj["position"].append(node->GetPosition().y);
+        nObj["position"].append(node->GetPosition().z);
+
+        nObj["size"].append(node->GetSize().x);
+        nObj["size"].append(node->GetSize().y);
+        nObj["size"].append(node->GetSize().z);
+
+        nObj["obstacle"] = node->GetObstacle();
+        nObj["ID"] = node->GetID();
+
+        for (auto& neighbour : node->GetNeighbours()) {
+            nObj["neighbours"].append(neighbour.first->GetID());
+        }
+
+        nodeObjs["nodes"].append(nObj);
+    }
+
+    return nodeObjs;
 }

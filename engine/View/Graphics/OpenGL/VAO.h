@@ -5,7 +5,7 @@
 class VAO {
 public:
 		///ID used by opengl to identify the VAO
-	unsigned int ID;
+	unsigned int ID = 0;
 
 		/**
 		*	@breif default constructor
