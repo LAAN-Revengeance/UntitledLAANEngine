@@ -59,6 +59,7 @@
     <ClCompile Include="engine\Controller\OCCModel.cpp" />
     <ClCompile Include="engine\Controller\Emotion.cpp" />
     <ClCompile Include="engine\Controller\Personality.cpp" />
+    <ClCompile Include="engine\Controller\OCCEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\Controller\GaemEngine.h" />
@@ -142,6 +143,7 @@
     <ClInclude Include="engine\Controller\OCCModel.h" />
     <ClInclude Include="engine\Controller\Emotion.h" />
     <ClInclude Include="engine\Controller\Personality.h" />
+    <ClInclude Include="engine\Controller\OCCEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Model\Graphics\Shaders\Cube_map.frag" />
