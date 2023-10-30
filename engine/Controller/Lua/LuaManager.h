@@ -114,7 +114,7 @@ template<class T, typename ...Args>
 inline LuaFunction<T, Args...> LuaManager::GetFunction(const char* luaName)
 {
 	LuaFunction<T, Args...> func(luaName,this);
-	return func; // Construct using constructor
+	return func;
 }
 
 template<typename T>

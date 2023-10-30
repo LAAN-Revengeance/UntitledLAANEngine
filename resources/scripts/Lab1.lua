@@ -39,6 +39,9 @@ function keyInput(dt)
 	up = vec3:new(0,1,0);
 	camSpeed = 5 * dt;
 	local camera = scene:GetCamera();
+
+	physics:Raycast(camera.position,camera.front,5);
+
 	--print(player.name)
 	if(input:GetKeyState("camF"))
 	then

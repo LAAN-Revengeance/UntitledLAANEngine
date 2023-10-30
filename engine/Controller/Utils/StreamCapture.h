@@ -17,6 +17,10 @@ public:
 
     std::string GetBuffer() const { return redirectStream.str(); }
 
+    void Clear() {
+        redirectStream.str("");
+        redirectStream.clear();
+    }
 private:
     std::stringstream redirectStream;
     std::streambuf* oldBuffer;

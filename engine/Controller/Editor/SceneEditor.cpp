@@ -188,7 +188,7 @@ void SceneEditor::DrawHeighrarchy()
 				
 				go->name = nName;
 
-				go->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+				engine->scene->physicsWorld.CreatePhysicsBody(go);
 				
 				if(pair.second->physicsBody)
 				for (int i = 0; i < pair.second->physicsBody->GetNumColliders(); ++i)
@@ -635,7 +635,7 @@ void SceneEditor::DrawInspector()
 					//Box
 					if (ImGui::Button("Add Box Collider##box")) {
 						if (!inspectedObject->physicsBody)
-							inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+								engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
 						engine->scene->physicsWorld.AddBoxCollider(*inspectedObject->physicsBody, { 1.0f,1.0f,1.0f });
 						inspectedObject->physicsBody->CalcCenterOfMass();
 					}
@@ -643,7 +643,7 @@ void SceneEditor::DrawInspector()
 					//Sphere
 					if (ImGui::Button("Add Sphere Collider##sphere")) {
 						if (!inspectedObject->physicsBody)
-							inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+							engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
 						engine->scene->physicsWorld.AddSphereCollider(*inspectedObject->physicsBody, 1.0f);
 						inspectedObject->physicsBody->CalcCenterOfMass();
 					}
@@ -651,7 +651,7 @@ void SceneEditor::DrawInspector()
 					//Capsule
 					if (ImGui::Button("Add Capsule Collider##capsule")) {
 						if (!inspectedObject->physicsBody)
-							inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+							engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
 						engine->scene->physicsWorld.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f, 2.0f);
 						inspectedObject->physicsBody->CalcCenterOfMass();
 					}
@@ -1453,17 +1453,22 @@ void SceneEditor::DrawDebug()
 	bool bDbg = DebugLogger::GetLogLevel(GAEM_DEBUG);
 	bool bWrn = DebugLogger::GetLogLevel(GAEM_WARNING);
 
+	static bool lockScroll = true;
 	
 	if (ImGui::Checkbox("Log Errors ", &bErr)) { DebugLogger::SetLogLevel(GAEM_ERROR, bErr); } ImGui::SameLine();
 	if (ImGui::Checkbox("Log Message", &bLog)) { DebugLogger::SetLogLevel(GAEM_LOG,bLog); }
 	if (ImGui::Checkbox("Log Debug  ", &bDbg)) { DebugLogger::SetLogLevel(GAEM_DEBUG, bDbg); }ImGui::SameLine();
 	if (ImGui::Checkbox("Log Warning", &bWrn)) { DebugLogger::SetLogLevel(GAEM_WARNING, bWrn); }
+	ImGui::Checkbox("Auto Scroll", &lockScroll); ImGui::SameLine();
+	if (ImGui::Button("Clear##clearConsole")) { _logger->Clear(); }
 
-	ImGui::BeginChild("scrolling", ImVec2(0, 0), true, ImGuiWindowFlags_HorizontalScrollbar);
+	ImGui::BeginChild("##ConsoleOutputWindow", ImVec2(0, 0), true, ImGuiWindowFlags_HorizontalScrollbar);
 	std::string consoleOutput = _logger->streamCapture.GetBuffer();
 	ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + ImGui::GetContentRegionAvail().x);
 	ImGui::TextUnformatted(consoleOutput.c_str());
 	ImGui::PopTextWrapPos();
+	if(lockScroll)
+		ImGui::SetScrollHereY(1.0f);
 	ImGui::EndChild();
 }
 

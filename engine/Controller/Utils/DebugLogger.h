@@ -19,6 +19,8 @@ public:
 	static void Log(unsigned int type,const std::string message);
 	static void Log(unsigned int type,const std::string message, std::string name);
 
+	void Clear();
+
 	static void SetLogLevel(unsigned int type, bool isActive);
 	static bool GetLogLevel(unsigned int type);
 

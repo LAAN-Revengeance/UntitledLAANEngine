@@ -223,7 +223,8 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 		"AddSphereCollider", &PhysicsManager::AddSphereCollider,
 		"AddBoxCollider", &PhysicsManager::AddBoxCollider,
 		"AddCapsuleCollider", &PhysicsManager::AddCapsuleCollider,
-		"GetPhysicsBody", &PhysicsManager::GetPhysicsBody
+		"GetPhysicsBody", &PhysicsManager::GetPhysicsBody,
+		"Raycast",&PhysicsManager::Raycast
 	);
 	
 

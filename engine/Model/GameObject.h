@@ -104,10 +104,10 @@ public:
 	
 		/**
 		*	@brief rotates this game object to face a direction
-		*	@param lookvec positon to face towawrds
+		*	@param lookPos positon to face towawrds
 		*	@return this objects right vector
 		*/
-	void LookAt(glm::vec3 lookvec);
+	void LookAt(glm::vec3 lookPos);
 	glm::vec3 GetRotationEuler();
 	glm::mat4 GetTransformMatrix();
 

@@ -14,7 +14,7 @@
 *	screen. provides functionality to use camera properties to return view and
 *	projection matricies
 *
-*	@author Andres Comeros-Ochtman
+*	@author Andres Comeros-Ochtman / Dylan Burgess
 *	@version 1.0
 *	@date 15/04/2023
 */
