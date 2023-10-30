@@ -58,7 +58,7 @@ PhysicsBody* PhysicsManager::CreatePhysicsBody(GameObject* go)
 }
 
 
-void PhysicsManager::AddSphereCollider(PhysicsBody& pb, float radius)
+SphereCollider* PhysicsManager::AddSphereCollider(PhysicsBody& pb, float radius)
 {
 	SphereShape* shape = rp3dPhysicsCommon.createSphereShape(radius);
 	rp3d::Collider* rpCollider = pb.body->addCollider(shape, Transform::identity());
@@ -67,9 +67,10 @@ void PhysicsManager::AddSphereCollider(PhysicsBody& pb, float radius)
 	collider.rp3dCollider = rpCollider;
 	pb.colliders.push_back(collider);
 	pb.CalcCenterOfMass();
+	return static_cast<SphereCollider*>(&pb.colliders[pb.colliders.size() - 1]);
 }
 
-void PhysicsManager::AddBoxCollider(PhysicsBody& pb, glm::vec3 scale)
+BoxCollider* PhysicsManager::AddBoxCollider(PhysicsBody& pb, glm::vec3 scale)
 {
 	BoxShape* shape = rp3dPhysicsCommon.createBoxShape(Vector3(scale.x, scale.y, scale.z));
 	rp3d::Collider* rpCollider = pb.body->addCollider(shape, Transform::identity());
@@ -78,9 +79,10 @@ void PhysicsManager::AddBoxCollider(PhysicsBody& pb, glm::vec3 scale)
 	collider.rp3dCollider = rpCollider;
 	pb.colliders.push_back(collider);
 	pb.CalcCenterOfMass();
+	return static_cast<BoxCollider*>(&pb.colliders[pb.colliders.size() - 1]);
 }
 
-void PhysicsManager::AddCapsuleCollider(PhysicsBody& pb, float radius, float height)
+CapsuleCollider* PhysicsManager::AddCapsuleCollider(PhysicsBody& pb, float radius, float height)
 {
 	CapsuleShape* shape = rp3dPhysicsCommon.createCapsuleShape(radius, height);
 	rp3d::Collider* rpCollider = pb.body->addCollider(shape, Transform::identity());
@@ -89,6 +91,7 @@ void PhysicsManager::AddCapsuleCollider(PhysicsBody& pb, float radius, float hei
 	collider.rp3dCollider = rpCollider;
 	pb.colliders.push_back(collider);
 	pb.CalcCenterOfMass();
+	return static_cast<CapsuleCollider*>(&pb.colliders[pb.colliders.size() - 1]);
 }
 
 void PhysicsManager::DrawPhysicsWorld(Camera& camera)

@@ -66,7 +66,7 @@ public:
 		*	@param radius - radius of sphere collider
 		*	@return void
 		*/
-	void AddSphereCollider(PhysicsBody& pb, float radius);
+	SphereCollider* AddSphereCollider(PhysicsBody& pb, float radius);
 
 		/**
 		*	@brief add box collider to supplied physics body
@@ -74,7 +74,7 @@ public:
 		*	@param scale - x,y and z axis size of the box collider
 		*	@return void
 		*/
-	void AddBoxCollider(PhysicsBody& pb, glm::vec3 scale);
+	BoxCollider* AddBoxCollider(PhysicsBody& pb, glm::vec3 scale);
 
 		/**
 		*	@brief add capsule collider to supplied physics body
@@ -83,7 +83,7 @@ public:
 		*	@param height - height of capsule colluder
 		*	@return void
 		*/
-	void AddCapsuleCollider(PhysicsBody& pb, float radius, float height);
+	CapsuleCollider* AddCapsuleCollider(PhysicsBody& pb, float radius, float height);
 
 		/**
 		*	@brief Get a physics body based on its ID
