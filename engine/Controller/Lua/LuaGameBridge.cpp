@@ -100,6 +100,17 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"scaleZ", &Terrain::scaleZ
 	);
 
+	//expose NPC
+	luaManager->Expose_CPPClass<NPC_GameObject>("NPC",
+		sol::constructors<NPC_GameObject()>(),
+		sol::base_classes, sol::bases<GameObject>(),
+		"MoveToPoint", &NPC_GameObject::MoveToPoint,
+		"SetMoveSpeed", &NPC_GameObject::SetMoveSpeed,
+		"CancelPath", &NPC_GameObject::CancelPath,
+		"FindClosestNode", &NPC_GameObject::FindClosestNode,
+		"FindFurthestNode", &NPC_GameObject::FindFurthestNode
+	);
+
 	//expose resource manager class
 	luaManager->Expose_CPPClass<ResourceManager>("ResourceManager",
 		sol::no_constructor,
@@ -140,12 +151,6 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"GetCamera", &Scene::GetCamera,
 		"GetLights", &Scene::GetLights,
 		"GetObject", &Scene::GetGameObject
-	);
-
-	//expose NPC
-	luaManager->Expose_CPPClass<NPC_GameObject>("NPC",
-		sol::constructors<NPC_GameObject()>(),
-		sol::base_classes, sol::bases<GameObject>()
 	);
 
 	//expose camera
