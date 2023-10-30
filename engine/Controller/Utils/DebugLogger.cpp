@@ -34,6 +34,11 @@ void DebugLogger::Log(unsigned int type, const std::string message, std::string 
 	}
 }
 
+void DebugLogger::Clear()
+{
+	streamCapture.Clear();
+}
+
 void DebugLogger::SetLogLevel(unsigned int type, bool isActive)
 {
 	if			(type == GAEM_ERROR)		{ log_err = isActive; }
