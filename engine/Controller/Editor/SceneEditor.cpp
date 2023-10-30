@@ -181,9 +181,11 @@ void SceneEditor::DrawHeighrarchy()
 				
 				if (dynamic_cast<NPC_GameObject*>(pair.second) != nullptr) {
 					go = &res.CreateNPC(nName, "", "");
+					*go = *pair.second;
 				}
 				else {
 					go = &res.CreateGameObject(nName, "", "");
+					*go = *pair.second;
 				}
 				
 				go->name = nName;
@@ -214,6 +216,8 @@ void SceneEditor::DrawHeighrarchy()
 					pbNew->GetCollider(i).SetOffset(oldCollider.GetOffset());
 					pbNew->GetCollider(i).SetRotation(oldCollider.GetRotation());
 				}
+				pbNew->SetPositionVec(pbOld->GetPosition());
+				pbNew->SetRotation(pbOld->GetRotation());
 				pbNew->SetMass(pbOld->GetMass());
 				pbNew->dampeningLinear = pbOld->dampeningLinear;
 				pbNew->dampeningAngular = pbOld->dampeningAngular;
