@@ -747,18 +747,21 @@ void SceneEditor::DrawInspector()
 				
 				if (ImGui::CollapsingHeader("-- Lua Function --")) {
 					
-					static std::string funcitonName = "";
+					
 					std::vector<std::string> funcs = LuaManager::GetFunctionNames(luaFilePath);
+					std::string funcName = inspectedObject->GetUpdateFunction().GetName();
 
 					ImGui::Text("Object Update function:");
-					if (ImGui::BeginCombo("##functionSelector", funcitonName.c_str()))
+					if (ImGui::BeginCombo("##functionSelector", funcName.c_str()))
 					{
-						if (ImGui::Selectable("--None--")) {}
+						if (ImGui::Selectable("--None--")) {
+							inspectedObject->SetUpdateFunction(LuaFunction<void, GameObject&>());
+						}
 						
 						for (auto& funcName : funcs)
 						{
 							if (ImGui::Selectable(funcName.c_str())) {
-								funcitonName = funcName;
+								inspectedObject->SetUpdateFunction(LuaFunction<void, GameObject&>(funcName.c_str(), &engine->scene->luaState));
 							}
 						}
 						ImGui::EndCombo();

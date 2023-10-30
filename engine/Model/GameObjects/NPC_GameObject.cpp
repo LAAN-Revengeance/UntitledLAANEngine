@@ -24,6 +24,8 @@ void NPC_GameObject::Update(double dt)
 {
 	if (_isMoving)
 		UpdatePathing(dt);
+
+	updateFunction.Execute(*this);
 }
 
 void NPC_GameObject::MoveToPoint(PathNode* targetNode, const std::vector<PathNode*> nodes)

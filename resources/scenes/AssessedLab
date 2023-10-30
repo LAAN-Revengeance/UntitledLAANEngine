@@ -33,6 +33,7 @@
 		"PointLights" : null
 	},
 	"luaPath" : "resources\\scripts\\Lab1.lua",
+	"navigation" : null,
 	"objects" : 
 	[
 		{
@@ -211,6 +212,34 @@
 			"spec" : "Rock",
 			"type" : "base",
 			"useGravity" : false
+		},
+		{
+			"castShadows" : true,
+			"diff" : "Rock",
+			"model" : "Cube",
+			"name" : "new object",
+			"physics" : null,
+			"position" : 
+			[
+				0.0,
+				3.3670730590820312,
+				0.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale" : 
+			[
+				1.0,
+				1.0,
+				1.0
+			],
+			"shader" : "default",
+			"type" : "base"
 		}
 	],
 	"resources" : 
@@ -244,6 +273,12 @@
 				"vert" : "resources/shaders/Default.vert"
 			},
 			{
+				"frag" : "resources/shaders/gizmo_debug/line.frag",
+				"geom" : "",
+				"name" : "line",
+				"vert" : "resources/shaders/gizmo_debug/line.vert"
+			},
+			{
 				"frag" : "resources/shaders/Physics_Debug/Physics.frag",
 				"geom" : "",
 				"name" : "physics",
@@ -254,6 +289,12 @@
 				"geom" : "",
 				"name" : "terrain",
 				"vert" : "resources/shaders/Default.vert"
+			},
+			{
+				"frag" : "resources/shaders/Water.frag",
+				"geom" : "",
+				"name" : "water",
+				"vert" : "resources/shaders/Water.vert"
 			}
 		],
 		"textures" : 

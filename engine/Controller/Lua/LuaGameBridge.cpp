@@ -143,6 +143,12 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 		"GetObject", &Scene::GetGameObject
 	);
 
+	//expose NPC
+	luaManager->Expose_CPPClass<NPC_GameObject>("NPC",
+		sol::constructors<NPC_GameObject()>(),
+		sol::base_classes, sol::bases<GameObject>()
+	);
+
 	//expose camera
 	luaManager->Expose_CPPClass<Camera>("Camera",
 		sol::constructors<Camera()>(),

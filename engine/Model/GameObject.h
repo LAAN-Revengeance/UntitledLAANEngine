@@ -142,14 +142,14 @@ public:
 		//Material properties
 	Material material;
 
-	void SetUpdateFunction(LuaFunction<void, GameObject*>& function);
-	LuaFunction<void, GameObject*> GetUpdateFunction();
+	void SetUpdateFunction(LuaFunction<void, GameObject&> function);
+	LuaFunction<void, GameObject&> GetUpdateFunction();
 	
 protected:
 		///Unique identifier
 	unsigned int ID = 0;
 
-	LuaFunction<void, GameObject*> updateFunction;
+	LuaFunction<void, GameObject&> updateFunction;
 
 	friend class PhysicsManager;
 };
