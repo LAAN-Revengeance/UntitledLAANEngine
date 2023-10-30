@@ -745,6 +745,27 @@ void SceneEditor::DrawInspector()
 					ImGui::Dummy(ImVec2(0.0f, 20.0f));
 				}
 				
+				if (ImGui::CollapsingHeader("-- Lua Function --")) {
+					
+					static std::string funcitonName = "";
+					std::vector<std::string> funcs = LuaManager::GetFunctionNames(luaFilePath);
+
+					ImGui::Text("Object Update function:");
+					if (ImGui::BeginCombo("##functionSelector", funcitonName.c_str()))
+					{
+						if (ImGui::Selectable("--None--")) {}
+						
+						for (auto& funcName : funcs)
+						{
+							if (ImGui::Selectable(funcName.c_str())) {
+								funcitonName = funcName;
+							}
+						}
+						ImGui::EndCombo();
+					}
+					ImGui::Dummy(ImVec2(0.0f, 20.0f));
+				}
+
 				if (dynamic_cast<NPC_GameObject*>(inspectedObject)) {
 					DrawNPCInspector();
 				}

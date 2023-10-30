@@ -48,7 +48,6 @@ std::vector<std::string> LuaManager::GetFunctionNames(const std::string& fileNam
     std::ifstream file(fileName);
 
     if (!file.is_open()) {
-        std::cerr << "Could not open file" << std::endl;
         return functionNames;
     }
 
@@ -63,7 +62,6 @@ std::vector<std::string> LuaManager::GetFunctionNames(const std::string& fileNam
             if (matches.size() >= 2) {
                 std::ssub_match sub_match = matches[1];
                 std::string function_name = sub_match.str();
-                std::cout << "Found function: " << function_name << std::endl;
                 functionNames.push_back(function_name);
             }
         }
