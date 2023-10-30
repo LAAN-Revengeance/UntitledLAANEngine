@@ -32,7 +32,7 @@ void LuaManager::LoadScript(const std::string& fileName) {
 	}
 	catch (const sol::error e)
 	{
-		std::cout << "ERROR: Could not load script File:" << fileName << " | " << e.what() << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("Could not load script File:") + fileName);
 	}
 }
 

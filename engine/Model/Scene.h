@@ -72,25 +72,16 @@ public:
 		*	@param objName name of object to be retrieved
 		*	@return Game object with name objName
 		*/
-	GameObject& GetObject(std::string objName);
-
-		/**
-		*	@brief Get an object in the scene based on its ID
-		*	@param objID ID of object to be retrieved
-		*	@return Game object pointer with name objID
-		*/
-	GameObject* GetObjectByID(int objID);
-
+	GameObject& GetGameObject(std::string objName);
 
 		///The luaState associated with this scene
 	LuaManager luaState;
-		///Update and init functions associated with this scene
+		///Update Lua function
 	LuaFunction<void, double> UpdateFunction;
+		///Init lua functoin
 	LuaFunction<void> InitFunction;
-
 		///Physics world
 	PhysicsManager physicsWorld;
-
 		///This scenes main camera
 	Camera camera;
 		///This scene skybox
@@ -99,9 +90,6 @@ public:
 	Lights lights;
 		///All game objects in this scene
 	std::map<std::string,GameObject*> gameObjects;
-		///same as gameObjects but by key is ID.
-	std::map<int, GameObject*> gameObjectsID;
-		
 		///AI navigation data
 	GaemPathing::PathNodeManager pathManager;
 private:

@@ -27,6 +27,11 @@ void GameObject::SetPosition(glm::vec3 nPos)
 	position = nPos;
 }
 
+glm::vec3 GameObject::GetPosition()
+{
+	return position;
+}
+
 void GameObject::SetRotationEuler(float x, float y, float z)
 {
 	if (!physicsBody)
@@ -80,19 +85,18 @@ void GameObject::Update(double dt)
 	}
 }
 
-
-void GameObject::LookAt(glm::vec3 lookvec)
+void GameObject::LookAt(glm::vec3 lookPos)
 {
-	glm::vec3 dir = position - lookvec;
-	glm::vec3 newRot(0.0f,0.0f,0.0f);
+	glm::vec3 forward = glm::normalize(lookPos - position);
 
-	dir = glm::normalize(dir);
-
-	newRot.y = glm::degrees(atan2(dir.x, dir.z)) + 90.0f;
-	
-	newRot.x = glm::degrees(asin(dir.y));
-
-	SetRotation(newRot);
+	if (glm::abs(forward.y) < 0.9999f) {
+		SetRotation(glm::quatLookAt(forward, glm::vec3(0.0f, 1.0f, 0.0f)));
+	}
+	else {
+		glm::vec3 right = glm::normalize(glm::cross(glm::vec3(0.0f, 0.0f, 1.0f), orientation * forward));
+		glm::vec3 adjustedForward = glm::normalize(glm::cross(orientation * glm::vec3(0.0f, 1.0f, 0.0f), right));
+		SetRotation(glm::quatLookAt(adjustedForward, glm::vec3(0.0f, 1.0f, 0.0f)));
+	}
 }
 
 glm::vec3 GameObject::GetRotationEuler()

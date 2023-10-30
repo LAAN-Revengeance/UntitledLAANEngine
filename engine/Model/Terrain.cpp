@@ -136,8 +136,8 @@ std::vector<float>* Terrain::GetHeightArray()
 
 void Terrain::SetTextures(std::vector<Texture*> textures, Texture* detailMap) {
 
-	if (textures.size() > MAX_TERRAIN_TEXTURES) { 
-		std::cout << "ERROR: Max terrain textures is: " << MAX_TERRAIN_TEXTURES << std::endl; 
+	if (textures.size() > MAX_TERRAIN_TEXTURES) {
+		DebugLogger::Log(GAEM_ERROR, "Max terrain textures is " + std::to_string(MAX_TERRAIN_TEXTURES), name);
 		return;
 	}
 		
@@ -161,7 +161,7 @@ void Terrain::SetTextures(std::vector<Texture*> textures, Texture* detailMap) {
 void Terrain::SetMaterailTextures(std::vector<Texture*> textures) {
 
 	if (textures.size() > MAX_TERRAIN_TEXTURES) {
-		std::cout << "ERROR: Max terrain textures is: " << MAX_TERRAIN_TEXTURES << std::endl;
+		DebugLogger::Log(GAEM_ERROR, "Max terrain textures is " + std::to_string(MAX_TERRAIN_TEXTURES), name);
 		return;
 	}
 

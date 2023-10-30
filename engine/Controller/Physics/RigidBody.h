@@ -71,7 +71,7 @@ public:
 	*	@return void
 	*/
 	void SetPosition(float x, float y, float z);
-
+	void SetPositionVec(glm::vec3 nPos);
 	/**
 	*	@brief Set the rotation of object
 	*	@param x - x rotation in radians

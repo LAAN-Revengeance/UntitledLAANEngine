@@ -66,7 +66,7 @@ namespace GaemPathing {
 		 * @brief return reference to the netowork nodes
 		 * @return vector of nodes from the network
 		*/
-		std::vector<GaemPathing::PathNode*>& GetNodes();
+		const std::vector<GaemPathing::PathNode*>& GetNodes();
 
 	private:
 
@@ -77,7 +77,7 @@ namespace GaemPathing {
 		std::vector<GaemPathing::PathNode*> _nodes;
 
 		///unique ID to assign to next node added to the network
-		unsigned int nextID = 1;
+		unsigned int _nextID = 1;
 
 		///map of IDs and nodes. used in serialization
 		std::map<unsigned int, PathNode*> _idMap;

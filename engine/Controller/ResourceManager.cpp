@@ -1,5 +1,5 @@
 #include "ResourceManager.h"
-
+#include <Utils/DebugLogger.h>
 
 ResourceManager& ResourceManager::Get() {
 	
@@ -88,6 +88,35 @@ GameObject& ResourceManager::CreateGameObject(std::string objectName, std::strin
 	return *gameObject;
 }
 
+NPC_GameObject& ResourceManager::CreateNPC(std::string objectName, std::string modelName, std::string shaderName, Material material)
+{
+	NPC_GameObject* gameObject = new NPC_GameObject();
+	gameObject->name = objectName;
+	gameObject->SetID(IDIndex);
+	IDIndex++;
+
+	gameObject->material = material;
+
+	if (!modelName.empty())
+		gameObject->model_data = GetModel(modelName);
+
+	if (!shaderName.empty()) {
+		gameObject->shader = GetShader(shaderName);
+	}
+	else if (shaders.find("default") != shaders.end()) {
+		gameObject->shader = shaders.at("default");
+	}
+
+	if (objects.find(objectName) != objects.end()) {
+		delete objects[objectName];
+		objects[objectName] = gameObject;
+	}
+	else {
+		objects.insert({ objectName, gameObject });
+	}
+	return *gameObject;
+}
+
 
 Terrain& ResourceManager::CreateTerrain(std::string terrainName, std::string heightMapName, std::vector<std::string> layerTextures, std::string detailName, std::string specularName, std::string emissiveName, float texScale, float scaleX, float scaleY, float scaleZ) {
 	
@@ -132,7 +161,7 @@ void ResourceManager::LoadTexture(std::string resName, std::string fileName) {
 	}
 	catch (const std::exception&)
 	{
-		std::cout << "Error: Could not create: " << resName << std::endl;
+		DebugLogger::Log(GAEM_ERROR,std::string("Could not create: ") + resName);
 	}
 }
 
@@ -150,7 +179,7 @@ void ResourceManager::LoadAnimatedModel(std::string resName, std::string fileNam
 	}
 	catch (const std::exception&)
 	{
-		std::cout << "Error: Could not create: " << resName << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("Could not create: ") + resName);
 	}
 }
 
@@ -166,7 +195,7 @@ void ResourceManager::LoadModel(std::string resName, std::string fileName) {
 	}
 	catch (const std::exception&)
 	{
-		std::cout << "Error: Could not create: " << resName << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("Could not create: ") + resName);
 	}
 }
 
@@ -185,7 +214,7 @@ void ResourceManager::LoadShader(std::string resName, std::string vertPath, std:
 	}
 	catch (const std::exception&)
 	{
-		std::cout << "Error: Could not create: " << resName << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("Could not create: ") + resName);
 		return;
 	}
 	nshader->name = resName;
@@ -207,7 +236,7 @@ void ResourceManager::LoadCubemap(std::string resName, std::string right, std::s
 	}
 	catch (const std::exception&)
 	{
-		std::cout << "Error: Could not create: " << resName << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("Could not create: ") + resName);
 	}
 }
 
@@ -219,7 +248,7 @@ Texture* ResourceManager::GetTexture(std::string resName) {
 	}
 	catch (const std::exception& e)
 	{
-		std::cout << "ERROR: Texture: '" << resName << "' does not exist: " << e.what() << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("Texture: " + resName + "does not exist: " + e.what()));
 		texture = textures.at("default");
 	}
 	return texture;
@@ -239,7 +268,7 @@ DrawItem* ResourceManager::GetModel(std::string resName) {
 	}
 	catch (const std::exception& e)
 	{
-		std::cout << "ERROR: Model: '" << resName << "' does not exist: " << e.what() << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("Draw Item: " + resName + "does not exist: " + e.what()));
 		model = nullptr;
 	}
 	return model;
@@ -253,7 +282,7 @@ Shader* ResourceManager::GetShader(std::string resName) {
 	}
 	catch (const std::exception& e)
 	{
-		std::cout << "ERROR: Shader: '" << resName << "' does not exist: " << e.what() << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("Shader: " + resName + "does not exist: " + e.what()));
 		shader = nullptr;
 	}
 	return shader;
@@ -267,7 +296,7 @@ CubeMap* ResourceManager::GetCubeMap(std::string resName) {
 	}
 	catch (const std::exception& e)
 	{
-		std::cout << "ERROR: Cubemap: '" << resName << "' does not exist: " << e.what() << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("CubeMap: " + resName + "does not exist: " + e.what()));
 		cubemap = nullptr;
 	}
 	return cubemap;
@@ -283,7 +312,7 @@ GameObject* ResourceManager::GetGameObject(std::string resName)
 	}
 	catch (const std::exception& e)
 	{
-		std::cout << "ERROR: gameObject: '" << resName << "' does not exist: " << e.what() << std::endl;
+		DebugLogger::Log(GAEM_ERROR, std::string("GameObject: " + resName + "does not exist: " + e.what()));
 		gameObject = nullptr;
 	}
 	return gameObject;

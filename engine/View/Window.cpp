@@ -1,4 +1,5 @@
 #include "Window.h"
+#include <Utils/DebugLogger.h>
 
 bool Window::_glfwInit = false;
 Window* Window::currentWindow = nullptr;
@@ -21,7 +22,7 @@ Window::Window(int w, int h, const std::string& wName, GaemEvents::EventDispatch
 
 	if (!window)
 	{
-		std::cout << "ERROR Could not initalize window." << std::endl;
+		DebugLogger::Log(GAEM_ERROR, "Could not initalize window.");
 		glfwTerminate();
 		return;
 	}
