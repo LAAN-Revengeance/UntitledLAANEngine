@@ -18,6 +18,7 @@ public:
 
 	void SetCanAfford(bool canAfford) { _canAfford = canAfford; }
 	void SetCanPerform(bool canPerform) { _canPerform = canPerform; }
+	bool GetIsActive() { return _active; }
 
 	virtual AffordanceDescriptor GetType()const = 0;
 

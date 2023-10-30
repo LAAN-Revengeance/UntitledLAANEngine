@@ -38,7 +38,7 @@ inline T* AffordanceController::AddAffordance() {
 	for (auto& affordance : _affordances)
 	{
 		if (dynamic_cast<T*>(affordance)) {
-			return dynamic_cast<T>(affordance);
+			return dynamic_cast<T*>(affordance);
 		}
 	}
 
@@ -53,7 +53,7 @@ inline T* AffordanceController::GetAffordance() {
 	for (auto& affordance : _affordances)
 	{
 		if (dynamic_cast<T*>(affordance)) {
-			return dynamic_cast<T>(affordance);
+			return dynamic_cast<T*>(affordance);
 		}
 	}
 

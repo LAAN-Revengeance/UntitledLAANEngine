@@ -10,7 +10,8 @@
 #include <Physics/RigidBody.h>
 #include <Utils/DebugLogger.h>
 #include <Lua/LuaFunction.h>
-#include <AI/Affordance/AffordanceController.h>	
+#include <AI/Affordance/AffordanceController.h>
+#include <AI/Affordance/Affordance_Pickup.h>
 
 /**
 *	@Class GameObject

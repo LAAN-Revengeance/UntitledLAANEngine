@@ -774,12 +774,18 @@ void SceneEditor::DrawInspector()
 
 				//NPC affordance Settings
 				if (ImGui::CollapsingHeader("-- Affordances --")) {
-					
-					//ImGui::Text("Pickup");
-					//ImGui::Checkbox("checkbox");
-
-
-					ImGui::Dummy(ImVec2(0.0f, 20.0f));
+					if (ImGui::Button("Add pickup affordance"))
+					{
+						inspectedObject->affordanceController.AddAffordance<AffordancePickup>();
+					}
+					if (ImGui::Button("Remove pickup affordance"))
+					{
+						inspectedObject->affordanceController.RemoveAffordance<AffordancePickup>();
+					}
+					if (ImGui::Button("Print affordance type"))
+					{
+						std::cout << inspectedObject->affordanceController.GetAffordance<AffordancePickup>()->GetType() << std::endl;
+					}
 				}
 
 

@@ -299,7 +299,8 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"Activate", &Affordance::Activate,
 		"Deactivate", &Affordance::Deactivate,
 		"SetCanAfford", &Affordance::SetCanAfford,
-		"GetType", &Affordance::GetType
+		"GetType", &Affordance::GetType,
+		"GetIsActive", &Affordance::GetIsActive
 	);
 
 	luaManager->Expose_CPPClass<AffordanceController>("AffordanceController",
