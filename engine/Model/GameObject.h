@@ -113,6 +113,8 @@ public:
 	glm::vec3 GetRotationEuler();
 	glm::mat4 GetTransformMatrix();
 
+	glm::vec3 GetForwardVec();
+
 		///Position in worldspace
 	glm::vec3 position = {0,0,0};
 		///Scale along each axis

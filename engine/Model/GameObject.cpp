@@ -1,7 +1,7 @@
 #include "GameObject.h"
 
 
-GameObject::GameObject(){
+GameObject::GameObject() : affordanceController(this){
 }
 
 GameObject::~GameObject() {}
@@ -118,6 +118,12 @@ glm::mat4 GameObject::GetTransformMatrix()
 	modelMat *= rotationMat;
 
 	return modelMat;
+}
+
+glm::vec3 GameObject::GetForwardVec()
+{
+	glm::vec3 localForwardVector = glm::vec3(0.0f, 0.0f, -1.0f);
+	return glm::rotate(orientation, localForwardVector);
 }
 
 DrawItem* GameObject::GetDrawItem()

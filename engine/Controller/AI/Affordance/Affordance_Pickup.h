@@ -5,7 +5,7 @@
 class AffordancePickup : public Affordance
 {
 public:
-	AffordancePickup();
+	AffordancePickup(GameObject* go);
 	~AffordancePickup();
 
 	void Activate(GameObject* go) override;
@@ -14,4 +14,5 @@ public:
 
 private:
 
+	float _offset = 1.0f;
 };

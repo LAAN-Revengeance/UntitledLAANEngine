@@ -5,6 +5,7 @@ class GameObject;
 class Affordance
 {
 public:
+	Affordance() {}
 	Affordance(GameObject* owner) {};
 	~Affordance() {};
 
@@ -12,10 +13,20 @@ public:
 	virtual void Deactivate() = 0;
 	virtual void Update(double deltaTime) = 0;
 
+	void SetCanAfford(bool canAfford) { _canAfford = canAfford; }
+	void SetCanPerform(bool canPerform) { _canPerform = canPerform; }
+
 protected:
 
 	bool _active = false;
+	//if other objects can use this affordance on _parentObject
+	bool _canAfford = false;
+
+	//if _parentObject can perform this affordance
+	bool _canPerform = false;
 
 	GameObject* _parentObject = nullptr;
 	GameObject* _otherObject = nullptr;
+
+
 };

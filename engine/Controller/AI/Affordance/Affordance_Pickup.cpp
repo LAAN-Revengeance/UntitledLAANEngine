@@ -1,9 +1,10 @@
 #include "Affordance_Pickup.h"
 #include <GameObject.h>
 
-AffordancePickup::AffordancePickup()
-{
 
+AffordancePickup::AffordancePickup(GameObject* go)
+{
+	_parentObject = go;
 }
 
 AffordancePickup::~AffordancePickup()
@@ -28,8 +29,8 @@ void AffordancePickup::Update(double deltaTime)
 
 	if (_active) {
 		
-		//do pickup stuff
-		_otherObject->Update(deltaTime);
+		glm::vec3 forward = glm::normalize(_parentObject->GetForwardVec());
+		_otherObject->SetPosition(_parentObject->GetPosition() + (forward  * _offset));
 	}
 
 }

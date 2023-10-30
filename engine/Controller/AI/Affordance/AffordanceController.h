@@ -36,7 +36,7 @@ inline T* AffordanceController::AddAffordance() {
 			return dynamic_cast<T>(affordance);
 		}
 	}
-	_affordances.push_back(new T())
+	_affordances.push_back(new T(_owner));
 }
 
 template<class T>
@@ -62,7 +62,7 @@ inline void AffordanceController::RemoveAffordance() {
 			it = _affordances.erase(it);
 		}else {
        
-			++it
+			++it;
 		}
 	}
 }
