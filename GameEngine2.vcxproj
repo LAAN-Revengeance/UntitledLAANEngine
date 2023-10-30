@@ -155,6 +155,8 @@
     <ClCompile Include="dependencies\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="dependencies\include\jsoncpp.cpp" />
     <ClCompile Include="engine\Application\Application.cpp" />
+    <ClCompile Include="engine\Controller\AI\Affordance\AffordanceController.cpp" />
+    <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Pickup.cpp" />
     <ClCompile Include="engine\Controller\EmotionManager.cpp" />
     <ClCompile Include="engine\Controller\FCM.cpp" />
     <ClCompile Include="engine\Controller\OCCModel.cpp" />
@@ -225,6 +227,9 @@
     <ClInclude Include="dependencies\include\json\json-forwards.h" />
     <ClInclude Include="dependencies\include\json\json.h" />
     <ClInclude Include="engine\Application\Application.h" />
+    <ClInclude Include="engine\Controller\AI\Affordance\Affordance.h" />
+    <ClInclude Include="engine\Controller\AI\Affordance\AffordanceController.h" />
+    <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Pickup.h" />
     <ClInclude Include="engine\Controller\AI\Pathfinding\A_Star.h" />
     <ClInclude Include="engine\Controller\AI\Pathfinding\PathNode.h" />
     <ClInclude Include="engine\Controller\AI\Pathfinding\PathNodeManager.h" />

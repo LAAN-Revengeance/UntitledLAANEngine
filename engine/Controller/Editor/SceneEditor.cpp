@@ -217,13 +217,15 @@ void SceneEditor::DrawHeighrarchy()
 					pbNew->GetCollider(i).SetOffset(oldCollider.GetOffset());
 					pbNew->GetCollider(i).SetRotation(oldCollider.GetRotation());
 				}
-				pbNew->SetPositionVec(pbOld->GetPosition());
-				pbNew->SetRotation(pbOld->GetRotation());
-				pbNew->SetMass(pbOld->GetMass());
-				pbNew->dampeningLinear = pbOld->dampeningLinear;
-				pbNew->dampeningAngular = pbOld->dampeningAngular;
-				pbNew->bounce = pbOld->bounce;
-				pbNew->CalcDerivedData();
+				if (pair.second->physicsBody) {
+					pbNew->SetPositionVec(pbOld->GetPosition());
+					pbNew->SetRotation(pbOld->GetRotation());
+					pbNew->SetMass(pbOld->GetMass());
+					pbNew->dampeningLinear = pbOld->dampeningLinear;
+					pbNew->dampeningAngular = pbOld->dampeningAngular;
+					pbNew->bounce = pbOld->bounce;
+					pbNew->CalcDerivedData();
+				}
 
 				engine->scene->AddObject(*go);
 			}

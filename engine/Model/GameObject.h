@@ -10,6 +10,7 @@
 #include <Physics/RigidBody.h>
 #include <Utils/DebugLogger.h>
 #include <Lua/LuaFunction.h>
+#include <AI/Affordance/AffordanceController.h>	
 
 /**
 *	@Class GameObject
@@ -141,6 +142,8 @@ public:
 		
 		//Material properties
 	Material material;
+
+	AffordanceController affordanceController;
 
 	void SetUpdateFunction(LuaFunction<void, GameObject&> function);
 	LuaFunction<void, GameObject&> GetUpdateFunction();

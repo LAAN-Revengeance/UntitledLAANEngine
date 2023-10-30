@@ -85,6 +85,8 @@ void GameObject::Update(double dt)
 	}
 
 	updateFunction.Execute(*this);
+
+	affordanceController.Update(dt);
 }
 
 void GameObject::LookAt(glm::vec3 lookPos)
