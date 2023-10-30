@@ -49,7 +49,7 @@ Project ProjectLoader::LoadProject(GameEngine* engine, const char* inName)
     for (unsigned int i = 0; i < objects.size(); i++) {
         std::string objName = objects[i]["name"].asString();
         std::string funcName = objects[i]["updateFunc"].asString();
-        if (funcName != "invalid funciton") {
+        if (funcName != "") {
             project.scene->gameObjects.at(objName)->SetUpdateFunction(
                 project.scene->luaState.GetFunction<void, GameObject&>(funcName.c_str())
             );

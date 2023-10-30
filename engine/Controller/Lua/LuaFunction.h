@@ -57,7 +57,7 @@ public:
 		}
 		else {
 			DebugLogger::Log(GAEM_ERROR, std::string("Could not load Lua function: ") + luaName);
-			funcName = "invalid funciton";
+			funcName = "";
 		}
 	}
 
