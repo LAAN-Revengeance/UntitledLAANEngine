@@ -1255,7 +1255,6 @@ void SceneEditor::DrawResources()
 				if (aPath.size() >= 1) {
 					strcpy(audioPath, aPath.c_str());
 				}
-
 			}
 			ImGui::InputTextWithHint("##audioName", "Audio Name", audioName, IM_ARRAYSIZE(audioName));
 
