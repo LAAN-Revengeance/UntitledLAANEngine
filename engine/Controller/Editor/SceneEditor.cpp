@@ -188,7 +188,7 @@ void SceneEditor::DrawHeighrarchy()
 				
 				go->name = nName;
 
-				go->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+				engine->scene->physicsWorld.CreatePhysicsBody(go);
 				
 				if(pair.second->physicsBody)
 				for (int i = 0; i < pair.second->physicsBody->GetNumColliders(); ++i)
@@ -635,7 +635,7 @@ void SceneEditor::DrawInspector()
 					//Box
 					if (ImGui::Button("Add Box Collider##box")) {
 						if (!inspectedObject->physicsBody)
-							inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+								engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
 						engine->scene->physicsWorld.AddBoxCollider(*inspectedObject->physicsBody, { 1.0f,1.0f,1.0f });
 						inspectedObject->physicsBody->CalcCenterOfMass();
 					}
@@ -643,7 +643,7 @@ void SceneEditor::DrawInspector()
 					//Sphere
 					if (ImGui::Button("Add Sphere Collider##sphere")) {
 						if (!inspectedObject->physicsBody)
-							inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+							engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
 						engine->scene->physicsWorld.AddSphereCollider(*inspectedObject->physicsBody, 1.0f);
 						inspectedObject->physicsBody->CalcCenterOfMass();
 					}
@@ -651,7 +651,7 @@ void SceneEditor::DrawInspector()
 					//Capsule
 					if (ImGui::Button("Add Capsule Collider##capsule")) {
 						if (!inspectedObject->physicsBody)
-							inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+							engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
 						engine->scene->physicsWorld.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f, 2.0f);
 						inspectedObject->physicsBody->CalcCenterOfMass();
 					}

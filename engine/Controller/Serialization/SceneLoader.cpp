@@ -368,7 +368,7 @@ Scene& SceneLoader::LoadScene(const char* inName)
             go->material.emissionMap.push_back(res.GetTexture(jobj["emis"].asString()));
 
 
-        go->physicsBody = scene->physicsWorld.CreatePhysicsBody();
+        scene->physicsWorld.CreatePhysicsBody(go);
         go->physicsBody->isKinematic = jobj["isKinematic"].asBool();
         go->physicsBody->useGravity = jobj["useGravity"].asBool();
         go->physicsBody->SetBounce(jobj["bounce"].asFloat());

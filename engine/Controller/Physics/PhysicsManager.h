@@ -7,6 +7,7 @@
 #include "PhysicsIntegrator.h"
 #include "Collisionsolver.h"
 #include <Utils/DebugLogger.h>
+#include <GameObject.h>
 
 class rp3dCollisionCallback : public rp3d::CollisionCallback {
 
@@ -19,21 +20,14 @@ private:
 	PhysicsManager* physicsManager;
 };
 
-// Class WorldRaycastCallback 
 class rp3dRaycastCallback : public rp3d::RaycastCallback {
 
 public:
-
 	virtual rp3d::decimal notifyRaycastHit(const rp3d::RaycastInfo& info) {
-
 		_hitID = info.body->getEntity().id;
-
-
-		// Return a fraction of 1.0 to gather all hits 
 		return rp3d::decimal(0.0);
 		
 	}
-
 	unsigned int _hitID;
 };
 
@@ -60,11 +54,11 @@ public:
 	void Update(double deltaTime);
 
 		/**
-		*	@brief adds physics body to physics world, assign it to a game objects
+		*	@brief adds physics body to physics world, assign it to a game object
 		*	@param go - game object to add a physicsbody to
 		*	@return Created physics body
 		*/
-	PhysicsBody* CreatePhysicsBody();
+	PhysicsBody* CreatePhysicsBody(GameObject* go);
 
 		/**
 		*	@brief add sphere collider to supplied physics body
@@ -125,11 +119,14 @@ public:
 		 *	@param distance length of ray
 		 *	@return reference to the first rigidbody intersected by the ray
 		*/
-	PhysicsBody* Raycast(glm::vec3 origin, glm::vec3 direction, float distance = FLT_MAX);
+	GameObject* Raycast(glm::vec3 origin, glm::vec3 direction, float distance = FLT_MAX);
 private:
 
 	//ID to physics body map
 	std::map<unsigned int, PhysicsBody> physicsBodies;
+
+	//ID to game object map
+	std::map<unsigned int, GameObject*> gameObjects;
 
 	//rp3d collision world
 	rp3d::PhysicsCommon rp3dPhysicsCommon;

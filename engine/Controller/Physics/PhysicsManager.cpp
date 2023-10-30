@@ -2,6 +2,7 @@
 
 using namespace rp3d;
 
+
 PhysicsManager::PhysicsManager()
 {
 	rp3dWorld = rp3dPhysicsCommon.createPhysicsWorld();
@@ -36,7 +37,7 @@ void PhysicsManager::Update(double deltaTime)
 	}
 }
 
-PhysicsBody* PhysicsManager::CreatePhysicsBody()
+PhysicsBody* PhysicsManager::CreatePhysicsBody(GameObject* go)
 {
 	//add collision body to react and get its ID
 	rp3d::Vector3 pos(0.0, 0.0, 0.0);
@@ -48,11 +49,14 @@ PhysicsBody* PhysicsManager::CreatePhysicsBody()
 	PhysicsBody pb;
 	pb.body = bPtr;
 	pb.ID = id;
-	physicsBodies.insert({id,pb});
-	BoxShape* shape = rp3dPhysicsCommon.createBoxShape(Vector3(0.03,0.3,0.2));
+	physicsBodies.insert({ id,pb });
+	gameObjects.insert({id,go});
+	BoxShape* shape = rp3dPhysicsCommon.createBoxShape(Vector3(0.03, 0.3, 0.2));
 
+	go->physicsBody = &physicsBodies.at(id);
 	return &physicsBodies.at(id);
 }
+
 
 void PhysicsManager::AddSphereCollider(PhysicsBody& pb, float radius)
 {
@@ -143,6 +147,7 @@ void PhysicsManager::DeletePhysicsBody(PhysicsBody* physicsBody)
 		rp3dWorld->destroyCollisionBody(physicsBody->body);
 		
 		physicsBodies.erase(physicsBody->GetID());
+		gameObjects.erase(physicsBody->GetID());
 	}
 }
 
@@ -163,7 +168,7 @@ void PhysicsManager::ResetPhysicsWorld()
 	rp3dWorld = rp3dPhysicsCommon.createPhysicsWorld();
 }
 
-PhysicsBody* PhysicsManager::Raycast(glm::vec3 origin, glm::vec3 direction, float distance)
+GameObject* PhysicsManager::Raycast(glm::vec3 origin, glm::vec3 direction, float distance)
 {
 	glm::vec3 end = origin + (direction * distance);
 
@@ -179,8 +184,8 @@ PhysicsBody* PhysicsManager::Raycast(glm::vec3 origin, glm::vec3 direction, floa
 	unsigned int hitID = callback._hitID;
 
 	if (physicsBodies.find(hitID) != physicsBodies.end()) {
-		DebugLogger::Log(GAEM_DEBUG, "RayHit physics body: " + std::to_string(hitID), "RaycastCallback");
-		return &physicsBodies.at(hitID);
+		DebugLogger::Log(GAEM_DEBUG, "hit: " + gameObjects.at(hitID)->name, "Raycast");
+		return gameObjects.at(hitID);
 	}
 	return nullptr;
 }
