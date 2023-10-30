@@ -772,6 +772,17 @@ void SceneEditor::DrawInspector()
 					ImGui::Dummy(ImVec2(0.0f, 20.0f));
 				}
 
+				//NPC affordance Settings
+				if (ImGui::CollapsingHeader("-- Affordances --")) {
+					
+					//ImGui::Text("Pickup");
+					//ImGui::Checkbox("checkbox");
+
+
+					ImGui::Dummy(ImVec2(0.0f, 20.0f));
+				}
+
+
 				if (dynamic_cast<NPC_GameObject*>(inspectedObject)) {
 					DrawNPCInspector();
 				}
@@ -1656,12 +1667,6 @@ void SceneEditor::DrawNPCInspector()
 	//NPC Emotion Settings
 	if (ImGui::CollapsingHeader("-- Emotion --")) {
 		ImGui::Text("Emotion stuff yo");
-		ImGui::Dummy(ImVec2(0.0f, 20.0f));
-	}
-
-	//NPC affordance Settings(might just make this for game objects in general)
-	if (ImGui::CollapsingHeader("-- Affordances --")) {
-		ImGui::Text("Affordance stuff yo");
 		ImGui::Dummy(ImVec2(0.0f, 20.0f));
 	}
 }
