@@ -1,6 +1,9 @@
 #pragma once
+#include <string>
 
 class GameObject;
+
+using AffordanceDescriptor = std::string;
 
 class Affordance
 {
@@ -15,6 +18,8 @@ public:
 
 	void SetCanAfford(bool canAfford) { _canAfford = canAfford; }
 	void SetCanPerform(bool canPerform) { _canPerform = canPerform; }
+
+	virtual AffordanceDescriptor GetType()const = 0;
 
 protected:
 

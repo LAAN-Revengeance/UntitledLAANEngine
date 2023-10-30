@@ -10,7 +10,7 @@ public:
 
 	~AffordanceController();
 
-	void Update(double delteTime);
+	void Update(double deltaTime);
 
 	template<class T>
 	T* AddAffordance();
@@ -20,6 +20,11 @@ public:
 
 	template<class T>
 	void RemoveAffordance();
+
+	//Lua implementations
+	Affordance* GetAffordanceString(const std::string type);
+	void RemoveAffordanceString(const std::string type);
+
 
 private:
 
@@ -36,7 +41,10 @@ inline T* AffordanceController::AddAffordance() {
 			return dynamic_cast<T>(affordance);
 		}
 	}
-	_affordances.push_back(new T(_owner));
+
+	T* nAffordance = new T(_owner);
+	_affordances.push_back(nAffordance);
+	return nAffordance;
 }
 
 template<class T>

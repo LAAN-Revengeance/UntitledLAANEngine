@@ -82,7 +82,8 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"GetDrawItem", &GameObject::GetDrawItem,
 		"LookAt", &GameObject::LookAt,
 		"GetID", &GameObject::GetID,
-		"physicsBody", &GameObject::physicsBody
+		"physicsBody", &GameObject::physicsBody,
+		"affordanceController", &GameObject::affordanceController
 	);
 
 	//expose terrain
@@ -292,11 +293,19 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 	);
 	luaManager->luaState["Sound"] = &SoundEngine::Get();
 
-	//luaManager->Expose_CPPReference("scene", *engine->scene);
-	//luaManager->Expose_CPPReference("GUI", engine->guiRenderer);
-	//luaManager->Expose_CPPReference("physics", engine->scene->physicsWorld);
+	//expose affordances
+	luaManager->Expose_CPPClass<Affordance>("Affordance",
+		sol::no_constructor,
+		"Activate", &Affordance::Activate,
+		"Deactivate", &Affordance::Deactivate,
+		"SetCanAfford", &Affordance::SetCanAfford,
+		"GetType", &Affordance::GetType
+	);
 
-	//engine->scene->luaState.LoadScript(luaPath);
-	//engine->scene->UpdateFunction = luaManager->GetFunction<void, double>("update");
-	//engine->scene->InitFunction = luaManager->GetFunction<void>("init");
+	luaManager->Expose_CPPClass<AffordanceController>("AffordanceController",
+		sol::no_constructor,
+		"GetAffordance", &AffordanceController::GetAffordanceString,
+		"RemoveAffordance", &AffordanceController::RemoveAffordanceString
+	);
+
 }

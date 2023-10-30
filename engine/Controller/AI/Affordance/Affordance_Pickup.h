@@ -12,7 +12,11 @@ public:
 	void Deactivate() override;
 	void Update(double deltaTime) override;
 
-private:
+	AffordanceDescriptor GetType()const override { return descriptor; }
 
+	void SetOffset(float offset);
+	
+private:
+	AffordanceDescriptor descriptor = "pickup";
 	float _offset = 1.0f;
 };

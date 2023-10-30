@@ -26,11 +26,14 @@ void AffordancePickup::Deactivate()
 
 void AffordancePickup::Update(double deltaTime)
 {
-
 	if (_active) {
-		
 		glm::vec3 forward = glm::normalize(_parentObject->GetForwardVec());
 		_otherObject->SetPosition(_parentObject->GetPosition() + (forward  * _offset));
 	}
 
+}
+
+void AffordancePickup::SetOffset(float offset)
+{
+	_offset = offset;
 }
