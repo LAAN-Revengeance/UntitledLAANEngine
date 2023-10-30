@@ -83,6 +83,8 @@ void GameObject::Update(double dt)
 		SetPosition(physicsBody->GetPosition());
 		SetRotation(physicsBody->GetRotation());
 	}
+
+	updateFunction.Execute(this);
 }
 
 void GameObject::LookAt(glm::vec3 lookPos)
@@ -122,4 +124,14 @@ DrawItem* GameObject::GetDrawItem()
 		return model_data;
 	}
 	return nullptr;
+}
+
+void GameObject::SetUpdateFunction(LuaFunction<void, GameObject*>& function)
+{
+	updateFunction = function;
+}
+
+LuaFunction<void, GameObject*> GameObject::GetUpdateFunction()
+{
+	return updateFunction;
 }
