@@ -329,7 +329,7 @@ Scene& SceneLoader::LoadScene(const char* inName)
             node->AddNeighbour(pathManager._idMap.at(jNeighbours[j].asUInt()));
         }
     }
-    pathManager.nextID = maxID + 1;
+    pathManager._nextID = maxID + 1;
 
     //populate scene
     scene->skybox = res.GetCubeMap(sceneJSON["skybox"].asString());

@@ -163,6 +163,28 @@ void PhysicsManager::ResetPhysicsWorld()
 	rp3dWorld = rp3dPhysicsCommon.createPhysicsWorld();
 }
 
+PhysicsBody* PhysicsManager::Raycast(glm::vec3 origin, glm::vec3 direction, float distance)
+{
+	glm::vec3 end = origin + (direction * distance);
+
+	rp3d::Vector3 startPos = { origin.x,origin.y,origin.z };
+	rp3d::Vector3 endPos = { end.x,end.y,end.z };
+
+	rp3d::Ray ray(startPos, endPos);
+
+	
+	rp3dRaycastCallback callback;
+	rp3dWorld->raycast(ray,&callback);
+
+	unsigned int hitID = callback._hitID;
+
+	if (physicsBodies.find(hitID) != physicsBodies.end()) {
+		DebugLogger::Log(GAEM_DEBUG, "RayHit physics body: " + std::to_string(hitID), "RaycastCallback");
+		return &physicsBodies.at(hitID);
+	}
+	return nullptr;
+}
+
 
 void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 {

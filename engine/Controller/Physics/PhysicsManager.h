@@ -6,6 +6,7 @@
 #include <Mesh.h>
 #include "PhysicsIntegrator.h"
 #include "Collisionsolver.h"
+#include <Utils/DebugLogger.h>
 
 class rp3dCollisionCallback : public rp3d::CollisionCallback {
 
@@ -16,6 +17,24 @@ public:
 	virtual void onContact(const CallbackData& callbackData) override;
 private:
 	PhysicsManager* physicsManager;
+};
+
+// Class WorldRaycastCallback 
+class rp3dRaycastCallback : public rp3d::RaycastCallback {
+
+public:
+
+	virtual rp3d::decimal notifyRaycastHit(const rp3d::RaycastInfo& info) {
+
+		_hitID = info.body->getEntity().id;
+
+
+		// Return a fraction of 1.0 to gather all hits 
+		return rp3d::decimal(0.0);
+		
+	}
+
+	unsigned int _hitID;
 };
 
 /**
@@ -98,6 +117,15 @@ public:
 		*	@return void
 		*/
 	void ResetPhysicsWorld();
+
+		/**
+		 *	@brief Get a poionter to an object intersected by a ray.
+		 *	@param origin start location of ray
+		 *	@param direction forward direction of ray
+		 *	@param distance length of ray
+		 *	@return reference to the first rigidbody intersected by the ray
+		*/
+	PhysicsBody* Raycast(glm::vec3 origin, glm::vec3 direction, float distance = FLT_MAX);
 private:
 
 	//ID to physics body map

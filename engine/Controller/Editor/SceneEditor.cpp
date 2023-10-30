@@ -1464,6 +1464,7 @@ void SceneEditor::DrawDebug()
 	ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + ImGui::GetContentRegionAvail().x);
 	ImGui::TextUnformatted(consoleOutput.c_str());
 	ImGui::PopTextWrapPos();
+	ImGui::SetScrollHereY(1.0f);
 	ImGui::EndChild();
 }
 
