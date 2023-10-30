@@ -13,6 +13,8 @@ public:
 	}
 
 	LuaFunction(const char* luaName, LuaManager* luaState) {
+
+		funcName = luaName;
 		solFunc = luaState->luaState[luaName];// GetFunction(luaName);
 	}
 
@@ -29,9 +31,13 @@ public:
 		return value;
 	}
 
+	std::string GetName() {
+		return funcName;
+	}
+
 private:
 	sol::function solFunc;
-
+	std::string funcName = "";
 };
 
 // Template specialization for Execute when T is void
@@ -46,10 +52,12 @@ public:
 	LuaFunction(const char* luaName, LuaManager* luaState) {
 		solFunc = luaState->luaState[luaName];
 		if (solFunc.valid()) {
+			funcName = luaName;
 			DebugLogger::Log(GAEM_LOG, std::string("Lua function loaded: ") + luaName);
 		}
 		else {
 			DebugLogger::Log(GAEM_ERROR, std::string("Could not load Lua function: ") + luaName);
+			funcName = "";
 		}
 	}
 
@@ -64,7 +72,12 @@ public:
 		}
 	}
 
+	std::string GetName() {
+		return funcName;
+	}
+
 private:
 	sol::function solFunc;
+	std::string funcName = "";
 };
 

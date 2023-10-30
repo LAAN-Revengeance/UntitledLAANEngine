@@ -60,7 +60,7 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 	inspectedObject = nullptr;
 	lastObject = nullptr;
 
-	Project nProject = ProjectLoader::LoadProject(path);
+	Project nProject = ProjectLoader::LoadProject(engine,path);
 	UseScene(nProject.scene);
 	luaFilePath = nProject.luaPath;
 	windowName = nProject.windowName;
@@ -79,7 +79,8 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 	jsonFile >> root;
 	jsonFile.close();
 	std::string luaMain = root["luaPath"].asString();
-	SetLuaFile(luaMain.c_str());
+
+	//SetLuaFile(luaMain.c_str());
 
 }
 
@@ -745,6 +746,30 @@ void SceneEditor::DrawInspector()
 					ImGui::Dummy(ImVec2(0.0f, 20.0f));
 				}
 				
+				if (ImGui::CollapsingHeader("-- Lua Function --")) {
+					
+					
+					std::vector<std::string> funcs = LuaManager::GetFunctionNames(luaFilePath);
+					std::string funcName = inspectedObject->GetUpdateFunction().GetName();
+
+					ImGui::Text("Object Update function:");
+					if (ImGui::BeginCombo("##functionSelector", funcName.c_str()))
+					{
+						if (ImGui::Selectable("--None--")) {
+							inspectedObject->SetUpdateFunction(LuaFunction<void, GameObject&>());
+						}
+						
+						for (auto& funcName : funcs)
+						{
+							if (ImGui::Selectable(funcName.c_str())) {
+								inspectedObject->SetUpdateFunction(LuaFunction<void, GameObject&>(funcName.c_str(), &engine->scene->luaState));
+							}
+						}
+						ImGui::EndCombo();
+					}
+					ImGui::Dummy(ImVec2(0.0f, 20.0f));
+				}
+
 				if (dynamic_cast<NPC_GameObject*>(inspectedObject)) {
 					DrawNPCInspector();
 				}
@@ -1754,9 +1779,16 @@ void SceneEditor::SetLuaFile(std::string nluaFile)
 {
 	luaFilePath = nluaFile;
 	
-	engine->scene->luaState.ClearLuaState();
+	//lua
+	LuaGameBridge::ExposeEngine(&engine->scene->luaState);
+	engine->scene->luaState.Expose_CPPReference("scene", *engine->scene);
+	engine->scene->luaState.Expose_CPPReference("GUI", engine->guiRenderer);
+	engine->scene->luaState.Expose_CPPReference("physics", engine->scene->physicsWorld);
 
-	LuaGameBridge::ExposeEngine(engine, nluaFile.c_str());
+	engine->scene->luaState.LoadScript(nluaFile);
+	engine->scene->UpdateFunction = engine->scene->luaState.GetFunction<void, double>("update");
+	engine->scene->InitFunction = engine->scene->luaState.GetFunction<void>("init");
+	
 }
 
 std::string SceneEditor::FilterFilePath(std::string filePath)

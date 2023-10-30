@@ -16,5 +16,5 @@
 class LuaGameBridge
 {
 public:
-	static void ExposeEngine(GameEngine*, const char* luaPath);
+	static void ExposeEngine(LuaManager* luaManager);
 };

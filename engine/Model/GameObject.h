@@ -9,6 +9,7 @@
 #include <glm/gtc/quaternion.hpp>
 #include <Physics/RigidBody.h>
 #include <Utils/DebugLogger.h>
+#include <Lua/LuaFunction.h>
 
 /**
 *	@Class GameObject
@@ -140,10 +141,15 @@ public:
 		
 		//Material properties
 	Material material;
+
+	void SetUpdateFunction(LuaFunction<void, GameObject&> function);
+	LuaFunction<void, GameObject&> GetUpdateFunction();
+	
 protected:
 		///Unique identifier
 	unsigned int ID = 0;
 
-	
+	LuaFunction<void, GameObject&> updateFunction;
+
 	friend class PhysicsManager;
 };

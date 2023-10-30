@@ -1,9 +1,8 @@
 #include "LuaGameBridge.h"
 
-void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
+void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 {
-	LuaManager* luaManager = &engine->scene->luaState;
-
+	luaManager->ClearLuaState();
 	//expose vec3
 	luaManager->Expose_CPPClass<glm::vec3>("vec3",
 		sol::constructors<glm::vec3(), glm::vec3(float, float, float)>(),
@@ -99,6 +98,17 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 		"scaleX", &Terrain::scaleX,
 		"scaleY", &Terrain::scaleY,
 		"scaleZ", &Terrain::scaleZ
+	);
+
+	//expose NPC
+	luaManager->Expose_CPPClass<NPC_GameObject>("NPC",
+		sol::constructors<NPC_GameObject()>(),
+		sol::base_classes, sol::bases<GameObject>(),
+		"MoveToPoint", &NPC_GameObject::MoveToPoint,
+		"SetMoveSpeed", &NPC_GameObject::SetMoveSpeed,
+		"CancelPath", &NPC_GameObject::CancelPath,
+		"FindClosestNode", &NPC_GameObject::FindClosestNode,
+		"FindFurthestNode", &NPC_GameObject::FindFurthestNode
 	);
 
 	//expose resource manager class
@@ -282,13 +292,11 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 	);
 	luaManager->luaState["Sound"] = &SoundEngine::Get();
 
-	luaManager->Expose_CPPReference("scene", *engine->scene);
-	luaManager->Expose_CPPReference("GUI", engine->guiRenderer);
-	luaManager->Expose_CPPReference("physics", engine->scene->physicsWorld);
+	//luaManager->Expose_CPPReference("scene", *engine->scene);
+	//luaManager->Expose_CPPReference("GUI", engine->guiRenderer);
+	//luaManager->Expose_CPPReference("physics", engine->scene->physicsWorld);
 
-
-
-	engine->scene->luaState.LoadScript(luaPath);
-	engine->scene->UpdateFunction = luaManager->GetFunction<void, double>("update");
-	engine->scene->InitFunction = luaManager->GetFunction<void>("init");
+	//engine->scene->luaState.LoadScript(luaPath);
+	//engine->scene->UpdateFunction = luaManager->GetFunction<void, double>("update");
+	//engine->scene->InitFunction = luaManager->GetFunction<void>("init");
 }

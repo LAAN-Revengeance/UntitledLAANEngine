@@ -125,3 +125,8 @@ function mouseMoveFunc(dt)
 
 	camera:UpdateCameraVectors();
 end
+
+function testFunction(go)
+	local camera = scene:GetCamera();
+	go:LookAt(camera.position);
+end

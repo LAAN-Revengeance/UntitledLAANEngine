@@ -186,6 +186,7 @@ Scene& SceneLoader::LoadScene(const char* inName)
 {
     Scene* scene = new Scene();
 
+
     std::ifstream file(inName);
     Json::Reader reader;
     Json::Value sceneJSON;
@@ -484,10 +485,14 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
     jobj["rotation"].append(obj->orientation.z);
     jobj["rotation"].append(obj->orientation.w);
 
-    //pointer
+    //lua function
+    jobj["updateFunc"] = obj->GetUpdateFunction().GetName();
+
+    //model data
     if (obj->model_data)
         jobj["model"] = obj->model_data->name;
 
+    //shader data
     if (obj->shader)
         jobj["shader"] = obj->shader->name;
     
