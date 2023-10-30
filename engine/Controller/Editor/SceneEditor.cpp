@@ -188,31 +188,37 @@ void SceneEditor::DrawHeighrarchy()
 				
 				go->name = nName;
 
-				engine->scene->physicsWorld.CreatePhysicsBody(go);
+				PhysicsBody* pbOld = pair.second->physicsBody;
+				PhysicsBody* pbNew = engine->scene->physicsWorld.CreatePhysicsBody(go);
 				
-				if(pair.second->physicsBody)
-				for (int i = 0; i < pair.second->physicsBody->GetNumColliders(); ++i)
+				if(pbOld)
+				for (int i = 0; i < pbOld->GetNumColliders(); ++i)
 				{
-					PhysicsCollider nCollider = pair.second->physicsBody->GetCollider(i);
-					switch (pair.second->physicsBody->GetCollider(i).GetType())
+					PhysicsCollider oldCollider = pbOld->GetCollider(i);
+					PhysicsCollider* newCollider = nullptr;
+					switch (pbOld->GetCollider(i).GetType())
 					{
 					case COLLIDER_BOX:
-						engine->scene->physicsWorld.AddBoxCollider(*go->physicsBody,static_cast<BoxCollider*>(&nCollider)->GetScale());
+						newCollider = engine->scene->physicsWorld.AddBoxCollider(*go->physicsBody,static_cast<BoxCollider*>(&oldCollider)->GetScale());
 						break;
 					case COLLIDER_SPHERE:
-						engine->scene->physicsWorld.AddSphereCollider(*go->physicsBody, static_cast<SphereCollider*>(&nCollider)->GetRadius());
+						newCollider = engine->scene->physicsWorld.AddSphereCollider(*go->physicsBody, static_cast<SphereCollider*>(&oldCollider)->GetRadius());
 						break;
 					case COLLIDER_CAPSULE:
-						engine->scene->physicsWorld.AddCapsuleCollider(*go->physicsBody, static_cast<CapsuleCollider*>(&nCollider)->GetRadius(), static_cast<CapsuleCollider*>(&nCollider)->GetHeight());
+						newCollider =engine->scene->physicsWorld.AddCapsuleCollider(*go->physicsBody, static_cast<CapsuleCollider*>(&oldCollider)->GetRadius(), static_cast<CapsuleCollider*>(&oldCollider)->GetHeight());
 						break;
 					default:
 						break;
 					}
-					go->physicsBody->GetCollider(i).SetOffset(nCollider.GetOffset());
-					go->physicsBody->GetCollider(i).SetRotation(nCollider.GetRotation());
-
-					
+					newCollider->SetMass(oldCollider.GetMass());
+					pbNew->GetCollider(i).SetOffset(oldCollider.GetOffset());
+					pbNew->GetCollider(i).SetRotation(oldCollider.GetRotation());
 				}
+				pbNew->SetMass(pbOld->GetMass());
+				pbNew->dampeningLinear = pbOld->dampeningLinear;
+				pbNew->dampeningAngular = pbOld->dampeningAngular;
+				pbNew->bounce = pbOld->bounce;
+				pbNew->CalcDerivedData();
 
 				engine->scene->AddObject(*go);
 			}
