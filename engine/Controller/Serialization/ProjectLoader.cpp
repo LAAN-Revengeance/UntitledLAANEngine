@@ -45,6 +45,18 @@ Project ProjectLoader::LoadProject(GameEngine* engine, const char* inName)
     project.scene->UpdateFunction = project.scene->luaState.GetFunction<void, double>("update");
     project.scene->InitFunction = project.scene->luaState.GetFunction<void>("init");
 
+    Json::Value objects = saveJSON["objects"];
+    for (unsigned int i = 0; i < objects.size(); i++) {
+        std::string objName = objects[i]["name"].asString();
+        std::string funcName = objects[i]["updateFunc"].asString();
+        if (funcName != "invalid funciton") {
+            project.scene->gameObjects.at(objName)->SetUpdateFunction(
+                project.scene->luaState.GetFunction<void, GameObject&>(funcName.c_str())
+            );
+        }
+
+    }
+
     return project;
 }
 
