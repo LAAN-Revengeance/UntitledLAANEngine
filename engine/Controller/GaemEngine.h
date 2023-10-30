@@ -23,11 +23,12 @@ public:
 	void Update(double deltaTime);
 	void Draw(double deltaTime);
 
+	Renderer renderer;
+	GUIRenderer guiRenderer;
+
 private:
 	bool isRunning;
 	Scene* scene;
-	Renderer renderer;
-	GUIRenderer guiRenderer;
 	Window* window;
 	GaemEvents::EventDispatcher* eventDispatcher;
 

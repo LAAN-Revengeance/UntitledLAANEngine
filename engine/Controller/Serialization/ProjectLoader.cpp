@@ -1,4 +1,5 @@
 #include "ProjectLoader.h"
+#include <Lua/LuaGameBridge.h>
 
 void ProjectLoader::SaveProject(Scene* scene, const std::string luaFile, const std::string windowName, const std::string outName)
 {
@@ -19,7 +20,7 @@ void ProjectLoader::SaveProject(Scene* scene, const std::string luaFile, const s
     out.close();
 }
 
-Project ProjectLoader::LoadProject(const char* inName)
+Project ProjectLoader::LoadProject(GameEngine* engine, const char* inName)
 {
     Project project;
 
@@ -30,9 +31,19 @@ Project ProjectLoader::LoadProject(const char* inName)
     Json::Reader reader;
     Json::Value saveJSON;
     reader.parse(file, saveJSON);
-    
+
     project.windowName = saveJSON["windowName"].asString();
     project.luaPath = saveJSON["luaPath"].asString();
+
+    //lua
+    LuaGameBridge::ExposeEngine(&project.scene->luaState);
+    project.scene->luaState.Expose_CPPReference("scene", *project.scene);
+    project.scene->luaState.Expose_CPPReference("GUI", engine->guiRenderer);
+    project.scene->luaState.Expose_CPPReference("physics", project.scene->physicsWorld);
+
+    project.scene->luaState.LoadScript(project.luaPath);
+    project.scene->UpdateFunction = project.scene->luaState.GetFunction<void, double>("update");
+    project.scene->InitFunction = project.scene->luaState.GetFunction<void>("init");
 
     return project;
 }

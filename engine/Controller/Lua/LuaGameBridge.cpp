@@ -1,9 +1,8 @@
 #include "LuaGameBridge.h"
 
-void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
+void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 {
-	LuaManager* luaManager = &engine->scene->luaState;
-
+	luaManager->ClearLuaState();
 	//expose vec3
 	luaManager->Expose_CPPClass<glm::vec3>("vec3",
 		sol::constructors<glm::vec3(), glm::vec3(float, float, float)>(),
@@ -288,13 +287,11 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 	);
 	luaManager->luaState["Sound"] = &SoundEngine::Get();
 
-	luaManager->Expose_CPPReference("scene", *engine->scene);
-	luaManager->Expose_CPPReference("GUI", engine->guiRenderer);
-	luaManager->Expose_CPPReference("physics", engine->scene->physicsWorld);
+	//luaManager->Expose_CPPReference("scene", *engine->scene);
+	//luaManager->Expose_CPPReference("GUI", engine->guiRenderer);
+	//luaManager->Expose_CPPReference("physics", engine->scene->physicsWorld);
 
-
-
-	engine->scene->luaState.LoadScript(luaPath);
-	engine->scene->UpdateFunction = luaManager->GetFunction<void, double>("update");
-	engine->scene->InitFunction = luaManager->GetFunction<void>("init");
+	//engine->scene->luaState.LoadScript(luaPath);
+	//engine->scene->UpdateFunction = luaManager->GetFunction<void, double>("update");
+	//engine->scene->InitFunction = luaManager->GetFunction<void>("init");
 }
