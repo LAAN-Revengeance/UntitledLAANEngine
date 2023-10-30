@@ -99,6 +99,14 @@ public:
 	template<typename Class, typename... Args>
 	void Expose_CPPClass(const char* luaName, Args... args);
 
+		/**
+		*	@brief Searches a lua file for all fuctions and returns their names
+		*	@warning this function uses very basic regex and will not find special cases such as local funcitons
+		*	@param fileName lua file to search
+		*	@return vector of function names found
+		*/
+	static std::vector<std::string> GetFunctionNames(const std::string& fileName);
+
 private:
 		///Main lua state
 	sol::state luaState;
