@@ -273,7 +273,7 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 		sol::no_constructor,
 		"playSoundFromFile", &SoundEngine::PlaySoundFromFile,
 		"playSound", &SoundEngine::PlaySound,
-		"playDynamicSound", &SoundEngine::PlayDynamicSound,
+		"PlayDynamicSound", &SoundEngine::PlayDynamicSound,
 		"playLoop", &SoundEngine::PlayLoop,
 		"addSound", &SoundEngine::AddSound,
 		"removeSound", &SoundEngine::RemoveSound,

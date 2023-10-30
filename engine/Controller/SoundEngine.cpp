@@ -27,11 +27,8 @@ void SoundEngine::PlaySound(std::string audioName)
 
 void SoundEngine::PlayDynamicSound(std::string audioName, glm::vec3 pos)
 {
-	//check if ISound is already set
-	if (audio[audioName].sound)
+	if (audio.find(audioName) != audio.end())
 		engine->play3D(audio[audioName].filepath.c_str(), irrklang::vec3df(pos.x, pos.y, pos.z), false, false, true);
-	else
-		audio[audioName].sound = engine->play3D(audio[audioName].filepath.c_str(), irrklang::vec3df(pos.x, pos.y, pos.z), false, false, true);
 }
 
 void SoundEngine::PlayLoop(std::string audioName)
