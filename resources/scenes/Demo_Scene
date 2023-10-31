@@ -1,0 +1,264 @@
+{
+	"Lighting" : 
+	{
+		"Ambient" : 
+		[
+			0.38725489377975464,
+			0.38725489377975464,
+			0.38725489377975464
+		],
+		"DirectionLights" : 
+		[
+			{
+				"diffuse" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				],
+				"direction" : 
+				[
+					-0.13339243829250336,
+					0.8753281831741333,
+					0.46477890014648438
+				],
+				"specular" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				]
+			}
+		],
+		"PointLights" : null
+	},
+	"luaPath" : "resources\\scripts\\Demo_Scene.lua",
+	"navigation" : null,
+	"objects" : 
+	[
+		{
+			"bounce" : 0.0,
+			"castShadows" : true,
+			"dampAngle" : 0.0,
+			"dampLinear" : 0.0,
+			"diff" : "Arcade_Diff",
+			"infMass" : false,
+			"isKinematic" : true,
+			"model" : "Arcade",
+			"name" : "Arcade",
+			"physics" : 
+			[
+				{
+					"mass" : 1.0,
+					"offset" : 
+					[
+						0.0,
+						0.079999998211860657,
+						-0.0099999997764825821
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						0.2800000011920929,
+						0.50999999046325684,
+						0.25
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				-0.003968291450291872,
+				1.4307162761688232,
+				0.43293499946594238
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale" : 
+			[
+				1.0,
+				1.0,
+				1.0
+			],
+			"shader" : "default",
+			"spec" : "Arcade_Diff",
+			"type" : "base",
+			"updateFunc" : "",
+			"useGravity" : false
+		},
+		{
+			"bounce" : 0.0,
+			"castShadows" : true,
+			"dampAngle" : 0.0,
+			"dampLinear" : 0.0,
+			"diff" : "Grass",
+			"infMass" : false,
+			"isKinematic" : true,
+			"model" : "Cube",
+			"name" : "Floor",
+			"physics" : null,
+			"position" : 
+			[
+				0.0,
+				0.0,
+				0.0
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale" : 
+			[
+				20.0,
+				1.0,
+				20.0
+			],
+			"shader" : "default",
+			"spec" : "Grass",
+			"type" : "base",
+			"updateFunc" : "",
+			"useGravity" : false
+		},
+		{
+			"bounce" : 0.0,
+			"castShadows" : true,
+			"dampAngle" : 0.0,
+			"dampLinear" : 0.0,
+			"infMass" : false,
+			"isKinematic" : true,
+			"name" : "Player",
+			"physics" : 
+			[
+				{
+					"height" : 1.0,
+					"mass" : 1.0,
+					"offset" : 
+					[
+						0.0,
+						0.0,
+						0.0
+					],
+					"radius" : 0.5,
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"type" : 3
+				}
+			],
+			"position" : 
+			[
+				-0.29070404171943665,
+				2.0103678703308105,
+				-2.7256762981414795
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale" : 
+			[
+				1.0,
+				1.0,
+				1.0
+			],
+			"shader" : "default",
+			"type" : "base",
+			"updateFunc" : "",
+			"useGravity" : false
+		}
+	],
+	"resources" : 
+	{
+		"cubemaps" : null,
+		"models" : 
+		[
+			{
+				"name" : "Arcade",
+				"path" : "resources\\models\\untitled2022\\Arcade.obj",
+				"type" : "mesh"
+			},
+			{
+				"name" : "Cube",
+				"path" : "resources\\models\\Cube.obj",
+				"type" : "mesh"
+			},
+			{
+				"name" : "Sphere",
+				"path" : "resources\\models\\Sphere.obj",
+				"type" : "mesh"
+			}
+		],
+		"shaders" : 
+		[
+			{
+				"frag" : "resources/shaders/Default.frag",
+				"geom" : "",
+				"name" : "default",
+				"vert" : "resources/shaders/Default.vert"
+			},
+			{
+				"frag" : "resources/shaders/gizmo_debug/line.frag",
+				"geom" : "",
+				"name" : "line",
+				"vert" : "resources/shaders/gizmo_debug/line.vert"
+			},
+			{
+				"frag" : "resources/shaders/Physics_Debug/Physics.frag",
+				"geom" : "",
+				"name" : "physics",
+				"vert" : "resources/shaders/Physics_Debug/Physics.vert"
+			},
+			{
+				"frag" : "resources/shaders/terrain/Terrain.frag",
+				"geom" : "",
+				"name" : "terrain",
+				"vert" : "resources/shaders/Default.vert"
+			},
+			{
+				"frag" : "resources/shaders/Water.frag",
+				"geom" : "",
+				"name" : "water",
+				"vert" : "resources/shaders/Water.vert"
+			}
+		],
+		"textures" : 
+		[
+			{
+				"name" : "Arcade_Diff",
+				"path" : "resources\\models\\untitled2022\\Arcade.png"
+			},
+			{
+				"name" : "Grass",
+				"path" : "resources\\textures\\terrain\\grass.png"
+			},
+			{
+				"name" : "Rock",
+				"path" : "resources\\textures\\terrain\\rock.png"
+			},
+			{
+				"name" : "default",
+				"path" : "resources/textures/default.png"
+			}
+		]
+	},
+	"windowName" : "editor"
+}

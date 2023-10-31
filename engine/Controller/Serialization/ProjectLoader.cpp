@@ -54,7 +54,6 @@ Project ProjectLoader::LoadProject(GameEngine* engine, const char* inName)
                 project.scene->luaState.GetFunction<void, GameObject&>(funcName.c_str())
             );
         }
-
     }
 
     return project;

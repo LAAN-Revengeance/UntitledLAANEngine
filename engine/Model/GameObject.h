@@ -10,6 +10,7 @@
 #include <Physics/RigidBody.h>
 #include <Utils/DebugLogger.h>
 #include <Lua/LuaFunction.h>
+#include <AI/Affordance/AffordanceController.h>
 
 /**
 *	@Class GameObject
@@ -112,6 +113,8 @@ public:
 	glm::vec3 GetRotationEuler();
 	glm::mat4 GetTransformMatrix();
 
+	glm::vec3 GetForwardVec();
+
 		///Position in worldspace
 	glm::vec3 position = {0,0,0};
 		///Scale along each axis
@@ -141,6 +144,8 @@ public:
 		
 		//Material properties
 	Material material;
+
+	AffordanceController affordanceController;
 
 	void SetUpdateFunction(LuaFunction<void, GameObject&> function);
 	LuaFunction<void, GameObject&> GetUpdateFunction();
