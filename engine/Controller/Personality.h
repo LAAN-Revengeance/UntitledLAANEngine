@@ -16,6 +16,13 @@ public:
 	float GetExtraversion();
 	float GetAgreeableness();
 	float GetNeuroticism();
+
+	float GetOppennessPercent();
+	float GetConscientiousnessPercent();
+	float GetExtraversionPercent();
+	float GetAgreeablenessPercent();
+	float GetNeuroticismPercent();
+
 private:
 	float openness;
 	float conscientiousness;

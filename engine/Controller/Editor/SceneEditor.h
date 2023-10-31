@@ -6,7 +6,6 @@
 #include <SoundEngine.h>
 #include <GaemEngine.h>
 #include <lua/LuaGameBridge.h>
-#include <EmotionManger.h>
 #include <Utils/DebugLogger.h>
 
 /**

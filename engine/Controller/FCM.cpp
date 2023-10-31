@@ -109,10 +109,9 @@ void FCM::Run()
 			{
 				Concept concept1 = GetConcept(relationships[i].concept1);
 				Concept concept2 = GetConcept(relationships[i].concept2);
-				float initialValue = concept2.value;
 				float weighting = GetRelationshipWeighting(relationships[i].concept1, relationships[i].concept2);
 				float conceptValue = concept1.value / concept1.threshold;
-				float finalValue = initialValue + (conceptValue * weighting);
+				float finalValue = conceptValue * weighting;
 				if (finalValue > concept1.threshold)
 					finalValue = concept1.threshold;
 

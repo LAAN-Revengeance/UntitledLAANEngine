@@ -155,10 +155,8 @@
     <ClCompile Include="dependencies\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="dependencies\include\jsoncpp.cpp" />
     <ClCompile Include="engine\Application\Application.cpp" />
-    <ClCompile Include="engine\Controller\EmotionManager.cpp" />
     <ClCompile Include="engine\Controller\Emotion.cpp" />
     <ClCompile Include="engine\Controller\FCM.cpp" />
-    <ClCompile Include="engine\Controller\OCCEvent.cpp" />
     <ClCompile Include="engine\Controller\OCCModel.cpp" />
     <ClCompile Include="engine\Controller\AI\Pathfinding\A_Star.cpp" />
     <ClCompile Include="engine\Controller\AI\Pathfinding\PathNode.cpp" />
@@ -232,9 +230,7 @@
     <ClInclude Include="engine\Controller\AI\Pathfinding\PathNode.h" />
     <ClInclude Include="engine\Controller\AI\Pathfinding\PathNodeManager.h" />
     <ClInclude Include="engine\Controller\AudioDataTypes.h" />
-    <ClInclude Include="engine\Controller\EmotionManger.h" />
     <ClInclude Include="engine\Controller\Emotion.h" />
-    <ClInclude Include="engine\Controller\OCCEvent.h" />
     <ClInclude Include="engine\Controller\Personality.h" />
     <ClInclude Include="engine\Controller\Utils\DebugLogger.h" />
     <ClInclude Include="engine\Controller\Utils\StreamCapture.h" />

@@ -29,6 +29,8 @@ public:
 	void AddEmotion(std::string name, float strength);
 	std::vector<Emotion> GetEmotions();
 	Emotion GetEmotion(std::string emotionName);
+	void SetEmotionStrength(std::string emotionName, float value);
+	void SetReactionStrength(std::string emotionName, float value);
 
 	//#########################################
 	//#		NAVIGATION/PATHFINDING

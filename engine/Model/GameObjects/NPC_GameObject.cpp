@@ -56,6 +56,24 @@ Emotion NPC_GameObject::GetEmotion(std::string emotionName)
 	return empty;
 }
 
+void NPC_GameObject::SetEmotionStrength(std::string emotionName, float value)
+{
+	for (int i = 0; i < emotions.size(); i++)
+	{
+		if (emotions[i].GetEmotionName() == emotionName)
+			emotions[i].SetEmotionStrength(value);
+	}
+}
+
+void NPC_GameObject::SetReactionStrength(std::string emotionName, float value)
+{
+	for (int i = 0; i < emotions.size(); i++)
+	{
+		if (emotions[i].GetEmotionName() == emotionName)
+			emotions[i].SetReactionStrength(value);
+	}
+}
+
 void NPC_GameObject::MoveToPoint(PathNode* targetNode, const std::vector<PathNode*> nodes)
 {
 	if (!_pathManager)return;
