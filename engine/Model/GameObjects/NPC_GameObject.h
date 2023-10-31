@@ -14,17 +14,9 @@ public:
 	void Update(double dt);
 
 	//#########################################
-	//#		AFFORDANCES
-	//#########################################
-
-	//affordance functions go here
-
-	//#########################################
 	//#		EMOTION MODELING/FCM
 	//#########################################
 
-	std::vector<Emotion> emotions;
-	Personality personality;
 	void AddEmotion(std::string name);
 	void AddEmotion(std::string name, float strength);
 	std::vector<Emotion> GetEmotions();
@@ -52,9 +44,9 @@ public:
 
 private:
 	
-	//Affordance
-
 	//Emotion
+	std::vector<Emotion> emotions;
+	Personality personality;
 
 	//Navigation
 	void UpdatePathing(double dt);
