@@ -823,7 +823,7 @@ void SceneEditor::DrawInspector()
 					Affordance* affordancePoke = affordanceController->GetAffordance<AffordancePoke>();
 					bool performPoke = affordancePoke->GetCanPerform();
 					bool affordsPoke = affordancePoke->GetCanAfford();
-					ImGui::Text("slap");
+					ImGui::Text("poke");
 					if (ImGui::Checkbox("Can Perform##poke", &performPoke)) {
 						affordancePoke->SetCanPerform(performPoke);
 					}
