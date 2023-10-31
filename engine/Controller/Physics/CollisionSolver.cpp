@@ -2,6 +2,8 @@
 #include <iomanip>
 void CollisionSolver::ResolveCollisions(CollisionData& cd)
 {
+	if (cd.b1->isKinematic && cd.b2->isKinematic) return;
+
 	ResolvePenetrationLinear(cd);
 	ResolveImpulse(cd);
 }
@@ -37,6 +39,16 @@ void CollisionSolver::ResolvePenetrationLinear(CollisionData& cd)
 
 	glm::vec3 nb1Pos = b1->GetPosition() + (totalCorrectionB1);
 	glm::vec3 nb2Pos = b2->GetPosition() + (totalCorrectionB2);
+	
+	if (b1->isKinematic) {
+		nb2Pos -= totalCorrectionB1;
+		nb1Pos -= totalCorrectionB1;
+	}
+
+	if (b2->isKinematic) {
+		nb1Pos -= totalCorrectionB2;
+		nb2Pos -= totalCorrectionB2;
+	}
 
 	b1->SetPosition(nb1Pos.x, nb1Pos.y, nb1Pos.z);
 	b2->SetPosition(nb2Pos.x, nb2Pos.y, nb2Pos.z);
@@ -99,11 +111,17 @@ void CollisionSolver::ResolveImpulse(CollisionData& cd)
 		totalAngularB2 += b2->GetInverseTensorWorld() * glm::cross(b2Relative,  fullImpulse);
 	}
 
-	b1->AddVelocity(totalLinearB1);
-	b2->AddVelocity(totalLinearB2);
+	if (!b1->isKinematic) {
+		b1->AddVelocity(totalLinearB1);
+		b1->AddAngularVelocity(totalAngularB1);
+	}
 
-	b1->AddAngularVelocity(totalAngularB1);
-	b2->AddAngularVelocity(totalAngularB2);
+	if (!b2->isKinematic) {
+		b2->AddAngularVelocity(totalAngularB2);
+		b2->AddVelocity(totalLinearB2);
+	}
+
+
 }
 
 

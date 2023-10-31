@@ -268,6 +268,11 @@ void PhysicsBody::CalcInertiaTensor()
 			inertiaTensor[1][1] = 0.4 * collider.GetMass() * (sphere->GetRadius() * sphere->GetRadius());
 			inertiaTensor[2][2] = 0.4 * collider.GetMass() * (sphere->GetRadius() * sphere->GetRadius());
 		}
+		if (collider.type == COLLIDER_CAPSULE) {
+			inertiaTensor[0][0] = (1.0f / 3.0f) * (collider.GetMass()) * (2);
+			inertiaTensor[1][1] = (1.0f / 3.0f) * (collider.GetMass()) * (2);
+			inertiaTensor[2][2] = (1.0f / 3.0f) * (collider.GetMass()) * (2);
+		}
 	}
 
 	tensor = inertiaTensor;

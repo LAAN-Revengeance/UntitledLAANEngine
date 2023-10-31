@@ -774,18 +774,65 @@ void SceneEditor::DrawInspector()
 
 				//NPC affordance Settings
 				if (ImGui::CollapsingHeader("-- Affordances --")) {
-					if (ImGui::Button("Add pickup affordance"))
-					{
-						inspectedObject->affordanceController.AddAffordance<AffordancePickup>();
+					
+					AffordanceController* affordanceController = &inspectedObject->affordanceController;
+
+					//pickup
+					Affordance* affordancePickup = affordanceController->GetAffordance<AffordancePickup>();
+					bool performPickup = affordancePickup->GetCanPerform();
+					bool affordsPickup = affordancePickup->GetCanAfford();
+					ImGui::Text("pickup");
+					if (ImGui::Checkbox("Can Perform##pickup", &performPickup)) {
+						affordancePickup->SetCanPerform(performPickup);
 					}
-					if (ImGui::Button("Remove pickup affordance"))
-					{
-						inspectedObject->affordanceController.RemoveAffordance<AffordancePickup>();
+					ImGui::SameLine();
+					if (ImGui::Checkbox("Can Afford##pickup", &affordsPickup)) {
+						affordancePickup->SetCanAfford(affordsPickup);
 					}
-					if (ImGui::Button("Print affordance type"))
-					{
-						std::cout << inspectedObject->affordanceController.GetAffordance<AffordancePickup>()->GetType() << std::endl;
+					ImGui::Separator();
+
+					//punch
+					Affordance* affordancePunch = affordanceController->GetAffordance<AffordancePunch>();
+					bool performPunch = affordancePunch->GetCanPerform();
+					bool affordsPunch = affordancePunch->GetCanAfford();
+					ImGui::Text("punch");
+					if (ImGui::Checkbox("Can Perform##punch", &performPunch)) {
+						affordancePunch->SetCanPerform(performPunch);
 					}
+					ImGui::SameLine();
+					if (ImGui::Checkbox("Can Afford##punch", &affordsPunch)) {
+						affordancePunch->SetCanAfford(affordsPunch);
+					}
+					ImGui::Separator();
+
+					//slap
+					Affordance* affordanceSlap = affordanceController->GetAffordance<AffordanceSlap>();
+					bool performSlap = affordanceSlap->GetCanPerform();
+					bool affordsSlap = affordanceSlap->GetCanAfford();
+					ImGui::Text("slap");
+					if (ImGui::Checkbox("Can Perform##slap", &performSlap)) {
+						affordanceSlap->SetCanPerform(performSlap);
+					}
+					ImGui::SameLine();
+					if (ImGui::Checkbox("Can Afford##slap", &affordsSlap)) {
+						affordanceSlap->SetCanAfford(affordsSlap);
+					}
+					ImGui::Separator();
+
+					//poke
+					Affordance* affordancePoke = affordanceController->GetAffordance<AffordancePoke>();
+					bool performPoke = affordancePoke->GetCanPerform();
+					bool affordsPoke = affordancePoke->GetCanAfford();
+					ImGui::Text("poke");
+					if (ImGui::Checkbox("Can Perform##poke", &performPoke)) {
+						affordancePoke->SetCanPerform(performPoke);
+					}
+					ImGui::SameLine();
+					if (ImGui::Checkbox("Can Afford##poke", &affordsPoke)) {
+						affordancePoke->SetCanAfford(affordsPoke);
+					}
+					ImGui::Separator();
+
 				}
 
 
