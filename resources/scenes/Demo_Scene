@@ -50,12 +50,12 @@
 					"type" : "punch"
 				},
 				{
-					"canAfford" : false,
+					"canAfford" : true,
 					"canPerform" : false,
 					"type" : "slap"
 				},
 				{
-					"canAfford" : false,
+					"canAfford" : true,
 					"canPerform" : false,
 					"type" : "poke"
 				}
@@ -217,12 +217,12 @@
 				},
 				{
 					"canAfford" : false,
-					"canPerform" : false,
+					"canPerform" : true,
 					"type" : "slap"
 				},
 				{
 					"canAfford" : false,
-					"canPerform" : false,
+					"canPerform" : true,
 					"type" : "poke"
 				}
 			],

@@ -110,8 +110,6 @@ void FCM::Run()
 				float conceptValue = concept1.value / concept1.threshold;
 				float finalValue = conceptValue * weighting;
 
-				//std::cout << relationships[j].concept1 << ", " << concept1.value << ", " << relationships[j].concept2 << ", " << finalValue << std::endl;
-
 				SetConceptValue(relationships[j].concept2, finalValue);
 			}
 		}

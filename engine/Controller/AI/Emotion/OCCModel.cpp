@@ -53,6 +53,7 @@ FCM OCCModel::InitAngerFCM(float eventStrength, std::string emotion, Emotion npc
 	attackFCM.AddConcept("Impulsivity", 0, 1);
 	attackFCM.AddConcept("Action", 0, 1);
 	attackFCM.AddRelationship("Affordance", "Trust", -npcPersonality.GetAgreeablenessPercent());
+	std::cout << "Agreeablness" << -npcPersonality.GetAgreeablenessPercent() << std::endl;
 	attackFCM.AddRelationship("Affordance", "Desireability", -1);
 	attackFCM.AddRelationship("Trust", "Blameworthiness", -1);
 	attackFCM.AddRelationship("Blameworthiness", "Irritability", 1);

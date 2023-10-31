@@ -87,6 +87,20 @@ function keyInput(dt)
 		end
 	end
 
+	if(input:GetKeyDown(KEY_O))
+	then
+		if(player.affordances:GetAffordance("poke"):GetIsActive())
+		then
+			player.affordances:GetAffordance("poke"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("poke"):Activate(object);
+			end
+		end
+	end
+
 end
 
 lastX = input:GetMouseX();

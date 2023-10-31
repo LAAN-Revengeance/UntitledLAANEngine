@@ -91,20 +91,20 @@ float Personality::GetOppennessPercent()
 
 float Personality::GetConscientiousnessPercent()
 {
-	return (this->openness / 60);
+	return (this->conscientiousness / 60);
 }
 
 float Personality::GetExtraversionPercent()
 {
-	return (this->openness / 60);
+	return (this->extraversion / 60);
 }
 
 float Personality::GetAgreeablenessPercent()
 {
-	return (this->openness / 60);
+	return (this->agreeableness / 60);
 }
 
 float Personality::GetNeuroticismPercent()
 {
-	return (this->openness / 60);
+	return (this->neuroticism / 60);
 }
