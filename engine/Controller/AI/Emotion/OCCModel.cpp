@@ -88,7 +88,7 @@ FCM OCCModel::InitFearFCM(float eventStrength, std::string emotion, Emotion npcE
 	return fearFCM;
 }
 
-bool CheckDesirable(std::string affordance)
+bool OCCModel::CheckDesirable(std::string affordance)
 {
 	if (affordance == "punch" || affordance == "slap" || affordance == "poke")
 		return false;
@@ -96,20 +96,10 @@ bool CheckDesirable(std::string affordance)
 	return true;
 }
 
-bool CheckProspectRelevant(float distance)
+bool OCCModel::CheckProspectRelevant(float distance)
 {
 	if (distance > 1)
 		return true;
 	
 	return false;
-}
-
-float OCCModel::GetEmotionValue(std::string Emotion)
-{
-	//return this->fcm.GetConceptValue(Emotion);
-}
-
-float OCCModel::GetActionValue()
-{
-	//return this->fcm.GetConceptValue("Action");
 }
