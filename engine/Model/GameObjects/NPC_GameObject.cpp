@@ -38,7 +38,7 @@ void NPC_GameObject::AddEmotion(std::string name, float strength)
 	this->emotions.push_back({ name, strength });
 }
 
-std::vector<Emotion> NPC_GameObject::GetEmotions()
+std::vector<Emotion>& NPC_GameObject::GetEmotions()
 {
 	return this->emotions;
 }
@@ -58,7 +58,7 @@ Emotion& NPC_GameObject::GetEmotion(std::string emotionName)
 	return empty;
 }
 
-Personality NPC_GameObject::GetPersonality()
+Personality& NPC_GameObject::GetPersonality()
 {
 	return this->personality;
 }

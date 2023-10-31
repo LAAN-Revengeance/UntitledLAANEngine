@@ -19,7 +19,7 @@ public:
 
 	void AddEmotion(std::string name);
 	void AddEmotion(std::string name, float strength);
-	std::vector<Emotion> GetEmotions();
+	std::vector<Emotion>& GetEmotions();
 	Emotion& GetEmotion(std::string emotionName);
 	Personality GetPersonality();
 	void SetPersonality(Personality personality);

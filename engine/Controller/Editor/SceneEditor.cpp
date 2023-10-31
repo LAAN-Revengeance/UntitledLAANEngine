@@ -833,6 +833,20 @@ void SceneEditor::DrawInspector()
 					}
 					ImGui::Separator();
 
+					//sit
+					Affordance* affordanceSit = affordanceController->GetAffordance<AffordanceSit>();
+					bool performSit = affordanceSit->GetCanPerform();
+					bool affordsSit = affordanceSit->GetCanAfford();
+					ImGui::Text("sit");
+					if (ImGui::Checkbox("Can Perform##sit", &performSit)) {
+						affordanceSit->SetCanPerform(performSit);
+					}
+					ImGui::SameLine();
+					if (ImGui::Checkbox("Can Afford##sit", &affordsSit)) {
+						affordanceSit->SetCanAfford(affordsSit);
+					}
+					ImGui::Separator();
+
 				}
 
 

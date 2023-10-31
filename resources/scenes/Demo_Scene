@@ -58,6 +58,11 @@
 					"canAfford" : true,
 					"canPerform" : false,
 					"type" : "poke"
+				},
+				{
+					"canAfford" : true,
+					"canPerform" : false,
+					"type" : "sit"
 				}
 			],
 			"bounce" : 0.20000000298023224,
@@ -224,6 +229,11 @@
 					"canAfford" : false,
 					"canPerform" : true,
 					"type" : "poke"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : true,
+					"type" : "sit"
 				}
 			],
 			"bounce" : 0.0,
