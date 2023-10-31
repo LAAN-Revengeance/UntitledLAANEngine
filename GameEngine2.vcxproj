@@ -156,8 +156,10 @@
     <ClCompile Include="dependencies\include\jsoncpp.cpp" />
     <ClCompile Include="engine\Application\Application.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Compliment.cpp" />
+    <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Generous_Offer.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Give_Money.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Sit.cpp" />
+    <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Threaten.cpp" />
     <ClCompile Include="engine\Controller\AI\Emotion\Emotion.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\AffordanceController.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Pickup.cpp" />
@@ -237,12 +239,14 @@
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Compliment.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\AffordanceController.h" />
+    <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Generous_Offer.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Give_Money.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Pickup.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Poke.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Punch.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Sit.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Slap.h" />
+    <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Threaten.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Global_Affordances.h" />
     <ClInclude Include="engine\Controller\AI\Pathfinding\A_Star.h" />
     <ClInclude Include="engine\Controller\AI\Pathfinding\PathNode.h" />

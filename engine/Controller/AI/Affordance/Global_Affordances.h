@@ -6,3 +6,5 @@
 #include "Affordance_Sit.h"
 #include "Affordance_Give_Money.h"
 #include "Affordance_Compliment.h"
+#include "Affordance_Threaten.h"
+#include "Affordance_Generous_Offer.h"

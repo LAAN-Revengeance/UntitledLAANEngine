@@ -34,7 +34,7 @@ void OCCModel::CalcEmotionStrength(float affordanceStrength, std::string emotion
 	}
 	else if (emotion == "Gratitude")
 	{
-		FCM fcm = InitAngerGratitudeFCM(affordanceStrength, emotion, npcEmotion, npcPersonality, 5);
+		FCM fcm = InitAngerGratitudeFCM(affordanceStrength, emotion, npcEmotion, npcPersonality, 4);
 		fcm.Run();
 		npcEmotion.emotionStrength += (fcm.GetConceptValue(emotion));
 		npcEmotion.reactionStrength += (fcm.GetConceptValue("Action"));
@@ -48,7 +48,7 @@ void OCCModel::CalcEmotionStrength(float affordanceStrength, std::string emotion
 	}
 	else if (emotion == "Hope")
 	{
-		FCM fcm = InitFearHopeFCM(affordanceStrength, emotion, npcEmotion, npcPersonality, 5);
+		FCM fcm = InitFearHopeFCM(affordanceStrength, emotion, npcEmotion, npcPersonality, 4);
 		fcm.Run();
 		npcEmotion.emotionStrength = npcEmotion.emotionStrength + (fcm.GetConceptValue(emotion));
 		npcEmotion.reactionStrength = (fcm.GetConceptValue("Action"));
@@ -105,7 +105,7 @@ float OCCModel::CalcAffordanceStrength(std::string affordance)
 {
 	float strength = 0;
 
-	if (affordance == "punch" || affordance == "giveMoney")
+	if (affordance == "punch" || affordance == "giveMoney" || affordance == "threaten" || affordance == "generousOffer")
 	{
 		strength = 1;
 	}
@@ -123,7 +123,7 @@ float OCCModel::CalcAffordanceStrength(std::string affordance)
 
 bool OCCModel::CheckDesirable(std::string affordance)
 {
-	if (affordance == "punch" || affordance == "slap" || affordance == "poke")
+	if (affordance == "punch" || affordance == "slap" || affordance == "poke" || affordance == "threaten")
 		return false;
 
 	return true;

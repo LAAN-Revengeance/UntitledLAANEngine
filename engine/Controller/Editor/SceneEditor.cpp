@@ -875,6 +875,34 @@ void SceneEditor::DrawInspector()
 					}
 					ImGui::Separator();
 
+					//threaten
+					Affordance* affordanceThreaten = affordanceController->GetAffordance<AffordanceThreaten>();
+					bool performThreaten = affordanceThreaten->GetCanPerform();
+					bool affordsThreaten = affordanceThreaten->GetCanAfford();
+					ImGui::Text("threaten");
+					if (ImGui::Checkbox("Can Perform##threaten", &performThreaten)) {
+						affordanceThreaten->SetCanPerform(performThreaten);
+					}
+					ImGui::SameLine();
+					if (ImGui::Checkbox("Can Afford##threaten", &affordsThreaten)) {
+						affordanceThreaten->SetCanAfford(affordsThreaten);
+					}
+					ImGui::Separator();
+
+					//generousOffer
+					Affordance* affordanceGenerousOffer = affordanceController->GetAffordance<AffordanceGenerousOffer>();
+					bool performGenerousOffer = affordanceGenerousOffer->GetCanPerform();
+					bool affordsGenerousOffer = affordanceGenerousOffer->GetCanAfford();
+					ImGui::Text("generousOffer");
+					if (ImGui::Checkbox("Can Perform##generousOffer", &performGenerousOffer)) {
+						affordanceGenerousOffer->SetCanPerform(performGenerousOffer);
+					}
+					ImGui::SameLine();
+					if (ImGui::Checkbox("Can Afford##generousOffer", &affordsGenerousOffer)) {
+						affordanceGenerousOffer->SetCanAfford(affordsGenerousOffer);
+					}
+					ImGui::Separator();
+
 				}
 
 

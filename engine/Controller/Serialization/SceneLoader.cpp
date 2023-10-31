@@ -492,6 +492,12 @@ Scene& SceneLoader::LoadScene(const char* inName)
             else if (affordanceName == "compliment") {
                 affordance = go->affordanceController.AddAffordance<AffordanceCompliment>();
             }
+            else if (affordanceName == "threaten") {
+                affordance = go->affordanceController.AddAffordance<AffordanceThreaten>();
+            }
+            else if (affordanceName == "generousOffer") {
+                affordance = go->affordanceController.AddAffordance<AffordanceGenerousOffer>();
+            }
 
             affordance->SetCanAfford (jobj["Affordances"][i]["canAfford"].asBool());
             affordance->SetCanPerform(jobj["Affordances"][i]["canPerform"].asBool());
