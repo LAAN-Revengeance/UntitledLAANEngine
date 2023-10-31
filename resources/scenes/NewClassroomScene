@@ -40,7 +40,7 @@
 			"Affordances" : 
 			[
 				{
-					"canAfford" : false,
+					"canAfford" : true,
 					"canPerform" : false,
 					"type" : "pickup"
 				},
@@ -63,6 +63,11 @@
 					"canAfford" : false,
 					"canPerform" : false,
 					"type" : "sit"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "giveMoney"
 				}
 			],
 			"bounce" : 0.0,
@@ -121,7 +126,7 @@
 			"shader" : "default",
 			"type" : "base",
 			"updateFunc" : "",
-			"useGravity" : false
+			"useGravity" : true
 		},
 		{
 			"Affordances" : 
@@ -5501,7 +5506,7 @@
 			[
 				{
 					"canAfford" : false,
-					"canPerform" : false,
+					"canPerform" : true,
 					"type" : "pickup"
 				},
 				{
@@ -5523,6 +5528,11 @@
 					"canAfford" : false,
 					"canPerform" : true,
 					"type" : "sit"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "giveMoney"
 				}
 			],
 			"bounce" : 0.0,

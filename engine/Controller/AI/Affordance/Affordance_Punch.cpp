@@ -38,10 +38,9 @@ void AffordancePunch::Activate(GameObject* go)
 	glm::vec3 knockback = _parentObject->GetForwardVec();
 	_otherObject->physicsBody->ApplyForceImpulse(-knockback.x * 10, -knockback.y * 10, -knockback.z * 10);
 	
-	if (npc->GetEmotion(emotion).reactionStrength == 1.0f)
+	if (npc->GetEmotion(emotion).reactionStrength == 1)
 	{
-		glm::vec3 playerKnockback = _otherObject->GetForwardVec();
-		_parentObject->physicsBody->ApplyForceImpulse(playerKnockback.x * 10, playerKnockback.y * 10, playerKnockback.z * 10);
+		_parentObject->physicsBody->ApplyForceImpulse(knockback.x * 10, knockback.y * 10, knockback.z * 10);
 		npc->SetEmotionStrength(emotion, 0);
 		npc->SetReactionStrength(emotion, 0);
 	}

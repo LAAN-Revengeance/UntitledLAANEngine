@@ -59,6 +59,8 @@ function keyInput(dt)
 
 	player:LookAt(player.position + lookvec);
 
+	forward = camera.front:multiply(12.0);
+
 	if(input:GetKeyDown(KEY_E))
 	then
 		if(player.affordances:GetAffordance("sit"):GetIsActive())
@@ -111,6 +113,33 @@ function keyInput(dt)
 			if(not(object == nil))
 			then
 				player.affordances:GetAffordance("slap"):Activate(object);
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_F))
+	then
+		if(player.affordances:GetAffordance("pickup"):GetIsActive())
+		then
+			player.affordances:GetAffordance("pickup"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,3);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("pickup"):Activate(object);
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_Q))
+	then
+		if(player.affordances:GetAffordance("pickup"):GetIsActive())
+		then
+			player.affordances:GetAffordance("pickup"):Deactivate();
+			object = physics:Raycast(camera.position,camera.front,3);
+			if(not(object == nil))
+			then
+				object.physicsBody:ApplyForceImpulse(forward.x,forward.y,forward.z);
 			end
 		end
 	end

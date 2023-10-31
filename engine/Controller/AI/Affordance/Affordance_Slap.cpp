@@ -37,10 +37,9 @@ void AffordanceSlap::Activate(GameObject* go)
 	glm::vec3 knockback = _parentObject->GetForwardVec();
 	_otherObject->physicsBody->ApplyForceImpulse(-knockback.x * 2, -knockback.y * 2, -knockback.z * 2);
 	
-	if (npc->GetEmotion(emotion).reactionStrength == 1.0f)
+	if (npc->GetEmotion(emotion).reactionStrength == 1)
 	{
-		glm::vec3 playerKnockback = _otherObject->GetForwardVec();
-		_parentObject->physicsBody->ApplyForceImpulse(playerKnockback.x * 10, playerKnockback.y * 10, playerKnockback.z * 10);
+		_parentObject->physicsBody->ApplyForceImpulse(knockback.x * 2, knockback.y * 2, knockback.z * 2);
 		npc->SetEmotionStrength(emotion, 0);
 		npc->SetReactionStrength(emotion, 0);
 	}
