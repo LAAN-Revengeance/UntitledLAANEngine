@@ -65,9 +65,14 @@ function keyInput(dt)
 	then
 		if(not keyPressed)
 		then
-			if not(physics:Raycast(camera.position,camera.front,5) == nil)
+			local object = physics:Raycast(camera.position,camera.front,5)
+			if (not(object == nil))
 			then
-				test = physics:Raycast(camera.position,camera.front,5);
+
+
+				Player.affordance:GetAffordance("pickUp"):Acitvate(object);
+
+
 			end
 		end
 	end

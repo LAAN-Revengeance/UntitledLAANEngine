@@ -41,6 +41,13 @@ public:
 	void LookAt(glm::vec3 lookPos);
 
 		/**
+		*	@brief Rotate camera to look in a direction
+		*	@param dir direction to look at
+		*	@return void
+		*/
+	void LookDir(glm::vec3 dir);
+
+		/**
 		*	@brief Get the view matrix
 		*	@return view matrix constructed from camera data
 		*/

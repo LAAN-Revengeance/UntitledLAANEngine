@@ -15,6 +15,15 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"length", &glm::vec3::length
 	);
 
+
+	luaManager->Expose_CPPClass<glm::quat>("quat",
+		sol::constructors<glm::quat(), glm::quat(float, float, float,float)>(),
+		"x", &glm::quat::x,
+		"y", &glm::quat::y,
+		"z", &glm::quat::z,
+		"w", &glm::quat::w
+	);
+
 	luaManager->luaState["Length"] = sol::overload(
 		[](const glm::vec3& a) {return glm::length(a); }
 	);
@@ -77,13 +86,17 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"name", &GameObject::name,
 		"position", &GameObject::position,
 		"scale", &GameObject::scale,
+		"orientation", &GameObject::orientation,
 		"SetPosition", &GameObject::SetPosition,
 		"SetRotation", &GameObject::SetRotation,
+		"SetRotationEuler", &GameObject::SetRotationEuler,
 		"GetDrawItem", &GameObject::GetDrawItem,
 		"LookAt", &GameObject::LookAt,
 		"GetID", &GameObject::GetID,
 		"physicsBody", &GameObject::physicsBody,
-		"affordanceController", &GameObject::affordanceController
+		"affordances", &GameObject::affordanceController,
+		"GetForward", &GameObject::GetForwardVec,
+		"Rotate", &GameObject::Rotate
 	);
 
 	//expose terrain
@@ -167,8 +180,8 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"front", &Camera::front,
 		"right", &Camera::right,
 		"up", &Camera::up,
-		"Yaw", &Camera::Yaw,
-		"Pitch", &Camera::Pitch,
+		"yaw", &Camera::Yaw,
+		"pitch", &Camera::Pitch,
 		"UpdateCameraVectors", &Camera::UpdateCameraVectors
 	);
 

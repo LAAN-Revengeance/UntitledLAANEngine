@@ -18,6 +18,9 @@ public:
 
 	void SetCanAfford(bool canAfford) { _canAfford = canAfford; }
 	void SetCanPerform(bool canPerform) { _canPerform = canPerform; }
+	bool GetCanPerform() { return _canPerform; }
+	bool GetCanAfford() { return _canAfford; }
+
 	bool GetIsActive() { return _active; }
 
 	virtual AffordanceDescriptor GetType()const = 0;
@@ -25,6 +28,7 @@ public:
 protected:
 
 	bool _active = false;
+
 	//if other objects can use this affordance on _parentObject
 	bool _canAfford = false;
 
@@ -33,6 +37,5 @@ protected:
 
 	GameObject* _parentObject = nullptr;
 	GameObject* _otherObject = nullptr;
-
 
 };

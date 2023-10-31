@@ -49,12 +49,22 @@ void GameObject::SetRotationEuler(float x, float y, float z)
 
 void GameObject::Rotate(float x, float y, float z, float angle)
 {
-	glm::mat4 rotationMat = glm::mat4_cast(orientation);
-	rotationMat = glm::rotate(rotationMat, glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
-	rotationMat = glm::rotate(rotationMat, glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
-	rotationMat = glm::rotate(rotationMat, glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
+	x = glm::radians(x);
+	y = glm::radians(y);
+	z = glm::radians(z);
 
-	SetRotation(glm::quat(rotationMat));
+
+	glm::quat qx = glm::angleAxis(x, glm::vec3(1.0f, 0.0f, 0.0f));
+	glm::quat qy = glm::angleAxis(y, glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::quat qz = glm::angleAxis(z, glm::vec3(0.0f, 0.0f, 1.0f));
+
+	glm::quat newOrientation = qz * qy * qx * orientation;
+
+	// Normalize the resulting quaternion to prevent accumulation of rounding errors
+	newOrientation = glm::normalize(newOrientation);
+
+
+	SetRotation(newOrientation);
 }
 
 
