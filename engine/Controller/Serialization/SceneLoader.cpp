@@ -663,7 +663,7 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
 
         //Personality
         Json::Value jPersonality;
-        jPersonality["openness"]            = npc->GetPersonality().GetOppenness();
+        jPersonality["openness"]            = npc->GetPersonality().GetOpenness();
         jPersonality["conscientiousness"]   = npc->GetPersonality().GetConscientiousness();
         jPersonality["extraversion"]        = npc->GetPersonality().GetExtraversion();
         jPersonality["agreeableness"]       = npc->GetPersonality().GetAgreeableness();

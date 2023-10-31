@@ -1733,11 +1733,12 @@ void SceneEditor::DrawNPCInspector()
 
 	//NPC Emotion Settings
 	if (ImGui::CollapsingHeader("-- Emotion --")) {
-		float openness = inspectedNPC->GetPersonality().GetOpenness();
-		float conscientiousness = inspectedNPC->GetPersonality().GetConscientiousness();
-		float extraversion = inspectedNPC->GetPersonality().GetExtraversion();
-		float agreeableness = inspectedNPC->GetPersonality().GetAgreeableness();
-		float neuroticsim = inspectedNPC->GetPersonality().GetNeuroticism();
+		Personality personality = inspectedNPC->GetPersonality();
+		float openness = personality.GetOpenness();
+		float conscientiousness = personality.GetConscientiousness();
+		float extraversion = personality.GetExtraversion();
+		float agreeableness = personality.GetAgreeableness();
+		float neuroticsim = personality.GetNeuroticism();
 
 		ImGui::DragFloat("Openness", &openness, 2.0f, 0.0f, 120.0f);
 		ImGui::DragFloat("Conscientiousness", &conscientiousness, 2.0f, 0.0f, 120.0f);
@@ -1745,7 +1746,6 @@ void SceneEditor::DrawNPCInspector()
 		ImGui::DragFloat("Agreeableness", &agreeableness, 2.0f, 0.0f, 120.0f);
 		ImGui::DragFloat("Neuroticsim", &neuroticsim, 2.0f, 0.0f, 120.0f);
 
-		Personality personality;
 		personality.SetOpenness(openness);
 		personality.SetConscientiousness(conscientiousness);
 		personality.SetExtraversion(extraversion);
