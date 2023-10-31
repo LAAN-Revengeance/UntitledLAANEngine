@@ -16,6 +16,8 @@ void AffordancePunch::Activate(GameObject* go)
 {
 	_active = true;
 	_otherObject = go;
+
+
 }
 
 void AffordancePunch::Deactivate()

@@ -1,8 +1,8 @@
 #pragma once
 #include <GameObject.h>
 #include <AI/Pathfinding/PathNodeManager.h>
-#include <Emotion.h>
-#include <Personality.h>
+#include <AI/Emotion/Emotion.h>
+#include <Ai/Emotion/Personality.h>
 
 class NPC_GameObject : public GameObject
 {

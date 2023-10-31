@@ -1,4 +1,4 @@
-#include <Personality.h>
+#include <AI/Emotion/Personality.h>
 
 Personality::Personality()
 {

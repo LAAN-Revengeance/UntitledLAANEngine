@@ -1,4 +1,4 @@
-#include <OCCModel.h>
+#include <AI/Emotion/OCCModel.h>
 
 void OCCModel::CalcEmotion(std::string affordanceName, float eventStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality)
 {
