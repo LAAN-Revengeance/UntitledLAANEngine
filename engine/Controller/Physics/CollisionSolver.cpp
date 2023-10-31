@@ -2,6 +2,8 @@
 #include <iomanip>
 void CollisionSolver::ResolveCollisions(CollisionData& cd)
 {
+	if (cd.b1->isKinematic || cd.b2->isKinematic) return;
+
 	ResolvePenetrationLinear(cd);
 	ResolveImpulse(cd);
 }

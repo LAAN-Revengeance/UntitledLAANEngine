@@ -445,6 +445,29 @@ Scene& SceneLoader::LoadScene(const char* inName)
         go->orientation.w = jobj["rotation"][3].asFloat();
         go->SetRotation(go->orientation);
         
+        //affordances properties
+        for (unsigned int i = 0; i < jobj["Affordances"].size(); i++)
+        {
+            std::string affordanceName = jobj["Affordances"][i]["type"].asString();
+            Affordance* affordance = nullptr;
+
+            if (affordanceName == "pickup") {
+                affordance = go->affordanceController.AddAffordance<AffordancePickup>();
+            }
+            else if (affordanceName == "poke") {
+                affordance = go->affordanceController.AddAffordance<AffordancePoke>();
+            }           
+            else if (affordanceName == "punch") {
+                affordance = go->affordanceController.AddAffordance<AffordancePunch>();
+            }
+            else if (affordanceName == "slap") {
+                affordance = go->affordanceController.AddAffordance<AffordanceSlap>();
+            }
+
+            affordance->SetCanAfford (jobj["Affordances"][i]["canAfford"].asBool());
+            affordance->SetCanPerform(jobj["Affordances"][i]["canPerform"].asBool());
+        }
+
         res.StoreGameObject(go);
         scene->AddObject(*go);
     }
@@ -484,6 +507,22 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
     jobj["rotation"].append(obj->orientation.y);
     jobj["rotation"].append(obj->orientation.z);
     jobj["rotation"].append(obj->orientation.w);
+
+    //affordances
+    AffordanceController* affordances = &obj->affordanceController;
+    auto& affordanceVec = affordances->_affordances;
+
+    for (size_t i = 0; i < affordanceVec.size(); i++)
+    {
+        std::string type = affordanceVec[i]->GetType();
+        Json::Value jAffordance;
+
+        jAffordance["type"] = type;
+        jAffordance["canAfford"] = affordanceVec[i]->GetCanAfford();
+        jAffordance["canPerform"] = affordanceVec[i]->GetCanPerform();
+
+        jobj["Affordances"].append(jAffordance);
+    }
 
     //lua function
     jobj["updateFunc"] = obj->GetUpdateFunction().GetName();
