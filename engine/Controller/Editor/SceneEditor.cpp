@@ -217,13 +217,15 @@ void SceneEditor::DrawHeighrarchy()
 					pbNew->GetCollider(i).SetOffset(oldCollider.GetOffset());
 					pbNew->GetCollider(i).SetRotation(oldCollider.GetRotation());
 				}
-				pbNew->SetPositionVec(pbOld->GetPosition());
-				pbNew->SetRotation(pbOld->GetRotation());
-				pbNew->SetMass(pbOld->GetMass());
-				pbNew->dampeningLinear = pbOld->dampeningLinear;
-				pbNew->dampeningAngular = pbOld->dampeningAngular;
-				pbNew->bounce = pbOld->bounce;
-				pbNew->CalcDerivedData();
+				if (pair.second->physicsBody) {
+					pbNew->SetPositionVec(pbOld->GetPosition());
+					pbNew->SetRotation(pbOld->GetRotation());
+					pbNew->SetMass(pbOld->GetMass());
+					pbNew->dampeningLinear = pbOld->dampeningLinear;
+					pbNew->dampeningAngular = pbOld->dampeningAngular;
+					pbNew->bounce = pbOld->bounce;
+					pbNew->CalcDerivedData();
+				}
 
 				engine->scene->AddObject(*go);
 			}
@@ -769,6 +771,23 @@ void SceneEditor::DrawInspector()
 					}
 					ImGui::Dummy(ImVec2(0.0f, 20.0f));
 				}
+
+				//NPC affordance Settings
+				if (ImGui::CollapsingHeader("-- Affordances --")) {
+					if (ImGui::Button("Add pickup affordance"))
+					{
+						inspectedObject->affordanceController.AddAffordance<AffordancePickup>();
+					}
+					if (ImGui::Button("Remove pickup affordance"))
+					{
+						inspectedObject->affordanceController.RemoveAffordance<AffordancePickup>();
+					}
+					if (ImGui::Button("Print affordance type"))
+					{
+						std::cout << inspectedObject->affordanceController.GetAffordance<AffordancePickup>()->GetType() << std::endl;
+					}
+				}
+
 
 				if (dynamic_cast<NPC_GameObject*>(inspectedObject)) {
 					DrawNPCInspector();
@@ -1654,12 +1673,6 @@ void SceneEditor::DrawNPCInspector()
 	//NPC Emotion Settings
 	if (ImGui::CollapsingHeader("-- Emotion --")) {
 		ImGui::Text("Emotion stuff yo");
-		ImGui::Dummy(ImVec2(0.0f, 20.0f));
-	}
-
-	//NPC affordance Settings(might just make this for game objects in general)
-	if (ImGui::CollapsingHeader("-- Affordances --")) {
-		ImGui::Text("Affordance stuff yo");
 		ImGui::Dummy(ImVec2(0.0f, 20.0f));
 	}
 }

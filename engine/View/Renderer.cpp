@@ -65,8 +65,6 @@ void Renderer::BindMaterial(Material& material, Shader* shader)
 	shader->SetUniform("material.specularMap", spec);
 	shader->SetUniform("material.emissionMap", emis);
 	shader->SetUniform("material.alpha", material.shine);
-
-
 }
 
 Renderer::Renderer(Window* window)

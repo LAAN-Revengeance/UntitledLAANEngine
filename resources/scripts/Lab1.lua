@@ -15,6 +15,7 @@ function init()
 	input:BindKey("camD",KEY_LEFT_SHIFT);
 	input:BindKey("camL",KEY_A);
 	input:BindKey("camR",KEY_D);
+	input:BindKey("pickUp", KEY_E);
 	input:BindKey("escape",KEY_ESCAPE);
 
 	scene:GetCamera().position = vec3:new(0,0.85,0);
@@ -34,6 +35,7 @@ end
 numThings = 0;
 spread = 20;
 upforce = 70;
+keyPressed = false;
 
 function keyInput(dt)
 	up = vec3:new(0,1,0);
@@ -59,7 +61,22 @@ function keyInput(dt)
 	then
 		camera.position = (camera.position + camera.right:multiply(camSpeed));
 	end
-	fireBall()
+	if(input:GetKeyState("pickUp"))
+	then
+		if(not keyPressed)
+		then
+			local object = physics:Raycast(camera.position,camera.front,5)
+			if (not(object == nil))
+			then
+
+
+				Player.affordance:GetAffordance("pickUp"):Acitvate(object);
+
+
+			end
+		end
+	end
+	--fireBall()
 	--camera.position = camera.position + vec3:new(0,2,0);
 end
 

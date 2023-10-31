@@ -145,12 +145,28 @@ void InputManager::DisableKey(int key)
 
 void InputManager::GlfwMouseCallback(GLFWwindow* window, double xpos, double ypos)
 {
-		Get().mouseCallback(window, xpos, ypos);
+	Get().mouseCallback(window, xpos, ypos);
 }
 
 void InputManager::GlfwKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	Get().GlfwKeyCallbackDispatch(window, key, scancode, action, mods);
+	auto& input = Get();
+
+	//run key callbacks
+	input.GlfwKeyCallbackDispatch(window, key, scancode, action, mods);
+
+	//store key states
+	if (key >= 0 && key <= GLFW_KEY_LAST) {
+		if (action == GLFW_PRESS) {
+			if (!input.keyStates[key].pressed) {
+				input.keyStates[key].justPressed = true;
+			}
+		}
+		else if (action == GLFW_RELEASE) {
+			input.keyStates[key].pressed = false;
+			input.keyStates[key].justPressed = false;
+		}
+	}
 }
 
 void InputManager::Init(Window* window) {
@@ -180,5 +196,17 @@ bool InputManager::GetKeyPressedDown(unsigned int key)
 {
 	if (!_Window)
 		return false;
-	return glfwGetKey(_Window->window, key) == GLFW_PRESS;
+
+	if (key >= 0 && key <= GLFW_KEY_LAST) {
+		return keyStates[key].justPressed;
+	}
+	return false;
+}
+
+void InputManager::PollEventsCallback(const GaemEvents::Event& event)
+{
+	//Reset justPressed state
+	for (int key = 0; key <= GLFW_KEY_LAST; ++key) {
+		Get().keyStates[key].justPressed = false;
+	}
 }

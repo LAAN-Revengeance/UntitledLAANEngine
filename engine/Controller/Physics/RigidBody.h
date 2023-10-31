@@ -329,8 +329,8 @@ private:
 	//simple approximation of drag and other slowing forces.
 	//can also prevent accelleration due to precision errors
 	//1, means no dampening will occur, 0 means velocity will be completely stopped.
-	float dampeningLinear = 1.0f;
-	float dampeningAngular = 1.0f;
+	float dampeningLinear = 0.95f;
+	float dampeningAngular = 0.95f;
 
 	//used to calculate the restitution on contact, 0, no bounce, 1 for perfect elastic
 	float bounce = 0.2f;

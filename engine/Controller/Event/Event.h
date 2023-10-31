@@ -29,5 +29,19 @@ namespace GaemEvents {
 		int width;
 		int height;
 	};
+
+	class ImputPollEvent : public Event {
+
+	public:
+		ImputPollEvent() {
+
+		}
+		~ImputPollEvent() {}
+
+		EventDescriptor GetType()const override { return descriptor; }
+
+		static constexpr EventDescriptor descriptor = "InputPoll";
+
+	};
 }
 
