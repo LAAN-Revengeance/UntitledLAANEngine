@@ -1719,7 +1719,6 @@ void SceneEditor::DrawNPCInspector()
 
 	//NPC Emotion Settings
 	if (ImGui::CollapsingHeader("-- Emotion --")) {
-		Personality personality = inspectedNPC->GetPersonality();
 		float openness = inspectedNPC->GetPersonality().GetOpenness();
 		float conscientiousness = inspectedNPC->GetPersonality().GetConscientiousness();
 		float extraversion = inspectedNPC->GetPersonality().GetExtraversion();
