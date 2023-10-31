@@ -78,7 +78,6 @@ private:
 
 		///Main GUI Renderer
 	GUIRenderer& guirenderer;
-	EmotionManager emotionManager;
 	GaemGizmo::Line pathDebugLine;
 	GaemGizmo::Box selectedNavNodeBox;
 
