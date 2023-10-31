@@ -847,6 +847,20 @@ void SceneEditor::DrawInspector()
 					}
 					ImGui::Separator();
 
+					//giveMoney
+					Affordance* affordanceGiveMoney = affordanceController->GetAffordance<AffordanceGiveMoney>();
+					bool performGiveMoney = affordanceGiveMoney->GetCanPerform();
+					bool affordsGiveMoney = affordanceGiveMoney->GetCanAfford();
+					ImGui::Text("giveMoney");
+					if (ImGui::Checkbox("Can Perform##giveMoney", &performGiveMoney)) {
+						affordanceGiveMoney->SetCanPerform(performGiveMoney);
+					}
+					ImGui::SameLine();
+					if (ImGui::Checkbox("Can Afford##giveMoney", &affordsGiveMoney)) {
+						affordanceGiveMoney->SetCanAfford(affordsGiveMoney);
+					}
+					ImGui::Separator();
+
 				}
 
 

@@ -25,16 +25,17 @@ void OCCModel::EvaluateAffordance(std::string affordance, float distance, std::s
 
 void OCCModel::CalcEmotionStrength(float affordanceStrength, std::string emotion, Emotion& npcEmotion, Personality npcPersonality)
 {
-	if (emotion == "Anger")
+	if (emotion == "Anger" || emotion == "Gratitude")
 	{
-		FCM fcm = InitAngerFCM(affordanceStrength, emotion, npcEmotion, npcPersonality);
+		std::cout << "Here" << std::endl;
+		FCM fcm = InitAngerGrattitudeFCM(affordanceStrength, emotion, npcEmotion, npcPersonality);
 		fcm.Run();
 		npcEmotion.emotionStrength += (fcm.GetConceptValue(emotion));
 		npcEmotion.reactionStrength += (fcm.GetConceptValue("Action"));
 	}
-	else if (emotion == "Fear")
+	else if (emotion == "Fear" || emotion == "Hope")
 	{
-		FCM fcm = InitFearFCM(affordanceStrength, emotion, npcEmotion, npcPersonality);
+		FCM fcm = InitFearHopeFCM(affordanceStrength, emotion, npcEmotion, npcPersonality);
 		fcm.Run();
 		npcEmotion.emotionStrength = npcEmotion.emotionStrength + (fcm.GetConceptValue(emotion));
 		npcEmotion.reactionStrength = (fcm.GetConceptValue("Action"));
@@ -46,9 +47,8 @@ void OCCModel::CalcEmotionStrength(float affordanceStrength, std::string emotion
 		npcEmotion.reactionStrength = 1;
 }
 
-FCM OCCModel::InitAngerFCM(float eventStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality)
+FCM OCCModel::InitAngerGrattitudeFCM(float eventStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality)
 {
-	std::cout << npcEmotion.emotionStrength << std::endl;
 	FCM attackFCM;
 	attackFCM.AddConcept("Affordance", eventStrength, 1);
 	attackFCM.AddConcept("Desireability", 0, 1);
@@ -70,7 +70,7 @@ FCM OCCModel::InitAngerFCM(float eventStrength, std::string emotion, Emotion npc
 	return attackFCM;
 }
 
-FCM OCCModel::InitFearFCM(float eventStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality)
+FCM OCCModel::InitFearHopeFCM(float eventStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality)
 {
 	FCM fearFCM;
 	fearFCM.AddConcept("Affordance", eventStrength, 1);
@@ -97,7 +97,7 @@ float OCCModel::CalcAffordanceStrength(std::string affordance)
 {
 	float strength = 0;
 
-	if (affordance == "punch")
+	if (affordance == "punch" || affordance == "giveMoney")
 	{
 		strength = 1;
 	}
@@ -123,7 +123,7 @@ bool OCCModel::CheckDesirable(std::string affordance)
 
 bool OCCModel::CheckProspectRelevant(float distance)
 {
-	if (distance <= 5)
+	if (distance <= 3)
 		return true;
 	
 	return false;
