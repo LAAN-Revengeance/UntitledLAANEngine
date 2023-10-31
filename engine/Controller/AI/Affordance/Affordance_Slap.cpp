@@ -16,22 +16,33 @@ AffordanceSlap::~AffordanceSlap()
 void AffordanceSlap::Activate(GameObject* go)
 {
 	_otherObject = go;
+	std::string emotion;
 
 	NPC_GameObject* npc = dynamic_cast<NPC_GameObject*>(go);
 	if (npc) {
 		OCCModel occModel;
-		std::string emotion;
 		float affordanceStrength;
 
 		Personality personality = npc->GetPersonality();
 
 		occModel.EvaluateAffordance(GetType(), 0, emotion, affordanceStrength);
 		npc->AddEmotion(emotion);
-		occModel.CalcEmotionStrength(affordanceStrength, emotion, npc->GetEmotion(emotion), personality);
+		occModel.CalcEmotionStrength(affordanceStrength, emotion, npc->GetEmotion(emotion), npc->GetPersonality());
 
 		std::cout << "Affordance Strength = " << affordanceStrength << std::endl;
 		std::cout << "Emotion Strength = " << npc->GetEmotion(emotion).emotionStrength << std::endl;
 		std::cout << "Reaction Strength = " << npc->GetEmotion(emotion).reactionStrength << std::endl;
+	}
+
+	glm::vec3 knockback = _parentObject->GetForwardVec();
+	_otherObject->physicsBody->ApplyForceImpulse(-knockback.x * 2, -knockback.y * 2, -knockback.z * 2);
+
+	if (npc->GetEmotion(emotion).reactionStrength == 1)
+	{
+		glm::vec3 playerKnockback = _otherObject->GetForwardVec();
+		_parentObject->physicsBody->ApplyForceImpulse(playerKnockback.x * 10, playerKnockback.y * 10, playerKnockback.z * 10);
+		npc->SetEmotionStrength(emotion, 0);
+		npc->SetReactionStrength(emotion, 0);
 	}
 }
 
