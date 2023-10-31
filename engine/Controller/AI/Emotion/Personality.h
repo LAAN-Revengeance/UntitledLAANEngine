@@ -7,9 +7,9 @@ public:
 
 	void SetOpenness(float value);
 	void SetConscientiousness(float value);
-	void SetExtraversion(float value);
-	void SetAgreeableness(float value);
-	void SetNeuroticism(float value);
+	void  SetExtraversion(float value);
+	void  SetAgreeableness(float value);
+	void  SetNeuroticism(float value);
 
 	float GetOppenness();
 	float GetConscientiousness();
@@ -22,7 +22,6 @@ public:
 	float GetExtraversionPercent();
 	float GetAgreeablenessPercent();
 	float GetNeuroticismPercent();
-
 private:
 	float openness;
 	float conscientiousness;

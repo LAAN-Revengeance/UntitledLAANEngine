@@ -1,8 +1,7 @@
 #include <AI/Emotion/OCCModel.h>
 
-std::string OCCModel::EvaluateAffordance(std::string affordance, float distance)
+std::string OCCModel::EvaluateAffordance(std::string affordance, float distance, std::string& emotion, float& affordanceStrength)
 {
-	std::string emotion;
 	bool desirable = CheckDesirable(affordance);
 	bool prospectRelevant = CheckProspectRelevant(distance);
 
@@ -21,7 +20,7 @@ std::string OCCModel::EvaluateAffordance(std::string affordance, float distance)
 			emotion = "Hope";
 	}
 
-	return emotion;
+	affordanceStrength = CalcAffordanceStrength(affordance);
 }
 
 void OCCModel::CalcEmotionStrength(float affordanceStrength, std::string emotion, Emotion& npcEmotion, Personality npcPersonality)
@@ -30,15 +29,15 @@ void OCCModel::CalcEmotionStrength(float affordanceStrength, std::string emotion
 	{
 		FCM fcm = InitAngerFCM(affordanceStrength, emotion, npcEmotion, npcPersonality);
 		fcm.Run();
-		npcEmotion.SetEmotionStrength(fcm.GetConceptValue(emotion));
-		npcEmotion.SetReactionStrength(fcm.GetConceptValue("Action"));
+		npcEmotion.emotionStrength = (fcm.GetConceptValue(emotion));
+		npcEmotion.reactionStrength = (fcm.GetConceptValue("Action"));
 	}
 	else if (emotion == "Fear")
 	{
 		FCM fcm = InitFearFCM(affordanceStrength, emotion, npcEmotion, npcPersonality);
 		fcm.Run();
-		npcEmotion.SetEmotionStrength(fcm.GetConceptValue(emotion));
-		npcEmotion.SetReactionStrength(fcm.GetConceptValue("Action"));
+		npcEmotion.emotionStrength = (fcm.GetConceptValue(emotion));
+		npcEmotion.reactionStrength = (fcm.GetConceptValue("Action"));
 	}
 }
 
@@ -86,6 +85,26 @@ FCM OCCModel::InitFearFCM(float eventStrength, std::string emotion, Emotion npcE
 	fearFCM.AddRelationship("Impulsivity", "Action", 1);
 
 	return fearFCM;
+}
+
+float OCCModel::CalcAffordanceStrength(std::string affordance)
+{
+	float strength = 0;
+
+	if (affordance == "punch")
+	{
+		strength = 1;
+	}
+	else if (affordance == "slap")
+	{
+		strength = 0.5;
+	}
+	else if (affordance == "poke")
+	{
+		strength = 0.2;
+	}
+
+	return strength;
 }
 
 bool OCCModel::CheckDesirable(std::string affordance)
