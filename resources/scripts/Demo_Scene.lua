@@ -82,9 +82,7 @@ function keyInput(dt)
 			object = physics:Raycast(camera.position,camera.front,5);
 			if(not(object == nil))
 			then
-				print("Hello");
 				player.affordances:GetAffordance("punch"):Activate(object);
-				print("After");
 			end
 		end
 	end

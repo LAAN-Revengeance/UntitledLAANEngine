@@ -52,10 +52,10 @@ FCM OCCModel::InitAngerFCM(float eventStrength, std::string emotion, Emotion npc
 	attackFCM.AddConcept(emotion, 0, 1);
 	attackFCM.AddConcept("Impulsivity", 0, 1);
 	attackFCM.AddConcept("Action", 0, 1);
-	attackFCM.AddRelationship("Affordance", "Trust", -npcPersonality.GetAgreeableness());
+	attackFCM.AddRelationship("Affordance", "Trust", -npcPersonality.GetAgreeablenessPercent());
 	attackFCM.AddRelationship("Affordance", "Desireability", -1);
 	attackFCM.AddRelationship("Trust", "Blameworthiness", -1);
-	attackFCM.AddRelationship("Blameworthiness", "Irritability", 2);
+	attackFCM.AddRelationship("Blameworthiness", "Irritability", 1);
 	attackFCM.AddRelationship("Desireability", "Irritability", -1);
 	attackFCM.AddRelationship("Irritability", emotion, npcPersonality.GetNeuroticismPercent());
 	attackFCM.AddRelationship(emotion, "Impulsivity", npcPersonality.GetConscientiousnessPercent());
@@ -75,10 +75,10 @@ FCM OCCModel::InitFearFCM(float eventStrength, std::string emotion, Emotion npcE
 	fearFCM.AddConcept(emotion, 0, 1);
 	fearFCM.AddConcept("Impulsivity", 0, 1);
 	fearFCM.AddConcept("Action", 0, 1);
-	fearFCM.AddRelationship("Affordance", "Trust", npcPersonality.GetAgreeableness());
+	fearFCM.AddRelationship("Affordance", "Trust", npcPersonality.GetAgreeablenessPercent());
 	fearFCM.AddRelationship("Affordance", "Desireability", 1);
 	fearFCM.AddRelationship("Trust", "Likelihood", -1);
-	fearFCM.AddRelationship("Likelihood", "Irritability", 2);
+	fearFCM.AddRelationship("Likelihood", "Irritability", 1);
 	fearFCM.AddRelationship("Desireability", "Irritability", -1);
 	fearFCM.AddRelationship("Irritability", emotion, npcPersonality.GetNeuroticismPercent());
 	fearFCM.AddRelationship(emotion, "Impulsivity", npcPersonality.GetConscientiousnessPercent());
@@ -117,7 +117,7 @@ bool OCCModel::CheckDesirable(std::string affordance)
 
 bool OCCModel::CheckProspectRelevant(float distance)
 {
-	if (distance > 1)
+	if (distance <= 5)
 		return true;
 	
 	return false;
