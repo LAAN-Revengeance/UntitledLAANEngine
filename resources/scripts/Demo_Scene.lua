@@ -115,7 +115,7 @@ function keyInput(dt)
 		end
 	end
 
-	if(input:GetKeyDown(KEY_G))
+	if(input:GetKeyDown(KEY_M))
 	then
 		if(player.affordances:GetAffordance("giveMoney"):GetIsActive())
 		then
@@ -125,6 +125,48 @@ function keyInput(dt)
 			if(not(object == nil))
 			then
 				player.affordances:GetAffordance("giveMoney"):Activate(object);
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_N))
+	then
+		if(player.affordances:GetAffordance("compliment"):GetIsActive())
+		then
+			player.affordances:GetAffordance("compliment"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("compliment"):Activate(object);
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_T))
+	then
+		if(player.affordances:GetAffordance("threaten"):GetIsActive())
+		then
+			player.affordances:GetAffordance("threaten"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("threaten"):Activate(object);
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_G))
+	then
+		if(player.affordances:GetAffordance("generousOffer"):GetIsActive())
+		then
+			player.affordances:GetAffordance("generousOffer"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("generousOffer"):Activate(object);
 			end
 		end
 	end

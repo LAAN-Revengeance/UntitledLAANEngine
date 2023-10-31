@@ -68,6 +68,21 @@
 					"canAfford" : true,
 					"canPerform" : false,
 					"type" : "giveMoney"
+				},
+				{
+					"canAfford" : true,
+					"canPerform" : false,
+					"type" : "compliment"
+				},
+				{
+					"canAfford" : true,
+					"canPerform" : false,
+					"type" : "threaten"
+				},
+				{
+					"canAfford" : true,
+					"canPerform" : false,
+					"type" : "generousOffer"
 				}
 			],
 			"bounce" : 0.20000000298023224,
@@ -253,6 +268,21 @@
 					"canAfford" : false,
 					"canPerform" : true,
 					"type" : "giveMoney"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : true,
+					"type" : "compliment"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : true,
+					"type" : "threaten"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : true,
+					"type" : "generousOffer"
 				}
 			],
 			"bounce" : 0.0,
