@@ -17,11 +17,12 @@ void AffordancePunch::Activate(GameObject* go)
 {
 	_otherObject = go;
 
+	OCCModel occModel;
+	std::string emotion;
+	float affordanceStrength;
+
 	NPC_GameObject* npc = dynamic_cast<NPC_GameObject*>(go);
 	if (npc) {
-		OCCModel occModel;
-		std::string emotion;
-		float affordanceStrength;
 
 		Personality personality = npc->GetPersonality();
 
