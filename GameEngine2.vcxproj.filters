@@ -59,6 +59,9 @@
     <ClCompile Include="engine\Controller\EmotionManager.cpp" />
     <ClCompile Include="engine\Controller\FCM.cpp" />
     <ClCompile Include="engine\Controller\OCCModel.cpp" />
+    <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Poke.cpp" />
+    <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Punch.cpp" />
+    <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Slap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\Controller\GaemEngine.h" />
@@ -144,6 +147,9 @@
     <ClInclude Include="engine\Controller\FCM.h" />
     <ClInclude Include="engine\Controller\OCCModel.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Global_Affordances.h" />
+    <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Poke.h" />
+    <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Punch.h" />
+    <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Slap.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Model\Graphics\Shaders\Cube_map.frag" />
