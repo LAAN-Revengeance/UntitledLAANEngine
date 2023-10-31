@@ -222,7 +222,8 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"GetMouseX", &InputManager::GetMouseX,
 		"GetMouseY", &InputManager::GetMouseY,
 		"GetScrollOffset", &InputManager::GetScrollOffset,
-		"GetMouseLock", &InputManager::GetMouseLock
+		"GetMouseLock", &InputManager::GetMouseLock,
+		"GetKeyDown", &InputManager::GetKeyPressedDown
 	);
 	luaManager->luaState["input"] = &InputManager::Get();
 

@@ -56,6 +56,8 @@ void Window::SwapBuffers()
 
 void Window::PollEvents()
 {
+	GaemEvents::ImputPollEvent event;
+	Window::currentWindow->eventDispatcher->Post(event);
 	glfwPollEvents();
 }
 

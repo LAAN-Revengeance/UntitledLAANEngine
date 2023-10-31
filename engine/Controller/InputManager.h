@@ -196,12 +196,36 @@ class InputManager
 			*	@return if key is pressed
 			*/
 		bool GetKeyPressed(unsigned int key);
+
+			/**
+			*	@brief return true when a key is pressed down(not held)
+			*	@param key keycode
+			*	@return if key is pressed down
+			*/
 		bool GetKeyPressedDown(unsigned int key);
+
+
+		void PollEventsCallback(const GaemEvents::Event& event);
+
 	private:
+
+		struct KeyState {
+			bool pressed = false;
+			bool justPressed = false;
+		};
+
+		//stores the key state of each key
+		KeyState keyStates[GLFW_KEY_LAST + 1];
+
 		/**
 		*	@brief input manager construtor
 		*/
-		InputManager() :scrollOffset(0) {}
+		InputManager() :scrollOffset(0) {
+			for (size_t i = 0; i < (GLFW_KEY_LAST + 1); i++)
+			{
+				keyStates[i] = { false,false };
+			}
+		}
 
 		/**
 		*	@brief copy construtor disable to provent copy since input manager is a singleton
@@ -258,4 +282,6 @@ class InputManager
 			*	the last Y position of the mouse on the screen
 			*/
 		double lastY = 0.0f;
+
+
 };

@@ -17,7 +17,8 @@ GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher
 	guiRenderer.Init(nWindow);
 
 	//bind renderer resize handler to windowResize event
-	eventDispatcher->Subscribe("windowResize", std::bind(&Renderer::HandleResizeEvent,&renderer, std::placeholders::_1));
+	eventDispatcher->Subscribe("windowResize"	, std::bind(&Renderer::HandleResizeEvent,&renderer, std::placeholders::_1));
+	eventDispatcher->Subscribe("InputPoll", std::bind(&InputManager::PollEventsCallback, &InputManager::Get(), std::placeholders::_1));
 }
 
 GameEngine::~GameEngine() {

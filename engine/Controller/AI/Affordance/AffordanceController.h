@@ -25,7 +25,6 @@ public:
 	Affordance* GetAffordanceString(const std::string type);
 	void RemoveAffordanceString(const std::string type);
 
-
 private:
 
 	GameObject* _owner;
