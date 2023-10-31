@@ -63,6 +63,11 @@
 					"canAfford" : true,
 					"canPerform" : false,
 					"type" : "sit"
+				},
+				{
+					"canAfford" : true,
+					"canPerform" : false,
+					"type" : "giveMoney"
 				}
 			],
 			"bounce" : 0.20000000298023224,
@@ -243,6 +248,11 @@
 					"canAfford" : false,
 					"canPerform" : true,
 					"type" : "sit"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : true,
+					"type" : "giveMoney"
 				}
 			],
 			"bounce" : 0.0,

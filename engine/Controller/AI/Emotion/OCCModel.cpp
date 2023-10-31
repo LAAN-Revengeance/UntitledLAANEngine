@@ -25,16 +25,16 @@ void OCCModel::EvaluateAffordance(std::string affordance, float distance, std::s
 
 void OCCModel::CalcEmotionStrength(float affordanceStrength, std::string emotion, Emotion& npcEmotion, Personality npcPersonality)
 {
-	if (emotion == "Anger")
+	if (emotion == "Anger" || emotion == "Gratitude")
 	{
-		FCM fcm = InitAngerFCM(affordanceStrength, emotion, npcEmotion, npcPersonality);
+		FCM fcm = InitAngerGratitudeFCM(affordanceStrength, emotion, npcEmotion, npcPersonality);
 		fcm.Run();
 		npcEmotion.emotionStrength += (fcm.GetConceptValue(emotion));
 		npcEmotion.reactionStrength += (fcm.GetConceptValue("Action"));
 	}
-	else if (emotion == "Fear")
+	else if (emotion == "Fear" || emotion == "Hope")
 	{
-		FCM fcm = InitFearFCM(affordanceStrength, emotion, npcEmotion, npcPersonality);
+		FCM fcm = InitFearHopeFCM(affordanceStrength, emotion, npcEmotion, npcPersonality);
 		fcm.Run();
 		npcEmotion.emotionStrength = npcEmotion.emotionStrength + (fcm.GetConceptValue(emotion));
 		npcEmotion.reactionStrength = (fcm.GetConceptValue("Action"));
@@ -46,58 +46,57 @@ void OCCModel::CalcEmotionStrength(float affordanceStrength, std::string emotion
 		npcEmotion.reactionStrength = 1;
 }
 
-FCM OCCModel::InitAngerFCM(float eventStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality)
+FCM OCCModel::InitAngerGratitudeFCM(float eventStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality)
 {
-	std::cout << npcEmotion.emotionStrength << std::endl;
-	FCM attackFCM;
-	attackFCM.AddConcept("Affordance", eventStrength, 1);
-	attackFCM.AddConcept("Desireability", 0, 1);
-	attackFCM.AddConcept("Trust", 0, 1);
-	attackFCM.AddConcept("Blameworthiness", 0, 1);
-	attackFCM.AddConcept("Irritability", 0, 1);
-	attackFCM.AddConcept(emotion, 0, 1);
-	attackFCM.AddConcept("Impulsivity", 0, 1);
-	attackFCM.AddConcept("Action", 0, 1);
-	attackFCM.AddRelationship("Affordance", "Trust", -npcPersonality.GetAgreeablenessPercent());
-	attackFCM.AddRelationship("Affordance", "Desireability", -1);
-	attackFCM.AddRelationship("Trust", "Blameworthiness", -1);
-	attackFCM.AddRelationship("Blameworthiness", "Irritability", 1);
-	attackFCM.AddRelationship("Desireability", "Irritability", -1);
-	attackFCM.AddRelationship("Irritability", emotion, npcPersonality.GetNeuroticismPercent());
-	attackFCM.AddRelationship(emotion, "Impulsivity", npcPersonality.GetConscientiousnessPercent());
-	attackFCM.AddRelationship("Impulsivity", "Action", 1);
+	FCM attackGratitudeGFCM;
+	attackGratitudeGFCM.AddConcept("Affordance", eventStrength, 1);
+	attackGratitudeGFCM.AddConcept("Desireability", 0, 1);
+	attackGratitudeGFCM.AddConcept("Trust", 0, 1);
+	attackGratitudeGFCM.AddConcept("Blameworthiness", 0, 1);
+	attackGratitudeGFCM.AddConcept("Irritability", 0, 1);
+	attackGratitudeGFCM.AddConcept(emotion, 0, 1);
+	attackGratitudeGFCM.AddConcept("Impulsivity", 0, 1);
+	attackGratitudeGFCM.AddConcept("Action", 0, 1);
+	attackGratitudeGFCM.AddRelationship("Affordance", "Trust", -npcPersonality.GetAgreeablenessPercent());
+	attackGratitudeGFCM.AddRelationship("Affordance", "Desireability", -1);
+	attackGratitudeGFCM.AddRelationship("Trust", "Blameworthiness", -1);
+	attackGratitudeGFCM.AddRelationship("Blameworthiness", "Irritability", 1);
+	attackGratitudeGFCM.AddRelationship("Desireability", "Irritability", -1);
+	attackGratitudeGFCM.AddRelationship("Irritability", emotion, npcPersonality.GetNeuroticismPercent());
+	attackGratitudeGFCM.AddRelationship(emotion, "Impulsivity", npcPersonality.GetConscientiousnessPercent());
+	attackGratitudeGFCM.AddRelationship("Impulsivity", "Action", 1);
 
-	return attackFCM;
+	return attackGratitudeGFCM;
 }
 
-FCM OCCModel::InitFearFCM(float eventStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality)
+FCM OCCModel::InitFearHopeFCM(float eventStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality)
 {
-	FCM fearFCM;
-	fearFCM.AddConcept("Affordance", eventStrength, 1);
-	fearFCM.AddConcept("Desireability", 0, 1);
-	fearFCM.AddConcept("Trust", 0, 1);
-	fearFCM.AddConcept("Likelihood", 0, 1);
-	fearFCM.AddConcept("Irritability", 0, 1);
-	fearFCM.AddConcept(emotion, 0, 1);
-	fearFCM.AddConcept("Impulsivity", 0, 1);
-	fearFCM.AddConcept("Action", 0, 1);
-	fearFCM.AddRelationship("Affordance", "Trust", npcPersonality.GetAgreeablenessPercent());
-	fearFCM.AddRelationship("Affordance", "Desireability", 1);
-	fearFCM.AddRelationship("Trust", "Likelihood", -1);
-	fearFCM.AddRelationship("Likelihood", "Irritability", 1);
-	fearFCM.AddRelationship("Desireability", "Irritability", -1);
-	fearFCM.AddRelationship("Irritability", emotion, npcPersonality.GetNeuroticismPercent());
-	fearFCM.AddRelationship(emotion, "Impulsivity", npcPersonality.GetConscientiousnessPercent());
-	fearFCM.AddRelationship("Impulsivity", "Action", 1);
+	FCM fearHopeFCM;
+	fearHopeFCM.AddConcept("Affordance", eventStrength, 1);
+	fearHopeFCM.AddConcept("Desireability", 0, 1);
+	fearHopeFCM.AddConcept("Trust", 0, 1);
+	fearHopeFCM.AddConcept("Likelihood", 0, 1);
+	fearHopeFCM.AddConcept("Irritability", 0, 1);
+	fearHopeFCM.AddConcept(emotion, 0, 1);
+	fearHopeFCM.AddConcept("Impulsivity", 0, 1);
+	fearHopeFCM.AddConcept("Action", 0, 1);
+	fearHopeFCM.AddRelationship("Affordance", "Trust", npcPersonality.GetAgreeablenessPercent());
+	fearHopeFCM.AddRelationship("Affordance", "Desireability", 1);
+	fearHopeFCM.AddRelationship("Trust", "Likelihood", -1);
+	fearHopeFCM.AddRelationship("Likelihood", "Irritability", 1);
+	fearHopeFCM.AddRelationship("Desireability", "Irritability", -1);
+	fearHopeFCM.AddRelationship("Irritability", emotion, npcPersonality.GetNeuroticismPercent());
+	fearHopeFCM.AddRelationship(emotion, "Impulsivity", npcPersonality.GetConscientiousnessPercent());
+	fearHopeFCM.AddRelationship("Impulsivity", "Action", 1);
 
-	return fearFCM;
+	return fearHopeFCM;
 }
 
 float OCCModel::CalcAffordanceStrength(std::string affordance)
 {
 	float strength = 0;
 
-	if (affordance == "punch")
+	if (affordance == "punch" || affordance == "giveMoney")
 	{
 		strength = 1;
 	}
@@ -123,7 +122,7 @@ bool OCCModel::CheckDesirable(std::string affordance)
 
 bool OCCModel::CheckProspectRelevant(float distance)
 {
-	if (distance <= 5)
+	if (distance <= 3)
 		return true;
 	
 	return false;
