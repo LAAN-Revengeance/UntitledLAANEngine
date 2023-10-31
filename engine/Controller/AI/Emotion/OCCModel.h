@@ -6,7 +6,7 @@
 class OCCModel
 {
 public:
-	static std::string EvaluateAffordance(std::string affordance, float distance, std::string& emotion, float& affordanceStrength);
+	static void EvaluateAffordance(std::string affordance, float distance, std::string& emotion, float& affordanceStrength);
 	static void CalcEmotionStrength(float affordanceStrength, std::string emotion, Emotion& npcEmotion, Personality npcPersonality);
 	static FCM InitAngerFCM(float affordanceStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality);
 	static FCM InitFearFCM(float affordanceStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality);

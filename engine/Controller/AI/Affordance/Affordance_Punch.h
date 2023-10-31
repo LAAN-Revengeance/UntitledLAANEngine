@@ -1,7 +1,6 @@
 #pragma once
 #include "Affordance.h"
 
-
 class AffordancePunch : public Affordance
 {
 public:

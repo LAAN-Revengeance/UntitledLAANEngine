@@ -1,6 +1,6 @@
 #include <AI/Emotion/OCCModel.h>
 
-std::string OCCModel::EvaluateAffordance(std::string affordance, float distance, std::string& emotion, float& affordanceStrength)
+void OCCModel::EvaluateAffordance(std::string affordance, float distance, std::string& emotion, float& affordanceStrength)
 {
 	bool desirable = CheckDesirable(affordance);
 	bool prospectRelevant = CheckProspectRelevant(distance);

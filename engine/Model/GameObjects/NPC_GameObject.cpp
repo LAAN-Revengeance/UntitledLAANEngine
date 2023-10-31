@@ -60,7 +60,7 @@ Emotion& NPC_GameObject::GetEmotion(std::string emotionName)
 
 Personality NPC_GameObject::GetPersonality()
 {
-
+	return this->personality;
 }
 
 void NPC_GameObject::SetEmotionStrength(std::string emotionName, float value)
