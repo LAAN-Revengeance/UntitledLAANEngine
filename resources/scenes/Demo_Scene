@@ -37,6 +37,29 @@
 	"objects" : 
 	[
 		{
+			"Affordances" : 
+			[
+				{
+					"canAfford" : true,
+					"canPerform" : false,
+					"type" : "pickup"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "punch"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "slap"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "poke"
+				}
+			],
 			"bounce" : 0.0,
 			"castShadows" : true,
 			"dampAngle" : 0.0,
@@ -97,16 +120,63 @@
 			"useGravity" : false
 		},
 		{
+			"Affordances" : 
+			[
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "pickup"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "punch"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "slap"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "poke"
+				}
+			],
 			"bounce" : 0.0,
 			"castShadows" : true,
 			"dampAngle" : 0.0,
 			"dampLinear" : 0.0,
 			"diff" : "Grass",
-			"infMass" : false,
+			"infMass" : true,
 			"isKinematic" : true,
 			"model" : "Cube",
 			"name" : "Floor",
-			"physics" : null,
+			"physics" : 
+			[
+				{
+					"mass" : 1.0,
+					"offset" : 
+					[
+						0.0,
+						0.0,
+						0.0
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						20.0,
+						1.0,
+						20.0
+					],
+					"type" : 1
+				}
+			],
 			"position" : 
 			[
 				0.0,
@@ -133,6 +203,29 @@
 			"useGravity" : false
 		},
 		{
+			"Affordances" : 
+			[
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "pickup"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "punch"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "slap"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "poke"
+				}
+			],
 			"bounce" : 0.0,
 			"castShadows" : true,
 			"dampAngle" : 0.0,

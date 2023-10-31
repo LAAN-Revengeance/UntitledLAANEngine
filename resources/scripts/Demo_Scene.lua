@@ -35,8 +35,6 @@ function keyInput(dt)
 	up = vec3:new(0,1,0);
 	camSpeed = 5 * dt;
 	local camera = scene:GetCamera();
-	
-	--
 
 	if(input:GetKeyState("camF"))
 	then
@@ -61,12 +59,17 @@ function keyInput(dt)
 
 	player:LookAt(player.position + lookvec);
 
-	if(input:GetKeyState("pickUp"))
+	if(input:GetKeyDown(KEY_E))
 	then
-		object = physics:Raycast(camera.position,camera.front,5);
-		if(not(object == nil))
+		if(player.affordances:GetAffordance("pickup"):GetIsActive())
 		then
-			player.affordances:GetAffordance("pickup"):Activate(object);
+			player.affordances:GetAffordance("pickup"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("pickup"):Activate(object);
+			end
 		end
 	end
 
