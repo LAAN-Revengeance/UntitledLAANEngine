@@ -68,6 +68,11 @@
 					"canAfford" : true,
 					"canPerform" : false,
 					"type" : "giveMoney"
+				},
+				{
+					"canAfford" : true,
+					"canPerform" : false,
+					"type" : "compliment"
 				}
 			],
 			"bounce" : 0.20000000298023224,
@@ -253,6 +258,11 @@
 					"canAfford" : false,
 					"canPerform" : true,
 					"type" : "giveMoney"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : true,
+					"type" : "compliment"
 				}
 			],
 			"bounce" : 0.0,

@@ -115,7 +115,7 @@ function keyInput(dt)
 		end
 	end
 
-	if(input:GetKeyDown(KEY_G))
+	if(input:GetKeyDown(KEY_M))
 	then
 		if(player.affordances:GetAffordance("giveMoney"):GetIsActive())
 		then
@@ -125,6 +125,20 @@ function keyInput(dt)
 			if(not(object == nil))
 			then
 				player.affordances:GetAffordance("giveMoney"):Activate(object);
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_N))
+	then
+		if(player.affordances:GetAffordance("compliment"):GetIsActive())
+		then
+			player.affordances:GetAffordance("compliment"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("compliment"):Activate(object);
 			end
 		end
 	end

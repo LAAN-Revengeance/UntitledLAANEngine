@@ -100,7 +100,7 @@ float OCCModel::CalcAffordanceStrength(std::string affordance)
 	{
 		strength = 1;
 	}
-	else if (affordance == "slap")
+	else if (affordance == "slap" || affordance == "compliment")
 	{
 		strength = 0.5;
 	}

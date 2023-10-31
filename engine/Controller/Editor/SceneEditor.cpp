@@ -861,6 +861,20 @@ void SceneEditor::DrawInspector()
 					}
 					ImGui::Separator();
 
+					//compliment
+					Affordance* affordanceCompliment = affordanceController->GetAffordance<AffordanceCompliment>();
+					bool performCompliment = affordanceCompliment->GetCanPerform();
+					bool affordsCompliment = affordanceCompliment->GetCanAfford();
+					ImGui::Text("compliment");
+					if (ImGui::Checkbox("Can Perform##compliment", &performCompliment)) {
+						affordanceCompliment->SetCanPerform(performCompliment);
+					}
+					ImGui::SameLine();
+					if (ImGui::Checkbox("Can Afford##compliment", &affordsCompliment)) {
+						affordanceCompliment->SetCanAfford(affordsCompliment);
+					}
+					ImGui::Separator();
+
 				}
 
 
