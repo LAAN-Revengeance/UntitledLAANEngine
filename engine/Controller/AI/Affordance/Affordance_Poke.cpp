@@ -23,9 +23,11 @@ void AffordancePoke::Activate(GameObject* go)
 		std::string emotion;
 		float affordanceStrength;
 
+		Personality personality = npc->GetPersonality();
+
 		occModel.EvaluateAffordance(GetType(), 0, emotion, affordanceStrength);
 		npc->AddEmotion(emotion);
-		occModel.CalcEmotionStrength(affordanceStrength, emotion, npc->GetEmotion(emotion), npc->GetPersonality());
+		occModel.CalcEmotionStrength(affordanceStrength, emotion, npc->GetEmotion(emotion), personality);
 
 		std::cout << "Affordance Strength = " << affordanceStrength << std::endl;
 		std::cout << "Emotion Strength = " << npc->GetEmotion(emotion).emotionStrength << std::endl;

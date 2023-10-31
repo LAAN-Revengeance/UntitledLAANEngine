@@ -70,11 +70,20 @@
 			"dampAngle" : 0.94999998807907104,
 			"dampLinear" : 0.94999998807907104,
 			"diff" : "Arcade_Diff",
+			"emotion" : null,
 			"infMass" : false,
 			"isKinematic" : true,
 			"model" : "Arcade",
 			"moveSpeed" : 1.0,
 			"name" : "Arcade",
+			"personality" : 
+			{
+				"agreeableness" : 60.0,
+				"conscientiousness" : 60.0,
+				"extraversion" : 60.0,
+				"neuroticism" : 60.0,
+				"openness" : 60.0
+			},
 			"physics" : 
 			[
 				{
