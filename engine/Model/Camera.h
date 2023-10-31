@@ -14,7 +14,7 @@
 *	screen. provides functionality to use camera properties to return view and
 *	projection matricies
 *
-*	@author Andres Comeros-Ochtman
+*	@author Andres Comeros-Ochtman / Dylan Burgess
 *	@version 1.0
 *	@date 15/04/2023
 */
@@ -39,6 +39,13 @@ public:
 		*	@return void
 		*/
 	void LookAt(glm::vec3 lookPos);
+
+		/**
+		*	@brief Rotate camera to look in a direction
+		*	@param dir direction to look at
+		*	@return void
+		*/
+	void LookDir(glm::vec3 dir);
 
 		/**
 		*	@brief Get the view matrix

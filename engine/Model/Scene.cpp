@@ -18,14 +18,12 @@ Scene& Scene::operator=(const Scene& other)
     lights = other.lights;
     //physics = other.physics;
     gameObjects = other.gameObjects;
-    gameObjectsID = other.gameObjectsID;
 
     return *this;
 }
 
 void Scene::AddObject(GameObject& gameObject) {
 	gameObjects.insert(std::pair<std::string, GameObject*>(gameObject.name, &gameObject));
-	gameObjectsID.insert(std::pair<int, GameObject*>(gameObject.GetID(), &gameObject));
 }
 
 void Scene::AddLights(Lights& nLights) {
@@ -48,11 +46,4 @@ GameObject& Scene::GetGameObject(std::string objName) {
 	return *gameObjects.at(objName);
 }
 
-GameObject* Scene::GetObjectByID(int objID)
-{
-    if (gameObjectsID.find(objID) != gameObjectsID.end()) {
-        return gameObjectsID.at(objID);
-    }
-    return nullptr;
-}
 

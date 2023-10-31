@@ -12,8 +12,8 @@ GaemPathing::PathNode* GaemPathing::PathNodeManager::AddNode(glm::vec3 position,
 {
     PathNode* nNode = new PathNode(position);
 
-    nNode->ID = nextID;
-    nextID++;
+    nNode->ID = _nextID;
+    _nextID++;
     _idMap.insert({ nNode->ID,nNode});
 
     nNode->SetObstacle(obstacle);

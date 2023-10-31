@@ -2,6 +2,7 @@
 
 using namespace rp3d;
 
+
 PhysicsManager::PhysicsManager()
 {
 	rp3dWorld = rp3dPhysicsCommon.createPhysicsWorld();
@@ -36,7 +37,7 @@ void PhysicsManager::Update(double deltaTime)
 	}
 }
 
-PhysicsBody* PhysicsManager::CreatePhysicsBody()
+PhysicsBody* PhysicsManager::CreatePhysicsBody(GameObject* go)
 {
 	//add collision body to react and get its ID
 	rp3d::Vector3 pos(0.0, 0.0, 0.0);
@@ -48,13 +49,16 @@ PhysicsBody* PhysicsManager::CreatePhysicsBody()
 	PhysicsBody pb;
 	pb.body = bPtr;
 	pb.ID = id;
-	physicsBodies.insert({id,pb});
-	BoxShape* shape = rp3dPhysicsCommon.createBoxShape(Vector3(0.03,0.3,0.2));
+	physicsBodies.insert({ id,pb });
+	gameObjects.insert({id,go});
+	BoxShape* shape = rp3dPhysicsCommon.createBoxShape(Vector3(0.03, 0.3, 0.2));
 
+	go->physicsBody = &physicsBodies.at(id);
 	return &physicsBodies.at(id);
 }
 
-void PhysicsManager::AddSphereCollider(PhysicsBody& pb, float radius)
+
+SphereCollider* PhysicsManager::AddSphereCollider(PhysicsBody& pb, float radius)
 {
 	SphereShape* shape = rp3dPhysicsCommon.createSphereShape(radius);
 	rp3d::Collider* rpCollider = pb.body->addCollider(shape, Transform::identity());
@@ -63,9 +67,10 @@ void PhysicsManager::AddSphereCollider(PhysicsBody& pb, float radius)
 	collider.rp3dCollider = rpCollider;
 	pb.colliders.push_back(collider);
 	pb.CalcCenterOfMass();
+	return static_cast<SphereCollider*>(&pb.colliders[pb.colliders.size() - 1]);
 }
 
-void PhysicsManager::AddBoxCollider(PhysicsBody& pb, glm::vec3 scale)
+BoxCollider* PhysicsManager::AddBoxCollider(PhysicsBody& pb, glm::vec3 scale)
 {
 	BoxShape* shape = rp3dPhysicsCommon.createBoxShape(Vector3(scale.x, scale.y, scale.z));
 	rp3d::Collider* rpCollider = pb.body->addCollider(shape, Transform::identity());
@@ -74,9 +79,10 @@ void PhysicsManager::AddBoxCollider(PhysicsBody& pb, glm::vec3 scale)
 	collider.rp3dCollider = rpCollider;
 	pb.colliders.push_back(collider);
 	pb.CalcCenterOfMass();
+	return static_cast<BoxCollider*>(&pb.colliders[pb.colliders.size() - 1]);
 }
 
-void PhysicsManager::AddCapsuleCollider(PhysicsBody& pb, float radius, float height)
+CapsuleCollider* PhysicsManager::AddCapsuleCollider(PhysicsBody& pb, float radius, float height)
 {
 	CapsuleShape* shape = rp3dPhysicsCommon.createCapsuleShape(radius, height);
 	rp3d::Collider* rpCollider = pb.body->addCollider(shape, Transform::identity());
@@ -85,6 +91,7 @@ void PhysicsManager::AddCapsuleCollider(PhysicsBody& pb, float radius, float hei
 	collider.rp3dCollider = rpCollider;
 	pb.colliders.push_back(collider);
 	pb.CalcCenterOfMass();
+	return static_cast<CapsuleCollider*>(&pb.colliders[pb.colliders.size() - 1]);
 }
 
 void PhysicsManager::DrawPhysicsWorld(Camera& camera)
@@ -143,6 +150,7 @@ void PhysicsManager::DeletePhysicsBody(PhysicsBody* physicsBody)
 		rp3dWorld->destroyCollisionBody(physicsBody->body);
 		
 		physicsBodies.erase(physicsBody->GetID());
+		gameObjects.erase(physicsBody->GetID());
 	}
 }
 
@@ -161,6 +169,28 @@ void PhysicsManager::ResetPhysicsWorld()
 	}
 	rp3dPhysicsCommon.destroyPhysicsWorld(rp3dWorld);
 	rp3dWorld = rp3dPhysicsCommon.createPhysicsWorld();
+}
+
+GameObject* PhysicsManager::Raycast(glm::vec3 origin, glm::vec3 direction, float distance)
+{
+	glm::vec3 end = origin + (direction * distance);
+
+	rp3d::Vector3 startPos = { origin.x,origin.y,origin.z };
+	rp3d::Vector3 endPos = { end.x,end.y,end.z };
+
+	rp3d::Ray ray(startPos, endPos);
+
+	
+	rp3dRaycastCallback callback;
+	rp3dWorld->raycast(ray,&callback);
+
+	unsigned int hitID = callback._hitID;
+
+	if (physicsBodies.find(hitID) != physicsBodies.end()) {
+		DebugLogger::Log(GAEM_DEBUG, "hit: " + gameObjects.at(hitID)->name, "Raycast");
+		return gameObjects.at(hitID);
+	}
+	return nullptr;
 }
 
 

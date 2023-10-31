@@ -55,6 +55,14 @@ void PhysicsBody::SetPosition(float x, float y, float z)
 	}
 }
 
+void PhysicsBody::SetPositionVec(glm::vec3 nPos)
+{
+	if (body)
+	{
+		body->setTransform(rp3d::Transform({ nPos.x,nPos.y,nPos.z }, body->getTransform().getOrientation()));
+	}
+}
+
 void PhysicsBody::SetRotationEuler(float x, float y, float z)
 {
 	rp3d::Transform nTransform(body->getTransform().getPosition(), rp3d::Quaternion().fromEulerAngles(x, y, z));

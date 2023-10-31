@@ -1,5 +1,6 @@
 #pragma once
 #include "SceneLoader.h"
+#include <GaemEngine.h>
 
 /**
 *	@Struct Project
@@ -48,7 +49,7 @@ public:
 	*	@param inName filePath of project file
 	*	@return Project
 	*/
-	static Project LoadProject(const char* inName);
+	static Project LoadProject(GameEngine* engine, const char* inName);
 
 private:
 	ProjectLoader();

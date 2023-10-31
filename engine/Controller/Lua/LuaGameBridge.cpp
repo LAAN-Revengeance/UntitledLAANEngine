@@ -1,9 +1,8 @@
 #include "LuaGameBridge.h"
 
-void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
+void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 {
-	LuaManager* luaManager = &engine->scene->luaState;
-
+	luaManager->ClearLuaState();
 	//expose vec3
 	luaManager->Expose_CPPClass<glm::vec3>("vec3",
 		sol::constructors<glm::vec3(), glm::vec3(float, float, float)>(),
@@ -14,6 +13,15 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 		"y", &glm::vec3::y,
 		"z", &glm::vec3::z,
 		"length", &glm::vec3::length
+	);
+
+
+	luaManager->Expose_CPPClass<glm::quat>("quat",
+		sol::constructors<glm::quat(), glm::quat(float, float, float,float)>(),
+		"x", &glm::quat::x,
+		"y", &glm::quat::y,
+		"z", &glm::quat::z,
+		"w", &glm::quat::w
 	);
 
 	luaManager->luaState["Length"] = sol::overload(
@@ -78,12 +86,17 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 		"name", &GameObject::name,
 		"position", &GameObject::position,
 		"scale", &GameObject::scale,
+		"orientation", &GameObject::orientation,
 		"SetPosition", &GameObject::SetPosition,
 		"SetRotation", &GameObject::SetRotation,
+		"SetRotationEuler", &GameObject::SetRotationEuler,
 		"GetDrawItem", &GameObject::GetDrawItem,
 		"LookAt", &GameObject::LookAt,
 		"GetID", &GameObject::GetID,
-		"physicsBody", &GameObject::physicsBody
+		"physicsBody", &GameObject::physicsBody,
+		"affordances", &GameObject::affordanceController,
+		"GetForward", &GameObject::GetForwardVec,
+		"Rotate", &GameObject::Rotate
 	);
 
 	//expose terrain
@@ -99,6 +112,17 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 		"scaleX", &Terrain::scaleX,
 		"scaleY", &Terrain::scaleY,
 		"scaleZ", &Terrain::scaleZ
+	);
+
+	//expose NPC
+	luaManager->Expose_CPPClass<NPC_GameObject>("NPC",
+		sol::constructors<NPC_GameObject()>(),
+		sol::base_classes, sol::bases<GameObject>(),
+		"MoveToPoint", &NPC_GameObject::MoveToPoint,
+		"SetMoveSpeed", &NPC_GameObject::SetMoveSpeed,
+		"CancelPath", &NPC_GameObject::CancelPath,
+		"FindClosestNode", &NPC_GameObject::FindClosestNode,
+		"FindFurthestNode", &NPC_GameObject::FindFurthestNode
 	);
 
 	//expose resource manager class
@@ -156,8 +180,8 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 		"front", &Camera::front,
 		"right", &Camera::right,
 		"up", &Camera::up,
-		"Yaw", &Camera::Yaw,
-		"Pitch", &Camera::Pitch,
+		"yaw", &Camera::Yaw,
+		"pitch", &Camera::Pitch,
 		"UpdateCameraVectors", &Camera::UpdateCameraVectors
 	);
 
@@ -211,7 +235,8 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 		"GetMouseX", &InputManager::GetMouseX,
 		"GetMouseY", &InputManager::GetMouseY,
 		"GetScrollOffset", &InputManager::GetScrollOffset,
-		"GetMouseLock", &InputManager::GetMouseLock
+		"GetMouseLock", &InputManager::GetMouseLock,
+		"GetKeyDown", &InputManager::GetKeyPressedDown
 	);
 	luaManager->luaState["input"] = &InputManager::Get();
 
@@ -223,7 +248,8 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 		"AddSphereCollider", &PhysicsManager::AddSphereCollider,
 		"AddBoxCollider", &PhysicsManager::AddBoxCollider,
 		"AddCapsuleCollider", &PhysicsManager::AddCapsuleCollider,
-		"GetPhysicsBody", &PhysicsManager::GetPhysicsBody
+		"GetPhysicsBody", &PhysicsManager::GetPhysicsBody,
+		"Raycast",&PhysicsManager::Raycast
 	);
 	
 
@@ -281,13 +307,20 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 	);
 	luaManager->luaState["Sound"] = &SoundEngine::Get();
 
-	luaManager->Expose_CPPReference("scene", *engine->scene);
-	luaManager->Expose_CPPReference("GUI", engine->guiRenderer);
-	luaManager->Expose_CPPReference("physics", engine->scene->physicsWorld);
+	//expose affordances
+	luaManager->Expose_CPPClass<Affordance>("Affordance",
+		sol::no_constructor,
+		"Activate", &Affordance::Activate,
+		"Deactivate", &Affordance::Deactivate,
+		"SetCanAfford", &Affordance::SetCanAfford,
+		"GetType", &Affordance::GetType,
+		"GetIsActive", &Affordance::GetIsActive
+	);
 
+	luaManager->Expose_CPPClass<AffordanceController>("AffordanceController",
+		sol::no_constructor,
+		"GetAffordance", &AffordanceController::GetAffordanceString,
+		"RemoveAffordance", &AffordanceController::RemoveAffordanceString
+	);
 
-
-	engine->scene->luaState.LoadScript(luaPath);
-	engine->scene->UpdateFunction = luaManager->GetFunction<void, double>("update");
-	engine->scene->InitFunction = luaManager->GetFunction<void>("init");
 }

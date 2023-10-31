@@ -60,7 +60,7 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 	inspectedObject = nullptr;
 	lastObject = nullptr;
 
-	Project nProject = ProjectLoader::LoadProject(path);
+	Project nProject = ProjectLoader::LoadProject(engine,path);
 	UseScene(nProject.scene);
 	luaFilePath = nProject.luaPath;
 	windowName = nProject.windowName;
@@ -79,7 +79,8 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 	jsonFile >> root;
 	jsonFile.close();
 	std::string luaMain = root["luaPath"].asString();
-	SetLuaFile(luaMain.c_str());
+
+	//SetLuaFile(luaMain.c_str());
 
 }
 
@@ -181,37 +182,49 @@ void SceneEditor::DrawHeighrarchy()
 				
 				if (dynamic_cast<NPC_GameObject*>(pair.second) != nullptr) {
 					go = &res.CreateNPC(nName, "", "");
+					*go = *pair.second;
 				}
 				else {
 					go = &res.CreateGameObject(nName, "", "");
+					*go = *pair.second;
 				}
 				
 				go->name = nName;
 
-				go->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+				PhysicsBody* pbOld = pair.second->physicsBody;
+				PhysicsBody* pbNew = engine->scene->physicsWorld.CreatePhysicsBody(go);
 				
-				if(pair.second->physicsBody)
-				for (int i = 0; i < pair.second->physicsBody->GetNumColliders(); ++i)
+				if(pbOld)
+				for (int i = 0; i < pbOld->GetNumColliders(); ++i)
 				{
-					PhysicsCollider nCollider = pair.second->physicsBody->GetCollider(i);
-					switch (pair.second->physicsBody->GetCollider(i).GetType())
+					PhysicsCollider oldCollider = pbOld->GetCollider(i);
+					PhysicsCollider* newCollider = nullptr;
+					switch (pbOld->GetCollider(i).GetType())
 					{
 					case COLLIDER_BOX:
-						engine->scene->physicsWorld.AddBoxCollider(*go->physicsBody,static_cast<BoxCollider*>(&nCollider)->GetScale());
+						newCollider = engine->scene->physicsWorld.AddBoxCollider(*go->physicsBody,static_cast<BoxCollider*>(&oldCollider)->GetScale());
 						break;
 					case COLLIDER_SPHERE:
-						engine->scene->physicsWorld.AddSphereCollider(*go->physicsBody, static_cast<SphereCollider*>(&nCollider)->GetRadius());
+						newCollider = engine->scene->physicsWorld.AddSphereCollider(*go->physicsBody, static_cast<SphereCollider*>(&oldCollider)->GetRadius());
 						break;
 					case COLLIDER_CAPSULE:
-						engine->scene->physicsWorld.AddCapsuleCollider(*go->physicsBody, static_cast<CapsuleCollider*>(&nCollider)->GetRadius(), static_cast<CapsuleCollider*>(&nCollider)->GetHeight());
+						newCollider =engine->scene->physicsWorld.AddCapsuleCollider(*go->physicsBody, static_cast<CapsuleCollider*>(&oldCollider)->GetRadius(), static_cast<CapsuleCollider*>(&oldCollider)->GetHeight());
 						break;
 					default:
 						break;
 					}
-					go->physicsBody->GetCollider(i).SetOffset(nCollider.GetOffset());
-					go->physicsBody->GetCollider(i).SetRotation(nCollider.GetRotation());
-
-					
+					newCollider->SetMass(oldCollider.GetMass());
+					pbNew->GetCollider(i).SetOffset(oldCollider.GetOffset());
+					pbNew->GetCollider(i).SetRotation(oldCollider.GetRotation());
+				}
+				if (pair.second->physicsBody) {
+					pbNew->SetPositionVec(pbOld->GetPosition());
+					pbNew->SetRotation(pbOld->GetRotation());
+					pbNew->SetMass(pbOld->GetMass());
+					pbNew->dampeningLinear = pbOld->dampeningLinear;
+					pbNew->dampeningAngular = pbOld->dampeningAngular;
+					pbNew->bounce = pbOld->bounce;
+					pbNew->CalcDerivedData();
 				}
 
 				engine->scene->AddObject(*go);
@@ -635,7 +648,7 @@ void SceneEditor::DrawInspector()
 					//Box
 					if (ImGui::Button("Add Box Collider##box")) {
 						if (!inspectedObject->physicsBody)
-							inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+								engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
 						engine->scene->physicsWorld.AddBoxCollider(*inspectedObject->physicsBody, { 1.0f,1.0f,1.0f });
 						inspectedObject->physicsBody->CalcCenterOfMass();
 					}
@@ -643,7 +656,7 @@ void SceneEditor::DrawInspector()
 					//Sphere
 					if (ImGui::Button("Add Sphere Collider##sphere")) {
 						if (!inspectedObject->physicsBody)
-							inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+							engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
 						engine->scene->physicsWorld.AddSphereCollider(*inspectedObject->physicsBody, 1.0f);
 						inspectedObject->physicsBody->CalcCenterOfMass();
 					}
@@ -651,7 +664,7 @@ void SceneEditor::DrawInspector()
 					//Capsule
 					if (ImGui::Button("Add Capsule Collider##capsule")) {
 						if (!inspectedObject->physicsBody)
-							inspectedObject->physicsBody = engine->scene->physicsWorld.CreatePhysicsBody();
+							engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
 						engine->scene->physicsWorld.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f, 2.0f);
 						inspectedObject->physicsBody->CalcCenterOfMass();
 					}
@@ -735,6 +748,47 @@ void SceneEditor::DrawInspector()
 					ImGui::Dummy(ImVec2(0.0f, 20.0f));
 				}
 				
+				if (ImGui::CollapsingHeader("-- Lua Function --")) {
+					
+					
+					std::vector<std::string> funcs = LuaManager::GetFunctionNames(luaFilePath);
+					std::string funcName = inspectedObject->GetUpdateFunction().GetName();
+
+					ImGui::Text("Object Update function:");
+					if (ImGui::BeginCombo("##functionSelector", funcName.c_str()))
+					{
+						if (ImGui::Selectable("--None--")) {
+							inspectedObject->SetUpdateFunction(LuaFunction<void, GameObject&>());
+						}
+						
+						for (auto& funcName : funcs)
+						{
+							if (ImGui::Selectable(funcName.c_str())) {
+								inspectedObject->SetUpdateFunction(LuaFunction<void, GameObject&>(funcName.c_str(), &engine->scene->luaState));
+							}
+						}
+						ImGui::EndCombo();
+					}
+					ImGui::Dummy(ImVec2(0.0f, 20.0f));
+				}
+
+				//NPC affordance Settings
+				if (ImGui::CollapsingHeader("-- Affordances --")) {
+					if (ImGui::Button("Add pickup affordance"))
+					{
+						inspectedObject->affordanceController.AddAffordance<AffordancePickup>();
+					}
+					if (ImGui::Button("Remove pickup affordance"))
+					{
+						inspectedObject->affordanceController.RemoveAffordance<AffordancePickup>();
+					}
+					if (ImGui::Button("Print affordance type"))
+					{
+						std::cout << inspectedObject->affordanceController.GetAffordance<AffordancePickup>()->GetType() << std::endl;
+					}
+				}
+
+
 				if (dynamic_cast<NPC_GameObject*>(inspectedObject)) {
 					DrawNPCInspector();
 				}
@@ -1453,17 +1507,22 @@ void SceneEditor::DrawDebug()
 	bool bDbg = DebugLogger::GetLogLevel(GAEM_DEBUG);
 	bool bWrn = DebugLogger::GetLogLevel(GAEM_WARNING);
 
+	static bool lockScroll = true;
 	
 	if (ImGui::Checkbox("Log Errors ", &bErr)) { DebugLogger::SetLogLevel(GAEM_ERROR, bErr); } ImGui::SameLine();
 	if (ImGui::Checkbox("Log Message", &bLog)) { DebugLogger::SetLogLevel(GAEM_LOG,bLog); }
 	if (ImGui::Checkbox("Log Debug  ", &bDbg)) { DebugLogger::SetLogLevel(GAEM_DEBUG, bDbg); }ImGui::SameLine();
 	if (ImGui::Checkbox("Log Warning", &bWrn)) { DebugLogger::SetLogLevel(GAEM_WARNING, bWrn); }
+	ImGui::Checkbox("Auto Scroll", &lockScroll); ImGui::SameLine();
+	if (ImGui::Button("Clear##clearConsole")) { _logger->Clear(); }
 
-	ImGui::BeginChild("scrolling", ImVec2(0, 0), true, ImGuiWindowFlags_HorizontalScrollbar);
+	ImGui::BeginChild("##ConsoleOutputWindow", ImVec2(0, 0), true, ImGuiWindowFlags_HorizontalScrollbar);
 	std::string consoleOutput = _logger->streamCapture.GetBuffer();
 	ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + ImGui::GetContentRegionAvail().x);
 	ImGui::TextUnformatted(consoleOutput.c_str());
 	ImGui::PopTextWrapPos();
+	if(lockScroll)
+		ImGui::SetScrollHereY(1.0f);
 	ImGui::EndChild();
 }
 
@@ -1616,12 +1675,6 @@ void SceneEditor::DrawNPCInspector()
 		ImGui::Text("Emotion stuff yo");
 		ImGui::Dummy(ImVec2(0.0f, 20.0f));
 	}
-
-	//NPC affordance Settings(might just make this for game objects in general)
-	if (ImGui::CollapsingHeader("-- Affordances --")) {
-		ImGui::Text("Affordance stuff yo");
-		ImGui::Dummy(ImVec2(0.0f, 20.0f));
-	}
 }
 
 void SceneEditor::CameraControl(double deltaTime)
@@ -1739,9 +1792,16 @@ void SceneEditor::SetLuaFile(std::string nluaFile)
 {
 	luaFilePath = nluaFile;
 	
-	engine->scene->luaState.ClearLuaState();
+	//lua
+	LuaGameBridge::ExposeEngine(&engine->scene->luaState);
+	engine->scene->luaState.Expose_CPPReference("scene", *engine->scene);
+	engine->scene->luaState.Expose_CPPReference("GUI", engine->guiRenderer);
+	engine->scene->luaState.Expose_CPPReference("physics", engine->scene->physicsWorld);
 
-	LuaGameBridge::ExposeEngine(engine, nluaFile.c_str());
+	engine->scene->luaState.LoadScript(nluaFile);
+	engine->scene->UpdateFunction = engine->scene->luaState.GetFunction<void, double>("update");
+	engine->scene->InitFunction = engine->scene->luaState.GetFunction<void>("init");
+	
 }
 
 std::string SceneEditor::FilterFilePath(std::string filePath)

@@ -1,7 +1,7 @@
 #include "GameObject.h"
 
 
-GameObject::GameObject(){
+GameObject::GameObject() : affordanceController(this){
 }
 
 GameObject::~GameObject() {}
@@ -49,12 +49,22 @@ void GameObject::SetRotationEuler(float x, float y, float z)
 
 void GameObject::Rotate(float x, float y, float z, float angle)
 {
-	glm::mat4 rotationMat = glm::mat4_cast(orientation);
-	rotationMat = glm::rotate(rotationMat, glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
-	rotationMat = glm::rotate(rotationMat, glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
-	rotationMat = glm::rotate(rotationMat, glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
+	x = glm::radians(x);
+	y = glm::radians(y);
+	z = glm::radians(z);
 
-	SetRotation(glm::quat(rotationMat));
+
+	glm::quat qx = glm::angleAxis(x, glm::vec3(1.0f, 0.0f, 0.0f));
+	glm::quat qy = glm::angleAxis(y, glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::quat qz = glm::angleAxis(z, glm::vec3(0.0f, 0.0f, 1.0f));
+
+	glm::quat newOrientation = qz * qy * qx * orientation;
+
+	// Normalize the resulting quaternion to prevent accumulation of rounding errors
+	newOrientation = glm::normalize(newOrientation);
+
+
+	SetRotation(newOrientation);
 }
 
 
@@ -83,21 +93,24 @@ void GameObject::Update(double dt)
 		SetPosition(physicsBody->GetPosition());
 		SetRotation(physicsBody->GetRotation());
 	}
+
+	updateFunction.Execute(*this);
+
+	affordanceController.Update(dt);
 }
 
-
-void GameObject::LookAt(glm::vec3 lookvec)
+void GameObject::LookAt(glm::vec3 lookPos)
 {
-	glm::vec3 dir = position - lookvec;
-	glm::vec3 newRot(0.0f,0.0f,0.0f);
+	glm::vec3 forward = glm::normalize(lookPos - position);
 
-	dir = glm::normalize(dir);
-
-	newRot.y = glm::degrees(atan2(dir.x, dir.z)) + 90.0f;
-	
-	newRot.x = glm::degrees(asin(dir.y));
-
-	SetRotation(newRot);
+	if (glm::abs(forward.y) < 0.9999f) {
+		SetRotation(glm::quatLookAt(forward, glm::vec3(0.0f, 1.0f, 0.0f)));
+	}
+	else {
+		glm::vec3 right = glm::normalize(glm::cross(glm::vec3(0.0f, 0.0f, 1.0f), orientation * forward));
+		glm::vec3 adjustedForward = glm::normalize(glm::cross(orientation * glm::vec3(0.0f, 1.0f, 0.0f), right));
+		SetRotation(glm::quatLookAt(adjustedForward, glm::vec3(0.0f, 1.0f, 0.0f)));
+	}
 }
 
 glm::vec3 GameObject::GetRotationEuler()
@@ -117,10 +130,26 @@ glm::mat4 GameObject::GetTransformMatrix()
 	return modelMat;
 }
 
+glm::vec3 GameObject::GetForwardVec()
+{
+	glm::vec3 localForwardVector = glm::vec3(0.0f, 0.0f, -1.0f);
+	return glm::rotate(orientation, localForwardVector);
+}
+
 DrawItem* GameObject::GetDrawItem()
 {
 	if (model_data) {
 		return model_data;
 	}
 	return nullptr;
+}
+
+void GameObject::SetUpdateFunction(LuaFunction<void, GameObject&> function)
+{
+	updateFunction = function;
+}
+
+LuaFunction<void, GameObject&> GameObject::GetUpdateFunction()
+{
+	return updateFunction;
 }

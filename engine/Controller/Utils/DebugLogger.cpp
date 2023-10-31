@@ -27,11 +27,16 @@ void DebugLogger::Log(unsigned int type, const std::string message)
 void DebugLogger::Log(unsigned int type, const std::string message, std::string name)
 {
 	if (!name.empty()) {
-		auto fullMessage = "[" + name + "]: " + message;
+		auto fullMessage = "[" + name + "]:" + message;
 		Log(type, fullMessage);
 	}else{
 		Log(type, message);
 	}
+}
+
+void DebugLogger::Clear()
+{
+	streamCapture.Clear();
 }
 
 void DebugLogger::SetLogLevel(unsigned int type, bool isActive)

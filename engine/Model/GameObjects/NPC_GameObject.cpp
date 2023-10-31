@@ -24,6 +24,8 @@ void NPC_GameObject::Update(double dt)
 {
 	if (_isMoving)
 		UpdatePathing(dt);
+
+	updateFunction.Execute(*this);
 }
 
 void NPC_GameObject::AddEmotion(std::string name)

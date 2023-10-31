@@ -44,7 +44,12 @@ void Camera::LookAt(glm::vec3 lookPos) {
 	 front = glm::normalize(lookPos - position);
 }
 
-glm::mat4 Camera::GetView() 
+void Camera::LookDir(glm::vec3 dir)
+{
+	front = dir;
+}
+
+glm::mat4 Camera::GetView()
 {
 	return glm::lookAt(position, position + front, up);
 }

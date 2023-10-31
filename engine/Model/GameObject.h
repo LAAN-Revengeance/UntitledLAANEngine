@@ -9,6 +9,8 @@
 #include <glm/gtc/quaternion.hpp>
 #include <Physics/RigidBody.h>
 #include <Utils/DebugLogger.h>
+#include <Lua/LuaFunction.h>
+#include <AI/Affordance/AffordanceController.h>
 
 /**
 *	@Class GameObject
@@ -104,12 +106,14 @@ public:
 	
 		/**
 		*	@brief rotates this game object to face a direction
-		*	@param lookvec positon to face towawrds
+		*	@param lookPos positon to face towawrds
 		*	@return this objects right vector
 		*/
-	void LookAt(glm::vec3 lookvec);
+	void LookAt(glm::vec3 lookPos);
 	glm::vec3 GetRotationEuler();
 	glm::mat4 GetTransformMatrix();
+
+	glm::vec3 GetForwardVec();
 
 		///Position in worldspace
 	glm::vec3 position = {0,0,0};
@@ -140,10 +144,17 @@ public:
 		
 		//Material properties
 	Material material;
+
+	AffordanceController affordanceController;
+
+	void SetUpdateFunction(LuaFunction<void, GameObject&> function);
+	LuaFunction<void, GameObject&> GetUpdateFunction();
+	
 protected:
 		///Unique identifier
 	unsigned int ID = 0;
 
-	
+	LuaFunction<void, GameObject&> updateFunction;
+
 	friend class PhysicsManager;
 };

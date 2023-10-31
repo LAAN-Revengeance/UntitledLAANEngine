@@ -186,6 +186,7 @@ Scene& SceneLoader::LoadScene(const char* inName)
 {
     Scene* scene = new Scene();
 
+
     std::ifstream file(inName);
     Json::Reader reader;
     Json::Value sceneJSON;
@@ -329,7 +330,7 @@ Scene& SceneLoader::LoadScene(const char* inName)
             node->AddNeighbour(pathManager._idMap.at(jNeighbours[j].asUInt()));
         }
     }
-    pathManager.nextID = maxID + 1;
+    pathManager._nextID = maxID + 1;
 
     //populate scene
     scene->skybox = res.GetCubeMap(sceneJSON["skybox"].asString());
@@ -368,7 +369,7 @@ Scene& SceneLoader::LoadScene(const char* inName)
             go->material.emissionMap.push_back(res.GetTexture(jobj["emis"].asString()));
 
 
-        go->physicsBody = scene->physicsWorld.CreatePhysicsBody();
+        scene->physicsWorld.CreatePhysicsBody(go);
         go->physicsBody->isKinematic = jobj["isKinematic"].asBool();
         go->physicsBody->useGravity = jobj["useGravity"].asBool();
         go->physicsBody->SetBounce(jobj["bounce"].asFloat());
@@ -484,10 +485,14 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
     jobj["rotation"].append(obj->orientation.z);
     jobj["rotation"].append(obj->orientation.w);
 
-    //pointer
+    //lua function
+    jobj["updateFunc"] = obj->GetUpdateFunction().GetName();
+
+    //model data
     if (obj->model_data)
         jobj["model"] = obj->model_data->name;
 
+    //shader data
     if (obj->shader)
         jobj["shader"] = obj->shader->name;
     
