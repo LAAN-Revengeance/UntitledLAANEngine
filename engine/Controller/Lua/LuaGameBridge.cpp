@@ -272,22 +272,22 @@ void LuaGameBridge::ExposeEngine(GameEngine* engine, const char* luaPath)
 	//expose the sound engine
 	luaManager->Expose_CPPClass<SoundEngine>("SoundEngine",
 		sol::no_constructor,
-		"playSoundFromFile", &SoundEngine::PlaySoundFromFile,
-		"playSound", &SoundEngine::PlaySound,
+		"PlaySoundFromFile", &SoundEngine::PlaySoundFromFile,
+		"PlayStaticSound", &SoundEngine::PlayStaticSound,
 		"PlayDynamicSound", &SoundEngine::PlayDynamicSound,
-		"playLoop", &SoundEngine::PlayLoop,
-		"addSound", &SoundEngine::AddSound,
-		"removeSound", &SoundEngine::RemoveSound,
-		"playLoopAtPosition", &SoundEngine::PlayLoopAtPosition,
-		"setUserPosition", &SoundEngine::SetUserPosition,
-		"updateUserPosition", &SoundEngine::UpdateUserPosition,
-		"setSoundPause", &SoundEngine::SetSoundPause,
-		"getSoundPause", &SoundEngine::GetSoundPause,
-		"setSoundLoop", &SoundEngine::SetSoundLoop,
-		"getSoundLoop", &SoundEngine::GetSoundLoop,
-		"setVolume", &SoundEngine::SetVolume,
-		"getVolume", &SoundEngine::GetVolume,
-		"setAudioPosition", &SoundEngine::SetAudioPosition
+		"PlayLoop", &SoundEngine::PlayLoop,
+		"AddSound", &SoundEngine::AddSound,
+		"RemoveSound", &SoundEngine::RemoveSound,
+		"PlayLoopAtPosition", &SoundEngine::PlayLoopAtPosition,
+		"SetUserPosition", &SoundEngine::SetUserPosition,
+		"UpdateUserPosition", &SoundEngine::UpdateUserPosition,
+		"SetSoundPause", &SoundEngine::SetSoundPause,
+		"GetSoundPause", &SoundEngine::GetSoundPause,
+		"SetSoundLoop", &SoundEngine::SetSoundLoop,
+		"GetSoundLoop", &SoundEngine::GetSoundLoop,
+		"SetVolume", &SoundEngine::SetVolume,
+		"GetVolume", &SoundEngine::GetVolume,
+		"SetAudioPosition", &SoundEngine::SetAudioPosition
 	);
 	luaManager->luaState["Sound"] = &SoundEngine::Get();
 

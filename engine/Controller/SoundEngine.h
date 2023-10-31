@@ -11,6 +11,7 @@ struct audioData
 {
 	std::string filepath;
 	irrklang::ISound* sound;
+
 };
 
 class SoundEngine
@@ -22,7 +23,7 @@ public:
 
 	void PlaySoundFromFile(std::string audioFilePath);
 
-	void PlaySound(std::string audioName);
+	void PlayStaticSound(std::string audioName);
 	void PlayDynamicSound(std::string audioName, glm::vec3 pos);
 
 	void PlayLoop(std::string audioName);
@@ -48,13 +49,14 @@ public:
 
 	void SetAudioPosition(std::string audioName, glm::vec3 pos);
 
-	std::vector<std::string> GetAudioNames();
+	std::map<std::string, audioData> GetAudioNames();
 
 	void UpdateDynamicAudio();
+
 private:
 
 	irrklang::ISoundEngine* engine;
-	std::vector<std::string> audioNames;
+	//std::vector<std::string> audioNames;
 	std::map<std::string, audioData> audio;
 	//std::map<std::string, irrklang::ISound*> dynamicAudio;
 };

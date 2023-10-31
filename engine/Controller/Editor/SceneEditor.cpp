@@ -1382,36 +1382,25 @@ void SceneEditor::DrawResources()
 			if (ImGui::Button("Add Audio")) {
 				std::string::size_type idx = std::string(audioPath).rfind('.');
 				std::string extension = std::string(audioPath).substr(idx + 1);
-
-				//soundEngine.AddSound(audioName, audioPath);
 				sound.AddSound(audioName, audioPath);
 			}
 
-			//test button TBR
-			if (ImGui::Button("play Audio")) {
-				sound.PlayDynamicSound(audioName, {0,0,0});
-			}
 
 			int colCount = (viewport->Size.x * windowWidth) / (resourceWidth + (style.ItemSpacing.x * 2));
 			ImGui::Columns(colCount, "texCols", false);
 
 			Texture* shaderIcon = res.GetTexture("default");
 
-			////show all audio loaded
-			//std::vector<std::string> audioNames = soundEngine.GetAudioNames();
-			//
-			//for (int i = 0; i < audioNames.size(); i++)
-			//{
-			//	ImGui::Image((void*)(intptr_t)shaderIcon->ID, ImVec2(resourceWidth, resourceWidth));
-			//	ImGui::Text(audioNames[i].c_str());
-			//	ImGui::NextColumn();
-			//}
-			std::vector<std::string> audioNames = sound.GetAudioNames();
+			std::map<std::string, audioData> audioNames = sound.GetAudioNames();
 
-			for (int i = 0; i < audioNames.size(); i++)
+			for (auto i: audioNames)
 			{
 				ImGui::Image((void*)(intptr_t)shaderIcon->ID, ImVec2(resourceWidth, resourceWidth));
-				ImGui::Text(audioNames[i].c_str());
+				ImGui::Text(i.first.c_str());
+				std::string str = "Play " + i.first;
+				if (ImGui::Button(str.c_str())) {
+					sound.PlayStaticSound(i.first.c_str());
+				}
 				ImGui::NextColumn();
 			}
 			ImGui::EndTabItem();

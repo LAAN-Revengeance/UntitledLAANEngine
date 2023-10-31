@@ -16,19 +16,22 @@ void SoundEngine::PlaySoundFromFile(std::string audioFilePath)
 	engine->play2D(audioFilePath.c_str());
 }
 
-void SoundEngine::PlaySound(std::string audioName)
+void SoundEngine::PlayStaticSound(std::string audioName)
 {
 	//check if ISound is already set
-	if (audio[audioName].sound)
-		engine->play2D(audio[audioName].filepath.c_str());
-	else
+	if (audio.find(audioName) != audio.end())
 		audio[audioName].sound = engine->play2D(audio[audioName].filepath.c_str());
 }
 
 void SoundEngine::PlayDynamicSound(std::string audioName, glm::vec3 pos)
 {
 	if (audio.find(audioName) != audio.end())
-		engine->play3D(audio[audioName].filepath.c_str(), irrklang::vec3df(pos.x, pos.y, pos.z), false, false, true);
+		audio[audioName].sound = engine->play3D(audio[audioName].filepath.c_str(), irrklang::vec3df(pos.x, pos.y, pos.z), false, false, true);
+
+	//if (audio[audioName].sound)
+	//	engine->play3D(audio[audioName].filepath.c_str(), irrklang::vec3df(pos.x, pos.y, pos.z), false, false, true);
+	//else
+	//	audio[audioName].sound = engine->play3D(audio[audioName].filepath.c_str(), irrklang::vec3df(pos.x, pos.y, pos.z), false, false, true);
 }
 
 void SoundEngine::PlayLoop(std::string audioName)
@@ -43,7 +46,7 @@ void SoundEngine::PlayLoop(std::string audioName)
 void SoundEngine::AddSound(std::string audioName, std::string audioFilePath)
 {
 	audio[audioName].filepath = audioFilePath;
-	audioNames.push_back(audioName);
+	//audioNames.push_back(audioName);
 }
 
 void SoundEngine::RemoveSound(std::string audioName)
@@ -55,9 +58,9 @@ void SoundEngine::RemoveSound(std::string audioName)
 	audio.erase(audioName);
 
 	//del from vector
-	std::vector<std::string>::iterator i = std::find(audioNames.begin(), audioNames.end(), audioName);
-	if (i != audioNames.end()) 
-		audioNames.erase(i);
+	//std::vector<std::string>::iterator i = std::find(audioNames.begin(), audioNames.end(), audioName);
+	//if (i != audioNames.end()) 
+	//	audioNames.erase(i);
 }
 
 
@@ -135,9 +138,10 @@ void SoundEngine::SetAudioPosition(std::string audioName, glm::vec3 pos)
 		audio[audioName].sound->setPosition(position);
 }
 
-std::vector<std::string> SoundEngine::GetAudioNames()
+
+std::map<std::string, audioData> SoundEngine::GetAudioNames()
 {
-	return audioNames;
+	return audio;
 }
 
 void SoundEngine::UpdateDynamicAudio()
