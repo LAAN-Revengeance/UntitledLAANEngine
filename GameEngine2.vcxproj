@@ -230,6 +230,7 @@
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\AffordanceController.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Pickup.h" />
+    <ClInclude Include="engine\Controller\AI\Affordance\Global_Affordances.h" />
     <ClInclude Include="engine\Controller\AI\Pathfinding\A_Star.h" />
     <ClInclude Include="engine\Controller\AI\Pathfinding\PathNode.h" />
     <ClInclude Include="engine\Controller\AI\Pathfinding\PathNodeManager.h" />
