@@ -1,6 +1,7 @@
 #include "Affordance_Punch.h"
 #include <GameObject.h>
-
+#include <GameObjects/NPC_GameObject.h>
+#include <AI/Emotion/OCCModel.h>
 
 AffordancePunch::AffordancePunch(GameObject* go)
 {
@@ -14,9 +15,12 @@ AffordancePunch::~AffordancePunch()
 
 void AffordancePunch::Activate(GameObject* go)
 {
-	_active = true;
 	_otherObject = go;
 
+	NPC_GameObject* npc = dynamic_cast<NPC_GameObject*>(go);
+	if (npc) {
+		
+	}
 
 }
 

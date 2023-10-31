@@ -6,12 +6,15 @@
 class OCCModel
 {
 public:
-	void EvaluateAffordance(std::string affordanceName, float distance, Emotion npcEmotion, Personality npcPersonality);
-	void CalcEmotion(std::string affordance, float affordanceStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality);
-	void InitAngerFCM(std::string affordance, float affordanceStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality);
-	void InitFearFCM(std::string affordance, float affordanceStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality);
+	std::string EvaluateAffordance(std::string affordance, float distance);
+	static void CalcEmotionStrength(float affordanceStrength, std::string emotion, Emotion& npcEmotion, Personality npcPersonality);
+	static FCM InitAngerFCM(float affordanceStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality);
+	static FCM InitFearFCM(float affordanceStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality);
+	bool CheckDesirable(std::string affordance);
+	bool ProspectRelevant(float distance);
+	bool CheckBlameworthiness(std::string affordance);
+
 	float GetEmotionValue(std::string Emotion);
 	float GetActionValue();
 private:
-	FCM fcm;
 };
