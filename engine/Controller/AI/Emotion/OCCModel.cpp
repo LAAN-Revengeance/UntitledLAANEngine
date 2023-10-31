@@ -29,20 +29,26 @@ void OCCModel::CalcEmotionStrength(float affordanceStrength, std::string emotion
 	{
 		FCM fcm = InitAngerFCM(affordanceStrength, emotion, npcEmotion, npcPersonality);
 		fcm.Run();
-		npcEmotion.emotionStrength = (fcm.GetConceptValue(emotion));
-		npcEmotion.reactionStrength = (fcm.GetConceptValue("Action"));
+		npcEmotion.emotionStrength += (fcm.GetConceptValue(emotion));
+		npcEmotion.reactionStrength += (fcm.GetConceptValue("Action"));
 	}
 	else if (emotion == "Fear")
 	{
 		FCM fcm = InitFearFCM(affordanceStrength, emotion, npcEmotion, npcPersonality);
 		fcm.Run();
-		npcEmotion.emotionStrength = (fcm.GetConceptValue(emotion));
+		npcEmotion.emotionStrength = npcEmotion.emotionStrength + (fcm.GetConceptValue(emotion));
 		npcEmotion.reactionStrength = (fcm.GetConceptValue("Action"));
 	}
+
+	if (npcEmotion.emotionStrength > 1)
+		npcEmotion.emotionStrength = 1;
+	if (npcEmotion.reactionStrength > 1)
+		npcEmotion.reactionStrength = 1;
 }
 
 FCM OCCModel::InitAngerFCM(float eventStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality)
 {
+	std::cout << npcEmotion.emotionStrength << std::endl;
 	FCM attackFCM;
 	attackFCM.AddConcept("Affordance", eventStrength, 1);
 	attackFCM.AddConcept("Desireability", 0, 1);
@@ -53,7 +59,6 @@ FCM OCCModel::InitAngerFCM(float eventStrength, std::string emotion, Emotion npc
 	attackFCM.AddConcept("Impulsivity", 0, 1);
 	attackFCM.AddConcept("Action", 0, 1);
 	attackFCM.AddRelationship("Affordance", "Trust", -npcPersonality.GetAgreeablenessPercent());
-	std::cout << "Agreeablness" << -npcPersonality.GetAgreeablenessPercent() << std::endl;
 	attackFCM.AddRelationship("Affordance", "Desireability", -1);
 	attackFCM.AddRelationship("Trust", "Blameworthiness", -1);
 	attackFCM.AddRelationship("Blameworthiness", "Irritability", 1);
@@ -68,8 +73,8 @@ FCM OCCModel::InitAngerFCM(float eventStrength, std::string emotion, Emotion npc
 FCM OCCModel::InitFearFCM(float eventStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality)
 {
 	FCM fearFCM;
-	fearFCM.AddConcept("Affordance", eventStrength, 1); //Name of the event
-	fearFCM.AddConcept("Desireability", 0, 1); //Desireability of the event, either positive or negative
+	fearFCM.AddConcept("Affordance", eventStrength, 1);
+	fearFCM.AddConcept("Desireability", 0, 1);
 	fearFCM.AddConcept("Trust", 0, 1);
 	fearFCM.AddConcept("Likelihood", 0, 1);
 	fearFCM.AddConcept("Irritability", 0, 1);

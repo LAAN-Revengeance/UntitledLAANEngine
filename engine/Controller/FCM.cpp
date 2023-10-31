@@ -110,6 +110,11 @@ void FCM::Run()
 				float conceptValue = concept1.value / concept1.threshold;
 				float finalValue = conceptValue * weighting;
 
+				if (finalValue > 1)
+					finalValue = 1;
+				else if (finalValue < -1)
+					finalValue = -1;
+
 				SetConceptValue(relationships[j].concept2, finalValue);
 			}
 		}

@@ -87,7 +87,7 @@ function keyInput(dt)
 		end
 	end
 
-	if(input:GetKeyDown(KEY_O))
+	if(input:GetKeyDown(KEY_I))
 	then
 		if(player.affordances:GetAffordance("poke"):GetIsActive())
 		then
@@ -97,6 +97,20 @@ function keyInput(dt)
 			if(not(object == nil))
 			then
 				player.affordances:GetAffordance("poke"):Activate(object);
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_O))
+	then
+		if(player.affordances:GetAffordance("slap"):GetIsActive())
+		then
+			player.affordances:GetAffordance("slap"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("slap"):Activate(object);
 			end
 		end
 	end
