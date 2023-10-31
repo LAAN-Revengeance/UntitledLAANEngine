@@ -348,7 +348,27 @@ Scene& SceneLoader::LoadScene(const char* inName)
         else if (jobj["type"].asString() == "npc") {
             
             go = &res.CreateNPC(objects[i]["name"].asString(), objects[i]["model"].asString(), objects[i]["shader"].asString());
-            dynamic_cast<NPC_GameObject*>(go)->SetMoveSpeed(objects[i]["moveSpeed"].asFloat());
+
+            NPC_GameObject* npc = dynamic_cast<NPC_GameObject*>(go);
+            npc->SetMoveSpeed(objects[i]["moveSpeed"].asFloat());
+
+
+            for (unsigned int i = 0; i < jobj["emotion"].size(); i++)
+            {
+                
+                std::string emotionName = jobj["emotion"][i]["emotion"].asString();
+                std::cout << emotionName << "\n";
+                npc->AddEmotion(emotionName);
+                npc->SetEmotionStrength(emotionName, jobj["emotion"][i]["strength"].asFloat());
+                npc->SetReactionStrength(emotionName, jobj["emotion"][i]["reaction"].asFloat());
+            }
+
+            npc->GetPersonality().SetOpenness(jobj["personality"]["openness"].asFloat());
+            npc->GetPersonality().SetConscientiousness(jobj["personality"]["conscientiousness"].asFloat());
+            npc->GetPersonality().SetExtraversion(jobj["personality"]["extraversion"].asFloat());
+            npc->GetPersonality().SetAgreeableness(jobj["personality"]["agreeableness"].asFloat());
+            npc->GetPersonality().SetNeuroticism(jobj["personality"]["neuroticism"].asFloat());
+
         }
         else {
             go = &res.CreateGameObject(objects[i]["name"].asString(), objects[i]["model"].asString(), objects[i]["shader"].asString());
@@ -629,6 +649,27 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
         NPC_GameObject* npc = dynamic_cast<NPC_GameObject*>(obj);
         jobj["type"] = "npc";
         jobj["moveSpeed"] = npc->GetMoveSpeed();
+
+        //Emotions
+        Json::Value jEmotions;
+        for (auto& emotion : npc->GetEmotions()) {
+            Json::Value jEmotion;
+            jEmotion["emotion"] = emotion.emotion;
+            jEmotion["strength"] = emotion.emotionStrength;
+            jEmotion["reaction"] = emotion.reactionStrength;
+            jEmotions.append(jEmotion);
+        }
+        jobj["emotion"] = jEmotions;
+
+        //Personality
+        Json::Value jPersonality;
+        jPersonality["openness"]            = npc->GetPersonality().GetOppenness();
+        jPersonality["conscientiousness"]   = npc->GetPersonality().GetConscientiousness();
+        jPersonality["extraversion"]        = npc->GetPersonality().GetExtraversion();
+        jPersonality["agreeableness"]       = npc->GetPersonality().GetAgreeableness();
+        jPersonality["neuroticism"]         = npc->GetPersonality().GetNeuroticism();
+
+        jobj["personality"] = jPersonality;
     }
     else {
         jobj["type"] = "base";
