@@ -50,8 +50,8 @@ void OCCModel::CalcEmotionStrength(float affordanceStrength, std::string emotion
 	{
 		FCM fcm = InitFearHopeFCM(affordanceStrength, emotion, npcEmotion, npcPersonality, 4);
 		fcm.Run();
-		npcEmotion.emotionStrength = npcEmotion.emotionStrength + (fcm.GetConceptValue(emotion));
-		npcEmotion.reactionStrength = (fcm.GetConceptValue("Action"));
+		npcEmotion.emotionStrength += (fcm.GetConceptValue(emotion));
+		npcEmotion.reactionStrength += (fcm.GetConceptValue("Action"));
 	}
 
 	if (npcEmotion.emotionStrength > 1)

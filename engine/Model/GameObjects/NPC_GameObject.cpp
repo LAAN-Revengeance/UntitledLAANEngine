@@ -73,7 +73,7 @@ void NPC_GameObject::SetEmotionStrength(std::string emotionName, float value)
 	for (int i = 0; i < emotions.size(); i++)
 	{
 		if (emotions[i].emotion == emotionName)
-			emotions[i].emotionStrength;
+			emotions[i].emotionStrength = value;
 	}
 }
 
@@ -82,7 +82,7 @@ void NPC_GameObject::SetReactionStrength(std::string emotionName, float value)
 	for (int i = 0; i < emotions.size(); i++)
 	{
 		if (emotions[i].emotion == emotionName)
-			emotions[i].reactionStrength;
+			emotions[i].reactionStrength = value;
 	}
 }
 
