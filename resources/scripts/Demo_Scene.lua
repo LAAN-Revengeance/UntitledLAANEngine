@@ -115,6 +115,20 @@ function keyInput(dt)
 		end
 	end
 
+	if(input:GetKeyDown(KEY_G))
+	then
+		if(player.affordances:GetAffordance("giveMoney"):GetIsActive())
+		then
+			player.affordances:GetAffordance("giveMoney"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("giveMoney"):Activate(object);
+			end
+		end
+	end
+
 end
 
 lastX = input:GetMouseX();

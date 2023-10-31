@@ -65,6 +65,7 @@
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Punch.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Slap.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Sit.cpp" />
+    <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Give_Money.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\Controller\GaemEngine.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Punch.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Slap.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Sit.h" />
+    <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Give_Money.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Model\Graphics\Shaders\Cube_map.frag" />
