@@ -58,8 +58,9 @@ inline T* AffordanceController::GetAffordance() {
 		}
 	}
 
-	return nullptr;
-
+	T* nAffordance = new T(_owner);
+	_affordances.push_back(nAffordance);
+	return nAffordance;
 }
 
 template<class T>
