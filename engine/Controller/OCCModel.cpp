@@ -1,14 +1,14 @@
 #include <OCCModel.h>
 
-void OCCModel::CalcEmotion(std::string event, float eventStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality)
+void OCCModel::CalcEmotion(std::string affordanceName, float eventStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality)
 {
 	if (emotion == "Anger")
 	{
-		InitAngerFCM(event, eventStrength, emotion, npcEmotion, npcPersonality);
+		InitAngerFCM(affordanceName, eventStrength, emotion, npcEmotion, npcPersonality);
 	}
 	else if (emotion == "Fear")
 	{
-		InitFearFCM(event, eventStrength, emotion, npcEmotion, npcPersonality);
+		InitFearFCM(affordanceName, eventStrength, emotion, npcEmotion, npcPersonality);
 	}
 
 	fcm.Run();
@@ -17,10 +17,10 @@ void OCCModel::CalcEmotion(std::string event, float eventStrength, std::string e
 	npcEmotion.SetReactionStrength(fcm.GetConceptValue("Action"));
 }
 
-void OCCModel::InitAngerFCM(std::string eventName, float eventStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality)
+void OCCModel::InitAngerFCM(std::string affordanceName, float eventStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality)
 {
 	FCM attackFCM;
-	attackFCM.AddConcept(eventName, eventStrength, 1);
+	attackFCM.AddConcept(affordanceName, eventStrength, 1);
 	attackFCM.AddConcept("Desireability", 0, 1);
 	attackFCM.AddConcept("Trust", 0, 1);
 	attackFCM.AddConcept("Blameworthiness", 0, 1);
@@ -28,14 +28,14 @@ void OCCModel::InitAngerFCM(std::string eventName, float eventStrength, std::str
 	attackFCM.AddConcept(emotion, 0, 1);
 	attackFCM.AddConcept("Impulsivity", 0, 1);
 	attackFCM.AddConcept("Action", 0, 1);
-	attackFCM.AddRelationship(eventName, "Trust", npcPersonality.GetAgreeableness());
-	attackFCM.AddRelationship("Trust", "Blameworthiness", 1);
-	attackFCM.AddRelationship(eventName, "Desireability", -1);
+	attackFCM.AddRelationship(affordanceName, "Trust", -npcPersonality.GetAgreeableness());
+	attackFCM.AddRelationship(affordanceName, "Desireability", -1);
+	attackFCM.AddRelationship("Trust", "Blameworthiness", -1);
 	attackFCM.AddRelationship("Blameworthiness", "Irritability", 2);
 	attackFCM.AddRelationship("Desireability", "Irritability", -1);
 	attackFCM.AddRelationship("Irritability", emotion, npcPersonality.GetNeuroticismPercent());
 	attackFCM.AddRelationship(emotion, "Impulsivity", npcPersonality.GetConscientiousnessPercent());
-	attackFCM.AddRelationship(emotion, "Action", 1);
+	attackFCM.AddRelationship("Impulsivity", "Action", 1);
 
 	this->fcm = attackFCM;
 
@@ -45,19 +45,22 @@ void OCCModel::InitAngerFCM(std::string eventName, float eventStrength, std::str
 void OCCModel::InitFearFCM(std::string eventName, float eventStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality)
 {
 	FCM fearFCM;
-	fearFCM.AddConcept(eventName, eventStrength, 1);
-	fearFCM.AddConcept("Desireability", 0, 1);
+	fearFCM.AddConcept(eventName, eventStrength, 1); //Name of the event
+	fearFCM.AddConcept("Desireability", 0, 1); //Desireability of the event, either positive or negative
+	fearFCM.AddConcept("Trust", 0, 1);
 	fearFCM.AddConcept("Likelihood", 0, 1);
-	fearFCM.AddConcept("Fear", 0, 1);
+	fearFCM.AddConcept("Irritability", 0, 1);
+	fearFCM.AddConcept(emotion, 0, 1);
+	fearFCM.AddConcept("Impulsivity", 0, 1);
 	fearFCM.AddConcept("Action", 0, 1);
 	fearFCM.AddRelationship(eventName, "Trust", npcPersonality.GetAgreeableness());
-	fearFCM.AddRelationship("Trust", "Likelihood", 1);
-	fearFCM.AddRelationship(eventName, "Desireability", -1);
+	fearFCM.AddRelationship(eventName, "Desireability", 1);
+	fearFCM.AddRelationship("Trust", "Likelihood", -1);
 	fearFCM.AddRelationship("Likelihood", "Irritability", 2);
 	fearFCM.AddRelationship("Desireability", "Irritability", -1);
 	fearFCM.AddRelationship("Irritability", emotion, npcPersonality.GetNeuroticismPercent());
 	fearFCM.AddRelationship(emotion, "Impulsivity", npcPersonality.GetConscientiousnessPercent());
-	fearFCM.AddRelationship(emotion, "Action", 1);
+	fearFCM.AddRelationship("Impulsivity", "Action", 1);
 
 	this->fcm = fearFCM;
 
