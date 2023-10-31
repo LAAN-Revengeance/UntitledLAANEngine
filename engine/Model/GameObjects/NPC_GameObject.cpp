@@ -28,6 +28,54 @@ void NPC_GameObject::Update(double dt)
 	updateFunction.Execute(*this);
 }
 
+void NPC_GameObject::AddEmotion(std::string name)
+{
+	this->emotions.push_back({ name });
+}
+
+void NPC_GameObject::AddEmotion(std::string name, float strength)
+{
+	this->emotions.push_back({ name, strength });
+}
+
+std::vector<Emotion> NPC_GameObject::GetEmotions()
+{
+	return this->emotions;
+}
+
+Emotion NPC_GameObject::GetEmotion(std::string emotionName)
+{
+	for (int i = 0; i < this->emotions.size(); i++)
+	{
+		if (this->emotions[i].GetEmotionName() == emotionName)
+			return this->emotions[i];
+	}
+
+	std::cout << "Error: no emotion with the name " << emotionName << " was found." << std::endl;
+
+	Emotion empty;
+
+	return empty;
+}
+
+void NPC_GameObject::SetEmotionStrength(std::string emotionName, float value)
+{
+	for (int i = 0; i < emotions.size(); i++)
+	{
+		if (emotions[i].GetEmotionName() == emotionName)
+			emotions[i].SetEmotionStrength(value);
+	}
+}
+
+void NPC_GameObject::SetReactionStrength(std::string emotionName, float value)
+{
+	for (int i = 0; i < emotions.size(); i++)
+	{
+		if (emotions[i].GetEmotionName() == emotionName)
+			emotions[i].SetReactionStrength(value);
+	}
+}
+
 void NPC_GameObject::MoveToPoint(PathNode* targetNode, const std::vector<PathNode*> nodes)
 {
 	if (!_pathManager)return;

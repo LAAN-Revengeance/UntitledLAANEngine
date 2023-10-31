@@ -54,6 +54,10 @@
     <ClCompile Include="engine\Controller\Serialization\ProjectLoader.cpp" />
     <ClCompile Include="Engine\Controller\Serialization\SceneLoader.cpp" />
     <ClCompile Include="engine\Controller\Utils\DebugLogger.cpp" />
+    <ClCompile Include="engine\Controller\FCM.cpp" />
+    <ClCompile Include="engine\Controller\OCCModel.cpp" />
+    <ClCompile Include="engine\Controller\Emotion.cpp" />
+    <ClCompile Include="engine\Controller\Personality.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\AffordanceController.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Pickup.cpp" />
     <ClCompile Include="engine\Controller\EmotionManager.cpp" />
@@ -140,6 +144,10 @@
     <ClInclude Include="Engine\Controller\Serialization\SceneLoader.h" />
     <ClInclude Include="engine\Controller\Utils\StreamCapture.h" />
     <ClInclude Include="engine\Controller\Utils\DebugLogger.h" />
+    <ClInclude Include="engine\Controller\FCM.h" />
+    <ClInclude Include="engine\Controller\OCCModel.h" />
+    <ClInclude Include="engine\Controller\Emotion.h" />
+    <ClInclude Include="engine\Controller\Personality.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\AffordanceController.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Pickup.h" />

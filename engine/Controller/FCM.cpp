@@ -32,7 +32,7 @@ Concept FCM::GetConcept(std::string conceptName)
 	return empty;
 }
 
-Relationship FCM::GetRelationshop(std::string concept1, std::string concept2)
+Relationship FCM::GetRelationship(std::string concept1, std::string concept2)
 {
 	for (int i = 0; i < relationships.size(); i++)
 	{
@@ -45,6 +45,15 @@ Relationship FCM::GetRelationshop(std::string concept1, std::string concept2)
 	Relationship Empty;
 
 	return Empty;
+}
+
+std::vector<Concept> FCM::GetConcepts()
+{
+	return this->concepts;
+}
+std::vector<Relationship> FCM::GetRelationships()
+{
+	return this->relationships;
 }
 
 float FCM::GetConceptValue(std::string conceptName)
@@ -100,10 +109,9 @@ void FCM::Run()
 			{
 				Concept concept1 = GetConcept(relationships[i].concept1);
 				Concept concept2 = GetConcept(relationships[i].concept2);
-				float initialValue = concept2.value;
 				float weighting = GetRelationshipWeighting(relationships[i].concept1, relationships[i].concept2);
 				float conceptValue = concept1.value / concept1.threshold;
-				float finalValue = initialValue + (conceptValue * weighting);
+				float finalValue = conceptValue * weighting;
 				if (finalValue > concept1.threshold)
 					finalValue = concept1.threshold;
 
