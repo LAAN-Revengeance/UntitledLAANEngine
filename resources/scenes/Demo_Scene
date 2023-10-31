@@ -58,6 +58,11 @@
 					"canAfford" : false,
 					"canPerform" : false,
 					"type" : "poke"
+				},
+				{
+					"canAfford" : true,
+					"canPerform" : false,
+					"type" : "sit"
 				}
 			],
 			"bounce" : 0.0,
@@ -207,7 +212,7 @@
 			[
 				{
 					"canAfford" : false,
-					"canPerform" : false,
+					"canPerform" : true,
 					"type" : "pickup"
 				},
 				{
@@ -224,6 +229,11 @@
 					"canAfford" : false,
 					"canPerform" : false,
 					"type" : "poke"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : true,
+					"type" : "sit"
 				}
 			],
 			"bounce" : 0.0,

@@ -61,14 +61,14 @@ function keyInput(dt)
 
 	if(input:GetKeyDown(KEY_E))
 	then
-		if(player.affordances:GetAffordance("pickup"):GetIsActive())
+		if(player.affordances:GetAffordance("sit"):GetIsActive())
 		then
-			player.affordances:GetAffordance("pickup"):Deactivate();
+			player.affordances:GetAffordance("sit"):Deactivate();
 		else
 			object = physics:Raycast(camera.position,camera.front,5);
 			if(not(object == nil))
 			then
-				player.affordances:GetAffordance("pickup"):Activate(object);
+				player.affordances:GetAffordance("sit"):Activate(object);
 			end
 		end
 	end
