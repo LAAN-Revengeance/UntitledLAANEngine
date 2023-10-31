@@ -155,6 +155,7 @@
     <ClCompile Include="dependencies\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="dependencies\include\jsoncpp.cpp" />
     <ClCompile Include="engine\Application\Application.cpp" />
+    <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Sit.cpp" />
     <ClCompile Include="engine\Controller\AI\Emotion\Emotion.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\AffordanceController.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Pickup.cpp" />
@@ -236,6 +237,7 @@
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Pickup.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Poke.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Punch.h" />
+    <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Sit.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Slap.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Global_Affordances.h" />
     <ClInclude Include="engine\Controller\AI\Pathfinding\A_Star.h" />

@@ -38,16 +38,16 @@ void NPC_GameObject::AddEmotion(std::string name, float strength)
 	this->emotions.push_back({ name, strength });
 }
 
-std::vector<Emotion> NPC_GameObject::GetEmotions()
+std::vector<Emotion>& NPC_GameObject::GetEmotions()
 {
 	return this->emotions;
 }
 
-Emotion NPC_GameObject::GetEmotion(std::string emotionName)
+Emotion& NPC_GameObject::GetEmotion(std::string emotionName)
 {
 	for (int i = 0; i < this->emotions.size(); i++)
 	{
-		if (this->emotions[i].GetEmotionName() == emotionName)
+		if (this->emotions[i].emotion == emotionName)
 			return this->emotions[i];
 	}
 
@@ -58,12 +58,22 @@ Emotion NPC_GameObject::GetEmotion(std::string emotionName)
 	return empty;
 }
 
+Personality& NPC_GameObject::GetPersonality()
+{
+	return this->personality;
+}
+
+void NPC_GameObject::SetPersonality(Personality personality)
+{
+	this->personality = personality;
+}
+
 void NPC_GameObject::SetEmotionStrength(std::string emotionName, float value)
 {
 	for (int i = 0; i < emotions.size(); i++)
 	{
-		if (emotions[i].GetEmotionName() == emotionName)
-			emotions[i].SetEmotionStrength(value);
+		if (emotions[i].emotion == emotionName)
+			emotions[i].emotionStrength;
 	}
 }
 
@@ -71,8 +81,8 @@ void NPC_GameObject::SetReactionStrength(std::string emotionName, float value)
 {
 	for (int i = 0; i < emotions.size(); i++)
 	{
-		if (emotions[i].GetEmotionName() == emotionName)
-			emotions[i].SetReactionStrength(value);
+		if (emotions[i].emotion == emotionName)
+			emotions[i].reactionStrength;
 	}
 }
 

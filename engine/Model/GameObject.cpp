@@ -95,7 +95,6 @@ void GameObject::Update(double dt)
 	}
 
 	updateFunction.Execute(*this);
-
 	affordanceController.Update(dt);
 }
 
@@ -134,6 +133,12 @@ glm::vec3 GameObject::GetForwardVec()
 {
 	glm::vec3 localForwardVector = glm::vec3(0.0f, 0.0f, -1.0f);
 	return glm::rotate(orientation, localForwardVector);
+}
+
+glm::vec3 GameObject::GetUpVec()
+{
+	glm::vec3 upVector(0.0f, 1.0f, 0.0f);
+	return glm::rotate(orientation, upVector);
 }
 
 DrawItem* GameObject::GetDrawItem()

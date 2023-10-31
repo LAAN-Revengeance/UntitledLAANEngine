@@ -833,6 +833,20 @@ void SceneEditor::DrawInspector()
 					}
 					ImGui::Separator();
 
+					//sit
+					Affordance* affordanceSit = affordanceController->GetAffordance<AffordanceSit>();
+					bool performSit = affordanceSit->GetCanPerform();
+					bool affordsSit = affordanceSit->GetCanAfford();
+					ImGui::Text("sit");
+					if (ImGui::Checkbox("Can Perform##sit", &performSit)) {
+						affordanceSit->SetCanPerform(performSit);
+					}
+					ImGui::SameLine();
+					if (ImGui::Checkbox("Can Afford##sit", &affordsSit)) {
+						affordanceSit->SetCanAfford(affordsSit);
+					}
+					ImGui::Separator();
+
 				}
 
 
@@ -1719,8 +1733,26 @@ void SceneEditor::DrawNPCInspector()
 
 	//NPC Emotion Settings
 	if (ImGui::CollapsingHeader("-- Emotion --")) {
-		ImGui::Text("Emotion stuff yo");
-		ImGui::Dummy(ImVec2(0.0f, 20.0f));
+		Personality personality = inspectedNPC->GetPersonality();
+		float openness = personality.GetOpenness();
+		float conscientiousness = personality.GetConscientiousness();
+		float extraversion = personality.GetExtraversion();
+		float agreeableness = personality.GetAgreeableness();
+		float neuroticsim = personality.GetNeuroticism();
+
+		ImGui::DragFloat("Openness", &openness, 2.0f, 0.0f, 120.0f);
+		ImGui::DragFloat("Conscientiousness", &conscientiousness, 2.0f, 0.0f, 120.0f);
+		ImGui::DragFloat("Extraversion", &extraversion, 2.0f, 0.0f, 120.0f);
+		ImGui::DragFloat("Agreeableness", &agreeableness, 2.0f, 0.0f, 120.0f);
+		ImGui::DragFloat("Neuroticsim", &neuroticsim, 2.0f, 0.0f, 120.0f);
+
+		personality.SetOpenness(openness);
+		personality.SetConscientiousness(conscientiousness);
+		personality.SetExtraversion(extraversion);
+		personality.SetAgreeableness(agreeableness);
+		personality.SetNeuroticism(neuroticsim);
+
+		inspectedNPC->SetPersonality(personality);
 	}
 }
 

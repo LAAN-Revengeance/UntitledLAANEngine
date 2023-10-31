@@ -61,14 +61,56 @@ function keyInput(dt)
 
 	if(input:GetKeyDown(KEY_E))
 	then
-		if(player.affordances:GetAffordance("pickup"):GetIsActive())
+		if(player.affordances:GetAffordance("sit"):GetIsActive())
 		then
-			player.affordances:GetAffordance("pickup"):Deactivate();
+			player.affordances:GetAffordance("sit"):Deactivate();
 		else
 			object = physics:Raycast(camera.position,camera.front,5);
 			if(not(object == nil))
 			then
-				player.affordances:GetAffordance("pickup"):Activate(object);
+				player.affordances:GetAffordance("sit"):Activate(object);
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_P))
+	then
+		if(player.affordances:GetAffordance("punch"):GetIsActive())
+		then
+			player.affordances:GetAffordance("punch"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("punch"):Activate(object);
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_I))
+	then
+		if(player.affordances:GetAffordance("poke"):GetIsActive())
+		then
+			player.affordances:GetAffordance("poke"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("poke"):Activate(object);
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_O))
+	then
+		if(player.affordances:GetAffordance("slap"):GetIsActive())
+		then
+			player.affordances:GetAffordance("slap"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("slap"):Activate(object);
 			end
 		end
 	end
