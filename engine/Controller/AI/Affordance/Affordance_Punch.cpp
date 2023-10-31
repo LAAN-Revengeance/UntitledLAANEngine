@@ -35,16 +35,16 @@ void AffordancePunch::Activate(GameObject* go)
 		std::cout << "Reaction Strength = " << npc->GetEmotion(emotion).reactionStrength << std::endl;
 	}
 
-	//glm::vec3 knockback = _parentObject->GetForwardVec();
-	//_otherObject->physicsBody->ApplyForceImpulse(-knockback.x * 10, -knockback.y * 10, -knockback.z * 10);
-	//
-	//if (npc->GetEmotion(emotion).reactionStrength == 1)
-	//{
-	//	glm::vec3 playerKnockback = _otherObject->GetForwardVec();
-	//	_parentObject->physicsBody->ApplyForceImpulse(playerKnockback.x * 10, playerKnockback.y * 10, playerKnockback.z * 10);
-	//	npc->SetEmotionStrength(emotion, 0);
-	//	npc->SetReactionStrength(emotion, 0);
-	//}
+	glm::vec3 knockback = _parentObject->GetForwardVec();
+	_otherObject->physicsBody->ApplyForceImpulse(-knockback.x * 10, -knockback.y * 10, -knockback.z * 10);
+	
+	if (npc->GetEmotion(emotion).reactionStrength == 1.0f)
+	{
+		glm::vec3 playerKnockback = _otherObject->GetForwardVec();
+		_parentObject->physicsBody->ApplyForceImpulse(playerKnockback.x * 10, playerKnockback.y * 10, playerKnockback.z * 10);
+		npc->SetEmotionStrength(emotion, 0);
+		npc->SetReactionStrength(emotion, 0);
+	}
 }
 
 void AffordancePunch::Deactivate()
