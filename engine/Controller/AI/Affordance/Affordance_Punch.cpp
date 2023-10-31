@@ -17,6 +17,8 @@ void AffordancePunch::Activate(GameObject* go)
 {
 	_otherObject = go;
 
+	std::cout << "Here" << std::endl;
+
 	NPC_GameObject* npc = dynamic_cast<NPC_GameObject*>(go);
 	if (npc) {
 		OCCModel occModel;

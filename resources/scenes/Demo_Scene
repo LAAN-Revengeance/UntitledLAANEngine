@@ -40,89 +40,6 @@
 			"Affordances" : 
 			[
 				{
-					"canAfford" : true,
-					"canPerform" : false,
-					"type" : "pickup"
-				},
-				{
-					"canAfford" : false,
-					"canPerform" : false,
-					"type" : "punch"
-				},
-				{
-					"canAfford" : false,
-					"canPerform" : false,
-					"type" : "slap"
-				},
-				{
-					"canAfford" : false,
-					"canPerform" : false,
-					"type" : "poke"
-				}
-			],
-			"bounce" : 0.0,
-			"castShadows" : true,
-			"dampAngle" : 0.0,
-			"dampLinear" : 0.0,
-			"diff" : "Arcade_Diff",
-			"infMass" : false,
-			"isKinematic" : true,
-			"model" : "Arcade",
-			"name" : "Arcade",
-			"physics" : 
-			[
-				{
-					"mass" : 1.0,
-					"offset" : 
-					[
-						0.0,
-						0.079999998211860657,
-						-0.0099999997764825821
-					],
-					"rotation" : 
-					[
-						0.0,
-						-0.0,
-						0.0
-					],
-					"scale" : 
-					[
-						0.2800000011920929,
-						0.50999999046325684,
-						0.25
-					],
-					"type" : 1
-				}
-			],
-			"position" : 
-			[
-				-0.003968291450291872,
-				1.4307162761688232,
-				0.43293499946594238
-			],
-			"rotation" : 
-			[
-				0.0,
-				0.0,
-				0.0,
-				1.0
-			],
-			"scale" : 
-			[
-				1.0,
-				1.0,
-				1.0
-			],
-			"shader" : "default",
-			"spec" : "Arcade_Diff",
-			"type" : "base",
-			"updateFunc" : "",
-			"useGravity" : false
-		},
-		{
-			"Affordances" : 
-			[
-				{
 					"canAfford" : false,
 					"canPerform" : false,
 					"type" : "pickup"
@@ -207,12 +124,12 @@
 			[
 				{
 					"canAfford" : false,
-					"canPerform" : false,
+					"canPerform" : true,
 					"type" : "pickup"
 				},
 				{
 					"canAfford" : false,
-					"canPerform" : false,
+					"canPerform" : true,
 					"type" : "punch"
 				},
 				{
@@ -277,6 +194,89 @@
 			"type" : "base",
 			"updateFunc" : "",
 			"useGravity" : false
+		},
+		{
+			"Affordances" : 
+			[
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "pickup"
+				},
+				{
+					"canAfford" : true,
+					"canPerform" : false,
+					"type" : "punch"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "slap"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "poke"
+				}
+			],
+			"bounce" : 0.20000000298023224,
+			"castShadows" : true,
+			"dampAngle" : 0.94999998807907104,
+			"dampLinear" : 0.94999998807907104,
+			"diff" : "Arcade_Diff",
+			"infMass" : false,
+			"isKinematic" : false,
+			"model" : "Arcade",
+			"moveSpeed" : 1.0,
+			"name" : "Arcade",
+			"physics" : 
+			[
+				{
+					"mass" : 1.0,
+					"offset" : 
+					[
+						0.0,
+						0.0,
+						0.0
+					],
+					"rotation" : 
+					[
+						0.0,
+						-0.0,
+						0.0
+					],
+					"scale" : 
+					[
+						1.1200000047683716,
+						2.3399999141693115,
+						1.7200000286102295
+					],
+					"type" : 1
+				}
+			],
+			"position" : 
+			[
+				1.6100473403930664,
+				1.367277979850769,
+				1.5553872585296631
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale" : 
+			[
+				1.0,
+				1.0,
+				1.0
+			],
+			"shader" : "default",
+			"type" : "npc",
+			"updateFunc" : "",
+			"useGravity" : true
 		}
 	],
 	"resources" : 

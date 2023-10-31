@@ -73,6 +73,22 @@ function keyInput(dt)
 		end
 	end
 
+	if(input:GetKeyDown(KEY_P))
+	then
+		if(player.affordances:GetAffordance("punch"):GetIsActive())
+		then
+			player.affordances:GetAffordance("punch"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				print("Hello");
+				player.affordances:GetAffordance("punch"):Activate(object);
+				print("After");
+			end
+		end
+	end
+
 end
 
 lastX = input:GetMouseX();
