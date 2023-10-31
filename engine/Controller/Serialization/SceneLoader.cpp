@@ -485,6 +485,22 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
     jobj["rotation"].append(obj->orientation.z);
     jobj["rotation"].append(obj->orientation.w);
 
+    //affordances
+    AffordanceController* affordances = &obj->affordanceController;
+    auto& affordanceVec = affordances->_affordances;
+
+    for (size_t i = 0; i < affordanceVec.size(); i++)
+    {
+        std::string type = affordanceVec[i]->GetType();
+        Json::Value jAffordance;
+
+        jAffordance["type"] = type;
+        jAffordance["canAfford"] = affordanceVec[i]->GetCanAfford();
+        jAffordance["canPerform"] = affordanceVec[i]->GetCanPerform();
+
+        jobj["Affordances"].append(jAffordance);
+    }
+
     //lua function
     jobj["updateFunc"] = obj->GetUpdateFunction().GetName();
 

@@ -29,6 +29,8 @@ private:
 
 	GameObject* _owner;
 	std::vector<Affordance*> _affordances;
+
+	friend class SceneLoader;
 };
 
 template<class T>
