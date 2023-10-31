@@ -3,7 +3,6 @@
 void FCM::AddConcept(std::string name, float value, float threshold)
 {
 	concepts.push_back({ name, value, threshold });
-	std::cout << "Here" << std::endl;
 
 	return;
 }
@@ -11,8 +10,6 @@ void FCM::AddConcept(std::string name, float value, float threshold)
 void FCM::AddRelationship(std::string Concept1, std::string Concept2, float Weighting)
 {
 	relationships.push_back({ Concept1, Concept2, Weighting });
-
-	std::cout << "Here1" << std::endl;
 
 	return;
 }
@@ -105,17 +102,17 @@ void FCM::Run()
 	{
 		for (int j = 0; j < relationships.size(); j++)
 		{
-			if (concepts[i].name == relationships[i].concept1)
+			if (concepts[i].name == relationships[j].concept1)
 			{
-				Concept concept1 = GetConcept(relationships[i].concept1);
-				Concept concept2 = GetConcept(relationships[i].concept2);
-				float weighting = GetRelationshipWeighting(relationships[i].concept1, relationships[i].concept2);
+				Concept concept1 = GetConcept(relationships[j].concept1);
+				Concept concept2 = GetConcept(relationships[j].concept2);
+				float weighting = GetRelationshipWeighting(relationships[j].concept1, relationships[j].concept2);
 				float conceptValue = concept1.value / concept1.threshold;
 				float finalValue = conceptValue * weighting;
-				if (finalValue > concept1.threshold)
-					finalValue = concept1.threshold;
 
-				SetConceptValue(relationships[i].concept2, finalValue);
+				//std::cout << relationships[j].concept1 << ", " << concept1.value << ", " << relationships[j].concept2 << ", " << finalValue << std::endl;
+
+				SetConceptValue(relationships[j].concept2, finalValue);
 			}
 		}
 	}
