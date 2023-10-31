@@ -26,8 +26,11 @@ void AffordancePunch::Activate(GameObject* go)
 		occModel.EvaluateAffordance(GetType(), 0, emotion, affordanceStrength);
 		npc->AddEmotion(emotion);
 		occModel.CalcEmotionStrength(affordanceStrength, emotion, npc->GetEmotion(emotion), npc->GetPersonality());
-	}
 
+		std::cout << "Affordance Strength = " << affordanceStrength << std::endl;
+		std::cout << "Emotion Strength = " << npc->GetEmotion(emotion).emotionStrength << std::endl;
+		std::cout << "Reaction Strength = " << npc->GetEmotion(emotion).reactionStrength << std::endl;
+	}
 }
 
 void AffordancePunch::Deactivate()

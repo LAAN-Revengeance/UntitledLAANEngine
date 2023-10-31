@@ -11,7 +11,7 @@ public:
 	void  SetAgreeableness(float value);
 	void  SetNeuroticism(float value);
 
-	float GetOppenness();
+	float GetOpenness();
 	float GetConscientiousness();
 	float GetExtraversion();
 	float GetAgreeableness();

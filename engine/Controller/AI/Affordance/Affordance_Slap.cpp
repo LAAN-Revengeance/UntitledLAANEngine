@@ -1,6 +1,7 @@
 #include "Affordance_Slap.h"
 #include <GameObject.h>
-
+#include <GameObjects/NPC_GameObject.h>
+#include <AI/Emotion/OCCModel.h>
 
 AffordanceSlap::AffordanceSlap(GameObject* go)
 {
@@ -14,8 +15,22 @@ AffordanceSlap::~AffordanceSlap()
 
 void AffordanceSlap::Activate(GameObject* go)
 {
-	_active = true;
 	_otherObject = go;
+
+	NPC_GameObject* npc = dynamic_cast<NPC_GameObject*>(go);
+	if (npc) {
+		OCCModel occModel;
+		std::string emotion;
+		float affordanceStrength;
+
+		occModel.EvaluateAffordance(GetType(), 0, emotion, affordanceStrength);
+		npc->AddEmotion(emotion);
+		occModel.CalcEmotionStrength(affordanceStrength, emotion, npc->GetEmotion(emotion), npc->GetPersonality());
+
+		std::cout << "Affordance Strength = " << affordanceStrength << std::endl;
+		std::cout << "Emotion Strength = " << npc->GetEmotion(emotion).emotionStrength << std::endl;
+		std::cout << "Reaction Strength = " << npc->GetEmotion(emotion).reactionStrength << std::endl;
+	}
 }
 
 void AffordanceSlap::Deactivate()
