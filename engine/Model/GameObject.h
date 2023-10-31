@@ -114,6 +114,7 @@ public:
 	glm::mat4 GetTransformMatrix();
 
 	glm::vec3 GetForwardVec();
+	glm::vec3 GetUpVec();
 
 		///Position in worldspace
 	glm::vec3 position = {0,0,0};
