@@ -59,7 +59,7 @@ void Personality::SetNeuroticism(float value)
 	this->neuroticism = value;
 }
 
-float Personality::GetOppenness()
+float Personality::GetOpenness()
 {
 	return this->openness;
 }
