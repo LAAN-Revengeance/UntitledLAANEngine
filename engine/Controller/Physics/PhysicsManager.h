@@ -7,7 +7,7 @@
 #include "PhysicsIntegrator.h"
 #include "Collisionsolver.h"
 #include <Utils/DebugLogger.h>
-#include <GameObject.h>
+#include <GameObjects/NPC_GameObject.h>	
 
 class rp3dCollisionCallback : public rp3d::CollisionCallback {
 
@@ -120,6 +120,7 @@ public:
 		 *	@return reference to the first rigidbody intersected by the ray
 		*/
 	GameObject* Raycast(glm::vec3 origin, glm::vec3 direction, float distance = FLT_MAX);
+	NPC_GameObject* RaycastNPC(glm::vec3 origin, glm::vec3 direction, float distance = FLT_MAX);
 private:
 
 	//ID to physics body map

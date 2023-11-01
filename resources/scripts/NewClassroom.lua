@@ -28,6 +28,14 @@ end
 function update(deltaTime)
 	keyInput(deltaTime)
 	mouseMoveFunc(deltaTime)
+
+	object = physics:RaycastNPC(scene:GetCamera().position,scene:GetCamera().front,20);
+	if(not (object == nil))
+	then
+	
+		draw_emotion_gui(object);
+	end
+	
 end
 
 
@@ -177,6 +185,30 @@ function mouseMoveFunc(dt)
 	end
 
 	camera:UpdateCameraVectors();
+end
+
+function draw_emotion_gui(go)
+
+	GUI:StartGUI();
+
+	wWidth = GUI:GetWindowWidth();
+	wHeight = GUI:GetWindowHeight();
+	wRatio = wWidth/wHeight;
+
+	sWidth = 0.1;
+	sHeight = (sWidth) * wRatio;
+
+	GUI:StartWindow("exitSplash",false,sWidth,sHeight,0.35,sWidth/ wRatio);
+
+		if(GUI:ImageButton("Angry",(wWidth * sWidth) * 0.8,(wHeight * sHeight) * 0.8,0.5,0.5))
+		then
+			CloseWindow(true);
+		end
+
+	GUI:EndEndWindow();
+
+	GUI:EndGUI();
+
 end
 
 

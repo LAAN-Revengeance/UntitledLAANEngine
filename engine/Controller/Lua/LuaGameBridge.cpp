@@ -273,7 +273,8 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"AddBoxCollider", &PhysicsManager::AddBoxCollider,
 		"AddCapsuleCollider", &PhysicsManager::AddCapsuleCollider,
 		"GetPhysicsBody", &PhysicsManager::GetPhysicsBody,
-		"Raycast",&PhysicsManager::Raycast
+		"Raycast",&PhysicsManager::Raycast,
+		"RaycastNPC",&PhysicsManager::RaycastNPC
 	);
 	
 

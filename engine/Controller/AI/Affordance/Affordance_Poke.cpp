@@ -37,12 +37,6 @@ void AffordancePoke::Activate(GameObject* go)
 	glm::vec3 knockback = _parentObject->GetForwardVec();
 	_otherObject->physicsBody->ApplyForceImpulse(-knockback.x * 0.1, -knockback.y * 0.1, -knockback.z * 0.1);
 
-	if (npc->GetEmotion(emotion).reactionStrength == 1)
-	{
-		_parentObject->physicsBody->ApplyForceImpulse(knockback.x * 10, knockback.y * 10, -knockback.z * 10);
-		npc->SetEmotionStrength(emotion, 0);
-		npc->SetReactionStrength(emotion, 0);
-	}
 }
 
 void AffordancePoke::Deactivate()
