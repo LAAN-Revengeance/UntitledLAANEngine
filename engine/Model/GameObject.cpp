@@ -1,5 +1,5 @@
 #include "GameObject.h"
-
+#include <MD2/MD2Reader.h>
 
 GameObject::GameObject() : affordanceController(this){
 }
@@ -149,10 +149,18 @@ DrawItem* GameObject::GetDrawItem()
 
 AnimatedDrawItem* GameObject::GetAnimationItem()
 {
-	AnimatedDrawItem* drawItem = nullptr;
-	drawItem = dynamic_cast<AnimatedDrawItem*>(drawItem);
-	if (drawItem) {
-		return drawItem;
+	AnimatedDrawItem* animatedDrawItem = nullptr;
+	animatedDrawItem = dynamic_cast<AnimatedDrawItem*>(model_data);
+	if (animatedDrawItem) {
+
+		return animatedDrawItem;
+	}
+
+	animatedDrawItem = nullptr;
+	animatedDrawItem = dynamic_cast<md2_model_t*>(model_data);
+	if (animatedDrawItem) {
+
+		return animatedDrawItem;
 	}
 
 	return nullptr;

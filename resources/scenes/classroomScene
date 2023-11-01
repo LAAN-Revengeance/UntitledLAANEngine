@@ -41,10 +41,10 @@
 				"ID" : 1,
 				"neighbours" : 
 				[
-					10,
 					1,
-					2,
-					11
+					11,
+					10,
+					2
 				],
 				"obstacle" : false,
 				"position" : 
@@ -64,12 +64,12 @@
 				"ID" : 2,
 				"neighbours" : 
 				[
+					1,
+					11,
 					12,
 					10,
-					3,
-					1,
 					2,
-					11
+					3
 				],
 				"obstacle" : false,
 				"position" : 
@@ -89,12 +89,12 @@
 				"ID" : 3,
 				"neighbours" : 
 				[
+					11,
 					12,
 					13,
-					3,
+					4,
 					2,
-					11,
-					4
+					3
 				],
 				"obstacle" : false,
 				"position" : 
@@ -114,12 +114,12 @@
 				"ID" : 4,
 				"neighbours" : 
 				[
-					12,
-					14,
-					13,
-					3,
 					5,
-					4
+					12,
+					13,
+					14,
+					4,
+					3
 				],
 				"obstacle" : false,
 				"position" : 
@@ -139,12 +139,12 @@
 				"ID" : 5,
 				"neighbours" : 
 				[
-					14,
-					13,
 					6,
 					5,
-					4,
-					15
+					13,
+					14,
+					15,
+					4
 				],
 				"obstacle" : false,
 				"position" : 
@@ -164,11 +164,11 @@
 				"ID" : 6,
 				"neighbours" : 
 				[
-					14,
 					16,
 					6,
 					5,
 					7,
+					14,
 					15
 				],
 				"obstacle" : false,
@@ -189,12 +189,12 @@
 				"ID" : 7,
 				"neighbours" : 
 				[
-					17,
 					16,
 					6,
-					8,
 					7,
-					15
+					15,
+					8,
+					17
 				],
 				"obstacle" : false,
 				"position" : 
@@ -214,12 +214,12 @@
 				"ID" : 8,
 				"neighbours" : 
 				[
-					17,
-					18,
 					16,
-					8,
 					7,
-					9
+					8,
+					9,
+					17,
+					18
 				],
 				"obstacle" : false,
 				"position" : 
@@ -239,10 +239,10 @@
 				"ID" : 9,
 				"neighbours" : 
 				[
-					17,
-					18,
 					8,
-					9
+					9,
+					17,
+					18
 				],
 				"obstacle" : false,
 				"position" : 
@@ -262,12 +262,12 @@
 				"ID" : 10,
 				"neighbours" : 
 				[
-					10,
-					20,
 					1,
-					2,
 					11,
-					19
+					10,
+					2,
+					19,
+					20
 				],
 				"obstacle" : false,
 				"position" : 
@@ -287,15 +287,15 @@
 				"ID" : 11,
 				"neighbours" : 
 				[
+					1,
+					11,
 					12,
 					10,
-					3,
-					20,
-					21,
-					1,
 					2,
-					11,
-					19
+					3,
+					21,
+					19,
+					20
 				],
 				"obstacle" : false,
 				"position" : 
@@ -315,15 +315,15 @@
 				"ID" : 12,
 				"neighbours" : 
 				[
+					11,
 					12,
 					13,
-					3,
-					20,
-					21,
+					4,
 					2,
+					3,
+					21,
 					22,
-					11,
-					4
+					20
 				],
 				"obstacle" : false,
 				"position" : 
@@ -343,14 +343,14 @@
 				"ID" : 13,
 				"neighbours" : 
 				[
+					5,
 					12,
-					14,
 					13,
+					14,
+					4,
 					3,
 					21,
 					22,
-					5,
-					4,
 					23
 				],
 				"obstacle" : false,
@@ -371,15 +371,15 @@
 				"ID" : 14,
 				"neighbours" : 
 				[
-					14,
-					24,
-					13,
 					6,
-					22,
 					5,
-					4,
+					13,
+					14,
 					15,
-					23
+					4,
+					22,
+					23,
+					24
 				],
 				"obstacle" : true,
 				"position" : 
@@ -399,15 +399,15 @@
 				"ID" : 15,
 				"neighbours" : 
 				[
-					14,
-					24,
 					16,
-					25,
 					6,
 					5,
 					7,
+					14,
 					15,
-					23
+					23,
+					24,
+					25
 				],
 				"obstacle" : true,
 				"position" : 
@@ -427,15 +427,15 @@
 				"ID" : 16,
 				"neighbours" : 
 				[
-					24,
+					16,
+					6,
+					7,
+					15,
+					8,
 					26,
 					17,
-					16,
-					25,
-					6,
-					8,
-					7,
-					15
+					24,
+					25
 				],
 				"obstacle" : false,
 				"position" : 
@@ -455,15 +455,15 @@
 				"ID" : 17,
 				"neighbours" : 
 				[
+					16,
+					7,
+					8,
+					9,
 					26,
 					17,
 					18,
-					16,
 					25,
-					8,
-					27,
-					7,
-					9
+					27
 				],
 				"obstacle" : false,
 				"position" : 
@@ -483,12 +483,12 @@
 				"ID" : 18,
 				"neighbours" : 
 				[
+					8,
+					9,
 					26,
 					17,
 					18,
-					8,
-					27,
-					9
+					27
 				],
 				"obstacle" : false,
 				"position" : 
@@ -508,12 +508,12 @@
 				"ID" : 19,
 				"neighbours" : 
 				[
-					10,
-					20,
-					28,
-					29,
 					11,
-					19
+					10,
+					19,
+					20,
+					29,
+					28
 				],
 				"obstacle" : false,
 				"position" : 
@@ -533,15 +533,15 @@
 				"ID" : 20,
 				"neighbours" : 
 				[
+					11,
 					12,
 					10,
-					20,
-					28,
-					29,
 					21,
-					11,
-					30,
-					19
+					19,
+					20,
+					29,
+					28,
+					30
 				],
 				"obstacle" : false,
 				"position" : 
@@ -561,15 +561,15 @@
 				"ID" : 21,
 				"neighbours" : 
 				[
+					11,
 					12,
 					13,
+					21,
+					22,
 					20,
 					29,
-					21,
-					31,
-					22,
-					11,
-					30
+					30,
+					31
 				],
 				"obstacle" : false,
 				"position" : 
@@ -590,14 +590,14 @@
 				"neighbours" : 
 				[
 					12,
-					14,
 					13,
+					14,
 					21,
-					31,
 					22,
+					23,
 					30,
 					32,
-					23
+					31
 				],
 				"obstacle" : false,
 				"position" : 
@@ -617,15 +617,15 @@
 				"ID" : 23,
 				"neighbours" : 
 				[
-					14,
-					24,
 					13,
-					33,
-					31,
-					22,
-					32,
+					14,
 					15,
-					23
+					22,
+					23,
+					24,
+					32,
+					33,
+					31
 				],
 				"obstacle" : true,
 				"position" : 
@@ -645,15 +645,15 @@
 				"ID" : 24,
 				"neighbours" : 
 				[
-					14,
-					24,
-					34,
-					33,
 					16,
+					14,
+					15,
+					23,
+					24,
 					25,
 					32,
-					15,
-					23
+					33,
+					34
 				],
 				"obstacle" : true,
 				"position" : 
@@ -673,15 +673,15 @@
 				"ID" : 25,
 				"neighbours" : 
 				[
-					24,
-					26,
-					34,
-					17,
-					33,
 					16,
+					15,
+					26,
+					17,
+					24,
 					25,
-					35,
-					15
+					33,
+					34,
+					35
 				],
 				"obstacle" : true,
 				"position" : 
@@ -701,14 +701,14 @@
 				"ID" : 26,
 				"neighbours" : 
 				[
+					16,
 					26,
-					34,
 					17,
 					18,
-					16,
 					25,
-					35,
 					27,
+					34,
+					35,
 					36
 				],
 				"obstacle" : true,
@@ -732,8 +732,8 @@
 					26,
 					17,
 					18,
-					35,
 					27,
+					35,
 					36
 				],
 				"obstacle" : false,
@@ -754,12 +754,12 @@
 				"ID" : 28,
 				"neighbours" : 
 				[
-					20,
-					28,
-					29,
-					37,
 					38,
-					19
+					37,
+					19,
+					20,
+					29,
+					28
 				],
 				"obstacle" : false,
 				"position" : 
@@ -779,15 +779,15 @@
 				"ID" : 29,
 				"neighbours" : 
 				[
-					20,
-					28,
-					29,
-					21,
-					30,
-					37,
-					38,
 					39,
-					19
+					38,
+					37,
+					21,
+					19,
+					20,
+					29,
+					28,
+					30
 				],
 				"obstacle" : false,
 				"position" : 
@@ -807,15 +807,15 @@
 				"ID" : 30,
 				"neighbours" : 
 				[
+					40,
+					39,
+					38,
+					21,
+					22,
 					20,
 					29,
-					21,
-					31,
-					22,
 					30,
-					38,
-					39,
-					40
+					31
 				],
 				"obstacle" : false,
 				"position" : 
@@ -835,15 +835,15 @@
 				"ID" : 31,
 				"neighbours" : 
 				[
-					21,
-					31,
-					22,
-					30,
-					39,
-					32,
-					23,
+					40,
 					41,
-					40
+					39,
+					21,
+					22,
+					23,
+					30,
+					32,
+					31
 				],
 				"obstacle" : true,
 				"position" : 
@@ -863,15 +863,15 @@
 				"ID" : 32,
 				"neighbours" : 
 				[
-					24,
-					33,
-					31,
-					22,
-					32,
-					23,
-					41,
 					40,
-					42
+					42,
+					41,
+					22,
+					23,
+					24,
+					32,
+					33,
+					31
 				],
 				"obstacle" : true,
 				"position" : 
@@ -891,15 +891,15 @@
 				"ID" : 33,
 				"neighbours" : 
 				[
-					24,
-					34,
-					33,
-					25,
-					32,
-					23,
+					42,
 					41,
 					43,
-					42
+					23,
+					24,
+					25,
+					32,
+					33,
+					34
 				],
 				"obstacle" : false,
 				"position" : 
@@ -919,15 +919,15 @@
 				"ID" : 34,
 				"neighbours" : 
 				[
-					24,
-					26,
-					34,
-					33,
-					25,
-					35,
-					43,
+					44,
 					42,
-					44
+					43,
+					26,
+					24,
+					25,
+					33,
+					34,
+					35
 				],
 				"obstacle" : false,
 				"position" : 
@@ -947,15 +947,15 @@
 				"ID" : 35,
 				"neighbours" : 
 				[
-					26,
-					34,
-					25,
-					35,
-					27,
-					36,
-					45,
+					44,
 					43,
-					44
+					45,
+					26,
+					25,
+					27,
+					34,
+					35,
+					36
 				],
 				"obstacle" : false,
 				"position" : 
@@ -975,12 +975,12 @@
 				"ID" : 36,
 				"neighbours" : 
 				[
-					26,
-					35,
-					27,
-					36,
+					44,
 					45,
-					44
+					26,
+					27,
+					35,
+					36
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1000,12 +1000,12 @@
 				"ID" : 37,
 				"neighbours" : 
 				[
-					28,
-					29,
-					37,
-					38,
 					47,
-					46
+					46,
+					38,
+					37,
+					29,
+					28
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1025,15 +1025,15 @@
 				"ID" : 38,
 				"neighbours" : 
 				[
-					28,
-					29,
-					30,
-					37,
-					38,
-					39,
 					47,
 					48,
-					46
+					39,
+					46,
+					38,
+					37,
+					29,
+					28,
+					30
 				],
 				"obstacle" : true,
 				"position" : 
@@ -1053,15 +1053,15 @@
 				"ID" : 39,
 				"neighbours" : 
 				[
-					29,
-					31,
-					30,
-					38,
-					39,
 					40,
 					47,
+					48,
+					39,
+					38,
 					49,
-					48
+					29,
+					30,
+					31
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1081,15 +1081,15 @@
 				"ID" : 40,
 				"neighbours" : 
 				[
-					31,
-					30,
-					39,
-					32,
-					41,
 					40,
-					49,
+					48,
+					41,
+					39,
 					50,
-					48
+					49,
+					30,
+					32,
+					31
 				],
 				"obstacle" : true,
 				"position" : 
@@ -1109,15 +1109,15 @@
 				"ID" : 41,
 				"neighbours" : 
 				[
-					33,
-					31,
-					32,
+					40,
+					42,
 					41,
 					51,
-					40,
-					49,
 					50,
-					42
+					49,
+					32,
+					33,
+					31
 				],
 				"obstacle" : true,
 				"position" : 
@@ -1137,15 +1137,15 @@
 				"ID" : 42,
 				"neighbours" : 
 				[
-					34,
-					33,
-					32,
-					41,
-					51,
-					50,
-					43,
 					42,
-					52
+					41,
+					43,
+					51,
+					52,
+					50,
+					32,
+					33,
+					34
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1165,15 +1165,15 @@
 				"ID" : 43,
 				"neighbours" : 
 				[
-					34,
-					33,
-					35,
-					51,
-					43,
-					53,
+					44,
 					42,
+					43,
+					51,
 					52,
-					44
+					53,
+					33,
+					34,
+					35
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1193,15 +1193,15 @@
 				"ID" : 44,
 				"neighbours" : 
 				[
+					44,
+					43,
+					52,
+					53,
+					54,
+					45,
 					34,
 					35,
-					36,
-					45,
-					43,
-					53,
-					52,
-					54,
-					44
+					36
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1221,12 +1221,12 @@
 				"ID" : 45,
 				"neighbours" : 
 				[
-					35,
-					36,
-					45,
+					44,
 					53,
 					54,
-					44
+					45,
+					35,
+					36
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1246,10 +1246,10 @@
 				"ID" : 46,
 				"neighbours" : 
 				[
-					37,
-					38,
 					47,
-					46
+					46,
+					38,
+					37
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1269,12 +1269,12 @@
 				"ID" : 47,
 				"neighbours" : 
 				[
-					37,
-					38,
-					39,
 					47,
 					48,
-					46
+					39,
+					46,
+					38,
+					37
 				],
 				"obstacle" : true,
 				"position" : 
@@ -1294,12 +1294,12 @@
 				"ID" : 48,
 				"neighbours" : 
 				[
-					38,
-					39,
 					40,
 					47,
-					49,
-					48
+					48,
+					39,
+					38,
+					49
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1319,12 +1319,12 @@
 				"ID" : 49,
 				"neighbours" : 
 				[
-					39,
-					41,
 					40,
-					49,
+					48,
+					41,
+					39,
 					50,
-					48
+					49
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1344,12 +1344,12 @@
 				"ID" : 50,
 				"neighbours" : 
 				[
+					40,
+					42,
 					41,
 					51,
-					40,
-					49,
 					50,
-					42
+					49
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1369,12 +1369,12 @@
 				"ID" : 51,
 				"neighbours" : 
 				[
-					41,
-					51,
-					50,
-					43,
 					42,
-					52
+					41,
+					43,
+					51,
+					52,
+					50
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1394,12 +1394,12 @@
 				"ID" : 52,
 				"neighbours" : 
 				[
-					51,
-					43,
-					53,
+					44,
 					42,
+					43,
+					51,
 					52,
-					44
+					53
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1419,12 +1419,12 @@
 				"ID" : 53,
 				"neighbours" : 
 				[
-					45,
+					44,
 					43,
-					53,
 					52,
+					53,
 					54,
-					44
+					45
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1444,10 +1444,10 @@
 				"ID" : 54,
 				"neighbours" : 
 				[
-					45,
+					44,
 					53,
 					54,
-					44
+					45
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1468,53 +1468,6 @@
 	"objects" : 
 	[
 		{
-			"bounce" : 0.0,
-			"castShadows" : true,
-			"dampAngle" : 0.0,
-			"dampLinear" : 0.0,
-			"diff" : "Robot",
-			"emis" : "Robot_Emiss",
-			"emotion" : null,
-			"infMass" : false,
-			"isKinematic" : false,
-			"model" : "Robot",
-			"moveSpeed" : 1.0,
-			"name" : "Robot",
-			"personality" : 
-			{
-				"agreeableness" : 60.0,
-				"conscientiousness" : 60.0,
-				"extraversion" : 60.0,
-				"neuroticism" : 60.0,
-				"openness" : 60.0
-			},
-			"physics" : null,
-			"position" : 
-			[
-				-12.605350494384766,
-				0.025660812854766846,
-				2.0302443504333496
-			],
-			"rotation" : 
-			[
-				0.0,
-				0.0,
-				0.0,
-				1.0
-			],
-			"scale" : 
-			[
-				2.5,
-				2.5,
-				2.5
-			],
-			"shader" : "default",
-			"spec" : "Robot_Spec1",
-			"type" : "npc",
-			"updateFunc" : "",
-			"useGravity" : false
-		},
-		{
 			"Affordances" : 
 			[
 				{
@@ -1523,7 +1476,7 @@
 					"type" : "pickup"
 				},
 				{
-					"canAfford" : true,
+					"canAfford" : false,
 					"canPerform" : false,
 					"type" : "punch"
 				},
@@ -1538,7 +1491,7 @@
 					"type" : "poke"
 				},
 				{
-					"canAfford" : false,
+					"canAfford" : true,
 					"canPerform" : false,
 					"type" : "sit"
 				},
@@ -1546,63 +1499,182 @@
 					"canAfford" : false,
 					"canPerform" : false,
 					"type" : "giveMoney"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "compliment"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "threaten"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "generousOffer"
 				}
 			],
-			"bounce" : 0.0099999997764825821,
+			"bounce" : 0.0,
 			"castShadows" : true,
-			"dampAngle" : 0.94999998807907104,
-			"dampLinear" : 0.94999998807907104,
-			"diff" : "binTexture",
+			"dampAngle" : 0.0,
+			"dampLinear" : 0.0,
+			"diff" : "Robot",
+			"emis" : "Robot_Emiss",
+			"emotion" : null,
 			"infMass" : false,
-			"isKinematic" : false,
-			"model" : "bin",
-			"name" : "bin",
+			"isKinematic" : true,
+			"model" : "Robot",
+			"moveSpeed" : 5.0,
+			"name" : "Robot",
+			"personality" : 
+			{
+				"agreeableness" : 60.0,
+				"conscientiousness" : 60.0,
+				"extraversion" : 60.0,
+				"neuroticism" : 60.0,
+				"openness" : 60.0
+			},
 			"physics" : 
 			[
 				{
+					"height" : 2.0,
 					"mass" : 1.0,
 					"offset" : 
 					[
 						0.0,
-						0.9100000262260437,
+						1.9900000095367432,
 						0.0
 					],
+					"radius" : 1.0,
 					"rotation" : 
 					[
 						0.0,
 						-0.0,
 						0.0
 					],
-					"scale" : 
-					[
-						0.40000000596046448,
-						0.88999998569488525,
-						0.85000002384185791
-					],
-					"type" : 1
+					"type" : 3
 				}
 			],
 			"position" : 
 			[
-				-17.08793830871582,
-				0.0,
-				8.3663043975830078
+				10.076962471008301,
+				1.233142648605839e-43,
+				9.9998683929443359
 			],
 			"rotation" : 
 			[
+				-1.4012984643248171e-45,
+				0.10230447351932526,
 				0.0,
-				0.0,
-				0.0,
-				1.0
+				0.99475312232971191
 			],
 			"scale" : 
 			[
-				1.0,
-				1.0,
-				1.0
+				2.5,
+				2.5,
+				2.5
 			],
 			"shader" : "default",
-			"type" : "base",
+			"spec" : "Robot_Spec1",
+			"type" : "npc",
+			"updateFunc" : "npc_wander",
+			"useGravity" : false
+		},
+		{
+			"Affordances" : 
+			[
+				{
+					"canAfford" : true,
+					"canPerform" : false,
+					"type" : "pickup"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "punch"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "slap"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "poke"
+				},
+				{
+					"canAfford" : true,
+					"canPerform" : false,
+					"type" : "sit"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "giveMoney"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "compliment"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "threaten"
+				},
+				{
+					"canAfford" : false,
+					"canPerform" : false,
+					"type" : "generousOffer"
+				}
+			],
+			"bounce" : 0.0,
+			"castShadows" : true,
+			"dampAngle" : 0.0,
+			"dampLinear" : 0.0,
+			"diff" : "Robot",
+			"emis" : "Robot_Emiss",
+			"emotion" : null,
+			"infMass" : false,
+			"isKinematic" : false,
+			"model" : "Robot",
+			"moveSpeed" : 5.0,
+			"name" : "Robot1",
+			"personality" : 
+			{
+				"agreeableness" : 60.0,
+				"conscientiousness" : 60.0,
+				"extraversion" : 60.0,
+				"neuroticism" : 60.0,
+				"openness" : 60.0
+			},
+			"physics" : null,
+			"position" : 
+			[
+				-8.7988367080688477,
+				1.2191296639625909e-43,
+				3.2229433059692383
+			],
+			"rotation" : 
+			[
+				-2.8025969286496341e-45,
+				0.335468590259552,
+				1.4012984643248171e-45,
+				0.94205141067504883
+			],
+			"scale" : 
+			[
+				2.5,
+				2.5,
+				2.5
+			],
+			"shader" : "default",
+			"spec" : "Robot_Spec1",
+			"type" : "npc",
+			"updateFunc" : "npc_wander",
 			"useGravity" : true
 		},
 		{
@@ -7012,16 +7084,16 @@
 			],
 			"position" : 
 			[
-				-4.0449905395507812,
+				-12.745219230651855,
 				2.020000696182251,
-				6.5066943168640137
+				8.9908227920532227
 			],
 			"rotation" : 
 			[
 				0.0,
-				0.98228746652603149,
+				0.97408139705657959,
 				0.0,
-				-0.18738019466400146
+				0.22619780898094177
 			],
 			"scale" : 
 			[
@@ -7109,7 +7181,39 @@
 				"type" : "mesh"
 			},
 			{
-				"animations" : null,
+				"animations" : 
+				[
+					{
+						"end" : 88,
+						"name" : "attack",
+						"speed" : 80.0,
+						"start" : 54
+					},
+					{
+						"end" : 191,
+						"name" : "fall",
+						"speed" : 50.0,
+						"start" : 125
+					},
+					{
+						"end" : 30,
+						"name" : "idle",
+						"speed" : 50.0,
+						"start" : 0
+					},
+					{
+						"end" : 53,
+						"name" : "run",
+						"speed" : 25.0,
+						"start" : 31
+					},
+					{
+						"end" : 124,
+						"name" : "shoot",
+						"speed" : 50.0,
+						"start" : 89
+					}
+				],
 				"name" : "Robot",
 				"path" : "resources\\models\\InitialZ\\robot2.md2",
 				"type" : "md2"

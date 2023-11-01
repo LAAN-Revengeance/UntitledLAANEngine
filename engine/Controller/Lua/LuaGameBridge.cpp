@@ -1,5 +1,6 @@
 #include "LuaGameBridge.h"
 #include <AnimatedDrawItem.h>
+#include <MD2/MD2Reader.h>
 
 void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 {
@@ -76,11 +77,18 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 	//expose draw item
 	luaManager->Expose_CPPClass<AnimatedDrawItem>("AnimatedDrawItem",
 		sol::no_constructor,
+		sol::base_classes, sol::bases<DrawItem>(),
 		"SetAnimationSpeed", &AnimatedDrawItem::SetAnimationSpeed,
 		"SetAnimation", &AnimatedDrawItem::SetAnimation,
 		"Animate", &AnimatedDrawItem::Animate
 		);
 
+
+	//expose draw item
+	luaManager->Expose_CPPClass<md2_model_t>("MD2",
+		sol::no_constructor,
+		sol::base_classes, sol::bases<AnimatedDrawItem>()
+	);
 	
 	//expose emotion
 	luaManager->Expose_CPPClass<Emotion>("Emotion",

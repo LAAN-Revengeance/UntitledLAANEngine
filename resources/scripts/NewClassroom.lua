@@ -184,7 +184,17 @@ function npc_wander(go,dt)
 	
 	if(not go:GetIsMoving())
 	then
+		go:GetAnimation():Animate("run")
+		go:MoveToPoint(go:FindRandomNode());
+	end
+
+end
+
+function npc_dynamic(go,dt)
 	
+	if(not go:GetIsMoving())
+	then
+		go:GetAnimation():Animate("run")
 		go:MoveToPoint(go:FindRandomNode());
 	end
 

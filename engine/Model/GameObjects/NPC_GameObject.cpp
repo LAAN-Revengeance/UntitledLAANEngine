@@ -185,7 +185,7 @@ GaemPathing::PathNode* NPC_GameObject::FindRandomNode()
 		return nullptr;
 	}
 
-	srand(static_cast<unsigned int>(time(nullptr)));
+	srand(static_cast<unsigned int>(time(nullptr)) * ID);
 	int randNum = rand() % _pathManager->GetNodes().size();
 
 	PathNode* randomNode = _pathManager->GetNodes()[randNum];
