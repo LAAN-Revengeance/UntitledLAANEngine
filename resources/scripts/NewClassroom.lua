@@ -178,3 +178,14 @@ function mouseMoveFunc(dt)
 
 	camera:UpdateCameraVectors();
 end
+
+
+function npc_wander(go,dt)
+	
+	if(not go:GetIsMoving())
+	then
+	
+		go:MoveToPoint(go:FindRandomNode());
+	end
+
+end

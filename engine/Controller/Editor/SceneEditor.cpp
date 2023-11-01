@@ -747,32 +747,8 @@ void SceneEditor::DrawInspector()
 					}
 					ImGui::Dummy(ImVec2(0.0f, 20.0f));
 				}
-				
-				if (ImGui::CollapsingHeader("-- Lua Function --")) {
-					
-					
-					std::vector<std::string> funcs = LuaManager::GetFunctionNames(luaFilePath);
-					std::string funcName = inspectedObject->GetUpdateFunction().GetName();
 
-					ImGui::Text("Object Update function:");
-					if (ImGui::BeginCombo("##functionSelector", funcName.c_str()))
-					{
-						if (ImGui::Selectable("--None--")) {
-							inspectedObject->SetUpdateFunction(LuaFunction<void, GameObject&>());
-						}
-						
-						for (auto& funcName : funcs)
-						{
-							if (ImGui::Selectable(funcName.c_str())) {
-								inspectedObject->SetUpdateFunction(LuaFunction<void, GameObject&>(funcName.c_str(), &engine->scene->luaState));
-							}
-						}
-						ImGui::EndCombo();
-					}
-					ImGui::Dummy(ImVec2(0.0f, 20.0f));
-				}
-
-				//NPC affordance Settings
+				//affordance Settings
 				if (ImGui::CollapsingHeader("-- Affordances --")) {
 					
 					AffordanceController* affordanceController = &inspectedObject->affordanceController;
@@ -1732,6 +1708,31 @@ void SceneEditor::DrawNPCInspector()
 	NPC_GameObject* inspectedNPC = static_cast<NPC_GameObject*>(inspectedObject);
 	if (!inspectedNPC) return;
 
+
+	if (ImGui::CollapsingHeader("-- Lua Function --")) {
+
+
+		std::vector<std::string> funcs = LuaManager::GetFunctionNames(luaFilePath);
+		std::string funcName = inspectedNPC->GetUpdateFunction().GetName();
+
+		ImGui::Text("Object Update function:");
+		if (ImGui::BeginCombo("##functionSelector", funcName.c_str()))
+		{
+			if (ImGui::Selectable("--None--")) {
+				inspectedNPC->SetUpdateFunction(LuaFunction<void, NPC_GameObject&, float>());
+			}
+
+			for (auto& funcName : funcs)
+			{
+				if (ImGui::Selectable(funcName.c_str())) {
+					inspectedNPC->SetUpdateFunction(LuaFunction<void, NPC_GameObject&, float>(funcName.c_str(), &engine->scene->luaState));
+				}
+			}
+			ImGui::EndCombo();
+		}
+		ImGui::Dummy(ImVec2(0.0f, 20.0f));
+	}
+
 	//NPC Path Finding settings
 	if (ImGui::CollapsingHeader("-- Path Finding --")) {
 		
@@ -1766,7 +1767,7 @@ void SceneEditor::DrawNPCInspector()
 			for (auto& node : pathNodeManager->GetNodes())
 			{
 				if (ImGui::Selectable(std::to_string(node->GetID()).c_str())) {
-					inspectedNPC->MoveToPoint(node, pathNodeManager->GetNodes());
+					inspectedNPC->MoveToPoint(node);
 				}
 			}
 			ImGui::EndCombo();

@@ -351,7 +351,7 @@ Scene& SceneLoader::LoadScene(const char* inName)
 
             NPC_GameObject* npc = dynamic_cast<NPC_GameObject*>(go);
             npc->SetMoveSpeed(objects[i]["moveSpeed"].asFloat());
-
+            npc->SetPathManager(&pathManager);
 
             for (unsigned int i = 0; i < jobj["emotion"].size(); i++)
             {
@@ -559,9 +559,6 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
         jobj["Affordances"].append(jAffordance);
     }
 
-    //lua function
-    jobj["updateFunc"] = obj->GetUpdateFunction().GetName();
-
     //model data
     if (obj->model_data)
         jobj["model"] = obj->model_data->name;
@@ -661,6 +658,10 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
         NPC_GameObject* npc = dynamic_cast<NPC_GameObject*>(obj);
         jobj["type"] = "npc";
         jobj["moveSpeed"] = npc->GetMoveSpeed();
+
+        //lua function
+        jobj["updateFunc"] = npc->GetUpdateFunction().GetName();
+
 
         //Emotions
         Json::Value jEmotions;

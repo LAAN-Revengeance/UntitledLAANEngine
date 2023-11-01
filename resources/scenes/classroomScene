@@ -41,10 +41,10 @@
 				"ID" : 1,
 				"neighbours" : 
 				[
-					2,
 					10,
-					11,
-					1
+					1,
+					2,
+					11
 				],
 				"obstacle" : false,
 				"position" : 
@@ -64,12 +64,12 @@
 				"ID" : 2,
 				"neighbours" : 
 				[
-					2,
-					10,
-					11,
 					12,
+					10,
 					3,
-					1
+					1,
+					2,
+					11
 				],
 				"obstacle" : false,
 				"position" : 
@@ -89,12 +89,12 @@
 				"ID" : 3,
 				"neighbours" : 
 				[
-					2,
-					13,
-					11,
 					12,
-					4,
-					3
+					13,
+					3,
+					2,
+					11,
+					4
 				],
 				"obstacle" : false,
 				"position" : 
@@ -114,12 +114,12 @@
 				"ID" : 4,
 				"neighbours" : 
 				[
-					5,
+					12,
 					14,
 					13,
-					12,
-					4,
-					3
+					3,
+					5,
+					4
 				],
 				"obstacle" : false,
 				"position" : 
@@ -139,12 +139,12 @@
 				"ID" : 5,
 				"neighbours" : 
 				[
-					5,
-					6,
 					14,
 					13,
-					15,
-					4
+					6,
+					5,
+					4,
+					15
 				],
 				"obstacle" : false,
 				"position" : 
@@ -164,12 +164,12 @@
 				"ID" : 6,
 				"neighbours" : 
 				[
-					5,
-					6,
 					14,
-					15,
 					16,
-					7
+					6,
+					5,
+					7,
+					15
 				],
 				"obstacle" : false,
 				"position" : 
@@ -190,11 +190,11 @@
 				"neighbours" : 
 				[
 					17,
-					6,
-					15,
-					8,
 					16,
-					7
+					6,
+					8,
+					7,
+					15
 				],
 				"obstacle" : false,
 				"position" : 
@@ -215,11 +215,11 @@
 				"neighbours" : 
 				[
 					17,
-					9,
-					8,
+					18,
 					16,
+					8,
 					7,
-					18
+					9
 				],
 				"obstacle" : false,
 				"position" : 
@@ -240,9 +240,9 @@
 				"neighbours" : 
 				[
 					17,
-					9,
+					18,
 					8,
-					18
+					9
 				],
 				"obstacle" : false,
 				"position" : 
@@ -262,12 +262,12 @@
 				"ID" : 10,
 				"neighbours" : 
 				[
-					2,
 					10,
 					20,
-					19,
+					1,
+					2,
 					11,
-					1
+					19
 				],
 				"obstacle" : false,
 				"position" : 
@@ -287,15 +287,15 @@
 				"ID" : 11,
 				"neighbours" : 
 				[
-					2,
-					10,
-					20,
-					19,
-					11,
 					12,
+					10,
 					3,
+					20,
 					21,
-					1
+					1,
+					2,
+					11,
+					19
 				],
 				"obstacle" : false,
 				"position" : 
@@ -315,15 +315,15 @@
 				"ID" : 12,
 				"neighbours" : 
 				[
-					2,
-					13,
-					20,
-					11,
 					12,
-					4,
+					13,
 					3,
+					20,
 					21,
-					22
+					2,
+					22,
+					11,
+					4
 				],
 				"obstacle" : false,
 				"position" : 
@@ -343,15 +343,15 @@
 				"ID" : 13,
 				"neighbours" : 
 				[
-					5,
+					12,
 					14,
 					13,
-					23,
-					12,
-					4,
 					3,
 					21,
-					22
+					22,
+					5,
+					4,
+					23
 				],
 				"obstacle" : false,
 				"position" : 
@@ -371,15 +371,15 @@
 				"ID" : 14,
 				"neighbours" : 
 				[
-					24,
-					5,
-					6,
 					14,
+					24,
 					13,
-					23,
-					15,
+					6,
+					22,
+					5,
 					4,
-					22
+					15,
+					23
 				],
 				"obstacle" : true,
 				"position" : 
@@ -399,15 +399,15 @@
 				"ID" : 15,
 				"neighbours" : 
 				[
-					24,
-					5,
-					6,
 					14,
-					25,
-					23,
-					15,
+					24,
 					16,
-					7
+					25,
+					6,
+					5,
+					7,
+					15,
+					23
 				],
 				"obstacle" : true,
 				"position" : 
@@ -428,14 +428,14 @@
 				"neighbours" : 
 				[
 					24,
-					17,
-					6,
-					25,
 					26,
-					15,
-					8,
+					17,
 					16,
-					7
+					25,
+					6,
+					8,
+					7,
+					15
 				],
 				"obstacle" : false,
 				"position" : 
@@ -455,15 +455,15 @@
 				"ID" : 17,
 				"neighbours" : 
 				[
-					17,
-					9,
-					25,
 					26,
-					8,
+					17,
+					18,
 					16,
-					7,
+					25,
+					8,
 					27,
-					18
+					7,
+					9
 				],
 				"obstacle" : false,
 				"position" : 
@@ -483,12 +483,12 @@
 				"ID" : 18,
 				"neighbours" : 
 				[
-					17,
-					9,
 					26,
+					17,
+					18,
 					8,
 					27,
-					18
+					9
 				],
 				"obstacle" : false,
 				"position" : 
@@ -508,12 +508,12 @@
 				"ID" : 19,
 				"neighbours" : 
 				[
-					29,
 					10,
 					20,
-					19,
+					28,
+					29,
 					11,
-					28
+					19
 				],
 				"obstacle" : false,
 				"position" : 
@@ -533,15 +533,15 @@
 				"ID" : 20,
 				"neighbours" : 
 				[
-					29,
+					12,
 					10,
 					20,
-					30,
-					19,
-					11,
 					28,
-					12,
-					21
+					29,
+					21,
+					11,
+					30,
+					19
 				],
 				"obstacle" : false,
 				"position" : 
@@ -561,15 +561,15 @@
 				"ID" : 21,
 				"neighbours" : 
 				[
-					29,
+					12,
 					13,
 					20,
-					30,
-					31,
-					11,
-					12,
+					29,
 					21,
-					22
+					31,
+					22,
+					11,
+					30
 				],
 				"obstacle" : false,
 				"position" : 
@@ -589,15 +589,15 @@
 				"ID" : 22,
 				"neighbours" : 
 				[
+					12,
 					14,
 					13,
-					30,
-					31,
-					23,
-					32,
-					12,
 					21,
-					22
+					31,
+					22,
+					30,
+					32,
+					23
 				],
 				"obstacle" : false,
 				"position" : 
@@ -617,15 +617,15 @@
 				"ID" : 23,
 				"neighbours" : 
 				[
-					24,
 					14,
+					24,
 					13,
-					31,
-					23,
-					32,
 					33,
+					31,
+					22,
+					32,
 					15,
-					22
+					23
 				],
 				"obstacle" : true,
 				"position" : 
@@ -645,15 +645,15 @@
 				"ID" : 24,
 				"neighbours" : 
 				[
-					24,
 					14,
-					25,
-					23,
-					32,
+					24,
+					34,
 					33,
-					15,
 					16,
-					34
+					25,
+					32,
+					15,
+					23
 				],
 				"obstacle" : true,
 				"position" : 
@@ -674,14 +674,14 @@
 				"neighbours" : 
 				[
 					24,
-					17,
-					25,
 					26,
+					34,
+					17,
 					33,
-					15,
 					16,
+					25,
 					35,
-					34
+					15
 				],
 				"obstacle" : true,
 				"position" : 
@@ -701,15 +701,15 @@
 				"ID" : 26,
 				"neighbours" : 
 				[
-					17,
-					25,
 					26,
-					16,
-					36,
-					27,
-					35,
+					34,
+					17,
 					18,
-					34
+					16,
+					25,
+					35,
+					27,
+					36
 				],
 				"obstacle" : true,
 				"position" : 
@@ -729,12 +729,12 @@
 				"ID" : 27,
 				"neighbours" : 
 				[
-					17,
 					26,
-					36,
-					27,
+					17,
+					18,
 					35,
-					18
+					27,
+					36
 				],
 				"obstacle" : false,
 				"position" : 
@@ -754,12 +754,12 @@
 				"ID" : 28,
 				"neighbours" : 
 				[
-					38,
-					29,
 					20,
-					19,
 					28,
-					37
+					29,
+					37,
+					38,
+					19
 				],
 				"obstacle" : false,
 				"position" : 
@@ -779,15 +779,15 @@
 				"ID" : 29,
 				"neighbours" : 
 				[
-					38,
-					29,
-					39,
 					20,
-					30,
-					19,
 					28,
+					29,
 					21,
-					37
+					30,
+					37,
+					38,
+					39,
+					19
 				],
 				"obstacle" : false,
 				"position" : 
@@ -807,15 +807,15 @@
 				"ID" : 30,
 				"neighbours" : 
 				[
-					38,
-					29,
-					39,
-					40,
 					20,
-					30,
-					31,
+					29,
 					21,
-					22
+					31,
+					22,
+					30,
+					38,
+					39,
+					40
 				],
 				"obstacle" : false,
 				"position" : 
@@ -835,15 +835,15 @@
 				"ID" : 31,
 				"neighbours" : 
 				[
-					41,
-					39,
-					40,
-					30,
-					31,
-					23,
-					32,
 					21,
-					22
+					31,
+					22,
+					30,
+					39,
+					32,
+					23,
+					41,
+					40
 				],
 				"obstacle" : true,
 				"position" : 
@@ -863,15 +863,15 @@
 				"ID" : 32,
 				"neighbours" : 
 				[
-					41,
-					42,
 					24,
-					40,
-					31,
-					23,
-					32,
 					33,
-					22
+					31,
+					22,
+					32,
+					23,
+					41,
+					40,
+					42
 				],
 				"obstacle" : true,
 				"position" : 
@@ -891,15 +891,15 @@
 				"ID" : 33,
 				"neighbours" : 
 				[
+					24,
+					34,
+					33,
+					25,
+					32,
+					23,
 					41,
 					43,
-					42,
-					24,
-					25,
-					23,
-					32,
-					33,
-					34
+					42
 				],
 				"obstacle" : false,
 				"position" : 
@@ -919,15 +919,15 @@
 				"ID" : 34,
 				"neighbours" : 
 				[
-					44,
+					24,
+					26,
+					34,
+					33,
+					25,
+					35,
 					43,
 					42,
-					24,
-					25,
-					26,
-					33,
-					35,
-					34
+					44
 				],
 				"obstacle" : false,
 				"position" : 
@@ -947,15 +947,15 @@
 				"ID" : 35,
 				"neighbours" : 
 				[
-					45,
-					44,
-					43,
-					25,
 					26,
-					36,
-					27,
+					34,
+					25,
 					35,
-					34
+					27,
+					36,
+					45,
+					43,
+					44
 				],
 				"obstacle" : false,
 				"position" : 
@@ -975,12 +975,12 @@
 				"ID" : 36,
 				"neighbours" : 
 				[
-					45,
-					44,
 					26,
-					36,
+					35,
 					27,
-					35
+					36,
+					45,
+					44
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1000,12 +1000,12 @@
 				"ID" : 37,
 				"neighbours" : 
 				[
-					47,
-					46,
-					38,
-					29,
 					28,
-					37
+					29,
+					37,
+					38,
+					47,
+					46
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1025,15 +1025,15 @@
 				"ID" : 38,
 				"neighbours" : 
 				[
-					48,
-					47,
-					46,
-					38,
-					29,
-					39,
-					30,
 					28,
-					37
+					29,
+					30,
+					37,
+					38,
+					39,
+					47,
+					48,
+					46
 				],
 				"obstacle" : true,
 				"position" : 
@@ -1053,15 +1053,15 @@
 				"ID" : 39,
 				"neighbours" : 
 				[
-					48,
-					49,
-					47,
-					38,
 					29,
+					31,
+					30,
+					38,
 					39,
 					40,
-					30,
-					31
+					47,
+					49,
+					48
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1081,15 +1081,15 @@
 				"ID" : 40,
 				"neighbours" : 
 				[
-					48,
+					31,
+					30,
+					39,
+					32,
 					41,
+					40,
 					49,
 					50,
-					39,
-					40,
-					30,
-					31,
-					32
+					48
 				],
 				"obstacle" : true,
 				"position" : 
@@ -1109,15 +1109,15 @@
 				"ID" : 41,
 				"neighbours" : 
 				[
-					51,
-					41,
-					49,
-					50,
-					42,
-					40,
+					33,
 					31,
 					32,
-					33
+					41,
+					51,
+					40,
+					49,
+					50,
+					42
 				],
 				"obstacle" : true,
 				"position" : 
@@ -1137,15 +1137,15 @@
 				"ID" : 42,
 				"neighbours" : 
 				[
-					51,
-					52,
+					34,
+					33,
+					32,
 					41,
+					51,
 					50,
 					43,
 					42,
-					32,
-					33,
-					34
+					52
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1165,15 +1165,15 @@
 				"ID" : 43,
 				"neighbours" : 
 				[
+					34,
+					33,
+					35,
 					51,
-					52,
-					44,
 					43,
 					53,
 					42,
-					33,
-					35,
-					34
+					52,
+					44
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1193,15 +1193,15 @@
 				"ID" : 44,
 				"neighbours" : 
 				[
-					52,
-					54,
+					34,
+					35,
+					36,
 					45,
-					44,
 					43,
 					53,
-					36,
-					35,
-					34
+					52,
+					54,
+					44
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1221,12 +1221,12 @@
 				"ID" : 45,
 				"neighbours" : 
 				[
-					54,
-					45,
-					44,
-					53,
+					35,
 					36,
-					35
+					45,
+					53,
+					54,
+					44
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1246,10 +1246,10 @@
 				"ID" : 46,
 				"neighbours" : 
 				[
-					47,
-					46,
+					37,
 					38,
-					37
+					47,
+					46
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1269,12 +1269,12 @@
 				"ID" : 47,
 				"neighbours" : 
 				[
-					48,
-					47,
-					46,
+					37,
 					38,
 					39,
-					37
+					47,
+					48,
+					46
 				],
 				"obstacle" : true,
 				"position" : 
@@ -1294,12 +1294,12 @@
 				"ID" : 48,
 				"neighbours" : 
 				[
-					48,
-					49,
-					47,
 					38,
 					39,
-					40
+					40,
+					47,
+					49,
+					48
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1319,12 +1319,12 @@
 				"ID" : 49,
 				"neighbours" : 
 				[
-					48,
+					39,
 					41,
+					40,
 					49,
 					50,
-					39,
-					40
+					48
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1344,12 +1344,12 @@
 				"ID" : 50,
 				"neighbours" : 
 				[
-					51,
 					41,
+					51,
+					40,
 					49,
 					50,
-					42,
-					40
+					42
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1369,12 +1369,12 @@
 				"ID" : 51,
 				"neighbours" : 
 				[
-					51,
-					52,
 					41,
+					51,
 					50,
 					43,
-					42
+					42,
+					52
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1395,11 +1395,11 @@
 				"neighbours" : 
 				[
 					51,
-					52,
-					44,
 					43,
 					53,
-					42
+					42,
+					52,
+					44
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1419,12 +1419,12 @@
 				"ID" : 53,
 				"neighbours" : 
 				[
+					45,
+					43,
+					53,
 					52,
 					54,
-					45,
-					44,
-					43,
-					53
+					44
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1444,10 +1444,10 @@
 				"ID" : 54,
 				"neighbours" : 
 				[
-					54,
 					45,
-					44,
-					53
+					53,
+					54,
+					44
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1467,6 +1467,53 @@
 	},
 	"objects" : 
 	[
+		{
+			"bounce" : 0.0,
+			"castShadows" : true,
+			"dampAngle" : 0.0,
+			"dampLinear" : 0.0,
+			"diff" : "Robot",
+			"emis" : "Robot_Emiss",
+			"emotion" : null,
+			"infMass" : false,
+			"isKinematic" : false,
+			"model" : "Robot",
+			"moveSpeed" : 1.0,
+			"name" : "Robot",
+			"personality" : 
+			{
+				"agreeableness" : 60.0,
+				"conscientiousness" : 60.0,
+				"extraversion" : 60.0,
+				"neuroticism" : 60.0,
+				"openness" : 60.0
+			},
+			"physics" : null,
+			"position" : 
+			[
+				-12.605350494384766,
+				0.025660812854766846,
+				2.0302443504333496
+			],
+			"rotation" : 
+			[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale" : 
+			[
+				2.5,
+				2.5,
+				2.5
+			],
+			"shader" : "default",
+			"spec" : "Robot_Spec1",
+			"type" : "npc",
+			"updateFunc" : "",
+			"useGravity" : false
+		},
 		{
 			"Affordances" : 
 			[
@@ -1556,7 +1603,6 @@
 			],
 			"shader" : "default",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : true
 		},
 		{
@@ -1754,7 +1800,6 @@
 			"shader" : "default",
 			"spec" : "chairSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -1952,7 +1997,6 @@
 			"shader" : "default",
 			"spec" : "chairSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -2150,7 +2194,6 @@
 			"shader" : "default",
 			"spec" : "chairSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -2348,7 +2391,6 @@
 			"shader" : "default",
 			"spec" : "chairSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -2546,7 +2588,6 @@
 			"shader" : "default",
 			"spec" : "chairSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -2744,7 +2785,6 @@
 			"shader" : "default",
 			"spec" : "chairSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -2942,7 +2982,6 @@
 			"shader" : "default",
 			"spec" : "chairSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -3140,7 +3179,6 @@
 			"shader" : "default",
 			"spec" : "chairSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -3338,7 +3376,6 @@
 			"shader" : "default",
 			"spec" : "chairSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -3536,7 +3573,6 @@
 			"shader" : "default",
 			"spec" : "chairSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -3729,7 +3765,6 @@
 			"shader" : "default",
 			"spec" : "chairSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -3922,7 +3957,6 @@
 			"shader" : "default",
 			"spec" : "chairSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -4115,7 +4149,6 @@
 			"shader" : "default",
 			"spec" : "chairSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -4308,7 +4341,6 @@
 			"shader" : "default",
 			"spec" : "chairSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -4501,7 +4533,6 @@
 			"shader" : "default",
 			"spec" : "chairSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -4694,7 +4725,6 @@
 			"shader" : "default",
 			"spec" : "chairSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -4887,7 +4917,6 @@
 			"shader" : "default",
 			"spec" : "chairSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -5153,7 +5182,6 @@
 			"shader" : "default",
 			"spec" : "classroomSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -5301,7 +5329,6 @@
 			"shader" : "default",
 			"spec" : "deskSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -5449,7 +5476,6 @@
 			"shader" : "default",
 			"spec" : "deskSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -5597,7 +5623,6 @@
 			"shader" : "default",
 			"spec" : "deskSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -5745,7 +5770,6 @@
 			"shader" : "default",
 			"spec" : "deskSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -5893,7 +5917,6 @@
 			"shader" : "default",
 			"spec" : "deskSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -6041,7 +6064,6 @@
 			"shader" : "default",
 			"spec" : "deskSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -6189,7 +6211,6 @@
 			"shader" : "default",
 			"spec" : "deskSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -6337,7 +6358,6 @@
 			"shader" : "default",
 			"spec" : "deskSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -6485,7 +6505,6 @@
 			"shader" : "default",
 			"spec" : "deskSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -6633,7 +6652,6 @@
 			"shader" : "default",
 			"spec" : "deskSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -6781,7 +6799,6 @@
 			"shader" : "default",
 			"spec" : "deskSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -6929,49 +6946,7 @@
 			"shader" : "default",
 			"spec" : "deskSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
-		},
-		{
-			"castShadows" : true,
-			"diff" : "Robot",
-			"emis" : "Robot_Emiss",
-			"emotion" : null,
-			"model" : "Robot",
-			"moveSpeed" : 1.0,
-			"name" : "Robot",
-			"personality" : 
-			{
-				"agreeableness" : 60.0,
-				"conscientiousness" : 60.0,
-				"extraversion" : 60.0,
-				"neuroticism" : 60.0,
-				"openness" : 60.0
-			},
-			"physics" : null,
-			"position" : 
-			[
-				-12.605350494384766,
-				0.025660812854766846,
-				2.0302443504333496
-			],
-			"rotation" : 
-			[
-				0.0,
-				0.0,
-				0.0,
-				1.0
-			],
-			"scale" : 
-			[
-				2.5,
-				2.5,
-				2.5
-			],
-			"shader" : "default",
-			"spec" : "Robot_Spec1",
-			"type" : "npc",
-			"updateFunc" : ""
 		},
 		{
 			"Affordances" : 
@@ -7056,7 +7031,6 @@
 			],
 			"shader" : "default",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -7116,7 +7090,6 @@
 			"shader" : "default",
 			"spec" : "teacherDeskSpecular",
 			"type" : "base",
-			"updateFunc" : "",
 			"useGravity" : false
 		}
 	],

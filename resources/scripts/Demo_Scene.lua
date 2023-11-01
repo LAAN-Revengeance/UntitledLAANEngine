@@ -1,4 +1,5 @@
 dofile("resources/scripts/keybinds.lua")
+dofile("resources/scripts/npc_functions.lua")
 
 --main init function, called once before update
 function init()

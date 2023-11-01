@@ -11,6 +11,7 @@
 #include <Utils/DebugLogger.h>
 #include <Lua/LuaFunction.h>
 #include <AI/Affordance/AffordanceController.h>
+#include <AnimatedDrawItem.h>
 
 /**
 *	@Class GameObject
@@ -142,20 +143,18 @@ public:
 
 		//Retuns a reference to model data
 	DrawItem* GetDrawItem();
+	AnimatedDrawItem* GetAnimationItem();
 		
 		//Material properties
 	Material material;
 
 	AffordanceController affordanceController;
 
-	void SetUpdateFunction(LuaFunction<void, GameObject&> function);
-	LuaFunction<void, GameObject&> GetUpdateFunction();
+
 	
 protected:
 		///Unique identifier
 	unsigned int ID = 0;
-
-	LuaFunction<void, GameObject&> updateFunction;
 
 	friend class PhysicsManager;
 };

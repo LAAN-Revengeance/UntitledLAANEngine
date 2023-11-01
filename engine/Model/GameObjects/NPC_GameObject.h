@@ -29,10 +29,11 @@ public:
 	//#########################################
 	//#		NAVIGATION/PATHFINDING
 	//#########################################
-	void MoveToPoint(GaemPathing::PathNode* targetNode,const std::vector<GaemPathing::PathNode*> nodes);
+	void MoveToPoint(GaemPathing::PathNode* targetNode);
 	void CancelPath();
-	GaemPathing::PathNode* FindClosestNode(const std::vector<GaemPathing::PathNode*> nodes);
-	GaemPathing::PathNode* FindFurthestNode(const std::vector<GaemPathing::PathNode*> nodes);
+	GaemPathing::PathNode* FindClosestNode();
+	GaemPathing::PathNode* FindFurthestNode();
+	GaemPathing::PathNode* FindRandomNode();
 	
 	GaemPathing::PathNode* GetTargetNode();
 	GaemPathing::PathNode* GetCurrentNode();
@@ -44,8 +45,14 @@ public:
 	bool GetIsMoving();
 	void SetIsMoving(bool isMoving);
 
+	void SetUpdateFunction(LuaFunction<void, NPC_GameObject&, float> function);
+	LuaFunction<void, NPC_GameObject&, float> GetUpdateFunction();
+
 private:
 	
+	//AI scripting
+	LuaFunction<void, NPC_GameObject&, float> updateFunction;
+
 	//Emotion
 	std::vector<Emotion> emotions;
 	Personality personality;

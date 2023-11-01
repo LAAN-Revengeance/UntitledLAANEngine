@@ -93,8 +93,6 @@ void GameObject::Update(double dt)
 		SetPosition(physicsBody->GetPosition());
 		SetRotation(physicsBody->GetRotation());
 	}
-
-	updateFunction.Execute(*this);
 	affordanceController.Update(dt);
 }
 
@@ -149,12 +147,14 @@ DrawItem* GameObject::GetDrawItem()
 	return nullptr;
 }
 
-void GameObject::SetUpdateFunction(LuaFunction<void, GameObject&> function)
+AnimatedDrawItem* GameObject::GetAnimationItem()
 {
-	updateFunction = function;
+	AnimatedDrawItem* drawItem = nullptr;
+	drawItem = dynamic_cast<AnimatedDrawItem*>(drawItem);
+	if (drawItem) {
+		return drawItem;
+	}
+
+	return nullptr;
 }
 
-LuaFunction<void, GameObject&> GameObject::GetUpdateFunction()
-{
-	return updateFunction;
-}

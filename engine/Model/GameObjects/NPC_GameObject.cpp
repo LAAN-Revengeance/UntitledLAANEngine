@@ -25,7 +25,7 @@ void NPC_GameObject::Update(double dt)
 	if (_isMoving)
 		UpdatePathing(dt);
 
-	updateFunction.Execute(*this);
+	updateFunction.Execute(*this,dt);
 }
 
 void NPC_GameObject::AddEmotion(std::string name)
@@ -86,14 +86,14 @@ void NPC_GameObject::SetReactionStrength(std::string emotionName, float value)
 	}
 }
 
-void NPC_GameObject::MoveToPoint(PathNode* targetNode, const std::vector<PathNode*> nodes)
+void NPC_GameObject::MoveToPoint(PathNode* targetNode)
 {
 	if (!_pathManager)return;
 	_targetNode = targetNode;
 	
 	//find current node
 	bool inNetwork = false;
-	for (auto& node : nodes)
+	for (auto& node : _pathManager->GetNodes())
 	{
 		if (node->ContainsPoint(position)) {
 			_currentNode = node;
@@ -111,9 +111,9 @@ void NPC_GameObject::MoveToPoint(PathNode* targetNode, const std::vector<PathNod
 			_isMoving = true;
 		}
 		else {
-			_currentNode = FindClosestNode(_pathManager->GetNodes());
+			_currentNode = FindClosestNode();
 			if (_currentNode == nullptr) {
-				DebugLogger::Log(GAEM_LOG, "Pating to closest node", name);
+				DebugLogger::Log(GAEM_LOG, "Pathing to closest node", name);
 				_isMoving = false;
 				return;
 			}
@@ -129,17 +129,17 @@ void NPC_GameObject::MoveToPoint(PathNode* targetNode, const std::vector<PathNod
 	_isMoving = true;
 }
 
-GaemPathing::PathNode* NPC_GameObject::FindClosestNode(const std::vector<GaemPathing::PathNode*> nodes)
+GaemPathing::PathNode* NPC_GameObject::FindClosestNode()
 {
-	if (nodes.empty()) {
+	if (_pathManager->GetNodes().empty()) {
 		DebugLogger::Log(GAEM_ERROR, "Could not find closest  node", name);
 		return nullptr;
 	}
 		
-	PathNode* closestNode = nodes[0];
+	PathNode* closestNode = _pathManager->GetNodes()[0];
 	float squareDist = glm::distance2(closestNode->GetPosition(), position);
 
-	for (auto& node : nodes)
+	for (auto& node : _pathManager->GetNodes())
 	{
 		float sqrTestDist = glm::distance2(node->GetPosition(), position);
 		if (sqrTestDist < squareDist) {
@@ -153,18 +153,18 @@ GaemPathing::PathNode* NPC_GameObject::FindClosestNode(const std::vector<GaemPat
 	return closestNode;
 }
 
-GaemPathing::PathNode* NPC_GameObject::FindFurthestNode(const std::vector<GaemPathing::PathNode*> nodes)
+GaemPathing::PathNode* NPC_GameObject::FindFurthestNode()
 {
-	if (nodes.empty()) {
+	if (_pathManager->GetNodes().empty()) {
 		DebugLogger::Log(GAEM_ERROR, "Could not find furthest node", name);
 		return nullptr;
 	}
 	
 
-	PathNode* furthestNode = nodes[0];
+	PathNode* furthestNode = _pathManager->GetNodes()[0];
 	float squareDist = glm::distance2(furthestNode->GetPosition(), position);
 
-	for (auto& node : nodes)
+	for (auto& node : _pathManager->GetNodes())
 	{
 		float sqrTestDist = glm::distance2(node->GetPosition(), position);
 		if (sqrTestDist > squareDist) {
@@ -176,6 +176,23 @@ GaemPathing::PathNode* NPC_GameObject::FindFurthestNode(const std::vector<GaemPa
 	DebugLogger::Log(GAEM_LOG, "Furthest node found", name);
 
 	return furthestNode;
+}
+
+GaemPathing::PathNode* NPC_GameObject::FindRandomNode()
+{
+	if (_pathManager->GetNodes().empty()) {
+		DebugLogger::Log(GAEM_ERROR, "No nodes to select from", name);
+		return nullptr;
+	}
+
+	srand(static_cast<unsigned int>(time(nullptr)));
+	int randNum = rand() % _pathManager->GetNodes().size();
+
+	PathNode* randomNode = _pathManager->GetNodes()[randNum];
+
+	DebugLogger::Log(GAEM_LOG, "Random node found", name);
+
+	return randomNode;
 }
 
 void NPC_GameObject::CancelPath()
@@ -230,6 +247,17 @@ void NPC_GameObject::SetIsMoving(bool isMoving)
 	_isMoving = isMoving;
 }
 
+void NPC_GameObject::SetUpdateFunction(LuaFunction<void, NPC_GameObject&, float> function)
+{
+	updateFunction = function;
+}
+
+LuaFunction<void, NPC_GameObject&, float> NPC_GameObject::GetUpdateFunction()
+{
+	return updateFunction;
+}
+
+
 void NPC_GameObject::UpdatePathing(double dt)
 {
 	if (_returningToNetwork) {
@@ -246,7 +274,7 @@ void NPC_GameObject::UpdatePathing(double dt)
 	if (!_pathManager)return;
 
 	if (_currentPath.top()->GetObstacle()) {
-		MoveToPoint(_targetNode, _pathManager->GetNodes());
+		MoveToPoint(_targetNode);
 		return;
 	}
 
@@ -267,6 +295,11 @@ void NPC_GameObject::UpdatePathing(double dt)
 
 	
 	//look at point direction
-	LookAt(_currentPath.top()->GetPosition());
+	//LookAt(_currentPath.top()->GetPosition());
+
+
+	//lookat the right og NPC, for demo only(md2 model is rotated wrong so bandaid fix here)
+	glm::vec3 toTarget = (_currentPath.top()->GetPosition() - position);
+	LookAt(glm::cross({ 0,20,0 }, toTarget));
 
 }

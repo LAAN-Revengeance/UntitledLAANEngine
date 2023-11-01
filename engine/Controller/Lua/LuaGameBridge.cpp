@@ -1,4 +1,5 @@
 #include "LuaGameBridge.h"
+#include <AnimatedDrawItem.h>
 
 void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 {
@@ -72,13 +73,22 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		sol::no_constructor
 	);
 
-	////expose draw item
-	//Expose_CPPClass<DrawItem>("DrawItem",
-	//	sol::no_constructor,
-	//	"SetAnimationSpeed", &DrawItem::SetAnimationSpeed,
-	//	"SetAnimation", &DrawItem::SetAnimation,
-	//	"Animate", &DrawItem::Animate
-	//	);
+	//expose draw item
+	luaManager->Expose_CPPClass<AnimatedDrawItem>("AnimatedDrawItem",
+		sol::no_constructor,
+		"SetAnimationSpeed", &AnimatedDrawItem::SetAnimationSpeed,
+		"SetAnimation", &AnimatedDrawItem::SetAnimation,
+		"Animate", &AnimatedDrawItem::Animate
+		);
+
+	
+	//expose emotion
+	luaManager->Expose_CPPClass<Emotion>("Emotion",
+		sol::constructors<Emotion()>(),
+		"emotion", &Emotion::emotion,
+		"emotionStrength", &Emotion::emotionStrength,
+		"reactionStrength", &Emotion::reactionStrength
+	);
 
 	//expose game object
 	luaManager->Expose_CPPClass<GameObject>("GameObject",
@@ -96,7 +106,8 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"physicsBody", &GameObject::physicsBody,
 		"affordances", &GameObject::affordanceController,
 		"GetForward", &GameObject::GetForwardVec,
-		"Rotate", &GameObject::Rotate
+		"Rotate", &GameObject::Rotate,
+		"GetAnimation", &GameObject::GetAnimationItem
 	);
 
 	//expose terrain
@@ -122,7 +133,12 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"SetMoveSpeed", &NPC_GameObject::SetMoveSpeed,
 		"CancelPath", &NPC_GameObject::CancelPath,
 		"FindClosestNode", &NPC_GameObject::FindClosestNode,
-		"FindFurthestNode", &NPC_GameObject::FindFurthestNode
+		"FindFurthestNode", &NPC_GameObject::FindFurthestNode,
+		"FindRandomNode", &NPC_GameObject::FindRandomNode,
+		"GetIsMoving", &NPC_GameObject::GetIsMoving,
+
+		"GetEmotion", &NPC_GameObject::GetEmotion,
+		"GetEmotion", &NPC_GameObject::GetPersonality
 	);
 
 	//expose resource manager class
