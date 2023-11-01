@@ -198,12 +198,15 @@ function draw_emotion_gui(go)
 	sWidth = 0.1;
 	sHeight = (sWidth) * wRatio;
 
-	GUI:StartWindow("exitSplash",false,sWidth,sHeight,0.35,sWidth/ wRatio);
+	GUI:StartWindow("emotiongui",false,sWidth,sHeight + 0.2,0.35,sWidth/ wRatio);
 
-		if(GUI:ImageButton("Angry",(wWidth * sWidth) * 0.8,(wHeight * sHeight) * 0.8,0.5,0.5))
-		then
-			CloseWindow(true);
-		end
+		GUI:ImageButton("Angry",(wWidth * sWidth) * 0.8,(wHeight * sHeight) * 0.8,0.5,0.5)
+		GUI:Text("--Emotions--");
+		
+		GUI:Text("Anger:"..go:GetEmotion("Anger").emotionStrength);
+		GUI:Text("Fear:"..go:GetEmotion("Fear").emotionStrength);
+		GUI:Text("Gratitude"..go:GetEmotion("Gratitude").emotionStrength);
+		GUI:Text("Hope"..go:GetEmotion("Hope").emotionStrength);
 
 	GUI:EndEndWindow();
 

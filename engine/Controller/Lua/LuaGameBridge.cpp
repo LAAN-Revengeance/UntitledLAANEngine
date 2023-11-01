@@ -90,13 +90,6 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		sol::base_classes, sol::bases<AnimatedDrawItem>()
 	);
 	
-	//expose emotion
-	luaManager->Expose_CPPClass<Emotion>("Emotion",
-		sol::constructors<Emotion()>(),
-		"emotion", &Emotion::emotion,
-		"emotionStrength", &Emotion::emotionStrength,
-		"reactionStrength", &Emotion::reactionStrength
-	);
 
 	//expose game object
 	luaManager->Expose_CPPClass<GameObject>("GameObject",
@@ -133,6 +126,14 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"scaleZ", &Terrain::scaleZ
 	);
 
+	//expose emotion
+	luaManager->Expose_CPPClass<Emotion>("Emotion",
+		sol::constructors<Emotion()>(),
+		"emotion", &Emotion::emotion,
+		"emotionStrength", &Emotion::emotionStrength,
+		"reactionStrength", &Emotion::reactionStrength
+	);
+
 	//expose NPC
 	luaManager->Expose_CPPClass<NPC_GameObject>("NPC",
 		sol::constructors<NPC_GameObject()>(),
@@ -146,7 +147,7 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"GetIsMoving", &NPC_GameObject::GetIsMoving,
 
 		"GetEmotion", &NPC_GameObject::GetEmotion,
-		"GetEmotion", &NPC_GameObject::GetPersonality
+		"GetPersonality", &NPC_GameObject::GetPersonality
 	);
 
 	//expose resource manager class

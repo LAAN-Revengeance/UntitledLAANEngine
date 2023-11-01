@@ -56,6 +56,7 @@ private:
 	//Emotion
 	std::vector<Emotion> emotions;
 	Personality personality;
+	Emotion _emptyEmotion;
 
 	//Navigation
 	void UpdatePathing(double dt);

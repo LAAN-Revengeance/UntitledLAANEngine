@@ -4,9 +4,9 @@
 class Emotion
 {
 public:
-	std::string emotion;
-	float emotionStrength;
-	float reactionStrength;
+	std::string emotion = "";
+	float emotionStrength = 0;
+	float reactionStrength = 0;
 
 	Emotion();
 	Emotion(std::string name);

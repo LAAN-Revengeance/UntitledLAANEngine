@@ -52,10 +52,7 @@ Emotion& NPC_GameObject::GetEmotion(std::string emotionName)
 	}
 
 	std::cout << "Error: no emotion with the name " << emotionName << " was found." << std::endl;
-
-	Emotion empty;
-
-	return empty;
+	return _emptyEmotion;
 }
 
 Personality& NPC_GameObject::GetPersonality()
