@@ -1,4 +1,4 @@
-#pragma once
+	#pragma once
 #include "Affordance_Pickup.h"
 #include "Affordance_Poke.h"
 #include "Affordance_Punch.h"

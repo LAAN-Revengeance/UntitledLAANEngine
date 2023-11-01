@@ -1,5 +1,6 @@
 #include "ProjectLoader.h"
 #include <Lua/LuaGameBridge.h>
+#include <AI/Affordance/Global_Affordances.h>
 
 void ProjectLoader::SaveProject(Scene* scene, const std::string luaFile, const std::string windowName, const std::string outName)
 {
@@ -62,13 +63,29 @@ Project ProjectLoader::LoadProject(GameEngine* engine, const char* inName)
 
     }
 
+    //make sure it hall all affordances
+    for (auto& object : project.scene->gameObjects)
+    {
+        object.second->affordanceController.AddAffordance<AffordancePickup>();
+        object.second->affordanceController.AddAffordance<AffordancePoke>();
+        object.second->affordanceController.AddAffordance<AffordancePunch>();
+        object.second->affordanceController.AddAffordance<AffordanceSlap>();
+        object.second->affordanceController.AddAffordance<AffordanceSit>();
+        object.second->affordanceController.AddAffordance<AffordanceGiveMoney>();
+        object.second->affordanceController.AddAffordance<AffordanceCompliment>();
+        object.second->affordanceController.AddAffordance<AffordanceThreaten>();
+        object.second->affordanceController.AddAffordance<AffordanceGenerousOffer>();
+    }
+
     return project;
 }
 
 ProjectLoader::ProjectLoader()
 {
+
 }
 
 ProjectLoader::~ProjectLoader()
 {
+
 }

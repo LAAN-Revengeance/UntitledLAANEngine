@@ -354,13 +354,12 @@ Scene& SceneLoader::LoadScene(const char* inName)
             npc->SetPathManager(&pathManager);
 
             for (unsigned int i = 0; i < jobj["emotion"].size(); i++)
-            {
-                
-                std::string emotionName = jobj["emotion"][i]["emotion"].asString();
-                std::cout << emotionName << "\n";
-                npc->AddEmotion(emotionName);
-                npc->SetEmotionStrength(emotionName, jobj["emotion"][i]["strength"].asFloat());
-                npc->SetReactionStrength(emotionName, jobj["emotion"][i]["reaction"].asFloat());
+            {  
+                //std::string emotionName = jobj["emotion"][i]["emotion"].asString();
+                //std::cout << emotionName << "\n";
+                //npc->AddEmotion(emotionName);
+                //npc->SetEmotionStrength(emotionName, jobj["emotion"][i]["strength"].asFloat());
+                //npc->SetReactionStrength(emotionName, jobj["emotion"][i]["reaction"].asFloat());
             }
 
             npc->GetPersonality().SetOpenness(jobj["personality"]["openness"].asFloat());

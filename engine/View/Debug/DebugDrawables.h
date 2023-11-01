@@ -43,7 +43,7 @@ namespace GaemGizmo {
 		
 		//number of verts in line
 		unsigned int _vertCount = 0;
-		float _width = 5;
+		float _width = 2;
 		VAO _vao;
 	};
 

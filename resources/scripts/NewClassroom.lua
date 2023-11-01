@@ -152,6 +152,62 @@ function keyInput(dt)
 		end
 	end
 
+	if(input:GetKeyDown(KEY_M))
+	then
+		if(player.affordances:GetAffordance("giveMoney"):GetIsActive())
+		then
+			player.affordances:GetAffordance("giveMoney"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("giveMoney"):Activate(object);
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_N))
+	then
+		if(player.affordances:GetAffordance("compliment"):GetIsActive())
+		then
+			player.affordances:GetAffordance("compliment"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("compliment"):Activate(object);
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_T))
+	then
+		if(player.affordances:GetAffordance("threaten"):GetIsActive())
+		then
+			player.affordances:GetAffordance("threaten"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("threaten"):Activate(object);
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_G))
+	then
+		if(player.affordances:GetAffordance("generousOffer"):GetIsActive())
+		then
+			player.affordances:GetAffordance("generousOffer"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("generousOffer"):Activate(object);
+			end
+		end
+	end
+
 end
 
 lastX = input:GetMouseX();
@@ -199,14 +255,35 @@ function draw_emotion_gui(go)
 	sHeight = (sWidth) * wRatio;
 
 	GUI:StartWindow("emotiongui",false,sWidth,sHeight + 0.2,0.35,sWidth/ wRatio);
+		
+		local anger = go:GetEmotion("Anger").emotionStrength;
+		local fear = go:GetEmotion("Anger").emotionStrength;
+		local grat = go:GetEmotion("Gratitude").emotionStrength;
+		local hope = go:GetEmotion("Hope").emotionStrength;
 
-		GUI:ImageButton("Angry",(wWidth * sWidth) * 0.8,(wHeight * sHeight) * 0.8,0.5,0.5)
+		local image = "Neutral";
+		if((anger + fear + grat + hope) > 0.0)
+		then
+			if((anger > grat) or (anger > hope))
+			then
+				image = "Angry"
+			end
+
+			if((anger < grat) or (anger < hope))
+			then
+				image = "Positive"
+			end
+		end
+
+		GUI:ImageButton(image,(wWidth * sWidth) * 0.8,(wHeight * sHeight) * 0.8,0.5,0.5)
 		GUI:Text("--Emotions--");
 		
-		GUI:Text("Anger:"..go:GetEmotion("Anger").emotionStrength);
-		GUI:Text("Fear:"..go:GetEmotion("Fear").emotionStrength);
-		GUI:Text("Gratitude"..go:GetEmotion("Gratitude").emotionStrength);
-		GUI:Text("Hope"..go:GetEmotion("Hope").emotionStrength);
+		GUI:Text("Anger:"..anger);
+		GUI:Text("Fear:"..fear);
+		GUI:Text("Gratitude"..grat);
+		GUI:Text("Hope"..hope);
+
+
 
 	GUI:EndEndWindow();
 
@@ -233,6 +310,22 @@ function npc_dynamic(go,dt)
 		go:MoveToPoint(go:FindRandomNode());
 	end
 
-	
+	local anger = go:GetEmotion("Anger").emotionStrength;
+	local fear = go:GetEmotion("Anger").emotionStrength;
+	local grat = go:GetEmotion("Gratitude").emotionStrength;
+	local hope = go:GetEmotion("Hope").emotionStrength;
+
+	if((anger + fear + grat + hope) > 0)
+	then
+		if((anger > grat) or (anger > hope))
+		then
+			print("angery");
+		end
+
+		if((anger < grat) or (anger < hope))
+		then
+			print("happy");
+		end
+	end
 
 end

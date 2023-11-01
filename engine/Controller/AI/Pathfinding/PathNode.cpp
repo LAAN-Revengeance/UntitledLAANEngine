@@ -52,7 +52,7 @@ void GaemPathing::PathNode::Draw(glm::mat4 projection, glm::mat4 view, Shader* s
 {
 	box.Render(projection, view,shader);
 	for (auto& line : lines)
-		line.second->Render(projection, view, shader);
+		line.second->RenderFront(projection, view, shader);
 }
 
 void GaemPathing::PathNode::UpdateConnections(std::vector<PathNode*> nodes, float distance)
