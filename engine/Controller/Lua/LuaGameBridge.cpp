@@ -291,6 +291,7 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"SetVelocity", &PhysicsBody::SetVelocity,
 		"SetMass", &PhysicsBody::SetMass,
 		"SetGravity", &PhysicsBody::SetGravity,
+		"Kinematic", &PhysicsBody::isKinematic,
 		"GetID", &PhysicsBody::GetID
 	);
 

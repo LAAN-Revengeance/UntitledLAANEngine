@@ -36,7 +36,6 @@ void AffordanceSlap::Activate(GameObject* go)
 
 	glm::vec3 knockback = _parentObject->GetForwardVec();
 	_otherObject->physicsBody->ApplyForceImpulse(-knockback.x * 2, -knockback.y * 2, -knockback.z * 2);
-	
 }
 
 void AffordanceSlap::Deactivate()

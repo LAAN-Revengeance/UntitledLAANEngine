@@ -147,7 +147,8 @@ function keyInput(dt)
 			object = physics:Raycast(camera.position,camera.front,3);
 			if(not(object == nil))
 			then
-				object.physicsBody:ApplyForceImpulse(forward.x,forward.y,forward.z);
+				object.physicsBody:ApplyForceImpulse(forward.x * 3,forward.y * 3,forward.z * 3);
+				object.physicsBody.Kinematic = false;
 			end
 		end
 	end

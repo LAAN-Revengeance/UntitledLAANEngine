@@ -27,8 +27,8 @@ void SceneEditor::Update(double deltaTime)
 
 void SceneEditor::Draw(double deltaTime)
 {
-	//if (engine->isRunning)
-	//	return;
+	if (engine->isRunning && !isGUIOnRun)
+		return;
 
 	if (isPhysicDebug)
 		engine->scene->physicsWorld.DrawPhysicsWorld(*camera);
@@ -1211,6 +1211,7 @@ void SceneEditor::DrawMenu()
 			ImGui::MenuItem("Debug Physics", NULL, &isPhysicDebug);
 			ImGui::MenuItem("Debug Pathfinding", NULL, &isPathDebug);
 			ImGui::MenuItem("Debug Transform Gizmo", NULL, &isShowWidget);
+			ImGui::MenuItem("Run with gui", NULL, &isGUIOnRun);
 
 			ImGui::EndMenu();
 		}

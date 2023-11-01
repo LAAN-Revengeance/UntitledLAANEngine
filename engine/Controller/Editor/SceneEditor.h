@@ -75,6 +75,7 @@ private:
 	bool isPhysicDebug = true;
 	bool isPathDebug = true;
 	bool isShowWidget = true;
+	bool isGUIOnRun = true;
 
 		///Main GUI Renderer
 	GUIRenderer& guirenderer;
