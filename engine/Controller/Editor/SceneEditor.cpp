@@ -902,7 +902,7 @@ void SceneEditor::DrawInspector()
 						affordanceGenerousOffer->SetCanAfford(affordsGenerousOffer);
 					}
 					ImGui::Separator();
-
+					ImGui::Dummy(ImVec2(0.0f, 20.0f));
 				}
 
 

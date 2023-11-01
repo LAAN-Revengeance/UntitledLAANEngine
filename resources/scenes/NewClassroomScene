@@ -3,9 +3,9 @@
 	{
 		"Ambient" : 
 		[
-			1.0,
-			1.0,
-			1.0
+			0.37745100259780884,
+			0.37745100259780884,
+			0.37745100259780884
 		],
 		"DirectionLights" : 
 		[
@@ -18,9 +18,9 @@
 				],
 				"direction" : 
 				[
-					0.0,
-					1.0,
-					0.0
+					-0.0016665488947182894,
+					0.9991803765296936,
+					0.040492869913578033
 				],
 				"specular" : 
 				[
@@ -3469,7 +3469,7 @@
 				}
 			],
 			"bounce" : 0.0,
-			"castShadows" : true,
+			"castShadows" : false,
 			"dampAngle" : 1.0,
 			"dampLinear" : 1.0,
 			"diff" : "classRoomTexture",
@@ -5584,99 +5584,6 @@
 			],
 			"shader" : "default",
 			"type" : "base",
-			"updateFunc" : "",
-			"useGravity" : false
-		},
-		{
-			"Affordances" : 
-			[
-				{
-					"canAfford" : false,
-					"canPerform" : false,
-					"type" : "pickup"
-				},
-				{
-					"canAfford" : true,
-					"canPerform" : false,
-					"type" : "punch"
-				},
-				{
-					"canAfford" : true,
-					"canPerform" : false,
-					"type" : "slap"
-				},
-				{
-					"canAfford" : true,
-					"canPerform" : false,
-					"type" : "poke"
-				},
-				{
-					"canAfford" : false,
-					"canPerform" : false,
-					"type" : "sit"
-				}
-			],
-			"bounce" : 0.0,
-			"castShadows" : true,
-			"dampAngle" : 0.05000000074505806,
-			"dampLinear" : 0.05000000074505806,
-			"diff" : "Rock",
-			"emotion" : null,
-			"infMass" : false,
-			"isKinematic" : false,
-			"model" : "Sphere",
-			"moveSpeed" : 1.0,
-			"name" : "punching bag",
-			"personality" : 
-			{
-				"agreeableness" : 0.0,
-				"conscientiousness" : 0.0,
-				"extraversion" : 0.0,
-				"neuroticism" : 0.0,
-				"openness" : 0.0
-			},
-			"physics" : 
-			[
-				{
-					"height" : 2.0,
-					"mass" : 1.0,
-					"offset" : 
-					[
-						0.0,
-						0.0,
-						0.0
-					],
-					"radius" : 1.0,
-					"rotation" : 
-					[
-						0.0,
-						-0.0,
-						0.0
-					],
-					"type" : 3
-				}
-			],
-			"position" : 
-			[
-				0.0,
-				2.0215573310852051,
-				0.59353768825531006
-			],
-			"rotation" : 
-			[
-				0.0,
-				0.0,
-				0.0,
-				1.0
-			],
-			"scale" : 
-			[
-				1.0,
-				1.0,
-				1.0
-			],
-			"shader" : "default",
-			"type" : "npc",
 			"updateFunc" : "",
 			"useGravity" : false
 		},
