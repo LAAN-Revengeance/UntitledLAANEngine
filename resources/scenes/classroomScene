@@ -41,10 +41,10 @@
 				"ID" : 1,
 				"neighbours" : 
 				[
-					1,
-					11,
 					10,
-					2
+					1,
+					2,
+					11
 				],
 				"obstacle" : false,
 				"position" : 
@@ -64,12 +64,12 @@
 				"ID" : 2,
 				"neighbours" : 
 				[
-					1,
-					11,
-					12,
 					10,
+					1,
 					2,
-					3
+					3,
+					11,
+					12
 				],
 				"obstacle" : false,
 				"position" : 
@@ -89,12 +89,12 @@
 				"ID" : 3,
 				"neighbours" : 
 				[
+					2,
+					4,
+					3,
 					11,
 					12,
-					13,
-					4,
-					2,
-					3
+					13
 				],
 				"obstacle" : false,
 				"position" : 
@@ -114,12 +114,12 @@
 				"ID" : 4,
 				"neighbours" : 
 				[
-					5,
-					12,
-					13,
-					14,
 					4,
-					3
+					5,
+					3,
+					12,
+					14,
+					13
 				],
 				"obstacle" : false,
 				"position" : 
@@ -139,12 +139,12 @@
 				"ID" : 5,
 				"neighbours" : 
 				[
+					4,
 					6,
 					5,
-					13,
 					14,
 					15,
-					4
+					13
 				],
 				"obstacle" : false,
 				"position" : 
@@ -164,12 +164,12 @@
 				"ID" : 6,
 				"neighbours" : 
 				[
-					16,
+					7,
 					6,
 					5,
-					7,
 					14,
-					15
+					15,
+					16
 				],
 				"obstacle" : false,
 				"position" : 
@@ -189,11 +189,11 @@
 				"ID" : 7,
 				"neighbours" : 
 				[
-					16,
-					6,
-					7,
-					15,
 					8,
+					7,
+					6,
+					15,
+					16,
 					17
 				],
 				"obstacle" : false,
@@ -214,12 +214,12 @@
 				"ID" : 8,
 				"neighbours" : 
 				[
-					16,
-					7,
 					8,
 					9,
-					17,
-					18
+					7,
+					18,
+					16,
+					17
 				],
 				"obstacle" : false,
 				"position" : 
@@ -241,8 +241,8 @@
 				[
 					8,
 					9,
-					17,
-					18
+					18,
+					17
 				],
 				"obstacle" : false,
 				"position" : 
@@ -262,12 +262,12 @@
 				"ID" : 10,
 				"neighbours" : 
 				[
-					1,
-					11,
 					10,
+					1,
 					2,
-					19,
-					20
+					11,
+					20,
+					19
 				],
 				"obstacle" : false,
 				"position" : 
@@ -287,15 +287,15 @@
 				"ID" : 11,
 				"neighbours" : 
 				[
-					1,
-					11,
-					12,
 					10,
+					1,
 					2,
 					3,
-					21,
+					11,
+					12,
+					20,
 					19,
-					20
+					21
 				],
 				"obstacle" : false,
 				"position" : 
@@ -315,15 +315,15 @@
 				"ID" : 12,
 				"neighbours" : 
 				[
-					11,
-					12,
-					13,
-					4,
 					2,
+					4,
 					3,
-					21,
+					11,
 					22,
-					20
+					12,
+					20,
+					13,
+					21
 				],
 				"obstacle" : false,
 				"position" : 
@@ -343,15 +343,15 @@
 				"ID" : 13,
 				"neighbours" : 
 				[
-					5,
-					12,
-					13,
-					14,
 					4,
+					5,
 					3,
-					21,
+					23,
 					22,
-					23
+					12,
+					14,
+					13,
+					21
 				],
 				"obstacle" : false,
 				"position" : 
@@ -371,15 +371,15 @@
 				"ID" : 14,
 				"neighbours" : 
 				[
+					4,
 					6,
 					5,
-					13,
+					24,
+					23,
+					22,
 					14,
 					15,
-					4,
-					22,
-					23,
-					24
+					13
 				],
 				"obstacle" : true,
 				"position" : 
@@ -399,15 +399,15 @@
 				"ID" : 15,
 				"neighbours" : 
 				[
-					16,
+					7,
 					6,
 					5,
-					7,
+					24,
+					25,
+					23,
 					14,
 					15,
-					23,
-					24,
-					25
+					16
 				],
 				"obstacle" : true,
 				"position" : 
@@ -427,15 +427,15 @@
 				"ID" : 16,
 				"neighbours" : 
 				[
-					16,
-					6,
-					7,
-					15,
 					8,
-					26,
-					17,
+					7,
+					6,
 					24,
-					25
+					25,
+					26,
+					15,
+					16,
+					17
 				],
 				"obstacle" : false,
 				"position" : 
@@ -455,15 +455,15 @@
 				"ID" : 17,
 				"neighbours" : 
 				[
-					16,
-					7,
 					8,
 					9,
-					26,
-					17,
-					18,
+					7,
 					25,
-					27
+					26,
+					18,
+					27,
+					16,
+					17
 				],
 				"obstacle" : false,
 				"position" : 
@@ -486,9 +486,9 @@
 					8,
 					9,
 					26,
-					17,
 					18,
-					27
+					27,
+					17
 				],
 				"obstacle" : false,
 				"position" : 
@@ -508,12 +508,12 @@
 				"ID" : 19,
 				"neighbours" : 
 				[
-					11,
 					10,
-					19,
-					20,
+					28,
+					11,
 					29,
-					28
+					20,
+					19
 				],
 				"obstacle" : false,
 				"position" : 
@@ -533,15 +533,15 @@
 				"ID" : 20,
 				"neighbours" : 
 				[
-					11,
-					12,
 					10,
-					21,
-					19,
-					20,
-					29,
 					28,
-					30
+					11,
+					29,
+					30,
+					12,
+					20,
+					19,
+					21
 				],
 				"obstacle" : false,
 				"position" : 
@@ -561,15 +561,15 @@
 				"ID" : 21,
 				"neighbours" : 
 				[
+					31,
 					11,
-					12,
-					13,
-					21,
-					22,
-					20,
 					29,
 					30,
-					31
+					22,
+					12,
+					20,
+					13,
+					21
 				],
 				"obstacle" : false,
 				"position" : 
@@ -589,15 +589,15 @@
 				"ID" : 22,
 				"neighbours" : 
 				[
-					12,
-					13,
-					14,
-					21,
-					22,
+					31,
+					32,
 					23,
 					30,
-					32,
-					31
+					22,
+					12,
+					14,
+					13,
+					21
 				],
 				"obstacle" : false,
 				"position" : 
@@ -617,15 +617,15 @@
 				"ID" : 23,
 				"neighbours" : 
 				[
-					13,
-					14,
-					15,
-					22,
-					23,
-					24,
+					31,
 					32,
 					33,
-					31
+					24,
+					23,
+					22,
+					14,
+					15,
+					13
 				],
 				"obstacle" : true,
 				"position" : 
@@ -645,15 +645,15 @@
 				"ID" : 24,
 				"neighbours" : 
 				[
-					16,
-					14,
-					15,
-					23,
-					24,
-					25,
 					32,
 					33,
-					34
+					34,
+					24,
+					25,
+					23,
+					14,
+					15,
+					16
 				],
 				"obstacle" : true,
 				"position" : 
@@ -673,15 +673,15 @@
 				"ID" : 25,
 				"neighbours" : 
 				[
-					16,
-					15,
-					26,
-					17,
-					24,
-					25,
+					35,
 					33,
 					34,
-					35
+					24,
+					25,
+					26,
+					15,
+					16,
+					17
 				],
 				"obstacle" : true,
 				"position" : 
@@ -701,15 +701,15 @@
 				"ID" : 26,
 				"neighbours" : 
 				[
-					16,
-					26,
-					17,
-					18,
-					25,
-					27,
-					34,
 					35,
-					36
+					36,
+					34,
+					25,
+					26,
+					18,
+					27,
+					16,
+					17
 				],
 				"obstacle" : true,
 				"position" : 
@@ -729,12 +729,12 @@
 				"ID" : 27,
 				"neighbours" : 
 				[
+					35,
+					36,
 					26,
-					17,
 					18,
 					27,
-					35,
-					36
+					17
 				],
 				"obstacle" : false,
 				"position" : 
@@ -754,12 +754,12 @@
 				"ID" : 28,
 				"neighbours" : 
 				[
-					38,
 					37,
-					19,
-					20,
+					38,
+					28,
 					29,
-					28
+					20,
+					19
 				],
 				"obstacle" : false,
 				"position" : 
@@ -779,15 +779,15 @@
 				"ID" : 29,
 				"neighbours" : 
 				[
-					39,
-					38,
 					37,
-					21,
-					19,
-					20,
-					29,
+					38,
+					39,
 					28,
-					30
+					29,
+					30,
+					20,
+					19,
+					21
 				],
 				"obstacle" : false,
 				"position" : 
@@ -807,15 +807,15 @@
 				"ID" : 30,
 				"neighbours" : 
 				[
-					40,
-					39,
 					38,
-					21,
-					22,
-					20,
+					31,
+					39,
+					40,
 					29,
 					30,
-					31
+					22,
+					20,
+					21
 				],
 				"obstacle" : false,
 				"position" : 
@@ -835,15 +835,15 @@
 				"ID" : 31,
 				"neighbours" : 
 				[
+					31,
+					39,
+					32,
 					40,
 					41,
-					39,
-					21,
-					22,
 					23,
 					30,
-					32,
-					31
+					22,
+					21
 				],
 				"obstacle" : true,
 				"position" : 
@@ -863,15 +863,15 @@
 				"ID" : 32,
 				"neighbours" : 
 				[
-					40,
-					42,
-					41,
-					22,
-					23,
-					24,
+					31,
 					32,
+					40,
 					33,
-					31
+					41,
+					42,
+					24,
+					23,
+					22
 				],
 				"obstacle" : true,
 				"position" : 
@@ -891,15 +891,15 @@
 				"ID" : 33,
 				"neighbours" : 
 				[
-					42,
-					41,
-					43,
-					23,
-					24,
-					25,
 					32,
 					33,
-					34
+					34,
+					41,
+					42,
+					43,
+					24,
+					25,
+					23
 				],
 				"obstacle" : false,
 				"position" : 
@@ -919,15 +919,15 @@
 				"ID" : 34,
 				"neighbours" : 
 				[
-					44,
-					42,
-					43,
-					26,
-					24,
-					25,
+					35,
 					33,
 					34,
-					35
+					42,
+					43,
+					44,
+					24,
+					25,
+					26
 				],
 				"obstacle" : false,
 				"position" : 
@@ -947,15 +947,15 @@
 				"ID" : 35,
 				"neighbours" : 
 				[
-					44,
-					43,
-					45,
-					26,
-					25,
-					27,
-					34,
 					35,
-					36
+					36,
+					34,
+					43,
+					44,
+					45,
+					25,
+					26,
+					27
 				],
 				"obstacle" : false,
 				"position" : 
@@ -975,12 +975,12 @@
 				"ID" : 36,
 				"neighbours" : 
 				[
+					35,
+					36,
 					44,
 					45,
 					26,
-					27,
-					35,
-					36
+					27
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1000,12 +1000,12 @@
 				"ID" : 37,
 				"neighbours" : 
 				[
-					47,
 					46,
-					38,
 					37,
-					29,
-					28
+					38,
+					47,
+					28,
+					29
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1025,14 +1025,14 @@
 				"ID" : 38,
 				"neighbours" : 
 				[
-					47,
-					48,
-					39,
 					46,
-					38,
+					48,
 					37,
-					29,
+					38,
+					39,
+					47,
 					28,
+					29,
 					30
 				],
 				"obstacle" : true,
@@ -1053,15 +1053,15 @@
 				"ID" : 39,
 				"neighbours" : 
 				[
+					48,
+					49,
+					38,
+					31,
+					39,
 					40,
 					47,
-					48,
-					39,
-					38,
-					49,
 					29,
-					30,
-					31
+					30
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1081,15 +1081,15 @@
 				"ID" : 40,
 				"neighbours" : 
 				[
-					40,
 					48,
-					41,
-					39,
-					50,
 					49,
-					30,
+					50,
+					31,
+					39,
 					32,
-					31
+					40,
+					41,
+					30
 				],
 				"obstacle" : true,
 				"position" : 
@@ -1109,15 +1109,15 @@
 				"ID" : 41,
 				"neighbours" : 
 				[
-					40,
-					42,
-					41,
 					51,
-					50,
 					49,
+					50,
+					31,
 					32,
+					40,
 					33,
-					31
+					41,
+					42
 				],
 				"obstacle" : true,
 				"position" : 
@@ -1137,15 +1137,15 @@
 				"ID" : 42,
 				"neighbours" : 
 				[
-					42,
-					41,
-					43,
-					51,
 					52,
+					51,
 					50,
 					32,
 					33,
-					34
+					34,
+					41,
+					42,
+					43
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1165,15 +1165,15 @@
 				"ID" : 43,
 				"neighbours" : 
 				[
-					44,
-					42,
-					43,
-					51,
-					52,
 					53,
+					52,
+					51,
+					35,
 					33,
 					34,
-					35
+					42,
+					43,
+					44
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1193,15 +1193,15 @@
 				"ID" : 44,
 				"neighbours" : 
 				[
-					44,
-					43,
-					52,
 					53,
+					52,
 					54,
-					45,
-					34,
 					35,
-					36
+					36,
+					34,
+					43,
+					44,
+					45
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1221,12 +1221,12 @@
 				"ID" : 45,
 				"neighbours" : 
 				[
-					44,
 					53,
 					54,
-					45,
 					35,
-					36
+					36,
+					44,
+					45
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1246,10 +1246,10 @@
 				"ID" : 46,
 				"neighbours" : 
 				[
-					47,
 					46,
+					37,
 					38,
-					37
+					47
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1269,12 +1269,12 @@
 				"ID" : 47,
 				"neighbours" : 
 				[
-					47,
-					48,
-					39,
 					46,
+					48,
+					37,
 					38,
-					37
+					39,
+					47
 				],
 				"obstacle" : true,
 				"position" : 
@@ -1294,12 +1294,12 @@
 				"ID" : 48,
 				"neighbours" : 
 				[
-					40,
-					47,
 					48,
-					39,
+					49,
 					38,
-					49
+					39,
+					40,
+					47
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1319,12 +1319,12 @@
 				"ID" : 49,
 				"neighbours" : 
 				[
-					40,
 					48,
-					41,
-					39,
+					49,
 					50,
-					49
+					39,
+					40,
+					41
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1344,12 +1344,12 @@
 				"ID" : 50,
 				"neighbours" : 
 				[
-					40,
-					42,
-					41,
 					51,
+					49,
 					50,
-					49
+					40,
+					41,
+					42
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1369,12 +1369,12 @@
 				"ID" : 51,
 				"neighbours" : 
 				[
-					42,
-					41,
-					43,
-					51,
 					52,
-					50
+					51,
+					50,
+					41,
+					42,
+					43
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1394,12 +1394,12 @@
 				"ID" : 52,
 				"neighbours" : 
 				[
-					44,
+					53,
+					52,
+					51,
 					42,
 					43,
-					51,
-					52,
-					53
+					44
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1419,11 +1419,11 @@
 				"ID" : 53,
 				"neighbours" : 
 				[
-					44,
-					43,
-					52,
 					53,
+					52,
 					54,
+					43,
+					44,
 					45
 				],
 				"obstacle" : false,
@@ -1444,9 +1444,9 @@
 				"ID" : 54,
 				"neighbours" : 
 				[
-					44,
 					53,
 					54,
+					44,
 					45
 				],
 				"obstacle" : false,
@@ -2253,9 +2253,9 @@
 			"rotation" : 
 			[
 				0.0,
-				0.0057934233918786049,
+				0.0057934229262173176,
 				0.0,
-				0.99998331069946289
+				0.99998319149017334
 			],
 			"scale" : 
 			[
@@ -3824,9 +3824,9 @@
 			"rotation" : 
 			[
 				0.0,
-				0.9996839165687561,
+				0.99968379735946655,
 				0.0,
-				-0.025144262239336967
+				-0.025144258514046669
 			],
 			"scale" : 
 			[
@@ -4400,9 +4400,9 @@
 			"rotation" : 
 			[
 				0.0,
-				-0.012898916378617287,
+				-0.012898914515972137,
 				0.0,
-				0.99991691112518311
+				0.99991679191589355
 			],
 			"scale" : 
 			[
@@ -7291,12 +7291,32 @@
 		"textures" : 
 		[
 			{
+				"name" : "Angry",
+				"path" : "resources\\textures\\Emotions\\Angry.png"
+			},
+			{
 				"name" : "Arcade_Diff",
 				"path" : "resources\\models\\untitled2022\\Arcade.png"
 			},
 			{
+				"name" : "Fear",
+				"path" : "resources\\textures\\Emotions\\Fear.png"
+			},
+			{
 				"name" : "Grass",
 				"path" : "resources\\textures\\terrain\\grass.png"
+			},
+			{
+				"name" : "Hope",
+				"path" : "resources\\textures\\Emotions\\Hope.png"
+			},
+			{
+				"name" : "Neutral",
+				"path" : "resources\\textures\\Emotions\\Neutral.png"
+			},
+			{
+				"name" : "Positive",
+				"path" : "resources\\textures\\Emotions\\Positive.png"
 			},
 			{
 				"name" : "Robot",
@@ -7317,6 +7337,10 @@
 			{
 				"name" : "Rock",
 				"path" : "resources\\textures\\terrain\\rock.png"
+			},
+			{
+				"name" : "Sad",
+				"path" : "resources\\textures\\Emotions\\Negative.png"
 			},
 			{
 				"name" : "binTexture",

@@ -198,4 +198,6 @@ function npc_dynamic(go,dt)
 		go:MoveToPoint(go:FindRandomNode());
 	end
 
+	
+
 end
