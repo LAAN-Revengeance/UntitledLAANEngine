@@ -194,10 +194,10 @@ GameObject* PhysicsManager::Raycast(glm::vec3 origin, glm::vec3 direction, float
 	return nullptr;
 }
 
-NPC_GameObject* PhysicsManager::RaycastNPC(glm::vec3 origin, glm::vec3 direction, float distance)
+NPC* PhysicsManager::RaycastNPC(glm::vec3 origin, glm::vec3 direction, float distance)
 {
 	GameObject* go = Raycast(origin, direction, distance);
-	NPC_GameObject* npc = dynamic_cast<NPC_GameObject*>(go);
+	NPC* npc = dynamic_cast<NPC*>(go);
 	if (npc) {
 		return npc;
 	}

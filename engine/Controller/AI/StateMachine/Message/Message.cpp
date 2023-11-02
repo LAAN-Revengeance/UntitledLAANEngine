@@ -1,7 +1,7 @@
 #include "Message.h"
 #include <math.h>
 
-Message::Message(double dispatch, int sender, int receiver, int type, void* infoPtr):
+Message::Message(double dispatch, std::string& sender, std::string& receiver, int type, void* infoPtr):
 	dispatchTime(dispatch),
 	senderID(sender),
 	receiverID(receiver),

@@ -20,7 +20,7 @@ void AffordancePunch::Activate(GameObject* go)
 	std::string emotion;
 	float affordanceStrength;
 
-	NPC_GameObject* npc = dynamic_cast<NPC_GameObject*>(go);
+	NPC* npc = dynamic_cast<NPC*>(go);
 	if (npc) {
 
 		Personality personality = npc->GetPersonality();

@@ -120,7 +120,7 @@ public:
 		 *	@return reference to the first rigidbody intersected by the ray
 		*/
 	GameObject* Raycast(glm::vec3 origin, glm::vec3 direction, float distance = FLT_MAX);
-	NPC_GameObject* RaycastNPC(glm::vec3 origin, glm::vec3 direction, float distance = FLT_MAX);
+	NPC* RaycastNPC(glm::vec3 origin, glm::vec3 direction, float distance = FLT_MAX);
 private:
 
 	//ID to physics body map

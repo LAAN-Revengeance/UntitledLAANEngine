@@ -1,5 +1,5 @@
 #pragma once
-#include <AI/Message/MessageDispatcher.h>
+#include <AI/StateMachine/Message/MessageDispatcher.h>
 /**
 *	@Class AIManager
 *	@brief manages state machines and executes their behaviours
@@ -12,12 +12,11 @@
 class AIManager
 {
 public:
-		/**
-		*	@brief get the singleton instance of AI manager
-		*	@return AIManaer reference to the singleton instance
-		*/
-	static AIManager& Get();
 
+	AIManager(Dispatcher* nDispatcher);
+	~AIManager();
+	AIManager(const AIManager&) = delete;
+	AIManager& operator = (const AIManager&) = delete;
 		/**
 		*	@brief Updates all AI agents
 		*	@param deltaTime time since last frame
@@ -55,7 +54,7 @@ public:
 		*	@param type type ID
 		*	@return void
 		*/
-	void SendMessage(double delay, int sender, int receiver, int type);
+	void SendMessage(double delay, std::string& sender, std::string& receiver, int type);
 
 		/**
 		*	@brief Get the name of a state
@@ -76,10 +75,4 @@ private:
 	double accumilator = 0;
 		///How many miliseconds between AI Updates
 	double updateTime = 0;
-
-	//singleton
-	AIManager();
-	~AIManager();
-	AIManager(const AIManager&) = delete;
-	AIManager& operator = (const AIManager&) = delete;
 };

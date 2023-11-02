@@ -18,7 +18,7 @@ void AffordancePoke::Activate(GameObject* go)
 	_otherObject = go;
 	std::string emotion;
 
-	NPC_GameObject* npc = dynamic_cast<NPC_GameObject*>(go);
+	NPC* npc = dynamic_cast<NPC*>(go);
 	if (npc) {
 		OCCModel occModel;
 		float affordanceStrength;

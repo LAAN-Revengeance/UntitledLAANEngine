@@ -17,7 +17,7 @@ void AffordanceGenerousOffer::Activate(GameObject* go)
 {
 	_otherObject = go;
 
-	NPC_GameObject* npc = dynamic_cast<NPC_GameObject*>(go);
+	NPC* npc = dynamic_cast<NPC*>(go);
 	if (npc) {
 		OCCModel occModel;
 		std::string emotion;

@@ -1,11 +1,5 @@
 #include "AIManager.h"
 
-AIManager& AIManager::Get()
-{
-	static AIManager a_instance;
-	return a_instance;
-}
-
 void AIManager::UpdateAgents(double deltaTime)
 {
 	//run state specific AI only when update times
@@ -22,8 +16,9 @@ void AIManager::UpdateAgents(double deltaTime)
 	for (auto& it: scene->gameObjects)
 	{
 		if (it.second) {
-			it.second->Update(accumilator);
+			//it.second->Update(accumilator);
 			it.second->stateMachine.Update(accumilator);
+			
 		}
 	}
 	accumilator = 0;
@@ -50,7 +45,7 @@ State* AIManager::GetState(const std::string& stateName)
 	return nullptr;
 }
 
-void AIManager::SendMessage(double delay, int sender, int receiver, int type)
+void AIManager::SendMessage(double delay, std::string& sender, std::string& receiver, int type)
 {
 	msgDispatcher->SendMessage(delay,sender,receiver,type,nullptr);
 }
@@ -64,10 +59,10 @@ std::string AIManager::GetStateKey(State* state)
 	return "";
 }
 
-AIManager::AIManager()
+AIManager::AIManager(Dispatcher* nDispatcher)
 {
 	updateTime = 1.0 / 60.0;
-	msgDispatcher = &Dispatcher::Get();
+	msgDispatcher = nDispatcher;
 }
 
 AIManager::~AIManager()

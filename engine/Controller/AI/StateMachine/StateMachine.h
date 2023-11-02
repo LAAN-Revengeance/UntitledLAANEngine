@@ -14,8 +14,6 @@ class GameObject;
 class StateMachine
 {
 public:
-
-
 		/**
 		*	@brief Constructor, state machine requires an owner
 		*	@param nOwner owner of this state machine

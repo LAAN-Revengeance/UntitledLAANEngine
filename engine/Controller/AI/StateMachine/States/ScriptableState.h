@@ -1,7 +1,7 @@
 #pragma once
 #include "State.h"
 #include <sol/sol.hpp>
-#include <NPC.h>
+#include <GameObjects/NPC_GameObject.h>
 
 class ScriptableState : public State
 {

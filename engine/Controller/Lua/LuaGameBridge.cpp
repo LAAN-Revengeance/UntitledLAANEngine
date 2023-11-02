@@ -135,19 +135,19 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 	);
 
 	//expose NPC
-	luaManager->Expose_CPPClass<NPC_GameObject>("NPC",
-		sol::constructors<NPC_GameObject()>(),
+	luaManager->Expose_CPPClass<NPC>("NPC",
+		sol::constructors<NPC()>(),
 		sol::base_classes, sol::bases<GameObject>(),
-		"MoveToPoint", &NPC_GameObject::MoveToPoint,
-		"SetMoveSpeed", &NPC_GameObject::SetMoveSpeed,
-		"CancelPath", &NPC_GameObject::CancelPath,
-		"FindClosestNode", &NPC_GameObject::FindClosestNode,
-		"FindFurthestNode", &NPC_GameObject::FindFurthestNode,
-		"FindRandomNode", &NPC_GameObject::FindRandomNode,
-		"GetIsMoving", &NPC_GameObject::GetIsMoving,
+		"MoveToPoint", &NPC::MoveToPoint,
+		"SetMoveSpeed", &NPC::SetMoveSpeed,
+		"CancelPath", &NPC::CancelPath,
+		"FindClosestNode", &NPC::FindClosestNode,
+		"FindFurthestNode", &NPC::FindFurthestNode,
+		"FindRandomNode", &NPC::FindRandomNode,
+		"GetIsMoving", &NPC::GetIsMoving,
 
-		"GetEmotion", &NPC_GameObject::GetEmotion,
-		"GetPersonality", &NPC_GameObject::GetPersonality
+		"GetEmotion", &NPC::GetEmotion,
+		"GetPersonality", &NPC::GetPersonality
 	);
 
 	//expose resource manager class

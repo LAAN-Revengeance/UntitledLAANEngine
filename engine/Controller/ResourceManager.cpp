@@ -88,9 +88,9 @@ GameObject& ResourceManager::CreateGameObject(std::string objectName, std::strin
 	return *gameObject;
 }
 
-NPC_GameObject& ResourceManager::CreateNPC(std::string objectName, std::string modelName, std::string shaderName, Material material)
+NPC& ResourceManager::CreateNPC(std::string objectName, std::string modelName, std::string shaderName, Material material)
 {
-	NPC_GameObject* gameObject = new NPC_GameObject();
+	NPC* gameObject = new NPC();
 	gameObject->name = objectName;
 	gameObject->SetID(IDIndex);
 	IDIndex++;

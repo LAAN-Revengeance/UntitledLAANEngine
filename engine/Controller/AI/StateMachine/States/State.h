@@ -1,5 +1,5 @@
 #pragma once
-#include<AI/Message/Message.h>
+#include<AI/StateMachine/Message/Message.h>
 
 class GameObject;
 class State

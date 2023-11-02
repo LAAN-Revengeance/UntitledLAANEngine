@@ -4,23 +4,23 @@
 
 using namespace GaemPathing;
 
-NPC_GameObject::NPC_GameObject()
+NPC::NPC()
 {
 
 }
 
-NPC_GameObject::NPC_GameObject(PathNodeManager* pathManager) :
+NPC::NPC(PathNodeManager* pathManager) :
 	_pathManager(pathManager)
 {
 
 }
 
-NPC_GameObject::~NPC_GameObject()
+NPC::~NPC()
 {
 
 }
 
-void NPC_GameObject::Update(double dt)
+void NPC::Update(double dt)
 {
 	if (_isMoving)
 		UpdatePathing(dt);
@@ -28,22 +28,22 @@ void NPC_GameObject::Update(double dt)
 	updateFunction.Execute(*this,dt);
 }
 
-void NPC_GameObject::AddEmotion(std::string name)
+void NPC::AddEmotion(std::string name)
 {
 	this->emotions.push_back({ name });
 }
 
-void NPC_GameObject::AddEmotion(std::string name, float strength)
+void NPC::AddEmotion(std::string name, float strength)
 {
 	this->emotions.push_back({ name, strength });
 }
 
-std::vector<Emotion>& NPC_GameObject::GetEmotions()
+std::vector<Emotion>& NPC::GetEmotions()
 {
 	return this->emotions;
 }
 
-Emotion& NPC_GameObject::GetEmotion(std::string emotionName)
+Emotion& NPC::GetEmotion(std::string emotionName)
 {
 	for (int i = 0; i < this->emotions.size(); i++)
 	{
@@ -55,17 +55,17 @@ Emotion& NPC_GameObject::GetEmotion(std::string emotionName)
 	return _emptyEmotion;
 }
 
-Personality& NPC_GameObject::GetPersonality()
+Personality& NPC::GetPersonality()
 {
 	return this->personality;
 }
 
-void NPC_GameObject::SetPersonality(Personality personality)
+void NPC::SetPersonality(Personality personality)
 {
 	this->personality = personality;
 }
 
-void NPC_GameObject::SetEmotionStrength(std::string emotionName, float value)
+void NPC::SetEmotionStrength(std::string emotionName, float value)
 {
 	for (int i = 0; i < emotions.size(); i++)
 	{
@@ -74,7 +74,7 @@ void NPC_GameObject::SetEmotionStrength(std::string emotionName, float value)
 	}
 }
 
-void NPC_GameObject::SetReactionStrength(std::string emotionName, float value)
+void NPC::SetReactionStrength(std::string emotionName, float value)
 {
 	for (int i = 0; i < emotions.size(); i++)
 	{
@@ -83,7 +83,7 @@ void NPC_GameObject::SetReactionStrength(std::string emotionName, float value)
 	}
 }
 
-void NPC_GameObject::MoveToPoint(PathNode* targetNode)
+void NPC::MoveToPoint(PathNode* targetNode)
 {
 	if (!_pathManager)return;
 	_targetNode = targetNode;
@@ -126,7 +126,7 @@ void NPC_GameObject::MoveToPoint(PathNode* targetNode)
 	_isMoving = true;
 }
 
-GaemPathing::PathNode* NPC_GameObject::FindClosestNode()
+GaemPathing::PathNode* NPC::FindClosestNode()
 {
 	if (_pathManager->GetNodes().empty()) {
 		DebugLogger::Log(GAEM_ERROR, "Could not find closest  node", name);
@@ -150,7 +150,7 @@ GaemPathing::PathNode* NPC_GameObject::FindClosestNode()
 	return closestNode;
 }
 
-GaemPathing::PathNode* NPC_GameObject::FindFurthestNode()
+GaemPathing::PathNode* NPC::FindFurthestNode()
 {
 	if (_pathManager->GetNodes().empty()) {
 		DebugLogger::Log(GAEM_ERROR, "Could not find furthest node", name);
@@ -175,7 +175,7 @@ GaemPathing::PathNode* NPC_GameObject::FindFurthestNode()
 	return furthestNode;
 }
 
-GaemPathing::PathNode* NPC_GameObject::FindRandomNode()
+GaemPathing::PathNode* NPC::FindRandomNode()
 {
 	if (_pathManager->GetNodes().empty()) {
 		DebugLogger::Log(GAEM_ERROR, "No nodes to select from", name);
@@ -192,7 +192,7 @@ GaemPathing::PathNode* NPC_GameObject::FindRandomNode()
 	return randomNode;
 }
 
-void NPC_GameObject::CancelPath()
+void NPC::CancelPath()
 {
 	_isMoving = false;
 	_targetNode = nullptr;
@@ -201,22 +201,22 @@ void NPC_GameObject::CancelPath()
 	}
 }
 
-void NPC_GameObject::SetPathManager(PathNodeManager* pathManager)
+void NPC::SetPathManager(PathNodeManager* pathManager)
 {
 	_pathManager = pathManager;
 }
 
-GaemPathing::PathNode* NPC_GameObject::GetTargetNode()
+GaemPathing::PathNode* NPC::GetTargetNode()
 {
 	return _targetNode;
 }
 
-GaemPathing::PathNode* NPC_GameObject::GetCurrentNode()
+GaemPathing::PathNode* NPC::GetCurrentNode()
 {
 	return _currentNode;
 }
 
-GaemPathing::PathNode* NPC_GameObject::GetNextNode()
+GaemPathing::PathNode* NPC::GetNextNode()
 {
 	if (_currentPath.empty())
 		return nullptr;
@@ -224,38 +224,38 @@ GaemPathing::PathNode* NPC_GameObject::GetNextNode()
 	return _currentPath.top();
 }
 
-float NPC_GameObject::GetMoveSpeed()
+float NPC::GetMoveSpeed()
 {
 	return _moveSpeed;
 }
 
-void NPC_GameObject::SetMoveSpeed(float speed)
+void NPC::SetMoveSpeed(float speed)
 {
 	_moveSpeed = speed;
 }
 
-bool NPC_GameObject::GetIsMoving()
+bool NPC::GetIsMoving()
 {
 	return _isMoving;
 }
 
-void NPC_GameObject::SetIsMoving(bool isMoving)
+void NPC::SetIsMoving(bool isMoving)
 {
 	_isMoving = isMoving;
 }
 
-void NPC_GameObject::SetUpdateFunction(LuaFunction<void, NPC_GameObject&, float> function)
+void NPC::SetUpdateFunction(LuaFunction<void, NPC&, float> function)
 {
 	updateFunction = function;
 }
 
-LuaFunction<void, NPC_GameObject&, float> NPC_GameObject::GetUpdateFunction()
+LuaFunction<void, NPC&, float> NPC::GetUpdateFunction()
 {
 	return updateFunction;
 }
 
 
-void NPC_GameObject::UpdatePathing(double dt)
+void NPC::UpdatePathing(double dt)
 {
 	if (_returningToNetwork) {
 		//move towards point

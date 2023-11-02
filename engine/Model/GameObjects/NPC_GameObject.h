@@ -4,12 +4,12 @@
 #include <AI/Emotion/Emotion.h>
 #include <Ai/Emotion/Personality.h>
 
-class NPC_GameObject : public GameObject
+class NPC : public GameObject
 {
 public:
-	NPC_GameObject();
-	NPC_GameObject(GaemPathing::PathNodeManager* pathManager);
-	~NPC_GameObject();
+	NPC();
+	NPC(GaemPathing::PathNodeManager* pathManager);
+	~NPC();
 
 	void Update(double dt);
 
@@ -45,13 +45,13 @@ public:
 	bool GetIsMoving();
 	void SetIsMoving(bool isMoving);
 
-	void SetUpdateFunction(LuaFunction<void, NPC_GameObject&, float> function);
-	LuaFunction<void, NPC_GameObject&, float> GetUpdateFunction();
+	void SetUpdateFunction(LuaFunction<void, NPC&, float> function);
+	LuaFunction<void, NPC&, float> GetUpdateFunction();
 
 private:
 	
 	//AI scripting
-	LuaFunction<void, NPC_GameObject&, float> updateFunction;
+	LuaFunction<void, NPC&, float> updateFunction;
 
 	//Emotion
 	std::vector<Emotion> emotions;

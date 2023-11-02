@@ -2,7 +2,7 @@
 #include <set>
 #include <Scene.h>
 #include <Timer.h>
-#include <AI/StateMachine.h>
+#include <AI/StateMachine/StateMachine.h>
 
 /**
 *	@Class Dispatcher
@@ -16,12 +16,12 @@
 class Dispatcher
 {
 public:
-		/**
-		*	@brief Get the singleton instance
-		*	@return void
-		*/
-	static Dispatcher& Get();
 
+
+	Dispatcher(Scene* nScene,Timer* nTimer);
+	~Dispatcher();
+	Dispatcher(const Dispatcher&) = delete;
+	Dispatcher& operator = (const Dispatcher&) = delete;
 		/**
 		*	@brief Sends a message
 		*	@param delay how long to wait before sending the message
@@ -31,7 +31,7 @@ public:
 		*	@param data pointer to arbitrary data used in message
 		*	@return void
 		*/
-	void SendMessage(double delay, int sender, int receiver, int type, void* data);
+	void SendMessage(double delay, std::string& sender, std::string&  receiver, int type, void* data);
 
 		/**
 		*	@brief Sends all messages that are ready to be sent
@@ -51,10 +51,6 @@ private:
 	std::set<Message> msgQueue;
 		///Scene messages are sent in
 	Scene* scene = nullptr;
+	Timer* timer;
 
-	//singleton
-	Dispatcher();
-	~Dispatcher();
-	Dispatcher(const Dispatcher&) = delete;
-	Dispatcher& operator = (const Dispatcher&) = delete;
 };

@@ -135,7 +135,7 @@ void SceneEditor::DrawHeighrarchy()
 			nName.append(std::to_string(nSuffix));
 			++nSuffix;
 		}
-		NPC_GameObject& go = res.CreateNPC(nName, "", "");
+		NPC& go = res.CreateNPC(nName, "", "");
 		go.SetPathManager(&engine->scene->pathManager);
 		engine->scene->AddObject(go);
 	}
@@ -180,7 +180,7 @@ void SceneEditor::DrawHeighrarchy()
 				}
 				GameObject* go;
 				
-				if (dynamic_cast<NPC_GameObject*>(pair.second) != nullptr) {
+				if (dynamic_cast<NPC*>(pair.second) != nullptr) {
 					go = &res.CreateNPC(nName, "", "");
 					*go = *pair.second;
 				}
@@ -882,7 +882,7 @@ void SceneEditor::DrawInspector()
 				}
 
 
-				if (dynamic_cast<NPC_GameObject*>(inspectedObject)) {
+				if (dynamic_cast<NPC*>(inspectedObject)) {
 					DrawNPCInspector();
 				}
 
@@ -1706,7 +1706,7 @@ void SceneEditor::Draw3DWidget()
 void SceneEditor::DrawNPCInspector()
 {
 	if (!inspectedObject)return;
-	NPC_GameObject* inspectedNPC = static_cast<NPC_GameObject*>(inspectedObject);
+	NPC* inspectedNPC = static_cast<NPC*>(inspectedObject);
 	if (!inspectedNPC) return;
 
 
@@ -1720,13 +1720,13 @@ void SceneEditor::DrawNPCInspector()
 		if (ImGui::BeginCombo("##functionSelector", funcName.c_str()))
 		{
 			if (ImGui::Selectable("--None--")) {
-				inspectedNPC->SetUpdateFunction(LuaFunction<void, NPC_GameObject&, float>());
+				inspectedNPC->SetUpdateFunction(LuaFunction<void, NPC&, float>());
 			}
 
 			for (auto& funcName : funcs)
 			{
 				if (ImGui::Selectable(funcName.c_str())) {
-					inspectedNPC->SetUpdateFunction(LuaFunction<void, NPC_GameObject&, float>(funcName.c_str(), &engine->scene->luaState));
+					inspectedNPC->SetUpdateFunction(LuaFunction<void, NPC&, float>(funcName.c_str(), &engine->scene->luaState));
 				}
 			}
 			ImGui::EndCombo();

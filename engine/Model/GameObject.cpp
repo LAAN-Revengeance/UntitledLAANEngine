@@ -1,7 +1,10 @@
 #include "GameObject.h"
 #include <MD2/MD2Reader.h>
 
-GameObject::GameObject() : affordanceController(this){
+GameObject::GameObject() : 
+	affordanceController(this),
+	stateMachine(this)
+{
 }
 
 GameObject::~GameObject() {}

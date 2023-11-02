@@ -51,12 +51,12 @@ Project ProjectLoader::LoadProject(GameEngine* engine, const char* inName)
 
     for (unsigned int i = 0; i < objects.size(); i++) {
         std::string objName = objects[i]["name"].asString();
-        if (dynamic_cast<NPC_GameObject*>(project.scene->gameObjects.at(objName)))
+        if (dynamic_cast<NPC*>(project.scene->gameObjects.at(objName)))
         {
             std::string funcName = objects[i]["updateFunc"].asString();
             if (funcName != "") {
-                dynamic_cast<NPC_GameObject*>(project.scene->gameObjects.at(objName))->SetUpdateFunction(
-                    project.scene->luaState.GetFunction<void, NPC_GameObject&, float>(funcName.c_str())
+                dynamic_cast<NPC*>(project.scene->gameObjects.at(objName))->SetUpdateFunction(
+                    project.scene->luaState.GetFunction<void, NPC&, float>(funcName.c_str())
                 );
             }
         }
