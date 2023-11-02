@@ -8,8 +8,8 @@ function init()
 	expose_states();
 
 	robot = resources:GetGameObject("Robot");
-	robot.stateMachine:ChangeGlobalState(wander_state
-	);
+	robot.stateMachine:ChangeGlobalState(wander_state);
+
 	print("init lua");
 end
 

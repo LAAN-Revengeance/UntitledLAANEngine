@@ -4,18 +4,24 @@
 #include <AI/Emotion/Emotion.h>
 #include <Ai/Emotion/Personality.h>
 
+/**
+*	@Class NPC
+*	@brief Extends GameObject to provide Intelligent behaviour using pathfinding
+*	and emotion modelling using the OCC model of emotions.
+*
+*	@author Andres Comeros-Ochtman, Aidan O'Connor
+*	@version 1.0
+*	@date 15/08/2023
+*/
 class NPC : public GameObject
 {
 public:
+
 	NPC();
 	NPC(GaemPathing::PathNodeManager* pathManager);
 	~NPC();
 
 	void Update(double dt);
-
-	//#########################################
-	//#		EMOTION MODELING/FCM
-	//#########################################
 
 	void AddEmotion(std::string name);
 	void AddEmotion(std::string name, float strength);
@@ -26,9 +32,6 @@ public:
 	void SetEmotionStrength(std::string emotionName, float value);
 	void SetReactionStrength(std::string emotionName, float value);
 
-	//#########################################
-	//#		NAVIGATION/PATHFINDING
-	//#########################################
 	void MoveToPoint(GaemPathing::PathNode* targetNode);
 	void CancelPath();
 	GaemPathing::PathNode* FindClosestNode();
@@ -47,12 +50,10 @@ public:
 
 private:
 
-	//Emotion
 	std::vector<Emotion> emotions;
 	Personality personality;
 	Emotion _emptyEmotion;
 
-	//Navigation
 	void UpdatePathing(double dt);
 	GaemPathing::PathNodeManager* _pathManager = nullptr;
 	float _moveSpeed = 1.0f;

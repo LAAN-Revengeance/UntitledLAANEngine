@@ -112,11 +112,31 @@ public:
 		*	@return this objects right vector
 		*/
 	void LookAt(glm::vec3 lookPos);
+
+		/**
+		*	@brief Get the orienation quaternion as euler angels
+		*	@return rotation as euler angles
+		*/
 	glm::vec3 GetRotationEuler();
+
+		/**
+		*	@brief Get the transform matrix based on transform properties
+		*	@return 4x4 transform matrix of this object
+		*/
 	glm::mat4 GetTransformMatrix();
 
+		/**
+		*	@brief return a normalized vector ponting in forward direction of this object
+		*	@return this objects forward vector
+		*/
 	glm::vec3 GetForwardVec();
+
+		/**
+		*	@brief return a normalized vector ponting in up direction of this object
+		*	@return this objects up vector
+		*/
 	glm::vec3 GetUpVec();
+
 		///Position in worldspace
 	glm::vec3 position = {0,0,0};
 		///Scale along each axis
@@ -126,35 +146,28 @@ public:
 
 		///3D model data
 	DrawItem *model_data = nullptr;
+		///If this object should cast shadows
 	bool isCastShadow = true;
-
 		///Custom shader
 	Shader* shader = nullptr;
-	
 		///physics body
 	PhysicsBody* physicsBody = nullptr;
-
 		///Name of this object
 	std::string name;
 		///Return this objects ID
 	int GetID() { return ID; }
 		///Set this objects ID  
 	void SetID(int id) { ID = id; };
-
-		//Retuns a reference to model data
+		///Retuns a reference to model data
 	DrawItem* GetDrawItem();
-		//Retuns a reference to model animation data
+		///Retuns a reference to model animation data
 	AnimatedDrawItem* GetAnimationItem();
-		
-		//Material properties
+		///Material properties
 	Material material;
-
-		//this objects affordances
+		///This objects affordances
 	AffordanceController affordanceController;
-		
-		//scriptable state machine
+		//Scriptable state machine
 	StateMachine stateMachine;
-	
 protected:
 		///Unique identifier
 	unsigned int ID = 0;
