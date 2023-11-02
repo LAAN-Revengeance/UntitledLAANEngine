@@ -70,8 +70,9 @@ Scene* Dispatcher::GetScene()
 	return scene;
 }
 
-Dispatcher::Dispatcher(Timer* nTimer)
+Dispatcher::Dispatcher(Timer* nTimer, Scene* nScene)
 {
+	scene = nScene;
 	timer = nTimer;
 }
 

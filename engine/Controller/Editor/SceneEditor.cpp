@@ -81,8 +81,6 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 	jsonFile.close();
 	std::string luaMain = root["luaPath"].asString();
 
-	//SetLuaFile(luaMain.c_str());
-
 }
 
 void SceneEditor::UseScene(Scene* nscene)

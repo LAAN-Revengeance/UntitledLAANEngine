@@ -46,7 +46,7 @@ Project ProjectLoader::LoadProject(GameEngine* engine, const char* inName)
     project.scene->InitFunction = project.scene->luaState.GetFunction<void>("init");
 
     //AI controllers
-    project.msgDispatcher = new Dispatcher(engine->timer);
+    project.msgDispatcher = new Dispatcher(engine->timer, project.scene);
     project.aiManager = new AIManager(project.msgDispatcher);
 
     delete engine->aiManager;

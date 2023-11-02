@@ -17,7 +17,7 @@ class Dispatcher
 {
 public:
 
-	Dispatcher(Timer* nTimer);
+	Dispatcher(Timer* nTimer, Scene* nScene);
 	~Dispatcher();
 	Dispatcher(const Dispatcher&) = delete;
 	Dispatcher& operator = (const Dispatcher&) = delete;
