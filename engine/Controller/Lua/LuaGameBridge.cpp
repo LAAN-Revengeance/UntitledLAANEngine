@@ -110,7 +110,8 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"affordances", &GameObject::affordanceController,
 		"GetForward", &GameObject::GetForwardVec,
 		"Rotate", &GameObject::Rotate,
-		"GetAnimation", &GameObject::GetAnimationItem
+		"GetAnimation", &GameObject::GetAnimationItem,
+		"stateMachine", &GameObject::stateMachine
 	);
 
 	//expose terrain

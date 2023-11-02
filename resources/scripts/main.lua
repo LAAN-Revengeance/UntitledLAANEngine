@@ -6,6 +6,10 @@ function init()
 	initInputs();
 	player = resources:GetGameObject("player");
 	expose_states();
+
+	robot = resources:GetGameObject("Robot");
+	robot.stateMachine:ChangeGlobalState(wander_state
+	);
 	print("init lua");
 end
 
