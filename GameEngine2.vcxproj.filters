@@ -18,7 +18,7 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="engine\Controller\Lua\LuaManger.cpp" />
-    <ClCompile Include="engine\Model\Terrain.cpp" />
+    <ClCompile Include="engine\Model\GameObjects\Terrain.cpp" />
     <ClCompile Include="engine\Controller\InputManager.cpp" />
     <ClCompile Include="Engine\Controller\InputManager.cpp" />
     <ClCompile Include="Engine\Controller\ResourceManager.cpp" />
@@ -92,7 +92,7 @@
     <ClInclude Include="engine\View\Graphics\OpenGL\VBO.h" />
     <ClInclude Include="Engine\View\Renderer.h" />
     <ClInclude Include="engine\Controller\Lua\LuaManager.h" />
-    <ClInclude Include="Engine\Model\Terrain.h" />
+    <ClInclude Include="engine\Model\GameObjects\Terrain.h" />
     <ClInclude Include="engine\Controller\InputManager.h" />
     <ClInclude Include="engine\Model\Material.h" />
     <ClInclude Include="engine\View\Graphics\Graphics.h" />

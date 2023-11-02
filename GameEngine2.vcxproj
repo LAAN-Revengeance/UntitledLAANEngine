@@ -209,7 +209,7 @@
     <ClCompile Include="engine\View\Graphics\OpenGL\VAO.cpp" />
     <ClCompile Include="engine\View\Graphics\OpenGL\VBO.cpp" />
     <ClCompile Include="engine\Model\Scene.cpp" />
-    <ClCompile Include="engine\Model\Terrain.cpp" />
+    <ClCompile Include="engine\Model\GameObjects\Terrain.cpp" />
     <ClCompile Include="Engine\View\GUIRenderer.cpp" />
     <ClCompile Include="Engine\View\Renderer.cpp" />
     <ClCompile Include="engine\View\Window.cpp" />
@@ -310,7 +310,7 @@
     <ClInclude Include="engine\View\Graphics\OpenGL\Texture.h" />
     <ClInclude Include="engine\View\Graphics\OpenGL\VAO.h" />
     <ClInclude Include="engine\View\Graphics\OpenGL\VBO.h" />
-    <ClInclude Include="Engine\Model\Terrain.h" />
+    <ClInclude Include="engine\Model\GameObjects\Terrain.h" />
     <ClInclude Include="Engine\View\GUIRenderer.h" />
     <ClInclude Include="Engine\View\Renderer.h" />
     <ClInclude Include="engine\Controller\SoundEngine.h" />

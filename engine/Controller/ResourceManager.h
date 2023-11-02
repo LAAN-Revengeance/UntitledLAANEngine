@@ -3,7 +3,7 @@
 #include <Gameobject.h>
 #include <Mesh.h>
 #include <MD2/MD2Reader.h>
-#include <Terrain.h>
+#include <GameObjects/Terrain.h>
 #include <GameObjects/NPC_GameObject.h>
 #include <array>
 

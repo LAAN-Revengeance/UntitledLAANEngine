@@ -1727,7 +1727,6 @@ void SceneEditor::DrawNPCInspector()
 
 		ImGui::SeparatorText("Path Selection");
 
-
 		GaemPathing::PathNodeManager* pathNodeManager = &engine->scene->pathManager;
 		std::string targetNodeName = "node ";
 
