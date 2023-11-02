@@ -58,6 +58,11 @@ void Dispatcher::SetScene(Scene* nScene)
 	scene = nScene;
 }
 
+Scene* Dispatcher::GetScene()
+{
+	return scene;
+}
+
 Dispatcher::Dispatcher(Scene* nScene, Timer* nTimer)
 {
 	scene = nScene;

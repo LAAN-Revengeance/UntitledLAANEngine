@@ -45,7 +45,9 @@ public:
 		*	@return void
 		*/
 	void SetScene(Scene* nScene);
-
+		
+		///Return scene pointer
+	Scene* GetScene();
 private:
 		///messages with delays
 	std::set<Message> msgQueue;

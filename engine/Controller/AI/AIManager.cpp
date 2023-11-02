@@ -61,6 +61,7 @@ std::string AIManager::GetStateKey(State* state)
 
 AIManager::AIManager(Dispatcher* nDispatcher)
 {
+	scene = nDispatcher->GetScene();
 	updateTime = 1.0 / 60.0;
 	msgDispatcher = nDispatcher;
 }

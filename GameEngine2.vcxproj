@@ -171,7 +171,7 @@
     <ClCompile Include="engine\Controller\AI\StateMachine\Message\MessageDispatcher.cpp" />
     <ClCompile Include="engine\Controller\AI\StateMachine\StateMachine.cpp" />
     <ClCompile Include="engine\Controller\AI\StateMachine\States\ScriptableState.cpp" />
-    <ClCompile Include="engine\Controller\FCM.cpp" />
+    <ClCompile Include="engine\Controller\AI\Emotion\FCM.cpp" />
     <ClCompile Include="engine\Controller\AI\Emotion\OCCModel.cpp" />
     <ClCompile Include="engine\Controller\AI\Pathfinding\A_Star.cpp" />
     <ClCompile Include="engine\Controller\AI\Pathfinding\PathNode.cpp" />
@@ -269,7 +269,7 @@
     <ClInclude Include="engine\Controller\Utils\StreamCapture.h" />
     <ClInclude Include="engine\Controller\Event\Event.h" />
     <ClInclude Include="engine\Controller\Event\EventDispatcher.h" />
-    <ClInclude Include="engine\Controller\FCM.h" />
+    <ClInclude Include="engine\Controller\AI\Emotion\FCM.h" />
     <ClInclude Include="engine\Controller\GaemEngine.h" />
     <ClInclude Include="engine\Controller\InputManager.h" />
     <ClInclude Include="engine\Controller\Lua\LuaGameBridge.h" />
