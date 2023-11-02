@@ -328,7 +328,6 @@
     <None Include="Engine\Model\Graphics\Shaders\Instance\InstanceDepth.frag" />
     <None Include="lua54.dll" />
     <None Include="resources\scripts\keybinds.lua" />
-    <None Include="resources\scripts\main.lua" />
     <None Include="resources\scripts\menu.lua" />
     <None Include="resources\shaders\Cube_map.frag" />
     <None Include="resources\shaders\Cube_map.vert" />
