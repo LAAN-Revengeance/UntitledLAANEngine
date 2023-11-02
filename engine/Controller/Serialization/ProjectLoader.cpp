@@ -46,23 +46,6 @@ Project ProjectLoader::LoadProject(GameEngine* engine, const char* inName)
     project.scene->UpdateFunction = project.scene->luaState.GetFunction<void, double>("update");
     project.scene->InitFunction = project.scene->luaState.GetFunction<void>("init");
 
-    //npc update fim
-    Json::Value objects = saveJSON["objects"];
-
-    for (unsigned int i = 0; i < objects.size(); i++) {
-        std::string objName = objects[i]["name"].asString();
-        if (dynamic_cast<NPC*>(project.scene->gameObjects.at(objName)))
-        {
-            std::string funcName = objects[i]["updateFunc"].asString();
-            if (funcName != "") {
-                dynamic_cast<NPC*>(project.scene->gameObjects.at(objName))->SetUpdateFunction(
-                    project.scene->luaState.GetFunction<void, NPC&, float>(funcName.c_str())
-                );
-            }
-        }
-
-    }
-
     return project;
 }
 

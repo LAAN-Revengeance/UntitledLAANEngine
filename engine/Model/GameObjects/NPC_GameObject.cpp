@@ -24,8 +24,6 @@ void NPC::Update(double dt)
 {
 	if (_isMoving)
 		UpdatePathing(dt);
-
-	updateFunction.Execute(*this,dt);
 }
 
 void NPC::AddEmotion(std::string name)
@@ -243,17 +241,6 @@ void NPC::SetIsMoving(bool isMoving)
 {
 	_isMoving = isMoving;
 }
-
-void NPC::SetUpdateFunction(LuaFunction<void, NPC&, float> function)
-{
-	updateFunction = function;
-}
-
-LuaFunction<void, NPC&, float> NPC::GetUpdateFunction()
-{
-	return updateFunction;
-}
-
 
 void NPC::UpdatePathing(double dt)
 {

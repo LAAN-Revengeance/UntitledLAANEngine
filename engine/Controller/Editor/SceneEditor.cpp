@@ -1710,30 +1710,6 @@ void SceneEditor::DrawNPCInspector()
 	if (!inspectedNPC) return;
 
 
-	if (ImGui::CollapsingHeader("-- Lua Function --")) {
-
-
-		std::vector<std::string> funcs = LuaManager::GetFunctionNames(luaFilePath);
-		std::string funcName = inspectedNPC->GetUpdateFunction().GetName();
-
-		ImGui::Text("Object Update function:");
-		if (ImGui::BeginCombo("##functionSelector", funcName.c_str()))
-		{
-			if (ImGui::Selectable("--None--")) {
-				inspectedNPC->SetUpdateFunction(LuaFunction<void, NPC&, float>());
-			}
-
-			for (auto& funcName : funcs)
-			{
-				if (ImGui::Selectable(funcName.c_str())) {
-					inspectedNPC->SetUpdateFunction(LuaFunction<void, NPC&, float>(funcName.c_str(), &engine->scene->luaState));
-				}
-			}
-			ImGui::EndCombo();
-		}
-		ImGui::Dummy(ImVec2(0.0f, 20.0f));
-	}
-
 	//NPC Path Finding settings
 	if (ImGui::CollapsingHeader("-- Path Finding --")) {
 		

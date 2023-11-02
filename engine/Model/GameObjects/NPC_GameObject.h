@@ -45,13 +45,7 @@ public:
 	bool GetIsMoving();
 	void SetIsMoving(bool isMoving);
 
-	void SetUpdateFunction(LuaFunction<void, NPC&, float> function);
-	LuaFunction<void, NPC&, float> GetUpdateFunction();
-
 private:
-	
-	//AI scripting
-	LuaFunction<void, NPC&, float> updateFunction;
 
 	//Emotion
 	std::vector<Emotion> emotions;

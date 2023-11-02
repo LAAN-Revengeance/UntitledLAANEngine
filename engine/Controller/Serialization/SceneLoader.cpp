@@ -658,10 +658,6 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
         jobj["type"] = "npc";
         jobj["moveSpeed"] = npc->GetMoveSpeed();
 
-        //lua function
-        jobj["updateFunc"] = npc->GetUpdateFunction().GetName();
-
-
         //Emotions
         Json::Value jEmotions;
         for (auto& emotion : npc->GetEmotions()) {
