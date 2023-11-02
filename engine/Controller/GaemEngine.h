@@ -30,12 +30,10 @@ public:
 	Timer* timer;
 	AIManager* aiManager;
 	Dispatcher* msgDispatcher;
-private:
-	bool isRunning;
 
+	bool isRunning;
 	Window* window;
 	GaemEvents::EventDispatcher* eventDispatcher;
-
 	Scene* scene;
 
 	friend class SceneEditor;
