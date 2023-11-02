@@ -22,7 +22,7 @@ struct Message
 		///Arbitrary pointer to data, use the msgType to determine its type.
 	void* info;
 		///Constructor
-	Message(double dispatch, std::string& sender, std::string& receiver, int type, void* infoPtr);
+	Message(double dispatch, const std::string& sender, const std::string& receiver, int type, void* infoPtr);
 
 	//compare dispatch times
 	bool operator< (const Message& m2)const;

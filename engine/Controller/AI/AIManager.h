@@ -54,7 +54,7 @@ public:
 		*	@param type type ID
 		*	@return void
 		*/
-	void SendMessage(double delay, std::string& sender, std::string& receiver, int type);
+	void SendMessage(double delay, const std::string& sender, const std::string& receiver, int type);
 
 		/**
 		*	@brief Get the name of a state

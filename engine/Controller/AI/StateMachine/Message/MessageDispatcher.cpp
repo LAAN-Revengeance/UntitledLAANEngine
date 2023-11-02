@@ -1,7 +1,7 @@
 #include "MessageDispatcher.h"
 
 
-void Dispatcher::SendMessage(double delay, std::string& sender, std::string& receiver, int type, void* data)
+void Dispatcher::SendMessage(double delay, const std::string& sender, const std::string& receiver, int type, void* data)
 {
 	if (!scene) {
 		std::cerr << "No Scene assigned in message dispatcher!" << std::endl;

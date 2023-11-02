@@ -1,6 +1,8 @@
 #include "LuaGameBridge.h"
 #include <AnimatedDrawItem.h>
 #include <MD2/MD2Reader.h>
+#include <AI/AIManager.h>
+#include <AI/StateMachine/States/ScriptableState.h>
 
 void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 {
@@ -320,6 +322,41 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"ToggleWireFrame", &Renderer::ToggleWireFrame,
 		"GetFPS", &Renderer::GetFPS
 	);
+
+	luaManager->Expose_CPPClass<StateMachine>("StateMachine",
+		sol::no_constructor,
+		"ChangeState", &StateMachine::ChangeState,
+		"ChangeGlobalState", &StateMachine::ChangeGlobalState,
+		"RevertState", &StateMachine::RevertState
+		);
+
+	luaManager->Expose_CPPClass<State>("State",
+		sol::no_constructor,
+		"Enter", &State::Enter,
+		"Exit", &State::Exit,
+		"Update", &State::Update,
+		"ProcessMessage", &State::ProcessMessage
+		);
+
+	luaManager->Expose_CPPClass<AIManager>("AIManager",
+		sol::no_constructor,
+		"AddState", &AIManager::AddState,
+		"GetState", &AIManager::GetState,
+		"SendMessage", &AIManager::SendMessage
+		);
+
+	luaManager->Expose_CPPClass<Message>("Message",
+		sol::no_constructor,
+		"dispatchTime", &Message::dispatchTime,
+		"msgType", &Message::msgType,
+		"receiverID", &Message::receiverID,
+		"senderID", &Message::senderID
+		);		
+
+	luaManager->Expose_CPPClass<ScriptableState>("ScriptableState",
+		sol::constructors<ScriptableState(sol::function, sol::function, sol::function, sol::function)>(),
+		sol::base_classes, sol::bases<State>()
+		);
 
 	//expose the sound engine
 	luaManager->Expose_CPPClass<SoundEngine>("SoundEngine",

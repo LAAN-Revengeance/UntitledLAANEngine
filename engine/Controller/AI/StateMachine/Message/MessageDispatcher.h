@@ -31,7 +31,7 @@ public:
 		*	@param data pointer to arbitrary data used in message
 		*	@return void
 		*/
-	void SendMessage(double delay, std::string& sender, std::string&  receiver, int type, void* data);
+	void SendMessage(double delay, const std::string& sender, const std::string&  receiver, int type, void* data);
 
 		/**
 		*	@brief Sends all messages that are ready to be sent

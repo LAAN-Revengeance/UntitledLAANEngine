@@ -45,7 +45,7 @@ State* AIManager::GetState(const std::string& stateName)
 	return nullptr;
 }
 
-void AIManager::SendMessage(double delay, std::string& sender, std::string& receiver, int type)
+void AIManager::SendMessage(double delay, const std::string& sender, const std::string& receiver, int type)
 {
 	msgDispatcher->SendMessage(delay,sender,receiver,type,nullptr);
 }
