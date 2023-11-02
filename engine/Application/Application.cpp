@@ -2,7 +2,7 @@
 
 Application::Application() :
 	window(1920,1080,"Application",&eventDispatcher),
-	game(&window, &eventDispatcher),
+	game(&window, &eventDispatcher, &timer),
 	editor(&game, &logger)
 {
 }

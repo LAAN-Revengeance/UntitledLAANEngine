@@ -6,7 +6,8 @@
 #include <Utils/GaemUtils.h>
 #include <time.h>
 
-GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher):
+GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher, Timer* nTimer):
+	timer(nTimer),
 	renderer(nWindow),
 	isRunning(true),
 	scene(new Scene),
@@ -48,7 +49,6 @@ void GameEngine::Draw(double deltaTime)
 	if (!scene)
 		return;
 	renderer.RenderScene(scene->camera, *scene, deltaTime);
-
 }
 
 

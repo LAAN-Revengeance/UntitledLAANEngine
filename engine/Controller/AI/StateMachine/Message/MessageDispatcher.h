@@ -2,7 +2,7 @@
 #include <set>
 #include <Scene.h>
 #include <Timer.h>
-#include <AI/StateMachine/StateMachine.h>
+#include <StateMachine/StateMachine.h>
 
 /**
 *	@Class Dispatcher
@@ -17,8 +17,7 @@ class Dispatcher
 {
 public:
 
-
-	Dispatcher(Scene* nScene,Timer* nTimer);
+	Dispatcher(Timer* nTimer);
 	~Dispatcher();
 	Dispatcher(const Dispatcher&) = delete;
 	Dispatcher& operator = (const Dispatcher&) = delete;
@@ -41,11 +40,17 @@ public:
 
 		/**
 		*	@brief Sends set the scene messages will be sent in
-		*	@brief nScene new scene messages will be sent in
+		*	@param nScene new scene messages will be sent in
 		*	@return void
 		*/
 	void SetScene(Scene* nScene);
 		
+		/**
+		*	@brief Clear the current message queue
+		*	@return void
+		*/
+	void ClearMsgQueue();
+
 		///Return scene pointer
 	Scene* GetScene();
 private:

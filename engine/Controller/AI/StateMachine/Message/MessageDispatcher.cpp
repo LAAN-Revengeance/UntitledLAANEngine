@@ -35,6 +35,8 @@ void Dispatcher::SendMessage(double delay, const std::string& sender, const std:
 
 void Dispatcher::SendMsgQueue()
 {
+	if (!scene) return;
+
 	double time = timer->Time();
 	while (!msgQueue.empty() && msgQueue.begin()->dispatchTime < time)
 	{
@@ -58,14 +60,18 @@ void Dispatcher::SetScene(Scene* nScene)
 	scene = nScene;
 }
 
+void Dispatcher::ClearMsgQueue()
+{
+	msgQueue.clear();
+}
+
 Scene* Dispatcher::GetScene()
 {
 	return scene;
 }
 
-Dispatcher::Dispatcher(Scene* nScene, Timer* nTimer)
+Dispatcher::Dispatcher(Timer* nTimer)
 {
-	scene = nScene;
 	timer = nTimer;
 }
 

@@ -8,6 +8,7 @@ Message::Message(double dispatch, const std::string& sender, const std::string& 
 	msgType(type),
 	info(infoPtr)
 {
+
 }
 
 bool Message::operator<(const Message& m2)const

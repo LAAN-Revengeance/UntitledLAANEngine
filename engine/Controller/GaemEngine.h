@@ -5,6 +5,7 @@
 #include <InputManager.h>
 #include <Timer.h>
 #include <Window.h>
+#include <AIManager.h>
 
 /**
 *	@Class GameEngine
@@ -17,7 +18,7 @@
 class GameEngine
 {
 public:
-	GameEngine(Window*, GaemEvents::EventDispatcher*);
+	GameEngine(Window*, GaemEvents::EventDispatcher*, Timer* nTimer);
 	~GameEngine();
 	void Init();
 	void Update(double deltaTime);
@@ -28,9 +29,14 @@ public:
 
 private:
 	bool isRunning;
-	Scene* scene;
+
 	Window* window;
+	Timer* timer;
 	GaemEvents::EventDispatcher* eventDispatcher;
+
+	Scene* scene;
+	AIManager* aiManager;
+	Dispatcher* msgDispatcher;
 
 	friend class SceneEditor;
 	friend class LuaGameBridge;

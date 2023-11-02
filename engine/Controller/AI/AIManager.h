@@ -1,5 +1,5 @@
 #pragma once
-#include <AI/StateMachine/Message/MessageDispatcher.h>
+#include <StateMachine/Message/MessageDispatcher.h>
 /**
 *	@Class AIManager
 *	@brief manages state machines and executes their behaviours

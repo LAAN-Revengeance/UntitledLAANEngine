@@ -71,11 +71,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(solutiondir)dependencies\include;$(solutiondir)Engine\Controller;$(solutiondir)Engine\Model;$(solutiondir)Engine\View;$(solutiondir)dependencies\include\lua;$(solutiondir)Engine\View\Graphics;$(solutiondir)dependencies\include\imgui;$(solutiondir)dependencies\include\ImGuizmo;$(solutiondir)Engine\Editor</IncludePath>
+    <IncludePath>$(solutiondir)dependencies\include;$(solutiondir)Engine\Controller;$(solutiondir)Engine\Model;$(solutiondir)Engine\View;$(solutiondir)dependencies\include\lua;$(solutiondir)Engine\View\Graphics;$(solutiondir)dependencies\include\imgui;$(solutiondir)dependencies\include\ImGuizmo;$(solutiondir)Engine\Editor;$(solutiondir)Engine\Controller\AI</IncludePath>
     <LibraryPath>$(solutiondir)dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(solutiondir)dependencies\include;$(solutiondir)Engine\Controller;$(solutiondir)Engine\Model;$(solutiondir)Engine\View;$(solutiondir)dependencies\include\lua;$(solutiondir)Engine\View\Graphics;$(solutiondir)dependencies\include\imgui;$(solutiondir)dependencies\include\ImGuizmo;$(solutiondir)Engine\Layer\Editor;$(solutiondir)Engine\Layer</IncludePath>
+    <IncludePath>$(solutiondir)dependencies\include;$(solutiondir)Engine\Controller;$(solutiondir)Engine\Model;$(solutiondir)Engine\View;$(solutiondir)dependencies\include\lua;$(solutiondir)Engine\View\Graphics;$(solutiondir)dependencies\include\imgui;$(solutiondir)dependencies\include\ImGuizmo;$(solutiondir)Engine\Layer\Editor;$(solutiondir)Engine\Layer;$(solutiondir)Engine\Controller\AI</IncludePath>
     <LibraryPath>$(solutiondir)dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

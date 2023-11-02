@@ -92,5 +92,6 @@ public:
 	std::map<std::string,GameObject*> gameObjects;
 		///AI navigation data
 	GaemPathing::PathNodeManager pathManager;
+
 private:
 };
