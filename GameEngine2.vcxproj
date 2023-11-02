@@ -242,6 +242,7 @@
     <ClInclude Include="dependencies\include\json\json.h" />
     <ClInclude Include="engine\Application\Application.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance.h" />
+    <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Blank.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Compliment.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\AffordanceController.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Generous_Offer.h" />

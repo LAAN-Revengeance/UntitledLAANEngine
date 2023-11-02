@@ -1,5 +1,7 @@
 #include "AffordanceController.h"
 
+AffordanceBlank AffordanceController::_blankAffordance(nullptr);
+
 AffordanceController::AffordanceController(GameObject* owner)
 {
 	_owner = owner;
@@ -26,7 +28,7 @@ Affordance* AffordanceController::GetAffordanceString(const std::string type)
 		}
 	}
 
-	return nullptr;
+	return &_blankAffordance;
 }
 
 void AffordanceController::RemoveAffordanceString(const std::string type)

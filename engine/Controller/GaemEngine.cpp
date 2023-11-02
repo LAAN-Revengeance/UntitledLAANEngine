@@ -12,7 +12,9 @@ GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher
 	isRunning(true),
 	scene(new Scene),
 	window(nWindow),
-	eventDispatcher(nDispatcher)
+	eventDispatcher(nDispatcher),
+	aiManager(nullptr),
+	msgDispatcher(nullptr)
 {
 	InputManager::Get().Init(nWindow);
 	guiRenderer.Init(nWindow);
@@ -42,6 +44,12 @@ void GameEngine::Update(double deltaTime)
 	for (auto& it : scene->gameObjects) {
 		it.second->Update(deltaTime);
 	}
+
+	if (aiManager)
+		aiManager->UpdateAgents(deltaTime);
+
+	if (msgDispatcher)
+		msgDispatcher->SendMsgQueue();
 }
 
 void GameEngine::Draw(double deltaTime)

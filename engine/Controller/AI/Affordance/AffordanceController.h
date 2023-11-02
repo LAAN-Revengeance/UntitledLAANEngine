@@ -29,9 +29,10 @@ private:
 
 	GameObject* _owner;
 	std::vector<Affordance*> _affordances;
-
+	static AffordanceBlank _blankAffordance;
 	friend class SceneLoader;
 };
+
 
 template<class T>
 inline T* AffordanceController::AddAffordance() {
