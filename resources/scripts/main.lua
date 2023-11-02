@@ -2,6 +2,26 @@ dofile("resources/scripts/keybinds.lua")
 
 --main init function, called once before update
 function init()
+	initInputs();
+	player = resources:GetGameObject("player");
+	print("init lua");
+end
+
+--main update function, called every frame
+function update(deltaTime)
+	keyInput(deltaTime)
+	mouseMoveFunc(deltaTime)
+
+	--show emotional state of NPC looking at
+	object = physics:RaycastNPC(scene:GetCamera().position,scene:GetCamera().front,20);
+	if(not (object == nil))
+	then
+		draw_emotion_gui(object);
+	end
+	
+end
+
+function initInputs()
 
 	--set inputs
 	input:SetMouseLock(false);
@@ -17,27 +37,7 @@ function init()
 	input:BindKey("camR",KEY_D);
 	input:BindKey("pickUp", KEY_E);
 	input:BindKey("escape",KEY_ESCAPE);
-
-	player = resources:GetGameObject("player");
-	--scene:GetCamera().position = vec3:new(0,2,0);
-	
-	print("init lua");
 end
-
---main update function, called every frame
-function update(deltaTime)
-	keyInput(deltaTime)
-	mouseMoveFunc(deltaTime)
-
-	object = physics:RaycastNPC(scene:GetCamera().position,scene:GetCamera().front,20);
-	if(not (object == nil))
-	then
-	
-		draw_emotion_gui(object);
-	end
-	
-end
-
 
 function keyInput(dt)
 	up = vec3:new(0,1,0);
@@ -208,7 +208,6 @@ function keyInput(dt)
 			end
 		end
 	end
-
 end
 
 lastX = input:GetMouseX();
@@ -289,7 +288,6 @@ function draw_emotion_gui(go)
 	GUI:EndEndWindow();
 
 	GUI:EndGUI();
-
 end
 
 
