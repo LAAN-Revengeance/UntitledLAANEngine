@@ -41,10 +41,19 @@ Project ProjectLoader::LoadProject(GameEngine* engine, const char* inName)
     project.scene->luaState.Expose_CPPReference("scene", *project.scene);
     project.scene->luaState.Expose_CPPReference("GUI", engine->guiRenderer);
     project.scene->luaState.Expose_CPPReference("physics", project.scene->physicsWorld);
-
     project.scene->luaState.LoadScript(project.luaPath);
     project.scene->UpdateFunction = project.scene->luaState.GetFunction<void, double>("update");
     project.scene->InitFunction = project.scene->luaState.GetFunction<void>("init");
+
+    //AI controllers
+    project.msgDispatcher = new Dispatcher(engine->timer);
+    project.aiManager = new AIManager(project.msgDispatcher);
+
+    delete engine->aiManager;
+    delete engine->msgDispatcher;
+
+    engine->msgDispatcher = project.msgDispatcher;
+    engine->aiManager = project.aiManager;
 
     return project;
 }

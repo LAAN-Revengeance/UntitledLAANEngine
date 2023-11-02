@@ -27,16 +27,16 @@ public:
 	Renderer renderer;
 	GUIRenderer guiRenderer;
 
+	Timer* timer;
+	AIManager* aiManager;
+	Dispatcher* msgDispatcher;
 private:
 	bool isRunning;
 
 	Window* window;
-	Timer* timer;
 	GaemEvents::EventDispatcher* eventDispatcher;
 
 	Scene* scene;
-	AIManager* aiManager;
-	Dispatcher* msgDispatcher;
 
 	friend class SceneEditor;
 	friend class LuaGameBridge;

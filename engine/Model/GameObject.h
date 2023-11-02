@@ -143,13 +143,16 @@ public:
 
 		//Retuns a reference to model data
 	DrawItem* GetDrawItem();
+		//Retuns a reference to model animation data
 	AnimatedDrawItem* GetAnimationItem();
 		
 		//Material properties
 	Material material;
 
+		//this objects affordances
 	AffordanceController affordanceController;
-
+		
+		//scriptable state machine
 	StateMachine stateMachine;
 	
 protected:

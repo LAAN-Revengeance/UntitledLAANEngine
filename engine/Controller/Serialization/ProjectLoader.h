@@ -20,6 +20,12 @@ struct Project {
 
 	///Scene the project is centered around
 	Scene* scene;
+
+	///ai controller associated with scene
+	AIManager* aiManager;
+
+	///ai message contrller associated with scene
+	Dispatcher* msgDispatcher;
 };
 
 /**

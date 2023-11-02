@@ -30,13 +30,16 @@ void SceneEditor::Draw(double deltaTime)
 	if (engine->isRunning && !isGUIOnRun)
 		return;
 
-	if (isPhysicDebug)
-		engine->scene->physicsWorld.DrawPhysicsWorld(*camera);
+	if (engine->scene)
+	{
+		if (isPhysicDebug)
+			engine->scene->physicsWorld.DrawPhysicsWorld(*camera);
 
-	if (isPathDebug) {
-		engine->scene->pathManager.DrawDebug(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
-		pathDebugLine.RenderFront(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
-		selectedNavNodeBox.Render(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
+		if (isPathDebug) {
+			engine->scene->pathManager.DrawDebug(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
+			pathDebugLine.RenderFront(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
+			selectedNavNodeBox.Render(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
+		}
 	}
 
 	guirenderer.StartGUI();
@@ -47,8 +50,6 @@ void SceneEditor::Draw(double deltaTime)
 	DrawResources();
 	guirenderer.EndGUI();
 }
-
-
 
 void SceneEditor::SaveProject(const char* path)
 {
