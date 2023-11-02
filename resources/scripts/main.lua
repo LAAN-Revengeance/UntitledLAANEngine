@@ -1,9 +1,11 @@
 dofile("resources/scripts/keybinds.lua")
+dofile("resources/scripts/ai_states.lua")
 
 --main init function, called once before update
 function init()
 	initInputs();
 	player = resources:GetGameObject("player");
+	expose_states();
 	print("init lua");
 end
 

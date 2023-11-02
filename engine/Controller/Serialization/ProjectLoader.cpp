@@ -48,12 +48,11 @@ Project ProjectLoader::LoadProject(GameEngine* engine, const char* inName)
     //AI controllers
     project.msgDispatcher = new Dispatcher(engine->timer, project.scene);
     project.aiManager = new AIManager(project.msgDispatcher);
-
     delete engine->aiManager;
     delete engine->msgDispatcher;
-
     engine->msgDispatcher = project.msgDispatcher;
     engine->aiManager = project.aiManager;
+    project.scene->luaState.Expose_CPPReference("aimanager",*project.aiManager);
 
     return project;
 }
