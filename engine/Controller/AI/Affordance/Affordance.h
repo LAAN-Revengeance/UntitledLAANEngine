@@ -79,9 +79,17 @@ public:
 	bool GetIsActive() { return _active; }
 
 	/**
+	 * @brief Get strength of this affordance
+	 * @return the affordance strength
+	*/
+	float GetStrength() { return _strength; }
+
+	/**
 	 * @brief Get a description of this affordance
 	 * @return the ID of this affordance
 	*/
+	virtual AffordanceDescriptor GetDescriptor()const = 0;
+
 	virtual AffordanceDescriptor GetType()const = 0;
 
 protected:
@@ -97,6 +105,9 @@ protected:
 
 	//if _parentObject can perform this affordance
 	bool _canPerform = false;
+
+	//strength of current affordance
+	float _strength;
 
 	///the owner of this affordance data
 	GameObject* _parentObject = nullptr;

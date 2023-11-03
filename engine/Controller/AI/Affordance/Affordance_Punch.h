@@ -11,8 +11,10 @@ public:
 	void Deactivate() override;
 	void Update(double deltaTime) override;
 
-	AffordanceDescriptor GetType()const override { return descriptor; }
+	AffordanceDescriptor GetDescriptor()const override { return descriptor; }
+	AffordanceDescriptor GetType()const override { return type; }
 
 private:
 	AffordanceDescriptor descriptor = "punch";
+	AffordanceDescriptor type = "agent";
 };

@@ -6,6 +6,7 @@
 AffordanceGiveMoney::AffordanceGiveMoney(GameObject* go)
 {
 	_parentObject = go;
+	_strength = 1.0;
 }
 
 AffordanceGiveMoney::~AffordanceGiveMoney()
@@ -25,7 +26,7 @@ void AffordanceGiveMoney::Activate(GameObject* go)
 
 		Personality personality = npc->GetPersonality();
 
-		occModel.EvaluateAffordance(GetType(), 0, emotion, affordanceStrength);
+		occModel.EvaluateAffordance(GetDescriptor(), 0, emotion, affordanceStrength);
 		npc->AddEmotion(emotion);
 		occModel.CalcEmotionStrength(affordanceStrength, emotion, npc->GetEmotion(emotion), personality);
 

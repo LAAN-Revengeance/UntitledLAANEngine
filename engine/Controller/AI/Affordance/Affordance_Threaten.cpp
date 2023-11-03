@@ -6,6 +6,7 @@
 AffordanceThreaten::AffordanceThreaten(GameObject* go)
 {
 	_parentObject = go;
+	_strength = 1.0;
 }
 
 AffordanceThreaten::~AffordanceThreaten()
@@ -25,7 +26,7 @@ void AffordanceThreaten::Activate(GameObject* go)
 
 		Personality personality = npc->GetPersonality();
 
-		occModel.EvaluateAffordance(GetType(), 5, emotion, affordanceStrength);
+		occModel.EvaluateAffordance(GetDescriptor(), 5, emotion, affordanceStrength);
 		npc->AddEmotion(emotion);
 		occModel.CalcEmotionStrength(affordanceStrength, emotion, npc->GetEmotion(emotion), personality);
 

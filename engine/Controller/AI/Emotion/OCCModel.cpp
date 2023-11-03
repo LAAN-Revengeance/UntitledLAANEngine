@@ -1,6 +1,6 @@
 #include <AI/Emotion/OCCModel.h>
 
-void OCCModel::EvaluateAffordance(std::string affordance, float distance, std::string& emotion, float& affordanceStrength)
+void OCCModel::EvaluateAffordance(std::string affordance, std::string affordanceType, float distance, std::string& emotion)
 {
 	bool desirable = CheckDesirable(affordance);
 	bool prospectRelevant = CheckProspectRelevant(distance);
@@ -19,8 +19,6 @@ void OCCModel::EvaluateAffordance(std::string affordance, float distance, std::s
 		else
 			emotion = "Hope";
 	}
-
-	affordanceStrength = CalcAffordanceStrength(affordance);
 }
 
 void OCCModel::CalcEmotionStrength(float affordanceStrength, std::string emotion, Emotion& npcEmotion, Personality npcPersonality)
@@ -104,26 +102,6 @@ FCM OCCModel::InitFearHopeFCM(float eventStrength, std::string emotion, Emotion 
 	fearHopeFCM.AddRelationship(emotion, "Action", -npcPersonality.GetConscientiousnessPercent());
 
 	return fearHopeFCM;
-}
-
-float OCCModel::CalcAffordanceStrength(std::string affordance)
-{
-	float strength = 0;
-
-	if (affordance == "punch" || affordance == "giveMoney" || affordance == "threaten" || affordance == "generousOffer")
-	{
-		strength = 1;
-	}
-	else if (affordance == "slap" || affordance == "compliment")
-	{
-		strength = 0.5;
-	}
-	else if (affordance == "poke")
-	{
-		strength = 0.2;
-	}
-
-	return strength;
 }
 
 bool OCCModel::CheckDesirable(std::string affordance)
