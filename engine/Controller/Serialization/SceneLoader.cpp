@@ -498,8 +498,10 @@ Scene& SceneLoader::LoadScene(const char* inName)
                 affordance = go->affordanceController.AddAffordance<AffordanceGenerousOffer>();
             }
 
-            affordance->SetCanAfford (jobj["Affordances"][i]["canAfford"].asBool());
-            affordance->SetCanPerform(jobj["Affordances"][i]["canPerform"].asBool());
+            if (affordance) {
+                affordance->SetCanAfford(jobj["Affordances"][i]["canAfford"].asBool());
+                affordance->SetCanPerform(jobj["Affordances"][i]["canPerform"].asBool());
+            }
         }
 
         res.StoreGameObject(go);
