@@ -11,6 +11,6 @@ public:
 	static FCM InitAngerGratitudeFCM(float affordanceStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality, int blameworthiness);
 	static FCM InitFearHopeFCM(float affordanceStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality, int likelihood);
 	static bool CheckDesirable(std::string affordance);
-	static bool CheckProspectRelevant(float distance);
+	static bool CheckProspectRelevant(std::string affordanceType);
 private:
 };

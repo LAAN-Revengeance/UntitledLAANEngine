@@ -3,7 +3,7 @@
 void OCCModel::EvaluateAffordance(std::string affordance, std::string affordanceType, float distance, std::string& emotion)
 {
 	bool desirable = CheckDesirable(affordance);
-	bool prospectRelevant = CheckProspectRelevant(distance);
+	bool prospectRelevant = CheckProspectRelevant(affordanceType);
 
 	if (!desirable)
 	{
@@ -112,9 +112,9 @@ bool OCCModel::CheckDesirable(std::string affordance)
 	return true;
 }
 
-bool OCCModel::CheckProspectRelevant(float distance)
+bool OCCModel::CheckProspectRelevant(std::string affordanceType)
 {
-	if (distance <= 3)
+	if (affordanceType == "agent")
 		return true;
 	
 	return false;
