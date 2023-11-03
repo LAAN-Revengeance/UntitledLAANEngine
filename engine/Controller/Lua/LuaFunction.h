@@ -4,6 +4,15 @@
 #include "LuaManager.h"
 #include <Utils/DebugLogger.h>
 
+/**
+*	@Class LuaFunction
+*	@brief stores a lua function extracted from a lua managers current lua state
+*	and provides easy interfacing with it through c++
+*
+*	@author Andres Comeros-Ochtman
+*	@version 1.0
+*	@date 21/09/2023
+*/
 template<class T, typename ...Args>
 class LuaFunction
 {
@@ -15,7 +24,7 @@ public:
 	LuaFunction(const char* luaName, LuaManager* luaState) {
 
 		funcName = luaName;
-		solFunc = luaState->luaState[luaName];// GetFunction(luaName);
+		solFunc = luaState->luaState[luaName];
 	}
 
 	~LuaFunction() {

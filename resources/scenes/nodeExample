@@ -1,0 +1,1529 @@
+{
+	"Lighting" : 
+	{
+		"Ambient" : 
+		[
+			0.37745100259780884,
+			0.37745100259780884,
+			0.37745100259780884
+		],
+		"DirectionLights" : 
+		[
+			{
+				"diffuse" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				],
+				"direction" : 
+				[
+					-0.0016665488947182894,
+					0.9991803765296936,
+					0.040492869913578033
+				],
+				"specular" : 
+				[
+					1.0,
+					1.0,
+					1.0
+				]
+			}
+		],
+		"PointLights" : null
+	},
+	"luaPath" : "resources\\scripts\\NewClassroom.lua",
+	"navigation" : 
+	{
+		"nodes" : 
+		[
+			{
+				"ID" : 1,
+				"neighbours" : 
+				[
+					1,
+					10,
+					2
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-16.0,
+					0.0,
+					10.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 2,
+				"neighbours" : 
+				[
+					11,
+					1,
+					2,
+					3
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-12.0,
+					0.0,
+					10.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 3,
+				"neighbours" : 
+				[
+					12,
+					4,
+					2,
+					3
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-8.0,
+					0.0,
+					10.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 4,
+				"neighbours" : 
+				[
+					13,
+					4,
+					5,
+					3
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-4.0,
+					0.0,
+					10.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 5,
+				"neighbours" : 
+				[
+					14,
+					4,
+					5,
+					6
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					0.0,
+					0.0,
+					10.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 6,
+				"neighbours" : 
+				[
+					15,
+					5,
+					6,
+					7
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					4.0,
+					0.0,
+					10.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 7,
+				"neighbours" : 
+				[
+					16,
+					6,
+					7,
+					8
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					8.0,
+					0.0,
+					10.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 8,
+				"neighbours" : 
+				[
+					17,
+					9,
+					7,
+					8
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					12.0,
+					0.0,
+					10.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 9,
+				"neighbours" : 
+				[
+					18,
+					9,
+					8
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					16.0,
+					0.0,
+					10.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 10,
+				"neighbours" : 
+				[
+					19,
+					11,
+					1,
+					10
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-16.0,
+					0.0,
+					6.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 11,
+				"neighbours" : 
+				[
+					12,
+					20,
+					11,
+					10,
+					2
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-12.0,
+					0.0,
+					6.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 12,
+				"neighbours" : 
+				[
+					21,
+					13,
+					12,
+					11,
+					3
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-8.0,
+					0.0,
+					6.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 13,
+				"neighbours" : 
+				[
+					22,
+					13,
+					14,
+					12,
+					4
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-4.0,
+					0.0,
+					6.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 14,
+				"neighbours" : 
+				[
+					23,
+					13,
+					14,
+					15,
+					5
+				],
+				"obstacle" : true,
+				"position" : 
+				[
+					0.0,
+					0.0,
+					6.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 15,
+				"neighbours" : 
+				[
+					14,
+					24,
+					16,
+					15,
+					6
+				],
+				"obstacle" : true,
+				"position" : 
+				[
+					4.0,
+					0.0,
+					6.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 16,
+				"neighbours" : 
+				[
+					25,
+					17,
+					16,
+					15,
+					7
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					8.0,
+					0.0,
+					6.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 17,
+				"neighbours" : 
+				[
+					17,
+					18,
+					16,
+					8,
+					26
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					12.0,
+					0.0,
+					6.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 18,
+				"neighbours" : 
+				[
+					17,
+					18,
+					9,
+					27
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					16.0,
+					0.0,
+					6.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 19,
+				"neighbours" : 
+				[
+					19,
+					20,
+					10,
+					28
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-16.0,
+					0.0,
+					2.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 20,
+				"neighbours" : 
+				[
+					21,
+					19,
+					20,
+					11,
+					29
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-12.0,
+					0.0,
+					2.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 21,
+				"neighbours" : 
+				[
+					22,
+					21,
+					12,
+					20,
+					30
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-8.0,
+					0.0,
+					2.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 22,
+				"neighbours" : 
+				[
+					22,
+					23,
+					21,
+					13,
+					31
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-4.0,
+					0.0,
+					2.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 23,
+				"neighbours" : 
+				[
+					22,
+					23,
+					14,
+					24,
+					32
+				],
+				"obstacle" : true,
+				"position" : 
+				[
+					0.0,
+					0.0,
+					2.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 24,
+				"neighbours" : 
+				[
+					23,
+					25,
+					24,
+					15,
+					33
+				],
+				"obstacle" : true,
+				"position" : 
+				[
+					4.0,
+					0.0,
+					2.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 25,
+				"neighbours" : 
+				[
+					25,
+					24,
+					16,
+					26,
+					34
+				],
+				"obstacle" : true,
+				"position" : 
+				[
+					8.0,
+					0.0,
+					2.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 26,
+				"neighbours" : 
+				[
+					25,
+					17,
+					27,
+					26,
+					35
+				],
+				"obstacle" : true,
+				"position" : 
+				[
+					12.0,
+					0.0,
+					2.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 27,
+				"neighbours" : 
+				[
+					18,
+					36,
+					27,
+					26
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					16.0,
+					0.0,
+					2.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 28,
+				"neighbours" : 
+				[
+					19,
+					29,
+					28,
+					37
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-16.0,
+					0.0,
+					-2.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 29,
+				"neighbours" : 
+				[
+					20,
+					29,
+					30,
+					28,
+					38
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-12.0,
+					0.0,
+					-2.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 30,
+				"neighbours" : 
+				[
+					21,
+					31,
+					29,
+					30,
+					39
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-8.0,
+					0.0,
+					-2.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 31,
+				"neighbours" : 
+				[
+					22,
+					31,
+					30,
+					32,
+					40
+				],
+				"obstacle" : true,
+				"position" : 
+				[
+					-4.0,
+					0.0,
+					-2.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 32,
+				"neighbours" : 
+				[
+					23,
+					31,
+					32,
+					33,
+					41
+				],
+				"obstacle" : true,
+				"position" : 
+				[
+					0.0,
+					0.0,
+					-2.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 33,
+				"neighbours" : 
+				[
+					24,
+					34,
+					32,
+					33,
+					42
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					4.0,
+					0.0,
+					-2.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 34,
+				"neighbours" : 
+				[
+					25,
+					34,
+					35,
+					33,
+					43
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					8.0,
+					0.0,
+					-2.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 35,
+				"neighbours" : 
+				[
+					36,
+					26,
+					34,
+					35,
+					44
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					12.0,
+					0.0,
+					-2.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 36,
+				"neighbours" : 
+				[
+					36,
+					27,
+					35,
+					45
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					16.0,
+					0.0,
+					-2.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 37,
+				"neighbours" : 
+				[
+					28,
+					37,
+					38,
+					46
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-16.0,
+					0.0,
+					-6.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 38,
+				"neighbours" : 
+				[
+					29,
+					37,
+					38,
+					39,
+					47
+				],
+				"obstacle" : true,
+				"position" : 
+				[
+					-12.0,
+					0.0,
+					-6.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 39,
+				"neighbours" : 
+				[
+					30,
+					38,
+					39,
+					40,
+					48
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-8.0,
+					0.0,
+					-6.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 40,
+				"neighbours" : 
+				[
+					31,
+					39,
+					41,
+					40,
+					49
+				],
+				"obstacle" : true,
+				"position" : 
+				[
+					-4.0,
+					0.0,
+					-6.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 41,
+				"neighbours" : 
+				[
+					32,
+					41,
+					42,
+					40,
+					50
+				],
+				"obstacle" : true,
+				"position" : 
+				[
+					0.0,
+					0.0,
+					-6.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 42,
+				"neighbours" : 
+				[
+					33,
+					41,
+					42,
+					43,
+					51
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					4.0,
+					0.0,
+					-6.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 43,
+				"neighbours" : 
+				[
+					34,
+					42,
+					43,
+					44,
+					52
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					8.0,
+					0.0,
+					-6.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 44,
+				"neighbours" : 
+				[
+					35,
+					43,
+					44,
+					53,
+					45
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					12.0,
+					0.0,
+					-6.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 45,
+				"neighbours" : 
+				[
+					54,
+					36,
+					44,
+					45
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					16.0,
+					0.0,
+					-6.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 46,
+				"neighbours" : 
+				[
+					37,
+					47,
+					46
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-16.0,
+					0.0,
+					-10.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 47,
+				"neighbours" : 
+				[
+					38,
+					47,
+					48,
+					46
+				],
+				"obstacle" : true,
+				"position" : 
+				[
+					-12.0,
+					0.0,
+					-10.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 48,
+				"neighbours" : 
+				[
+					39,
+					47,
+					48,
+					49
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-8.0,
+					0.0,
+					-10.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 49,
+				"neighbours" : 
+				[
+					40,
+					48,
+					49,
+					50
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					-4.0,
+					0.0,
+					-10.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 50,
+				"neighbours" : 
+				[
+					41,
+					49,
+					50,
+					51
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					0.0,
+					0.0,
+					-10.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 51,
+				"neighbours" : 
+				[
+					42,
+					50,
+					51,
+					52
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					4.0,
+					0.0,
+					-10.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 52,
+				"neighbours" : 
+				[
+					43,
+					51,
+					52,
+					53
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					8.0,
+					0.0,
+					-10.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 53,
+				"neighbours" : 
+				[
+					54,
+					44,
+					52,
+					53
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					12.0,
+					0.0,
+					-10.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			},
+			{
+				"ID" : 54,
+				"neighbours" : 
+				[
+					54,
+					53,
+					45
+				],
+				"obstacle" : false,
+				"position" : 
+				[
+					16.0,
+					0.0,
+					-10.0
+				],
+				"size" : 
+				[
+					2.5,
+					2.5,
+					2.5
+				]
+			}
+		]
+	},
+	"objects" : null,
+	"resources" : 
+	{
+		"cubemaps" : null,
+		"models" : 
+		[
+			{
+				"name" : "Arcade",
+				"path" : "resources\\models\\untitled2022\\Arcade.obj",
+				"type" : "mesh"
+			},
+			{
+				"name" : "Cube",
+				"path" : "resources\\models\\Cube.obj",
+				"type" : "mesh"
+			},
+			{
+				"animations" : 
+				[
+					{
+						"end" : 88,
+						"name" : "attack",
+						"speed" : 80.0,
+						"start" : 54
+					},
+					{
+						"end" : 191,
+						"name" : "fall",
+						"speed" : 50.0,
+						"start" : 125
+					},
+					{
+						"end" : 30,
+						"name" : "idle",
+						"speed" : 50.0,
+						"start" : 0
+					},
+					{
+						"end" : 53,
+						"name" : "run",
+						"speed" : 25.0,
+						"start" : 31
+					},
+					{
+						"end" : 124,
+						"name" : "shoot",
+						"speed" : 50.0,
+						"start" : 89
+					}
+				],
+				"name" : "Robot",
+				"path" : "resources\\models\\InitialZ\\robot2.md2",
+				"type" : "md2"
+			},
+			{
+				"name" : "Sphere",
+				"path" : "resources\\models\\Sphere.obj",
+				"type" : "mesh"
+			},
+			{
+				"name" : "bin",
+				"path" : "resources\\models\\Bin\\bin.obj",
+				"type" : "mesh"
+			},
+			{
+				"name" : "chair",
+				"path" : "resources\\models\\Chair\\chair.obj",
+				"type" : "mesh"
+			},
+			{
+				"name" : "classroom",
+				"path" : "resources\\models\\Classroom\\classroom.obj",
+				"type" : "mesh"
+			},
+			{
+				"name" : "desk",
+				"path" : "resources\\models\\Desk\\desk.obj",
+				"type" : "mesh"
+			},
+			{
+				"name" : "teacherDesk",
+				"path" : "resources\\models\\TeacherDesk\\teacherDesk.obj",
+				"type" : "mesh"
+			}
+		],
+		"shaders" : 
+		[
+			{
+				"frag" : "resources/shaders/Water.frag",
+				"geom" : "",
+				"name" : "Water",
+				"vert" : "resources/shaders/Water.vert"
+			},
+			{
+				"frag" : "resources/shaders/Default.frag",
+				"geom" : "",
+				"name" : "default",
+				"vert" : "resources/shaders/Default.vert"
+			},
+			{
+				"frag" : "resources/shaders/gizmo_debug/line.frag",
+				"geom" : "",
+				"name" : "line",
+				"vert" : "resources/shaders/gizmo_debug/line.vert"
+			},
+			{
+				"frag" : "resources/shaders/Physics_Debug/Physics.frag",
+				"geom" : "",
+				"name" : "physics",
+				"vert" : "resources/shaders/Physics_Debug/Physics.vert"
+			},
+			{
+				"frag" : "resources/shaders/terrain/Terrain.frag",
+				"geom" : "",
+				"name" : "terrain",
+				"vert" : "resources/shaders/Default.vert"
+			},
+			{
+				"frag" : "resources/shaders/Water.frag",
+				"geom" : "",
+				"name" : "water",
+				"vert" : "resources/shaders/Water.vert"
+			}
+		],
+		"textures" : 
+		[
+			{
+				"name" : "Angry",
+				"path" : "resources\\textures\\Emotions\\Angry.png"
+			},
+			{
+				"name" : "Arcade_Diff",
+				"path" : "resources\\models\\untitled2022\\Arcade.png"
+			},
+			{
+				"name" : "Fear",
+				"path" : "resources\\textures\\Emotions\\Fear.png"
+			},
+			{
+				"name" : "Grass",
+				"path" : "resources\\textures\\terrain\\grass.png"
+			},
+			{
+				"name" : "Hope",
+				"path" : "resources\\textures\\Emotions\\Hope.png"
+			},
+			{
+				"name" : "Neutral",
+				"path" : "resources\\textures\\Emotions\\Neutral.png"
+			},
+			{
+				"name" : "Positive",
+				"path" : "resources\\textures\\Emotions\\Positive.png"
+			},
+			{
+				"name" : "Robot",
+				"path" : "resources\\models\\InitialZ\\robot.png"
+			},
+			{
+				"name" : "Robot_Emiss",
+				"path" : "resources\\models\\InitialZ\\robot_emiss.png"
+			},
+			{
+				"name" : "Robot_Spec1",
+				"path" : "resources\\models\\InitialZ\\robot_spec.png"
+			},
+			{
+				"name" : "Robot_Spec2",
+				"path" : "resources\\models\\InitialZ\\robot_spec_shiny.png"
+			},
+			{
+				"name" : "Rock",
+				"path" : "resources\\textures\\terrain\\rock.png"
+			},
+			{
+				"name" : "Sad",
+				"path" : "resources\\textures\\Emotions\\Negative.png"
+			},
+			{
+				"name" : "binTexture",
+				"path" : "resources\\models\\Bin\\ImphenziaPalette01.png"
+			},
+			{
+				"name" : "chairSpecular",
+				"path" : "resources\\models\\Chair\\chairSpecular.jpg"
+			},
+			{
+				"name" : "chairTexture",
+				"path" : "resources\\models\\Chair\\chairTexture.jpg"
+			},
+			{
+				"name" : "classRoomTexture",
+				"path" : "resources\\models\\Classroom\\classroomTexture2.jpg"
+			},
+			{
+				"name" : "classroomSpecular",
+				"path" : "resources\\models\\Classroom\\classroomSpecular.jpg"
+			},
+			{
+				"name" : "default",
+				"path" : "resources/textures/default.png"
+			},
+			{
+				"name" : "deskSpecular",
+				"path" : "resources\\models\\Desk\\deskSpecular.jpg"
+			},
+			{
+				"name" : "deskTexture",
+				"path" : "resources\\models\\Desk\\desk.jpg"
+			},
+			{
+				"name" : "teacherDeskSpecular",
+				"path" : "resources\\models\\TeacherDesk\\teacherDeskSpecular.jpg"
+			},
+			{
+				"name" : "teacherDeskTexture",
+				"path" : "resources\\models\\TeacherDesk\\blackWood.jpg"
+			}
+		]
+	},
+	"windowName" : "editor"
+}

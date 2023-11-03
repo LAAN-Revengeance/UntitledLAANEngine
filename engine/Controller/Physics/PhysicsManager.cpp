@@ -1,5 +1,6 @@
 #include "PhysicsManager.h"
 
+
 using namespace rp3d;
 
 
@@ -189,6 +190,16 @@ GameObject* PhysicsManager::Raycast(glm::vec3 origin, glm::vec3 direction, float
 	if (physicsBodies.find(hitID) != physicsBodies.end()) {
 		DebugLogger::Log(GAEM_DEBUG, "hit: " + gameObjects.at(hitID)->name, "Raycast");
 		return gameObjects.at(hitID);
+	}
+	return nullptr;
+}
+
+NPC* PhysicsManager::RaycastNPC(glm::vec3 origin, glm::vec3 direction, float distance)
+{
+	GameObject* go = Raycast(origin, direction, distance);
+	NPC* npc = dynamic_cast<NPC*>(go);
+	if (npc) {
+		return npc;
 	}
 	return nullptr;
 }

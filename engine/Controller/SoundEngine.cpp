@@ -35,22 +35,22 @@ void SoundEngine::AddSound(std::string audioName, std::string audioFilePath)
 
 void SoundEngine::PlaySoundAtPosition(std::string audioName, glm::vec3 pos)
 {
-	engine->play3D(audio[audioName].c_str(), vec3D(pos.x, pos.y, pos.z), false, false, true);
+	engine->play3D(audio[audioName].c_str(), irrklang::vec3df(pos.x, pos.y, pos.z), false, false, true);
 }
 
 void SoundEngine::PlayDynamicSound(std::string audioName, glm::vec3 pos)
 {
-	engine->play3D(audio[audioName].c_str(), vec3D(pos.x, pos.y, pos.z), false, false, true);
+	engine->play3D(audio[audioName].c_str(), irrklang::vec3df(pos.x, pos.y, pos.z), false, false, true);
 }
 
 void SoundEngine::PlayLoopAtPosition(std::string audioName, glm::vec3 pos)
 {
-	engine->play3D(audio[audioName].c_str(), vec3D(pos.x, pos.y, pos.z), true, false, true);
+	engine->play3D(audio[audioName].c_str(), irrklang::vec3df(pos.x, pos.y, pos.z), true, false, true);
 }
 
 void SoundEngine::SetUserPosition(glm::vec3 pos)
 {
-	engine->setListenerPosition(vec3D(pos.x, pos.y, pos.z), vec3D(0,0,0));
+	engine->setListenerPosition(irrklang::vec3df(pos.x, pos.y, pos.z), irrklang::vec3df(0,0,0));
 }
 
 

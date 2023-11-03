@@ -8,6 +8,7 @@ const unsigned int GAEM_ERROR	= 0;
 const unsigned int GAEM_LOG		= 1;
 const unsigned int GAEM_DEBUG	= 2;
 const unsigned int GAEM_WARNING	= 3;
+const unsigned int GAEM_ALL		= 4;
 
 class DebugLogger
 {

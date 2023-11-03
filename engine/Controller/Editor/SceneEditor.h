@@ -8,6 +8,9 @@
 #include <lua/LuaGameBridge.h>
 #include <Utils/DebugLogger.h>
 
+
+const int LAAN_ENGINE_VERSION = 2;
+
 /**
 *	@Class SceneEditor
 *	@brief Render GUI used for editing a scene
@@ -15,9 +18,6 @@
 *	@version 1.0
 *	@date 16/08/2023
 */
-
-const int LAAN_ENGINE_VERSION = 2;
-
 class SceneEditor
 {
 public:
@@ -25,9 +25,7 @@ public:
 	~SceneEditor();
 	void Update(double deltaTime);
 	void Draw(double deltaTime);
-
 	void SaveProject(const char* path);
-
 	void LoadSceneFromFile(const char* path);
 	void UseScene(Scene* nscene);
 private:
@@ -41,7 +39,6 @@ private:
 	void DrawOpenFile(bool* showOpenFile);
 	void DrawSaveFile(bool* showSaveFile);
 	void Draw3DWidget();
-
 	void DrawDebug();
 	void DrawNPCInspector();
 
@@ -49,8 +46,10 @@ private:
 	void CameraControl(double deltaTime);
 	void CheckKeys();
 
+	//change the current scenes lua file
 	void SetLuaFile(std::string nluaFile);
 
+	//pointer to engine this editor is inerracting with
 	GameEngine* engine;
 
 	//File Save Functions
@@ -75,12 +74,13 @@ private:
 	bool isPhysicDebug = true;
 	bool isPathDebug = true;
 	bool isShowWidget = true;
+	bool isGUIOnRun = true;
 
-		///Main GUI Renderer
+	///Main GUI Renderer
 	GUIRenderer& guirenderer;
 	GaemGizmo::Line pathDebugLine;
 	GaemGizmo::Box selectedNavNodeBox;
 
-	//debug logging
+	///Debug logger
 	DebugLogger* _logger;
 };

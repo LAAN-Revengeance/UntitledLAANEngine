@@ -1,5 +1,6 @@
 #include "ProjectLoader.h"
 #include <Lua/LuaGameBridge.h>
+#include <AI/Affordance/Global_Affordances.h>
 
 void ProjectLoader::SaveProject(Scene* scene, const std::string luaFile, const std::string windowName, const std::string outName)
 {
@@ -40,29 +41,28 @@ Project ProjectLoader::LoadProject(GameEngine* engine, const char* inName)
     project.scene->luaState.Expose_CPPReference("scene", *project.scene);
     project.scene->luaState.Expose_CPPReference("GUI", engine->guiRenderer);
     project.scene->luaState.Expose_CPPReference("physics", project.scene->physicsWorld);
-
     project.scene->luaState.LoadScript(project.luaPath);
     project.scene->UpdateFunction = project.scene->luaState.GetFunction<void, double>("update");
     project.scene->InitFunction = project.scene->luaState.GetFunction<void>("init");
 
-    Json::Value objects = saveJSON["objects"];
-    for (unsigned int i = 0; i < objects.size(); i++) {
-        std::string objName = objects[i]["name"].asString();
-        std::string funcName = objects[i]["updateFunc"].asString();
-        if (funcName != "") {
-            project.scene->gameObjects.at(objName)->SetUpdateFunction(
-                project.scene->luaState.GetFunction<void, GameObject&>(funcName.c_str())
-            );
-        }
-    }
+    //AI controllers
+    project.msgDispatcher = new Dispatcher(engine->timer, project.scene);
+    project.aiManager = new AIManager(project.msgDispatcher);
+    delete engine->aiManager;
+    delete engine->msgDispatcher;
+    engine->msgDispatcher = project.msgDispatcher;
+    engine->aiManager = project.aiManager;
+    project.scene->luaState.Expose_CPPReference("aimanager",*project.aiManager);
 
     return project;
 }
 
 ProjectLoader::ProjectLoader()
 {
+
 }
 
 ProjectLoader::~ProjectLoader()
 {
+
 }

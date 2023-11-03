@@ -8,3 +8,4 @@
 #include "Affordance_Compliment.h"
 #include "Affordance_Threaten.h"
 #include "Affordance_Generous_Offer.h"
+#include "Affordance_Blank.h"

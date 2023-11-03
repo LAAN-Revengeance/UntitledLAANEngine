@@ -22,6 +22,8 @@ void AffordancePickup::Activate(GameObject* go)
 	if (_otherObject->physicsBody) {
 		_pickupKinematic = _otherObject->physicsBody->isKinematic;
 		_otherObject->physicsBody->isKinematic = true;
+		_otherObject->physicsBody->SetVelocity(0,0,0);
+		_otherObject->physicsBody->SetAngularVelocity(0,0,0);
 	}
 
 }

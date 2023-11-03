@@ -1,11 +1,9 @@
 #pragma once
 #include "GameObject.h"
-#include "Terrain.h"
 #include "Lighting.h"
-#include <map>
 #include <Physics/PhysicsManager.h>
 #include <Lua/LuaFunction.h>
-#include <AI/Pathfinding/PathNodeManager.h>
+#include <Pathfinding/PathNodeManager.h>
 
 /**
 *	@Class Scene
@@ -92,5 +90,6 @@ public:
 	std::map<std::string,GameObject*> gameObjects;
 		///AI navigation data
 	GaemPathing::PathNodeManager pathManager;
+
 private:
 };

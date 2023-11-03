@@ -18,7 +18,7 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="engine\Controller\Lua\LuaManger.cpp" />
-    <ClCompile Include="engine\Model\Terrain.cpp" />
+    <ClCompile Include="engine\Model\GameObjects\Terrain.cpp" />
     <ClCompile Include="engine\Controller\InputManager.cpp" />
     <ClCompile Include="Engine\Controller\InputManager.cpp" />
     <ClCompile Include="Engine\Controller\ResourceManager.cpp" />
@@ -40,7 +40,6 @@
     <ClCompile Include="dependencies\include\imGuIZMO.quat\imGuIZMOquat.cpp" />
     <ClCompile Include="engine\Controller\Editor\FileExplorer.cpp" />
     <ClCompile Include="engine\View\Window.cpp" />
-    <ClCompile Include="engine\Application\Application.cpp" />
     <ClCompile Include="engine\Controller\Lua\LuaGameBridge.cpp" />
     <ClCompile Include="engine\Controller\Lua\LuaFunction.h" />
     <ClCompile Include="engine\Controller\Event\EventDispatcher.cpp" />
@@ -54,18 +53,27 @@
     <ClCompile Include="engine\Controller\Serialization\ProjectLoader.cpp" />
     <ClCompile Include="Engine\Controller\Serialization\SceneLoader.cpp" />
     <ClCompile Include="engine\Controller\Utils\DebugLogger.cpp" />
-    <ClCompile Include="engine\Controller\FCM.cpp" />
     <ClCompile Include="engine\Controller\AI\Emotion\OCCModel.cpp" />
     <ClCompile Include="engine\Controller\AI\Emotion\Emotion.cpp" />
     <ClCompile Include="engine\Controller\AI\Emotion\Personality.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\AffordanceController.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Pickup.cpp" />
-    <ClCompile Include="engine\Controller\FCM.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Poke.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Punch.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Slap.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Sit.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Give_Money.cpp" />
+    <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Compliment.cpp" />
+    <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Generous_Offer.cpp" />
+    <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Threaten.cpp" />
+    <ClCompile Include="engine\Controller\AI\AIManager.cpp" />
+    <ClCompile Include="engine\Controller\AI\StateMachine\Message\Message.cpp" />
+    <ClCompile Include="engine\Controller\AI\StateMachine\Message\MessageDispatcher.cpp" />
+    <ClCompile Include="engine\Controller\AI\StateMachine\StateMachine.cpp" />
+    <ClCompile Include="engine\Controller\AI\StateMachine\States\ScriptableState.cpp" />
+    <ClCompile Include="engine\Controller\AI\Emotion\FCM.cpp" />
+    <ClCompile Include="engine\Application\StandaloneApp.cpp" />
+    <ClCompile Include="engine\Application\EditorApp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\Controller\GaemEngine.h" />
@@ -84,7 +92,7 @@
     <ClInclude Include="engine\View\Graphics\OpenGL\VBO.h" />
     <ClInclude Include="Engine\View\Renderer.h" />
     <ClInclude Include="engine\Controller\Lua\LuaManager.h" />
-    <ClInclude Include="Engine\Model\Terrain.h" />
+    <ClInclude Include="engine\Model\GameObjects\Terrain.h" />
     <ClInclude Include="engine\Controller\InputManager.h" />
     <ClInclude Include="engine\Model\Material.h" />
     <ClInclude Include="engine\View\Graphics\Graphics.h" />
@@ -125,10 +133,8 @@
     <ClInclude Include="dependencies\include\imGuIZMO.quat\vGizmoMath.h" />
     <ClInclude Include="dependencies\include\imGuIZMO.quat\vgMath.h" />
     <ClInclude Include="engine\Controller\Editor\FileExplorer.h" />
-    <ClInclude Include="engine\Controller\AudioDataTypes.h" />
     <ClInclude Include="engine\View\AnimatedDrawItem.h" />
     <ClInclude Include="engine\View\Window.h" />
-    <ClInclude Include="engine\Application\Application.h" />
     <ClInclude Include="engine\Controller\Lua\LuaGameBridge.h" />
     <ClInclude Include="engine\Controller\Event\Event.h" />
     <ClInclude Include="engine\Controller\Physics\PhysicsIntegrator.h" />
@@ -144,20 +150,31 @@
     <ClInclude Include="Engine\Controller\Serialization\SceneLoader.h" />
     <ClInclude Include="engine\Controller\Utils\StreamCapture.h" />
     <ClInclude Include="engine\Controller\Utils\DebugLogger.h" />
-    <ClInclude Include="engine\Controller\FCM.h" />
     <ClInclude Include="engine\Controller\AI\Emotion\OCCModel.h" />
     <ClInclude Include="engine\Controller\AI\Emotion\Emotion.h" />
     <ClInclude Include="engine\Controller\AI\Emotion\Personality.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\AffordanceController.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Pickup.h" />
-    <ClInclude Include="engine\Controller\FCM.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Global_Affordances.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Poke.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Punch.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Slap.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Sit.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Give_Money.h" />
+    <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Compliment.h" />
+    <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Generous_Offer.h" />
+    <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Threaten.h" />
+    <ClInclude Include="engine\Controller\AI\AIManager.h" />
+    <ClInclude Include="engine\Controller\AI\StateMachine\Message\Message.h" />
+    <ClInclude Include="engine\Controller\AI\StateMachine\Message\MessageDispatcher.h" />
+    <ClInclude Include="engine\Controller\AI\StateMachine\StateMachine.h" />
+    <ClInclude Include="engine\Controller\AI\StateMachine\States\ScriptableState.h" />
+    <ClInclude Include="engine\Controller\AI\StateMachine\States\State.h" />
+    <ClInclude Include="engine\Controller\AI\Emotion\FCM.h" />
+    <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Blank.h" />
+    <ClInclude Include="engine\Application\StandaloneApp.h" />
+    <ClInclude Include="engine\Application\EditorApp.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Model\Graphics\Shaders\Cube_map.frag" />
@@ -187,6 +204,7 @@
     <None Include="resources\shaders\shadow\shadow.frag" />
     <None Include="resources\shaders\gizmo_debug\line.frag" />
     <None Include="resources\shaders\gizmo_debug\line.vert" />
+    <None Include="resources\scripts\ai_states.lua" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="dependencies\lib\liblua54.a" />

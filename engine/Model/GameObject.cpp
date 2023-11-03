@@ -1,7 +1,10 @@
 #include "GameObject.h"
+#include <MD2/MD2Reader.h>
 
-
-GameObject::GameObject() : affordanceController(this){
+GameObject::GameObject() : 
+	affordanceController(this),
+	stateMachine(this)
+{
 }
 
 GameObject::~GameObject() {}
@@ -93,8 +96,6 @@ void GameObject::Update(double dt)
 		SetPosition(physicsBody->GetPosition());
 		SetRotation(physicsBody->GetRotation());
 	}
-
-	updateFunction.Execute(*this);
 	affordanceController.Update(dt);
 }
 
@@ -149,12 +150,22 @@ DrawItem* GameObject::GetDrawItem()
 	return nullptr;
 }
 
-void GameObject::SetUpdateFunction(LuaFunction<void, GameObject&> function)
+AnimatedDrawItem* GameObject::GetAnimationItem()
 {
-	updateFunction = function;
+	AnimatedDrawItem* animatedDrawItem = nullptr;
+	animatedDrawItem = dynamic_cast<AnimatedDrawItem*>(model_data);
+	if (animatedDrawItem) {
+
+		return animatedDrawItem;
+	}
+
+	animatedDrawItem = nullptr;
+	animatedDrawItem = dynamic_cast<md2_model_t*>(model_data);
+	if (animatedDrawItem) {
+
+		return animatedDrawItem;
+	}
+
+	return nullptr;
 }
 
-LuaFunction<void, GameObject&> GameObject::GetUpdateFunction()
-{
-	return updateFunction;
-}

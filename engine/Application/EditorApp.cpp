@@ -1,17 +1,17 @@
-#include "Application.h"
+#include "EditorApp.h"
 
-Application::Application() :
+EditorApp::EditorApp() :
 	window(1920,1080,"Application",&eventDispatcher),
-	game(&window, &eventDispatcher),
+	game(&window, &eventDispatcher, &timer),
 	editor(&game, &logger)
 {
 }
 
-Application::~Application()
+EditorApp::~EditorApp()
 {
 }
 
-void Application::Run()
+void EditorApp::Run()
 {	
 	timer.Reset();
 	while (!window.IsWindowClosed())

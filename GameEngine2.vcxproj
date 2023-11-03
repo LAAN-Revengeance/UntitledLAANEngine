@@ -71,11 +71,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(solutiondir)dependencies\include;$(solutiondir)Engine\Controller;$(solutiondir)Engine\Model;$(solutiondir)Engine\View;$(solutiondir)dependencies\include\lua;$(solutiondir)Engine\View\Graphics;$(solutiondir)dependencies\include\imgui;$(solutiondir)dependencies\include\ImGuizmo;$(solutiondir)Engine\Editor</IncludePath>
+    <IncludePath>$(solutiondir)dependencies\include;$(solutiondir)Engine\Controller;$(solutiondir)Engine\Model;$(solutiondir)Engine\View;$(solutiondir)dependencies\include\lua;$(solutiondir)Engine\View\Graphics;$(solutiondir)dependencies\include\imgui;$(solutiondir)dependencies\include\ImGuizmo;$(solutiondir)Engine\Editor;$(solutiondir)Engine\Controller\AI</IncludePath>
     <LibraryPath>$(solutiondir)dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(solutiondir)dependencies\include;$(solutiondir)Engine\Controller;$(solutiondir)Engine\Model;$(solutiondir)Engine\View;$(solutiondir)dependencies\include\lua;$(solutiondir)Engine\View\Graphics;$(solutiondir)dependencies\include\imgui;$(solutiondir)dependencies\include\ImGuizmo;$(solutiondir)Engine\Layer\Editor;$(solutiondir)Engine\Layer</IncludePath>
+    <IncludePath>$(solutiondir)dependencies\include;$(solutiondir)Engine\Controller;$(solutiondir)Engine\Model;$(solutiondir)Engine\View;$(solutiondir)dependencies\include\lua;$(solutiondir)Engine\View\Graphics;$(solutiondir)dependencies\include\imgui;$(solutiondir)dependencies\include\ImGuizmo;$(solutiondir)Engine\Layer\Editor;$(solutiondir)Engine\Layer;$(solutiondir)Engine\Controller\AI</IncludePath>
     <LibraryPath>$(solutiondir)dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -154,19 +154,25 @@
     <ClCompile Include="dependencies\include\imgui\imgui_tables.cpp" />
     <ClCompile Include="dependencies\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="dependencies\include\jsoncpp.cpp" />
-    <ClCompile Include="engine\Application\Application.cpp" />
+    <ClCompile Include="engine\Application\EditorApp.cpp" />
+    <ClCompile Include="engine\Application\StandaloneApp.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Compliment.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Generous_Offer.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Give_Money.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Sit.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Threaten.cpp" />
+    <ClCompile Include="engine\Controller\AI\AIManager.cpp" />
     <ClCompile Include="engine\Controller\AI\Emotion\Emotion.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\AffordanceController.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Pickup.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Poke.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Punch.cpp" />
     <ClCompile Include="engine\Controller\AI\Affordance\Affordance_Slap.cpp" />
-    <ClCompile Include="engine\Controller\FCM.cpp" />
+    <ClCompile Include="engine\Controller\AI\StateMachine\Message\Message.cpp" />
+    <ClCompile Include="engine\Controller\AI\StateMachine\Message\MessageDispatcher.cpp" />
+    <ClCompile Include="engine\Controller\AI\StateMachine\StateMachine.cpp" />
+    <ClCompile Include="engine\Controller\AI\StateMachine\States\ScriptableState.cpp" />
+    <ClCompile Include="engine\Controller\AI\Emotion\FCM.cpp" />
     <ClCompile Include="engine\Controller\AI\Emotion\OCCModel.cpp" />
     <ClCompile Include="engine\Controller\AI\Pathfinding\A_Star.cpp" />
     <ClCompile Include="engine\Controller\AI\Pathfinding\PathNode.cpp" />
@@ -204,7 +210,7 @@
     <ClCompile Include="engine\View\Graphics\OpenGL\VAO.cpp" />
     <ClCompile Include="engine\View\Graphics\OpenGL\VBO.cpp" />
     <ClCompile Include="engine\Model\Scene.cpp" />
-    <ClCompile Include="engine\Model\Terrain.cpp" />
+    <ClCompile Include="engine\Model\GameObjects\Terrain.cpp" />
     <ClCompile Include="Engine\View\GUIRenderer.cpp" />
     <ClCompile Include="Engine\View\Renderer.cpp" />
     <ClCompile Include="engine\View\Window.cpp" />
@@ -235,8 +241,10 @@
     <ClInclude Include="dependencies\include\imgui\imstb_truetype.h" />
     <ClInclude Include="dependencies\include\json\json-forwards.h" />
     <ClInclude Include="dependencies\include\json\json.h" />
-    <ClInclude Include="engine\Application\Application.h" />
+    <ClInclude Include="engine\Application\EditorApp.h" />
+    <ClInclude Include="engine\Application\StandaloneApp.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance.h" />
+    <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Blank.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Compliment.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\AffordanceController.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Generous_Offer.h" />
@@ -248,17 +256,22 @@
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Slap.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Affordance_Threaten.h" />
     <ClInclude Include="engine\Controller\AI\Affordance\Global_Affordances.h" />
+    <ClInclude Include="engine\Controller\AI\AIManager.h" />
     <ClInclude Include="engine\Controller\AI\Pathfinding\A_Star.h" />
     <ClInclude Include="engine\Controller\AI\Pathfinding\PathNode.h" />
     <ClInclude Include="engine\Controller\AI\Pathfinding\PathNodeManager.h" />
-    <ClInclude Include="engine\Controller\AudioDataTypes.h" />
+    <ClInclude Include="engine\Controller\AI\StateMachine\Message\Message.h" />
+    <ClInclude Include="engine\Controller\AI\StateMachine\Message\MessageDispatcher.h" />
+    <ClInclude Include="engine\Controller\AI\StateMachine\StateMachine.h" />
+    <ClInclude Include="engine\Controller\AI\StateMachine\States\ScriptableState.h" />
+    <ClInclude Include="engine\Controller\AI\StateMachine\States\State.h" />
     <ClInclude Include="engine\Controller\AI\Emotion\Emotion.h" />
     <ClInclude Include="engine\Controller\AI\Emotion\Personality.h" />
     <ClInclude Include="engine\Controller\Utils\DebugLogger.h" />
     <ClInclude Include="engine\Controller\Utils\StreamCapture.h" />
     <ClInclude Include="engine\Controller\Event\Event.h" />
     <ClInclude Include="engine\Controller\Event\EventDispatcher.h" />
-    <ClInclude Include="engine\Controller\FCM.h" />
+    <ClInclude Include="engine\Controller\AI\Emotion\FCM.h" />
     <ClInclude Include="engine\Controller\GaemEngine.h" />
     <ClInclude Include="engine\Controller\InputManager.h" />
     <ClInclude Include="engine\Controller\Lua\LuaGameBridge.h" />
@@ -299,7 +312,7 @@
     <ClInclude Include="engine\View\Graphics\OpenGL\Texture.h" />
     <ClInclude Include="engine\View\Graphics\OpenGL\VAO.h" />
     <ClInclude Include="engine\View\Graphics\OpenGL\VBO.h" />
-    <ClInclude Include="Engine\Model\Terrain.h" />
+    <ClInclude Include="engine\Model\GameObjects\Terrain.h" />
     <ClInclude Include="Engine\View\GUIRenderer.h" />
     <ClInclude Include="Engine\View\Renderer.h" />
     <ClInclude Include="engine\Controller\SoundEngine.h" />
@@ -317,6 +330,7 @@
     <None Include="Engine\Model\Graphics\Shaders\Instance\Instance.vert" />
     <None Include="Engine\Model\Graphics\Shaders\Instance\InstanceDepth.frag" />
     <None Include="lua54.dll" />
+    <None Include="resources\scripts\ai_states.lua" />
     <None Include="resources\scripts\keybinds.lua" />
     <None Include="resources\scripts\main.lua" />
     <None Include="resources\scripts\menu.lua" />

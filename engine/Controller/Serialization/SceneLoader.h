@@ -2,7 +2,7 @@
 #include <ResourceManager.h>
 #include <Physics/PhysicsManager.h>
 #include <Scene.h>
-#include <Terrain.h>
+#include <GameObjects/Terrain.h>
 #include <json/json.h>
 #include <fstream>
 #include <filesystem>

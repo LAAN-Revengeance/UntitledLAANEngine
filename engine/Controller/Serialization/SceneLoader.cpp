@@ -349,18 +349,17 @@ Scene& SceneLoader::LoadScene(const char* inName)
             
             go = &res.CreateNPC(objects[i]["name"].asString(), objects[i]["model"].asString(), objects[i]["shader"].asString());
 
-            NPC_GameObject* npc = dynamic_cast<NPC_GameObject*>(go);
+            NPC* npc = dynamic_cast<NPC*>(go);
             npc->SetMoveSpeed(objects[i]["moveSpeed"].asFloat());
-
+            npc->SetPathManager(&pathManager);
 
             for (unsigned int i = 0; i < jobj["emotion"].size(); i++)
-            {
-                
-                std::string emotionName = jobj["emotion"][i]["emotion"].asString();
-                std::cout << emotionName << "\n";
-                npc->AddEmotion(emotionName);
-                npc->SetEmotionStrength(emotionName, jobj["emotion"][i]["strength"].asFloat());
-                npc->SetReactionStrength(emotionName, jobj["emotion"][i]["reaction"].asFloat());
+            {  
+                //std::string emotionName = jobj["emotion"][i]["emotion"].asString();
+                //std::cout << emotionName << "\n";
+                //npc->AddEmotion(emotionName);
+                //npc->SetEmotionStrength(emotionName, jobj["emotion"][i]["strength"].asFloat());
+                //npc->SetReactionStrength(emotionName, jobj["emotion"][i]["reaction"].asFloat());
             }
 
             npc->GetPersonality().SetOpenness(jobj["personality"]["openness"].asFloat());
@@ -559,9 +558,6 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
         jobj["Affordances"].append(jAffordance);
     }
 
-    //lua function
-    jobj["updateFunc"] = obj->GetUpdateFunction().GetName();
-
     //model data
     if (obj->model_data)
         jobj["model"] = obj->model_data->name;
@@ -657,8 +653,8 @@ Json::Value SceneLoader::ObjectToJson(GameObject* obj)
         if(ter->GetHeightTexture())
             jobj["height_texture"] = ter->GetHeightTexture()->name;
     }
-    else if (dynamic_cast<NPC_GameObject*>(obj)) {
-        NPC_GameObject* npc = dynamic_cast<NPC_GameObject*>(obj);
+    else if (dynamic_cast<NPC*>(obj)) {
+        NPC* npc = dynamic_cast<NPC*>(obj);
         jobj["type"] = "npc";
         jobj["moveSpeed"] = npc->GetMoveSpeed();
 

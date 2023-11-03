@@ -1,7 +1,37 @@
 dofile("resources/scripts/keybinds.lua")
+dofile("resources/scripts/ai_states.lua")
 
 --main init function, called once before update
 function init()
+	initInputs();
+	player = resources:GetGameObject("player");
+	expose_states();
+
+	robot = resources:GetGameObject("Robot");
+	robot.stateMachine:ChangeState(idle_state);
+	input:SetMouseLock(true);
+	print("init lua");
+end
+
+--main update function, called every frame
+function update(deltaTime)
+	keyInput(deltaTime)
+	mouseMoveFunc(deltaTime)
+
+	--show emotional state of NPC looking at
+	object = physics:RaycastNPC(scene:GetCamera().position,scene:GetCamera().front,20);
+	if(not (object == nil))
+	then
+		draw_emotion_gui(object);
+	end
+	
+end
+
+function initInputs()
+
+	--set inputs
+	input:SetMouseLock(false);
+	input:BindKey("Fire",KEY_SPACE);
 
 	--set inputs
 	input:SetMouseLock(false);
@@ -11,27 +41,15 @@ function init()
 	input:BindKey("camD",KEY_LEFT_SHIFT);
 	input:BindKey("camL",KEY_A);
 	input:BindKey("camR",KEY_D);
+	input:BindKey("pickUp", KEY_E);
 	input:BindKey("escape",KEY_ESCAPE);
-
-	scene:GetCamera().position = vec3:new(0,2,0);
-	player = resources:GetGameObject("player");
-	print("init lua");
 end
-
---main update function, called every frame
-function update(deltaTime)
-	
-	keyInput(deltaTime)
-	mouseMoveFunc(deltaTime)
-
-end
-
 
 function keyInput(dt)
 	up = vec3:new(0,1,0);
 	camSpeed = 5 * dt;
 	local camera = scene:GetCamera();
-	--print(player.name)
+
 	if(input:GetKeyState("camF"))
 	then
 		player:SetPosition(player.position +  NormalizeVector(CrossVectors(up,camera.right)):multiply(camSpeed));
@@ -49,85 +67,270 @@ function keyInput(dt)
 		player:SetPosition(player.position + camera.right:multiply(camSpeed));
 	end
 
-	toggleExit();
+	camera.position = player.position + vec3:new(0,1,0);
 
-	if(exitMenuOpen)
+	lookvec = CrossVectors(camera.right, vec3:new(0,1,0));
+
+	player:LookAt(player.position + lookvec);
+
+	forward = camera.front:multiply(12.0);
+
+	if(input:GetKeyDown(KEY_E))
 	then
-		showExitSplash();
+		if(player.affordances:GetAffordance("sit"):GetIsActive())
+		then
+			player.affordances:GetAffordance("sit"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,3);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("sit"):Activate(object);
+			end
+		end
 	end
-	camera.position = player.position + vec3:new(0,2,0);
+
+	if(input:GetKeyDown(KEY_P))
+	then
+		if(player.affordances:GetAffordance("punch"):GetIsActive())
+		then
+			player.affordances:GetAffordance("punch"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,3);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("punch"):Activate(object);
+			end
+		end
+	end
+	
+	if(input:GetKeyDown(KEY_I))
+	then
+		if(player.affordances:GetAffordance("poke"):GetIsActive())
+		then
+			player.affordances:GetAffordance("poke"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,3);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("poke"):Activate(object);
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_O))
+	then
+		if(player.affordances:GetAffordance("slap"):GetIsActive())
+		then
+			player.affordances:GetAffordance("slap"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,3);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("slap"):Activate(object);
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_F))
+	then
+		if(player.affordances:GetAffordance("pickup"):GetIsActive())
+		then
+			player.affordances:GetAffordance("pickup"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,3);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("pickup"):Activate(object);
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_Q))
+	then
+		if(player.affordances:GetAffordance("pickup"):GetIsActive())
+		then
+			player.affordances:GetAffordance("pickup"):Deactivate();
+			object = physics:Raycast(camera.position,camera.front,3);
+			if(not(object == nil))
+			then
+				object.physicsBody:ApplyForceImpulse(forward.x * 3,forward.y * 3,forward.z * 3);
+				object.physicsBody.Kinematic = false;
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_M))
+	then
+		if(player.affordances:GetAffordance("giveMoney"):GetIsActive())
+		then
+			player.affordances:GetAffordance("giveMoney"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("giveMoney"):Activate(object);
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_N))
+	then
+		if(player.affordances:GetAffordance("compliment"):GetIsActive())
+		then
+			player.affordances:GetAffordance("compliment"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("compliment"):Activate(object);
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_T))
+	then
+		if(player.affordances:GetAffordance("threaten"):GetIsActive())
+		then
+			player.affordances:GetAffordance("threaten"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("threaten"):Activate(object);
+			end
+		end
+	end
+
+	if(input:GetKeyDown(KEY_G))
+	then
+		if(player.affordances:GetAffordance("generousOffer"):GetIsActive())
+		then
+			player.affordances:GetAffordance("generousOffer"):Deactivate();
+		else
+			object = physics:Raycast(camera.position,camera.front,5);
+			if(not(object == nil))
+			then
+				player.affordances:GetAffordance("generousOffer"):Activate(object);
+			end
+		end
+	end
 end
 
+lastX = input:GetMouseX();
+lastY = input:GetMouseY();
+mouseSensitivity = 0.1
 
-function showExitSplash()
+function mouseMoveFunc(dt)
+	local camera = scene:GetCamera();
+	xPos = input:GetMouseX();
+	yPos = input:GetMouseY();
 	
+	xoffset = (xPos - lastX)
+	yoffset = (lastY - yPos)
+
+	lastX = xPos
+	lastY = yPos
+
+	xoffset = xoffset * -mouseSensitivity
+	yoffset = yoffset * -mouseSensitivity
+
+	camera.yaw =  camera.yaw - xoffset
+	camera.pitch = camera.pitch - yoffset
+
+	if (camera.pitch > 89.0)
+	then
+		camera.pitch = 89.0
+	end
+	if (camera.pitch < -89.0)
+	then
+		camera.pitch = -89.0
+	end
+
+	camera:UpdateCameraVectors();
+end
+
+function draw_emotion_gui(go)
+
 	GUI:StartGUI();
 
 	wWidth = GUI:GetWindowWidth();
 	wHeight = GUI:GetWindowHeight();
 	wRatio = wWidth/wHeight;
 
-	sWidth = 0.3;
-	sHeight = sWidth * wRatio;
+	sWidth = 0.1;
+	sHeight = (sWidth) * wRatio;
 
-	GUI:StartWindow("exitSplash",true,sWidth,sHeight,0.35,sWidth/ wRatio);
+	GUI:StartWindow("emotiongui",false,sWidth,sHeight + 0.2,0.35,sWidth/ wRatio);
+		
+		local anger = go:GetEmotion("Anger").emotionStrength;
+		local fear = go:GetEmotion("Fear").emotionStrength;
+		local grat = go:GetEmotion("Gratitude").emotionStrength;
+		local hope = go:GetEmotion("Hope").emotionStrength;
 
-		if(GUI:ImageButton("exitSplash",(wWidth * sWidth),(wHeight * sHeight),0.5,0.5))
+		local image = "Neutral";
+		if((anger + fear + grat + hope) > 0.0)
 		then
-			CloseWindow(true);
+			if((anger > grat) or (anger > hope))
+			then
+				image = "Angry"
+			end
+
+			if((anger < grat) or (anger < hope))
+			then
+				image = "Positive"
+			end
 		end
+
+		GUI:ImageButton(image,(wWidth * sWidth) * 0.8,(wHeight * sHeight) * 0.8,0.5,0.5)
+		GUI:Text("--Emotions--");
+		
+		GUI:Text("Anger:"..anger);
+		GUI:Text("Fear:"..fear);
+		GUI:Text("Gratitude"..grat);
+		GUI:Text("Hope"..hope);
+
+
 
 	GUI:EndEndWindow();
 
 	GUI:EndGUI();
-
 end
 
-exitPress = false;
-exitMenuOpen = false;
-function toggleExit()
+
+function npc_wander(go,dt)
 	
-	if(input:GetKeyState("escape") and (not exitPress))
+	if(not go:GetIsMoving())
 	then
-		exitPress = true;
-		exitMenuOpen = not exitMenuOpen;
-		input:SetMouseLock(not exitMenuOpen);
-	elseif(input:GetKeyState("escape"))
-	then
-		exitPress = true;
-	else
-		exitPress = false;
+		go:GetAnimation():Animate("run")
+		go:MoveToPoint(go:FindRandomNode());
 	end
 
 end
 
-lastX = input:GetMouseX();
-lastY = input:GetMouseY();
-mouseSensitivity = 0.1
-Distance = 10
-moveSpeed = 100
-
-function mouseMoveFunc(dt)
-
-	if(not exitMenuOpen)
-	then
-
-		local camera = scene:GetCamera();
-		xPos = input:GetMouseX();
-		yPos = input:GetMouseY();
+function npc_dynamic(go,dt)
 	
-		xoffset = (xPos - lastX)
-		yoffset = (lastY - yPos)
+	if(not go:GetIsMoving())
+	then
+		go:GetAnimation():Animate("run")
+		go:MoveToPoint(go:FindRandomNode());
+	end
 
-		lastX = xPos
-		lastY = yPos
+	local anger = go:GetEmotion("Anger").emotionStrength;
+	local fear = go:GetEmotion("Anger").emotionStrength;
+	local grat = go:GetEmotion("Gratitude").emotionStrength;
+	local hope = go:GetEmotion("Hope").emotionStrength;
 
-		xoffset = xoffset * -mouseSensitivity
-		yoffset = yoffset * -mouseSensitivity
+	if((anger + fear + grat + hope) > 0)
+	then
+		if((anger > grat) or (anger > hope))
+		then
+			print("angery");
+		end
 
-		camera.Yaw =  camera.Yaw - xoffset
-		camera.Pitch = camera.Pitch - yoffset
+		if((anger < grat) or (anger < hope))
+		then
+			print("happy");
+		end
+	end
 
-		camera:UpdateCameraVectors();
-	end;
 end

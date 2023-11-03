@@ -18,7 +18,7 @@ void AffordanceSlap::Activate(GameObject* go)
 	_otherObject = go;
 	std::string emotion;
 
-	NPC_GameObject* npc = dynamic_cast<NPC_GameObject*>(go);
+	NPC* npc = dynamic_cast<NPC*>(go);
 	if (npc) {
 		OCCModel occModel;
 		float affordanceStrength;
@@ -36,13 +36,6 @@ void AffordanceSlap::Activate(GameObject* go)
 
 	glm::vec3 knockback = _parentObject->GetForwardVec();
 	_otherObject->physicsBody->ApplyForceImpulse(-knockback.x * 2, -knockback.y * 2, -knockback.z * 2);
-	
-	if (npc->GetEmotion(emotion).reactionStrength == 1)
-	{
-		_parentObject->physicsBody->ApplyForceImpulse(knockback.x * 2, knockback.y * 2, knockback.z * 2);
-		npc->SetEmotionStrength(emotion, 0);
-		npc->SetReactionStrength(emotion, 0);
-	}
 }
 
 void AffordanceSlap::Deactivate()

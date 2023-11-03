@@ -11,6 +11,8 @@
 #include <Utils/DebugLogger.h>
 #include <Lua/LuaFunction.h>
 #include <AI/Affordance/AffordanceController.h>
+#include <AnimatedDrawItem.h>
+#include <AI/StateMachine/StateMachine.h>
 
 /**
 *	@Class GameObject
@@ -110,10 +112,29 @@ public:
 		*	@return this objects right vector
 		*/
 	void LookAt(glm::vec3 lookPos);
+
+		/**
+		*	@brief Get the orienation quaternion as euler angels
+		*	@return rotation as euler angles
+		*/
 	glm::vec3 GetRotationEuler();
+
+		/**
+		*	@brief Get the transform matrix based on transform properties
+		*	@return 4x4 transform matrix of this object
+		*/
 	glm::mat4 GetTransformMatrix();
 
+		/**
+		*	@brief return a normalized vector ponting in forward direction of this object
+		*	@return this objects forward vector
+		*/
 	glm::vec3 GetForwardVec();
+
+		/**
+		*	@brief return a normalized vector ponting in up direction of this object
+		*	@return this objects up vector
+		*/
 	glm::vec3 GetUpVec();
 
 		///Position in worldspace
@@ -125,37 +146,31 @@ public:
 
 		///3D model data
 	DrawItem *model_data = nullptr;
+		///If this object should cast shadows
 	bool isCastShadow = true;
-
 		///Custom shader
 	Shader* shader = nullptr;
-	
 		///physics body
 	PhysicsBody* physicsBody = nullptr;
-
 		///Name of this object
 	std::string name;
 		///Return this objects ID
 	int GetID() { return ID; }
 		///Set this objects ID  
 	void SetID(int id) { ID = id; };
-
-		//Retuns a reference to model data
+		///Retuns a reference to model data
 	DrawItem* GetDrawItem();
-		
-		//Material properties
+		///Retuns a reference to model animation data
+	AnimatedDrawItem* GetAnimationItem();
+		///Material properties
 	Material material;
-
+		///This objects affordances
 	AffordanceController affordanceController;
-
-	void SetUpdateFunction(LuaFunction<void, GameObject&> function);
-	LuaFunction<void, GameObject&> GetUpdateFunction();
-	
+		//Scriptable state machine
+	StateMachine stateMachine;
 protected:
 		///Unique identifier
 	unsigned int ID = 0;
-
-	LuaFunction<void, GameObject&> updateFunction;
 
 	friend class PhysicsManager;
 };

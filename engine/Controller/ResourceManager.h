@@ -3,7 +3,7 @@
 #include <Gameobject.h>
 #include <Mesh.h>
 #include <MD2/MD2Reader.h>
-#include <Terrain.h>
+#include <GameObjects/Terrain.h>
 #include <GameObjects/NPC_GameObject.h>
 #include <array>
 
@@ -45,7 +45,7 @@ public:
 		*	@param shaderName name key for shader data, use "" to use default shader
 		*	@return a npc game object created using the selected parameters
 		*/
-	NPC_GameObject& CreateNPC(std::string objectName, std::string modelName, std::string shaderName, Material material = Material());
+	NPC& CreateNPC(std::string objectName, std::string modelName, std::string shaderName, Material material = Material());
 
 		/**
 		*	@brief Abstract factory method for creating terrain game objects

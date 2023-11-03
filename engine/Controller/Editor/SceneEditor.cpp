@@ -27,16 +27,19 @@ void SceneEditor::Update(double deltaTime)
 
 void SceneEditor::Draw(double deltaTime)
 {
-	//if (engine->isRunning)
-	//	return;
+	if (engine->isRunning && !isGUIOnRun)
+		return;
 
-	if (isPhysicDebug)
-		engine->scene->physicsWorld.DrawPhysicsWorld(*camera);
+	if (engine->scene)
+	{
+		if (isPhysicDebug)
+			engine->scene->physicsWorld.DrawPhysicsWorld(*camera);
 
-	if (isPathDebug) {
-		engine->scene->pathManager.DrawDebug(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
-		pathDebugLine.RenderFront(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
-		selectedNavNodeBox.Render(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
+		if (isPathDebug) {
+			engine->scene->pathManager.DrawDebug(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
+			pathDebugLine.RenderFront(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
+			selectedNavNodeBox.Render(camera->GetProjection(), camera->GetView(), ResourceManager::Get().GetShader("line"));
+		}
 	}
 
 	guirenderer.StartGUI();
@@ -47,8 +50,6 @@ void SceneEditor::Draw(double deltaTime)
 	DrawResources();
 	guirenderer.EndGUI();
 }
-
-
 
 void SceneEditor::SaveProject(const char* path)
 {
@@ -79,8 +80,6 @@ void SceneEditor::LoadSceneFromFile(const char* path)
 	jsonFile >> root;
 	jsonFile.close();
 	std::string luaMain = root["luaPath"].asString();
-
-	//SetLuaFile(luaMain.c_str());
 
 }
 
@@ -135,7 +134,7 @@ void SceneEditor::DrawHeighrarchy()
 			nName.append(std::to_string(nSuffix));
 			++nSuffix;
 		}
-		NPC_GameObject& go = res.CreateNPC(nName, "", "");
+		NPC& go = res.CreateNPC(nName, "", "");
 		go.SetPathManager(&engine->scene->pathManager);
 		engine->scene->AddObject(go);
 	}
@@ -180,7 +179,7 @@ void SceneEditor::DrawHeighrarchy()
 				}
 				GameObject* go;
 				
-				if (dynamic_cast<NPC_GameObject*>(pair.second) != nullptr) {
+				if (dynamic_cast<NPC*>(pair.second) != nullptr) {
 					go = &res.CreateNPC(nName, "", "");
 					*go = *pair.second;
 				}
@@ -747,32 +746,8 @@ void SceneEditor::DrawInspector()
 					}
 					ImGui::Dummy(ImVec2(0.0f, 20.0f));
 				}
-				
-				if (ImGui::CollapsingHeader("-- Lua Function --")) {
-					
-					
-					std::vector<std::string> funcs = LuaManager::GetFunctionNames(luaFilePath);
-					std::string funcName = inspectedObject->GetUpdateFunction().GetName();
 
-					ImGui::Text("Object Update function:");
-					if (ImGui::BeginCombo("##functionSelector", funcName.c_str()))
-					{
-						if (ImGui::Selectable("--None--")) {
-							inspectedObject->SetUpdateFunction(LuaFunction<void, GameObject&>());
-						}
-						
-						for (auto& funcName : funcs)
-						{
-							if (ImGui::Selectable(funcName.c_str())) {
-								inspectedObject->SetUpdateFunction(LuaFunction<void, GameObject&>(funcName.c_str(), &engine->scene->luaState));
-							}
-						}
-						ImGui::EndCombo();
-					}
-					ImGui::Dummy(ImVec2(0.0f, 20.0f));
-				}
-
-				//NPC affordance Settings
+				//affordance Settings
 				if (ImGui::CollapsingHeader("-- Affordances --")) {
 					
 					AffordanceController* affordanceController = &inspectedObject->affordanceController;
@@ -906,7 +881,7 @@ void SceneEditor::DrawInspector()
 				}
 
 
-				if (dynamic_cast<NPC_GameObject*>(inspectedObject)) {
+				if (dynamic_cast<NPC*>(inspectedObject)) {
 					DrawNPCInspector();
 				}
 
@@ -1235,6 +1210,7 @@ void SceneEditor::DrawMenu()
 			ImGui::MenuItem("Debug Physics", NULL, &isPhysicDebug);
 			ImGui::MenuItem("Debug Pathfinding", NULL, &isPathDebug);
 			ImGui::MenuItem("Debug Transform Gizmo", NULL, &isShowWidget);
+			ImGui::MenuItem("Run with gui", NULL, &isGUIOnRun);
 
 			ImGui::EndMenu();
 		}
@@ -1729,8 +1705,9 @@ void SceneEditor::Draw3DWidget()
 void SceneEditor::DrawNPCInspector()
 {
 	if (!inspectedObject)return;
-	NPC_GameObject* inspectedNPC = static_cast<NPC_GameObject*>(inspectedObject);
+	NPC* inspectedNPC = static_cast<NPC*>(inspectedObject);
 	if (!inspectedNPC) return;
+
 
 	//NPC Path Finding settings
 	if (ImGui::CollapsingHeader("-- Path Finding --")) {
@@ -1749,7 +1726,6 @@ void SceneEditor::DrawNPCInspector()
 
 		ImGui::SeparatorText("Path Selection");
 
-
 		GaemPathing::PathNodeManager* pathNodeManager = &engine->scene->pathManager;
 		std::string targetNodeName = "node ";
 
@@ -1766,7 +1742,7 @@ void SceneEditor::DrawNPCInspector()
 			for (auto& node : pathNodeManager->GetNodes())
 			{
 				if (ImGui::Selectable(std::to_string(node->GetID()).c_str())) {
-					inspectedNPC->MoveToPoint(node, pathNodeManager->GetNodes());
+					inspectedNPC->MoveToPoint(node);
 				}
 			}
 			ImGui::EndCombo();

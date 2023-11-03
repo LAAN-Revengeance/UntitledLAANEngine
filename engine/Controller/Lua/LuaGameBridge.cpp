@@ -1,4 +1,8 @@
 #include "LuaGameBridge.h"
+#include <AnimatedDrawItem.h>
+#include <MD2/MD2Reader.h>
+#include <AI/AIManager.h>
+#include <AI/StateMachine/States/ScriptableState.h>
 
 void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 {
@@ -72,13 +76,22 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		sol::no_constructor
 	);
 
-	////expose draw item
-	//Expose_CPPClass<DrawItem>("DrawItem",
-	//	sol::no_constructor,
-	//	"SetAnimationSpeed", &DrawItem::SetAnimationSpeed,
-	//	"SetAnimation", &DrawItem::SetAnimation,
-	//	"Animate", &DrawItem::Animate
-	//	);
+	//expose draw item
+	luaManager->Expose_CPPClass<AnimatedDrawItem>("AnimatedDrawItem",
+		sol::no_constructor,
+		sol::base_classes, sol::bases<DrawItem>(),
+		"SetAnimationSpeed", &AnimatedDrawItem::SetAnimationSpeed,
+		"SetAnimation", &AnimatedDrawItem::SetAnimation,
+		"Animate", &AnimatedDrawItem::Animate
+		);
+
+
+	//expose draw item
+	luaManager->Expose_CPPClass<md2_model_t>("MD2",
+		sol::no_constructor,
+		sol::base_classes, sol::bases<AnimatedDrawItem>()
+	);
+	
 
 	//expose game object
 	luaManager->Expose_CPPClass<GameObject>("GameObject",
@@ -96,7 +109,9 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"physicsBody", &GameObject::physicsBody,
 		"affordances", &GameObject::affordanceController,
 		"GetForward", &GameObject::GetForwardVec,
-		"Rotate", &GameObject::Rotate
+		"Rotate", &GameObject::Rotate,
+		"GetAnimation", &GameObject::GetAnimationItem,
+		"stateMachine", &GameObject::stateMachine
 	);
 
 	//expose terrain
@@ -114,15 +129,29 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"scaleZ", &Terrain::scaleZ
 	);
 
+	//expose emotion
+	luaManager->Expose_CPPClass<Emotion>("Emotion",
+		sol::constructors<Emotion()>(),
+		"emotion", &Emotion::emotion,
+		"emotionStrength", &Emotion::emotionStrength,
+		"reactionStrength", &Emotion::reactionStrength
+	);
+
 	//expose NPC
-	luaManager->Expose_CPPClass<NPC_GameObject>("NPC",
-		sol::constructors<NPC_GameObject()>(),
+	luaManager->Expose_CPPClass<NPC>("NPC",
+		sol::constructors<NPC()>(),
 		sol::base_classes, sol::bases<GameObject>(),
-		"MoveToPoint", &NPC_GameObject::MoveToPoint,
-		"SetMoveSpeed", &NPC_GameObject::SetMoveSpeed,
-		"CancelPath", &NPC_GameObject::CancelPath,
-		"FindClosestNode", &NPC_GameObject::FindClosestNode,
-		"FindFurthestNode", &NPC_GameObject::FindFurthestNode
+		"MoveToPoint", &NPC::MoveToPoint,
+		"SetMoveSpeed", &NPC::SetMoveSpeed,
+		"CancelPath", &NPC::CancelPath,
+		"FindClosestNode", &NPC::FindClosestNode,
+		"FindFurthestNode", &NPC::FindFurthestNode,
+		"FindRandomNode", &NPC::FindRandomNode,
+		"GetIsMoving", &NPC::GetIsMoving,
+
+		"GetEmotion", &NPC::GetEmotion,
+		"GetLastInterracted", &NPC::GetLastInterracted,
+		"GetPersonality", &NPC::GetPersonality
 	);
 
 	//expose resource manager class
@@ -249,7 +278,8 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"AddBoxCollider", &PhysicsManager::AddBoxCollider,
 		"AddCapsuleCollider", &PhysicsManager::AddCapsuleCollider,
 		"GetPhysicsBody", &PhysicsManager::GetPhysicsBody,
-		"Raycast",&PhysicsManager::Raycast
+		"Raycast",&PhysicsManager::Raycast,
+		"RaycastNPC",&PhysicsManager::RaycastNPC
 	);
 	
 
@@ -265,6 +295,7 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"SetVelocity", &PhysicsBody::SetVelocity,
 		"SetMass", &PhysicsBody::SetMass,
 		"SetGravity", &PhysicsBody::SetGravity,
+		"Kinematic", &PhysicsBody::isKinematic,
 		"GetID", &PhysicsBody::GetID
 	);
 
@@ -293,6 +324,41 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"ToggleWireFrame", &Renderer::ToggleWireFrame,
 		"GetFPS", &Renderer::GetFPS
 	);
+
+	luaManager->Expose_CPPClass<StateMachine>("StateMachine",
+		sol::no_constructor,
+		"ChangeState", &StateMachine::ChangeState,
+		"ChangeGlobalState", &StateMachine::ChangeGlobalState,
+		"RevertState", &StateMachine::RevertState
+		);
+
+	luaManager->Expose_CPPClass<State>("State",
+		sol::no_constructor,
+		"Enter", &State::Enter,
+		"Exit", &State::Exit,
+		"Update", &State::Update,
+		"ProcessMessage", &State::ProcessMessage
+		);
+
+	luaManager->Expose_CPPClass<AIManager>("AIManager",
+		sol::no_constructor,
+		"AddState", &AIManager::AddState,
+		"GetState", &AIManager::GetState,
+		"SendMessage", &AIManager::SendMessage
+		);
+
+	luaManager->Expose_CPPClass<Message>("Message",
+		sol::no_constructor,
+		"dispatchTime", &Message::dispatchTime,
+		"msgType", &Message::msgType,
+		"receiverID", &Message::receiverID,
+		"senderID", &Message::senderID
+		);		
+
+	luaManager->Expose_CPPClass<ScriptableState>("ScriptableState",
+		sol::constructors<ScriptableState(sol::function, sol::function, sol::function, sol::function)>(),
+		sol::base_classes, sol::bases<State>()
+		);
 
 	//expose the sound engine
 	luaManager->Expose_CPPClass<SoundEngine>("SoundEngine",

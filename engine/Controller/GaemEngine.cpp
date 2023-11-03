@@ -6,12 +6,15 @@
 #include <Utils/GaemUtils.h>
 #include <time.h>
 
-GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher):
+GameEngine::GameEngine(Window* nWindow, GaemEvents::EventDispatcher* nDispatcher, Timer* nTimer):
+	timer(nTimer),
 	renderer(nWindow),
 	isRunning(true),
 	scene(new Scene),
 	window(nWindow),
-	eventDispatcher(nDispatcher)
+	eventDispatcher(nDispatcher),
+	aiManager(nullptr),
+	msgDispatcher(nullptr)
 {
 	InputManager::Get().Init(nWindow);
 	guiRenderer.Init(nWindow);
@@ -41,6 +44,12 @@ void GameEngine::Update(double deltaTime)
 	for (auto& it : scene->gameObjects) {
 		it.second->Update(deltaTime);
 	}
+
+	if (aiManager)
+		aiManager->UpdateAgents(deltaTime);
+
+	if (msgDispatcher)
+		msgDispatcher->SendMsgQueue();
 }
 
 void GameEngine::Draw(double deltaTime)
@@ -48,7 +57,6 @@ void GameEngine::Draw(double deltaTime)
 	if (!scene)
 		return;
 	renderer.RenderScene(scene->camera, *scene, deltaTime);
-
 }
 
 
