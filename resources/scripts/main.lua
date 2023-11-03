@@ -271,14 +271,21 @@ function draw_emotion_gui(go)
 		local image = "Neutral";
 		if((anger + fear + grat + hope) > 0.0)
 		then
-			if((anger > grat) or (anger > hope))
+
+			if((anger > grat) and (anger > hope))
 			then
 				image = "Angry"
-			end
 
-			if((anger < grat) or (anger < hope))
+			elseif((fear > grat) and (fear > hope))
+			then
+				image = "Fear"
+
+			elseif(grat > hope)
 			then
 				image = "Positive"
+			else
+
+				image = "Hope"
 			end
 		end
 
@@ -287,8 +294,8 @@ function draw_emotion_gui(go)
 		
 		GUI:Text("Anger:"..anger);
 		GUI:Text("Fear:"..fear);
-		GUI:Text("Gratitude"..grat);
-		GUI:Text("Hope"..hope);
+		GUI:Text("Gratitude:"..grat);
+		GUI:Text("Hope:"..hope);
 
 
 
