@@ -10,7 +10,7 @@ bool DebugLogger::log_wrn		= true;
 DebugLogger::DebugLogger() :
 	streamCapture(std::cout)
 {
-	streamCapture.Release();
+	//streamCapture.Release();
 }
 
 DebugLogger::~DebugLogger()
