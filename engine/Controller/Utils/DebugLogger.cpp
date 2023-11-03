@@ -46,6 +46,13 @@ void DebugLogger::SetLogLevel(unsigned int type, bool isActive)
 	else if		(type == GAEM_LOG)			{ log_log = isActive; }
 	else if		(type == GAEM_DEBUG)		{ log_dbg = isActive; }
 	else if		(type == GAEM_WARNING)		{ log_wrn = isActive; }
+	else if		(type == GAEM_ALL)			{
+		log_err = isActive;
+		log_log = isActive;
+		log_dbg = isActive;
+		log_wrn = isActive;
+	}
+
 }
 
 bool DebugLogger::GetLogLevel(unsigned int type)

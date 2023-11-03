@@ -1,14 +1,15 @@
 #pragma once
+#pragma once
 #include <Window.h>
 #include <Timer.h>
 #include <GaemEngine.h>
 #include <Editor/SceneEditor.h>
 
-class Application
+class GaemApp
 {
 public:
-	Application();
-	~Application();
+	GaemApp(const char* path);
+	~GaemApp();
 	void Run();
 
 private:
@@ -16,7 +17,6 @@ private:
 	GaemEvents::EventDispatcher eventDispatcher;
 	Window window;
 	GameEngine game;
-	SceneEditor editor;
 	Timer timer;
 	DebugLogger logger;
 };
