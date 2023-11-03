@@ -7,8 +7,6 @@ GaemApp::GaemApp(const char* path) :
 	Project projectData = ProjectLoader::LoadProject(&game,path);
 	game.scene = projectData.scene;
 	window.SetName(projectData.windowName);
-	std::cout << "Lua Name: " << projectData.luaPath << "\n";
-	std::cout << "Window Name: " << projectData.windowName << "\n";
 
 	for (auto shader = ResourceManager::Get().ShaderBegin(); shader != ResourceManager::Get().ShaderEnd(); ++shader) {
 		game.renderer.SetLightUniforms(game.scene->lights, *(*shader).second);

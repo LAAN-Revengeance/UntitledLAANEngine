@@ -3,11 +3,11 @@
 
 int main(int argc, char** argv)
 {
-    //EditorApp application;
-    //application.Run();
-
-    GaemApp application("resources/scenes/classroomScene");
+    EditorApp application;
     application.Run();
+
+    //GaemApp application("resources/scenes/classroomScene");
+    //application.Run();
 
     return 0;
 }

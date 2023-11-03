@@ -49,7 +49,7 @@ Emotion& NPC::GetEmotion(std::string emotionName)
 			return this->emotions[i];
 	}
 
-	std::cout << "Error: no emotion with the name " << emotionName << " was found." << std::endl;
+	DebugLogger::Log(GAEM_LOG, "could not find emotion " + emotionName, name);
 	return _emptyEmotion;
 }
 
