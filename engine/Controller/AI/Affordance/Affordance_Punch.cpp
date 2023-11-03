@@ -23,11 +23,11 @@ void AffordancePunch::Activate(GameObject* go)
 
 	NPC* npc = dynamic_cast<NPC*>(go);
 	if (npc) {
-    
+		
 		npc->SetLastInterracted(_parentObject);
 		Personality personality = npc->GetPersonality();
     
-    OCCModel::EvaluateAffordance(GetDescriptor(), GetType(), GetDanger(), emotion);
+		OCCModel::EvaluateAffordance(GetDescriptor(), GetType(), GetDanger(), emotion);
 		npc->AddEmotion(emotion);
 		OCCModel::CalcEmotionStrength(GetStrength(), emotion, npc->GetEmotion(emotion), npc->GetPersonality());
 

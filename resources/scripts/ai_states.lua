@@ -66,6 +66,7 @@ end
 ----------------------------------------------------------
 
 function wander_enter(ent, dt)
+	ent:SetMoveSpeed(5)
 end
 
 function wander_update(ent, dt)
@@ -101,6 +102,7 @@ end
 function run_enter(ent, dt)
 	ent:GetAnimation():Animate("run")
 	ent:MoveToPoint(ent:FindFurthestNode());
+	ent:SetMoveSpeed(12)
 	print("enter run")
 end
 
@@ -108,8 +110,12 @@ function run_update(ent, dt)
 
 	if(not ent:GetIsMoving())
 	then
+		ent:MoveToPoint(ent:FindFurthestNode());
+	end
+
+	if(ent:GetEmotion("Fear").emotionStrength < 0.5)
+	then
 		ent.stateMachine:ChangeState(aimanager:GetState("idle_state"))
-		print("stop running")
 	end
 end
 
@@ -168,12 +174,12 @@ function attack_update(ent, dt)
 
 		if(lookPos:length() < 10)
 		then
-		print("here");
 			ent:LookAt(target)
 			ent.affordances:GetAffordance("punch"):Activate(target);
 			ent.stateMachine:ChangeState(aimanager:GetState("idle_state"))
 			ent:LookAt(CrossVectors(up,lookPos));
 		end
+
 	end
 end
 
@@ -204,6 +210,12 @@ function thank_update(ent, dt)
 		local up = vec3:new(0,20,0);
 		ent:LookAt(CrossVectors(up,lookPos));
 	end
+
+	if(ent:GetEmotion("Gratitude").emotionStrength < 0.5)
+	then
+		ent.stateMachine:ChangeState(aimanager:GetState("idle_state"))
+	end
+
 end
 
 function thank_exit(ent, dt)

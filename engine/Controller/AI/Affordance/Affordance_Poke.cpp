@@ -22,6 +22,8 @@ void AffordancePoke::Activate(GameObject* go)
 
 	NPC* npc = dynamic_cast<NPC*>(go);
 	if (npc) {
+		npc->SetLastInterracted(_parentObject);
+		npc->SetLastInterracted(_parentObject);
 		OCCModel::EvaluateAffordance(GetDescriptor(), GetType(), GetDanger(), emotion);
 		npc->AddEmotion(emotion);
 		OCCModel::CalcEmotionStrength(GetStrength(), emotion, npc->GetEmotion(emotion), npc->GetPersonality());

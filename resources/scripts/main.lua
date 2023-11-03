@@ -161,10 +161,9 @@ function keyInput(dt)
 		then
 			player.affordances:GetAffordance("pickup"):Deactivate();
 		else
-			local object = physics:Raycast(camera.position,camera.front,3);
+			local object = physics:Raycast(camera.position,camera.front,5);
 			if(not(object == nil))
 			then
-			print("pickup!")
 				player.affordances:GetAffordance("pickup"):Activate(object);
 			end
 		end
@@ -174,10 +173,11 @@ function keyInput(dt)
 	then
 		if(player.affordances:GetAffordance("pickup"):GetIsActive())
 		then
+			local object = player.affordances:GetAffordance("pickup"):GetOther()
 			player.affordances:GetAffordance("pickup"):Deactivate();
-			local object = physics:Raycast(camera.position,camera.front,3);
 			if(not(object == nil))
 			then
+
 				object.physicsBody:ApplyForceImpulse(forward.x * 3,forward.y * 3,forward.z * 3);
 				object.physicsBody.Kinematic = false;
 			end

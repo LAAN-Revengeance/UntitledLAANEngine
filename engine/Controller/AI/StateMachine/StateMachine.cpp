@@ -11,9 +11,11 @@ void StateMachine::ChangeState(State& nState)
 	if(currentState && currentState != &nState)
 		currentState->Exit(*owner);
 
-	previousState = currentState;
-	currentState = &nState;
-	currentState->Enter(*owner);
+	if (currentState != &nState) {
+		previousState = currentState;
+		currentState = &nState;
+		currentState->Enter(*owner);
+	}
 }
 
 void StateMachine::ChangeGlobalState(State& nState)

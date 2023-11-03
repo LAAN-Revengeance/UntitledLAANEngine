@@ -91,6 +91,12 @@ public:
 	float GetDanger() { return _dangerous; }
 
 	/**
+	 * @brief return object being acted upon
+	 * @return object being activated by this affordance
+	*/
+	GameObject* GetOther() { return _otherObject; }
+
+	/**
 	 * @brief Get a description of this affordance
 	 * @return the ID of this affordance
 	*/

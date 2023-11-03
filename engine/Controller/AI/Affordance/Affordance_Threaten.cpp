@@ -21,6 +21,8 @@ void AffordanceThreaten::Activate(GameObject* go)
 
 	NPC* npc = dynamic_cast<NPC*>(go);
 	if (npc) {
+
+		npc->SetLastInterracted(_parentObject);
 		std::string emotion;
 
 		OCCModel::EvaluateAffordance(GetDescriptor(), GetType(), GetDanger(), emotion);
