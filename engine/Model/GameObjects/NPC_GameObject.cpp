@@ -49,7 +49,7 @@ Emotion& NPC::GetEmotion(std::string emotionName)
 			return this->emotions[i];
 	}
 
-	DebugLogger::Log(GAEM_LOG, "could not find emotion " + emotionName, name);
+	//DebugLogger::Log(GAEM_LOG, "could not find emotion " + emotionName, name);
 	return _emptyEmotion;
 }
 
@@ -240,6 +240,11 @@ bool NPC::GetIsMoving()
 void NPC::SetIsMoving(bool isMoving)
 {
 	_isMoving = isMoving;
+}
+
+GameObject* NPC::GetLastInterracted()
+{
+	return _lastInteracted;
 }
 
 void NPC::UpdatePathing(double dt)

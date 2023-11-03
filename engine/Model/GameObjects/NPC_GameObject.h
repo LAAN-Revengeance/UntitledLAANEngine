@@ -168,6 +168,12 @@ public:
 	*/
 	void SetIsMoving(bool isMoving);
 
+	/**
+	 * @brief Return the last interracted object
+	 * @return object last interracted with
+	*/
+	GameObject* GetLastInterracted();
+
 private:
 
 	///record of this agents emoitonal state
@@ -202,5 +208,8 @@ private:
 
 	///the node this agent is attempting to reach
 	GaemPathing::PathNode* _targetNode = nullptr;
+
+	///records last object interacted with
+	GameObject* _lastInteracted = nullptr;
 };
 

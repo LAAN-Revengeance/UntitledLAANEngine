@@ -25,7 +25,7 @@ class rp3dRaycastCallback : public rp3d::RaycastCallback {
 public:
 	virtual rp3d::decimal notifyRaycastHit(const rp3d::RaycastInfo& info) {
 		_hitID = info.body->getEntity().id;
-		return rp3d::decimal(0.0);
+		return rp3d::decimal(1.0);
 		
 	}
 	unsigned int _hitID;

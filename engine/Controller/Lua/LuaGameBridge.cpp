@@ -150,6 +150,7 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"GetIsMoving", &NPC::GetIsMoving,
 
 		"GetEmotion", &NPC::GetEmotion,
+		"GetLastInterracted", &NPC::GetLastInterracted,
 		"GetPersonality", &NPC::GetPersonality
 	);
 

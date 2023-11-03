@@ -8,7 +8,7 @@ function init()
 	expose_states();
 
 	robot = resources:GetGameObject("Robot");
-	robot.stateMachine:ChangeGlobalState(wander_state);
+	robot.stateMachine:ChangeState(idle_state);
 	input:SetMouseLock(true);
 	print("init lua");
 end
@@ -263,7 +263,7 @@ function draw_emotion_gui(go)
 	GUI:StartWindow("emotiongui",false,sWidth,sHeight + 0.2,0.35,sWidth/ wRatio);
 		
 		local anger = go:GetEmotion("Anger").emotionStrength;
-		local fear = go:GetEmotion("Anger").emotionStrength;
+		local fear = go:GetEmotion("Fear").emotionStrength;
 		local grat = go:GetEmotion("Gratitude").emotionStrength;
 		local hope = go:GetEmotion("Hope").emotionStrength;
 
