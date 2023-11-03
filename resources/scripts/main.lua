@@ -9,6 +9,7 @@ function init()
 
 	robot = resources:GetGameObject("Robot");
 	robot.stateMachine:ChangeState(idle_state);
+	robot.stateMachine:ChangeGlobalState(global_state);
 	input:SetMouseLock(true);
 	print("init lua");
 end

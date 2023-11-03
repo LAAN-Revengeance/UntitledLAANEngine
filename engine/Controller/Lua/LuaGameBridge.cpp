@@ -147,11 +147,13 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"FindClosestNode", &NPC::FindClosestNode,
 		"FindFurthestNode", &NPC::FindFurthestNode,
 		"FindRandomNode", &NPC::FindRandomNode,
+		"GetCurrentNode", &NPC::GetCurrentNode,
 		"GetIsMoving", &NPC::GetIsMoving,
 
 		"GetEmotion", &NPC::GetEmotion,
 		"GetLastInterracted", &NPC::GetLastInterracted,
-		"GetPersonality", &NPC::GetPersonality
+		"GetPersonality", &NPC::GetPersonality,
+		"AddEmotion", &NPC::AddEmotion
 	);
 
 	//expose resource manager class

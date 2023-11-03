@@ -46,13 +46,6 @@ public:
 	void AddEmotion(std::string name);
 
 	/**
-	 * @brief Add an emotional state to this agent
-	 * @param name name of emotion
-	 * @param strength strenght of added emotion
-	*/
-	void AddEmotion(std::string name, float strength);
-
-	/**
 	 * @brief Get the emotion array from this agent
 	 * @return the emotion array
 	*/
@@ -174,6 +167,11 @@ public:
 	*/
 	GameObject* GetLastInterracted();
 
+	/**
+	 * @brief Set the last interracted object
+	 * @param go object last interracted with
+	*/
+	void SetLastInterracted(GameObject* go);
 private:
 
 	///record of this agents emoitonal state
