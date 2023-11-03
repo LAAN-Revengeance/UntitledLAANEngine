@@ -24,16 +24,19 @@ void NPC::Update(double dt)
 {
 	if (_isMoving)
 		UpdatePathing(dt);
+
+	for (auto& emotion : emotions)
+	{
+		if(emotion.emotionStrength > 0)
+			emotion.emotionStrength -= dt * 0.01;
+		if (emotion.emotionStrength < 0)
+			emotion.emotionStrength = 0;
+	}
 }
 
 void NPC::AddEmotion(std::string name)
 {
 	this->emotions.push_back({ name });
-}
-
-void NPC::AddEmotion(std::string name, float strength)
-{
-	this->emotions.push_back({ name, strength });
 }
 
 std::vector<Emotion>& NPC::GetEmotions()
@@ -48,7 +51,6 @@ Emotion& NPC::GetEmotion(std::string emotionName)
 		if (this->emotions[i].emotion == emotionName)
 			return this->emotions[i];
 	}
-
 	//DebugLogger::Log(GAEM_LOG, "could not find emotion " + emotionName, name);
 	return _emptyEmotion;
 }
@@ -97,12 +99,13 @@ void NPC::MoveToPoint(PathNode* targetNode)
 		}
 	}
 
+
 	if (!inNetwork) {
 		_isMoving = false;
 		DebugLogger::Log(GAEM_LOG, "Not in network, searching for available node", name);
 		if (_currentNode) {
-			DebugLogger::Log(GAEM_LOG, "Pathing to last visited node", name);
-			_returningToNetwork = true;
+			//DebugLogger::Log(GAEM_LOG, "Pathing to last visited node", name);
+			//_returningToNetwork = true;
 			_isMoving = true;
 		}
 		else {
@@ -245,6 +248,11 @@ void NPC::SetIsMoving(bool isMoving)
 GameObject* NPC::GetLastInterracted()
 {
 	return _lastInteracted;
+}
+
+void NPC::SetLastInterracted(GameObject* go)
+{
+	_lastInteracted = go;
 }
 
 void NPC::UpdatePathing(double dt)

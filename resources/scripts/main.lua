@@ -7,22 +7,40 @@ function init()
 	player = resources:GetGameObject("player");
 	expose_states();
 
-	robot = resources:GetGameObject("Robot");
-	robot.stateMachine:ChangeState(idle_state);
+	init_AI();
+
 	input:SetMouseLock(true);
 	print("init lua");
 end
 
 --main update function, called every frame
 function update(deltaTime)
-	keyInput(deltaTime)
-	mouseMoveFunc(deltaTime)
+	
 
 	--show emotional state of NPC looking at
 	object = physics:RaycastNPC(scene:GetCamera().position,scene:GetCamera().front,20);
-	if(not (object == nil))
+	if(not exitMenuOpen)
 	then
-		draw_emotion_gui(object);
+		draw_instruction_gui();
+		if(not (object == nil))
+		then
+			draw_emotion_gui(object);
+		end
+	end
+
+	--toggle exit splash
+	if(input:GetKeyDown(KEY_ESCAPE))
+	then
+		exitMenuOpen = not exitMenuOpen;
+	end
+	
+	--use player inputs or show exit
+	if(not exitMenuOpen)
+	then
+		keyInput(deltaTime);
+		mouseMoveFunc(deltaTime);
+	else
+		showExitSplash();
 	end
 	
 end
@@ -214,6 +232,7 @@ function keyInput(dt)
 			end
 		end
 	end
+
 end
 
 lastX = input:GetMouseX();
@@ -251,8 +270,6 @@ end
 
 function draw_emotion_gui(go)
 
-	GUI:StartGUI();
-
 	wWidth = GUI:GetWindowWidth();
 	wHeight = GUI:GetWindowHeight();
 	wRatio = wWidth/wHeight;
@@ -270,14 +287,21 @@ function draw_emotion_gui(go)
 		local image = "Neutral";
 		if((anger + fear + grat + hope) > 0.0)
 		then
-			if((anger > grat) or (anger > hope))
+
+			if((anger > grat) and (anger > hope))
 			then
 				image = "Angry"
-			end
 
-			if((anger < grat) or (anger < hope))
+			elseif((fear > grat) and (fear > hope))
+			then
+				image = "Fear"
+
+			elseif(grat > hope)
 			then
 				image = "Positive"
+			else
+
+				image = "Hope"
 			end
 		end
 
@@ -286,51 +310,75 @@ function draw_emotion_gui(go)
 		
 		GUI:Text("Anger:"..anger);
 		GUI:Text("Fear:"..fear);
-		GUI:Text("Gratitude"..grat);
-		GUI:Text("Hope"..hope);
-
-
+		GUI:Text("Gratitude:"..grat);
+		GUI:Text("Hope:"..hope);
 
 	GUI:EndEndWindow();
-
-	GUI:EndGUI();
 end
 
+exitMenuOpen = false;
+function showExitSplash()
+	input:SetMouseLock(false);
 
-function npc_wander(go,dt)
-	
-	if(not go:GetIsMoving())
-	then
-		go:GetAnimation():Animate("run")
-		go:MoveToPoint(go:FindRandomNode());
-	end
+	wWidth = GUI:GetWindowWidth();
+	wHeight = GUI:GetWindowHeight();
+	wRatio = wWidth/wHeight;
 
+	sWidth = 0.3;
+	sHeight = sWidth * wRatio;
+
+	GUI:StartWindow("ExitSplash",false,sWidth,sHeight + 0.07,0.35,sWidth/ wRatio);
+
+		if(GUI:ImageButton("ExitSplash",(wWidth * sWidth),(wHeight * sHeight),0.5,0.5))
+		then
+			CloseWindow(true);
+		end
+
+	GUI:EndEndWindow();
 end
 
-function npc_dynamic(go,dt)
+function draw_instruction_gui()
+	GUI:StartWindow("poop",true,0.15,0.3,0,0);
 	
-	if(not go:GetIsMoving())
-	then
-		go:GetAnimation():Animate("run")
-		go:MoveToPoint(go:FindRandomNode());
-	end
+		GUI:Text("----Affordance Controls----",0);
+		GUI:Tab(10);
 
-	local anger = go:GetEmotion("Anger").emotionStrength;
-	local fear = go:GetEmotion("Anger").emotionStrength;
-	local grat = go:GetEmotion("Gratitude").emotionStrength;
-	local hope = go:GetEmotion("Hope").emotionStrength;
+		GUI:Text("Interation Affodances:",0);
+		GUI:Text("[E] Sit",0);
+		GUI:Text("[F] Pickup",0);
 
-	if((anger + fear + grat + hope) > 0)
-	then
-		if((anger > grat) or (anger > hope))
-		then
-			print("angery");
-		end
 
-		if((anger < grat) or (anger < hope))
-		then
-			print("happy");
-		end
-	end
+		GUI:Text("Negative Affodances:",0);
+		GUI:Text("[I] Poke",0);
+		GUI:Text("[O] Slap",0);
+		GUI:Text("[P] Punch",0);
 
+		GUI:Text("[T] Threaten",0);
+
+		GUI:Text("Positive Affodances:",0);
+		GUI:Text("[N] compliment",0);
+		GUI:Text("[M] Give Money",0);
+
+		GUI:Tab(10);
+		GUI:Text("----Player Controls----",0);
+		GUI:Tab(10);
+		GUI:Text("[W][A][S][D] Move ",0);
+		GUI:Text("[Mouse] Look ",0);
+		GUI:Text("[ESC] Exit Game ",0);
+
+	GUI:EndEndWindow();
+end
+
+function init_AI()
+	robot = resources:GetGameObject("Robot");
+	robot.stateMachine:ChangeState(idle_state);
+	robot.stateMachine:ChangeGlobalState(global_state);
+
+	robot1 = resources:GetGameObject("Robot1");
+	robot1.stateMachine:ChangeState(idle_state);
+	robot1.stateMachine:ChangeGlobalState(global_state);
+
+	robot2 = resources:GetGameObject("Robot2");
+	robot2.stateMachine:ChangeState(idle_state);
+	robot2.stateMachine:ChangeGlobalState(global_state);
 end

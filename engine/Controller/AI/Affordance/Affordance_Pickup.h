@@ -21,7 +21,8 @@ public:
 private:
 	AffordanceDescriptor descriptor = "pickup";
 	AffordanceDescriptor type = "agent";
-	float _offset = 2.0f;
+  
+	float _offset = 2.5f;
 
 	//track if pickup objects physics body was kinematic before being picked up
 	bool _pickupKinematic = false;
