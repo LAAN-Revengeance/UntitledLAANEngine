@@ -56,8 +56,13 @@ void OCCModel::CalcEmotionStrength(float affordanceStrength, std::string emotion
 
 	if (npcEmotion.emotionStrength > 1)
 		npcEmotion.emotionStrength = 1;
+	else if (npcEmotion.emotionStrength < 0)
+		npcEmotion.emotionStrength = 0;
+
 	if (npcEmotion.reactionStrength > 1)
 		npcEmotion.reactionStrength = 1;
+	else if (npcEmotion.reactionStrength < 0)
+		npcEmotion.reactionStrength = 0;
 }
 
 FCM OCCModel::InitAngerGratitudeFCM(float eventStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality, int blameworthiness)
@@ -72,11 +77,11 @@ FCM OCCModel::InitAngerGratitudeFCM(float eventStrength, std::string emotion, Em
 	angerGratitudeGFCM.AddConcept("Impulsivity", 0, 1);
 	angerGratitudeGFCM.AddConcept("Action", 0, 1);
 
-	angerGratitudeGFCM.AddRelationship("Affordance", "Blameworthiness", pow(npcPersonality.GetAgreeablenessPercent(), blameworthiness));
+	angerGratitudeGFCM.AddRelationship("Affordance", "Blameworthiness", -npcPersonality.GetAgreeablenessPercent());
 	angerGratitudeGFCM.AddRelationship("Affordance", "Desireability", -0.5);
 	angerGratitudeGFCM.AddRelationship("Blameworthiness", emotion, npcPersonality.GetNeuroticismPercent());
-	angerGratitudeGFCM.AddRelationship("Desireability", emotion, -npcPersonality.GetNeuroticismPercent());
-	angerGratitudeGFCM.AddRelationship(emotion, "Action", npcPersonality.GetConscientiousnessPercent());
+	angerGratitudeGFCM.AddRelationship("Desireability", emotion, npcPersonality.GetNeuroticismPercent());
+	angerGratitudeGFCM.AddRelationship(emotion, "Action", -npcPersonality.GetConscientiousnessPercent());
 
 	return angerGratitudeGFCM;
 }
@@ -92,11 +97,11 @@ FCM OCCModel::InitFearHopeFCM(float eventStrength, std::string emotion, Emotion 
 	fearHopeFCM.AddConcept(emotion, 0, 1);
 	fearHopeFCM.AddConcept("Impulsivity", 0, 1);
 	fearHopeFCM.AddConcept("Action", 0, 1);
-	fearHopeFCM.AddRelationship("Affordance", "Likelihood", pow(-npcPersonality.GetAgreeablenessPercent(), likelihood));
+	fearHopeFCM.AddRelationship("Affordance", "Likelihood", -npcPersonality.GetAgreeablenessPercent());
 	fearHopeFCM.AddRelationship("Affordance", "Desireability", 0.5);
 	fearHopeFCM.AddRelationship("Likelihood", emotion, npcPersonality.GetNeuroticismPercent());
-	fearHopeFCM.AddRelationship("Desireability", emotion, -npcPersonality.GetNeuroticismPercent());
-	fearHopeFCM.AddRelationship(emotion, "Action", npcPersonality.GetConscientiousnessPercent());
+	fearHopeFCM.AddRelationship("Desireability", emotion, npcPersonality.GetNeuroticismPercent());
+	fearHopeFCM.AddRelationship(emotion, "Action", -npcPersonality.GetConscientiousnessPercent());
 
 	return fearHopeFCM;
 }
