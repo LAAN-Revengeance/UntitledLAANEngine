@@ -5,7 +5,12 @@ dofile("resources/scripts/ai_states.lua")
 function init()
 	initInputs();
 	player = resources:GetGameObject("player");
-	expose_states();
+	
+	if(not statesInitialized)
+	then
+		expose_states();
+		statesInitialized = true;
+	end
 
 	init_AI();
 
@@ -102,6 +107,7 @@ function keyInput(dt)
 			local object = physics:Raycast(camera.position,camera.front,3);
 			if(not(object == nil))
 			then
+				print("sit!")
 				player.affordances:GetAffordance("sit"):Activate(object);
 			end
 		end
@@ -158,6 +164,7 @@ function keyInput(dt)
 			local object = physics:Raycast(camera.position,camera.front,3);
 			if(not(object == nil))
 			then
+			print("pickup!")
 				player.affordances:GetAffordance("pickup"):Activate(object);
 			end
 		end
