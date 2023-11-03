@@ -41,10 +41,10 @@
 				"ID" : 1,
 				"neighbours" : 
 				[
-					11,
-					10,
 					2,
-					1
+					1,
+					10,
+					11
 				],
 				"obstacle" : false,
 				"position" : 
@@ -64,12 +64,12 @@
 				"ID" : 2,
 				"neighbours" : 
 				[
-					11,
-					12,
-					10,
 					2,
 					1,
-					3
+					3,
+					10,
+					12,
+					11
 				],
 				"obstacle" : false,
 				"position" : 
@@ -89,12 +89,12 @@
 				"ID" : 3,
 				"neighbours" : 
 				[
-					11,
+					2,
+					3,
+					4,
 					13,
 					12,
-					4,
-					2,
-					3
+					11
 				],
 				"obstacle" : false,
 				"position" : 
@@ -114,12 +114,12 @@
 				"ID" : 4,
 				"neighbours" : 
 				[
-					14,
-					13,
-					12,
-					4,
 					3,
-					5
+					4,
+					5,
+					13,
+					14,
+					12
 				],
 				"obstacle" : false,
 				"position" : 
@@ -139,12 +139,12 @@
 				"ID" : 5,
 				"neighbours" : 
 				[
-					14,
-					13,
-					15,
 					6,
 					4,
-					5
+					5,
+					15,
+					13,
+					14
 				],
 				"obstacle" : false,
 				"position" : 
@@ -164,12 +164,12 @@
 				"ID" : 6,
 				"neighbours" : 
 				[
-					14,
-					15,
-					16,
 					6,
 					7,
-					5
+					5,
+					15,
+					14,
+					16
 				],
 				"obstacle" : false,
 				"position" : 
@@ -189,12 +189,12 @@
 				"ID" : 7,
 				"neighbours" : 
 				[
+					6,
+					7,
+					8,
 					17,
 					15,
-					16,
-					6,
-					8,
-					7
+					16
 				],
 				"obstacle" : false,
 				"position" : 
@@ -214,12 +214,12 @@
 				"ID" : 8,
 				"neighbours" : 
 				[
-					9,
-					17,
-					18,
-					16,
+					7,
 					8,
-					7
+					17,
+					9,
+					16,
+					18
 				],
 				"obstacle" : false,
 				"position" : 
@@ -239,10 +239,10 @@
 				"ID" : 9,
 				"neighbours" : 
 				[
-					9,
+					8,
 					17,
-					18,
-					8
+					9,
+					18
 				],
 				"obstacle" : false,
 				"position" : 
@@ -262,12 +262,12 @@
 				"ID" : 10,
 				"neighbours" : 
 				[
-					11,
-					20,
-					19,
-					10,
 					2,
-					1
+					1,
+					10,
+					19,
+					11,
+					20
 				],
 				"obstacle" : false,
 				"position" : 
@@ -287,15 +287,15 @@
 				"ID" : 11,
 				"neighbours" : 
 				[
-					11,
-					20,
-					21,
-					19,
-					12,
-					10,
 					2,
 					1,
-					3
+					3,
+					10,
+					19,
+					12,
+					21,
+					11,
+					20
 				],
 				"obstacle" : false,
 				"position" : 
@@ -315,15 +315,15 @@
 				"ID" : 12,
 				"neighbours" : 
 				[
-					11,
-					13,
-					20,
-					21,
-					12,
-					22,
-					4,
 					2,
-					3
+					3,
+					4,
+					13,
+					22,
+					12,
+					21,
+					11,
+					20
 				],
 				"obstacle" : false,
 				"position" : 
@@ -343,15 +343,15 @@
 				"ID" : 13,
 				"neighbours" : 
 				[
-					14,
-					13,
-					21,
-					23,
-					12,
-					22,
-					4,
 					3,
-					5
+					4,
+					5,
+					23,
+					13,
+					14,
+					22,
+					12,
+					21
 				],
 				"obstacle" : false,
 				"position" : 
@@ -371,15 +371,15 @@
 				"ID" : 14,
 				"neighbours" : 
 				[
-					14,
-					13,
-					23,
-					24,
-					22,
-					15,
 					6,
 					4,
-					5
+					5,
+					23,
+					15,
+					13,
+					14,
+					22,
+					24
 				],
 				"obstacle" : true,
 				"position" : 
@@ -399,15 +399,15 @@
 				"ID" : 15,
 				"neighbours" : 
 				[
-					14,
-					23,
-					24,
-					15,
-					16,
-					25,
 					6,
 					7,
-					5
+					5,
+					23,
+					15,
+					14,
+					25,
+					16,
+					24
 				],
 				"obstacle" : true,
 				"position" : 
@@ -427,15 +427,15 @@
 				"ID" : 16,
 				"neighbours" : 
 				[
-					17,
-					26,
-					24,
-					15,
-					16,
-					25,
 					6,
+					7,
 					8,
-					7
+					26,
+					17,
+					15,
+					25,
+					16,
+					24
 				],
 				"obstacle" : false,
 				"position" : 
@@ -455,15 +455,15 @@
 				"ID" : 17,
 				"neighbours" : 
 				[
-					9,
-					17,
-					18,
-					26,
-					27,
-					16,
-					25,
+					7,
 					8,
-					7
+					26,
+					17,
+					27,
+					25,
+					9,
+					16,
+					18
 				],
 				"obstacle" : false,
 				"position" : 
@@ -483,12 +483,12 @@
 				"ID" : 18,
 				"neighbours" : 
 				[
-					9,
-					17,
-					18,
+					8,
 					26,
+					17,
 					27,
-					8
+					9,
+					18
 				],
 				"obstacle" : false,
 				"position" : 
@@ -508,12 +508,12 @@
 				"ID" : 19,
 				"neighbours" : 
 				[
-					11,
-					20,
+					10,
+					29,
 					19,
 					28,
-					10,
-					29
+					11,
+					20
 				],
 				"obstacle" : false,
 				"position" : 
@@ -533,15 +533,15 @@
 				"ID" : 20,
 				"neighbours" : 
 				[
-					11,
-					20,
-					21,
-					19,
-					12,
-					28,
 					10,
 					29,
-					30
+					19,
+					28,
+					12,
+					21,
+					30,
+					11,
+					20
 				],
 				"obstacle" : false,
 				"position" : 
@@ -561,15 +561,15 @@
 				"ID" : 21,
 				"neighbours" : 
 				[
-					11,
-					13,
-					20,
-					21,
-					12,
-					22,
 					29,
+					13,
+					22,
+					31,
+					12,
+					21,
 					30,
-					31
+					11,
+					20
 				],
 				"obstacle" : false,
 				"position" : 
@@ -589,15 +589,15 @@
 				"ID" : 22,
 				"neighbours" : 
 				[
-					14,
-					13,
-					21,
 					23,
-					12,
-					22,
-					30,
+					13,
+					14,
 					32,
-					31
+					22,
+					31,
+					12,
+					21,
+					30
 				],
 				"obstacle" : false,
 				"position" : 
@@ -617,15 +617,15 @@
 				"ID" : 23,
 				"neighbours" : 
 				[
-					14,
-					13,
 					23,
-					24,
-					22,
 					15,
 					33,
+					13,
+					14,
 					32,
-					31
+					22,
+					31,
+					24
 				],
 				"obstacle" : true,
 				"position" : 
@@ -645,15 +645,15 @@
 				"ID" : 24,
 				"neighbours" : 
 				[
-					14,
 					23,
-					24,
 					15,
-					16,
-					25,
 					33,
+					34,
+					14,
+					25,
 					32,
-					34
+					16,
+					24
 				],
 				"obstacle" : true,
 				"position" : 
@@ -673,15 +673,15 @@
 				"ID" : 25,
 				"neighbours" : 
 				[
-					17,
-					26,
-					24,
-					15,
-					16,
-					25,
-					33,
 					35,
-					34
+					26,
+					17,
+					15,
+					33,
+					34,
+					25,
+					16,
+					24
 				],
 				"obstacle" : true,
 				"position" : 
@@ -701,15 +701,15 @@
 				"ID" : 26,
 				"neighbours" : 
 				[
-					17,
-					18,
-					26,
-					27,
-					16,
-					25,
 					35,
-					36,
-					34
+					26,
+					17,
+					27,
+					34,
+					25,
+					16,
+					18,
+					36
 				],
 				"obstacle" : true,
 				"position" : 
@@ -729,11 +729,11 @@
 				"ID" : 27,
 				"neighbours" : 
 				[
-					17,
-					18,
-					26,
-					27,
 					35,
+					26,
+					17,
+					27,
+					18,
 					36
 				],
 				"obstacle" : false,
@@ -754,12 +754,12 @@
 				"ID" : 28,
 				"neighbours" : 
 				[
-					20,
-					19,
-					28,
 					29,
 					37,
-					38
+					38,
+					19,
+					28,
+					20
 				],
 				"obstacle" : false,
 				"position" : 
@@ -779,15 +779,15 @@
 				"ID" : 29,
 				"neighbours" : 
 				[
-					20,
-					21,
+					29,
+					37,
+					38,
+					39,
 					19,
 					28,
-					29,
+					21,
 					30,
-					39,
-					37,
-					38
+					20
 				],
 				"obstacle" : false,
 				"position" : 
@@ -807,15 +807,15 @@
 				"ID" : 30,
 				"neighbours" : 
 				[
-					20,
-					21,
-					22,
 					29,
-					30,
+					38,
 					39,
+					22,
 					31,
+					21,
+					30,
 					40,
-					38
+					20
 				],
 				"obstacle" : false,
 				"position" : 
@@ -835,15 +835,15 @@
 				"ID" : 31,
 				"neighbours" : 
 				[
-					21,
+					41,
 					23,
-					22,
-					30,
-					32,
 					39,
+					32,
+					22,
 					31,
-					40,
-					41
+					21,
+					30,
+					40
 				],
 				"obstacle" : true,
 				"position" : 
@@ -863,15 +863,15 @@
 				"ID" : 32,
 				"neighbours" : 
 				[
+					41,
 					23,
-					24,
-					22,
 					33,
 					32,
-					42,
+					22,
 					31,
-					40,
-					41
+					24,
+					42,
+					40
 				],
 				"obstacle" : true,
 				"position" : 
@@ -891,15 +891,15 @@
 				"ID" : 33,
 				"neighbours" : 
 				[
+					41,
 					23,
-					24,
-					25,
 					33,
-					43,
-					32,
-					42,
 					34,
-					41
+					25,
+					32,
+					43,
+					24,
+					42
 				],
 				"obstacle" : false,
 				"position" : 
@@ -919,15 +919,15 @@
 				"ID" : 34,
 				"neighbours" : 
 				[
-					26,
-					24,
-					25,
-					33,
 					35,
-					43,
-					42,
+					26,
+					33,
 					34,
-					44
+					25,
+					43,
+					24,
+					44,
+					42
 				],
 				"obstacle" : false,
 				"position" : 
@@ -947,14 +947,14 @@
 				"ID" : 35,
 				"neighbours" : 
 				[
-					26,
-					27,
-					25,
 					35,
-					43,
+					26,
 					45,
-					36,
+					27,
 					34,
+					25,
+					43,
+					36,
 					44
 				],
 				"obstacle" : false,
@@ -975,10 +975,10 @@
 				"ID" : 36,
 				"neighbours" : 
 				[
-					26,
-					27,
 					35,
+					26,
 					45,
+					27,
 					36,
 					44
 				],
@@ -1000,12 +1000,12 @@
 				"ID" : 37,
 				"neighbours" : 
 				[
-					28,
 					29,
-					47,
-					46,
 					37,
-					38
+					38,
+					28,
+					46,
+					47
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1025,15 +1025,15 @@
 				"ID" : 38,
 				"neighbours" : 
 				[
-					28,
 					29,
-					47,
-					30,
-					39,
-					46,
-					48,
 					37,
-					38
+					38,
+					39,
+					28,
+					30,
+					46,
+					47,
+					48
 				],
 				"obstacle" : true,
 				"position" : 
@@ -1054,14 +1054,14 @@
 				"neighbours" : 
 				[
 					29,
-					47,
-					30,
+					38,
 					39,
 					31,
-					40,
+					30,
+					47,
 					48,
-					38,
-					49
+					49,
+					40
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1081,15 +1081,15 @@
 				"ID" : 40,
 				"neighbours" : 
 				[
-					30,
-					32,
-					39,
-					31,
-					40,
-					48,
 					41,
+					39,
+					32,
+					31,
+					30,
+					48,
+					49,
 					50,
-					49
+					40
 				],
 				"obstacle" : true,
 				"position" : 
@@ -1109,15 +1109,15 @@
 				"ID" : 41,
 				"neighbours" : 
 				[
+					51,
+					41,
 					33,
 					32,
-					42,
 					31,
-					40,
-					41,
-					51,
+					49,
+					42,
 					50,
-					49
+					40
 				],
 				"obstacle" : true,
 				"position" : 
@@ -1137,14 +1137,14 @@
 				"ID" : 42,
 				"neighbours" : 
 				[
-					33,
-					43,
-					32,
-					42,
-					34,
-					41,
 					52,
 					51,
+					41,
+					33,
+					34,
+					32,
+					43,
+					42,
 					50
 				],
 				"obstacle" : false,
@@ -1165,15 +1165,15 @@
 				"ID" : 43,
 				"neighbours" : 
 				[
-					33,
-					35,
-					43,
-					42,
-					34,
-					44,
 					52,
 					53,
-					51
+					51,
+					35,
+					33,
+					34,
+					43,
+					44,
+					42
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1193,15 +1193,15 @@
 				"ID" : 44,
 				"neighbours" : 
 				[
-					35,
-					43,
-					45,
-					36,
-					34,
-					44,
 					52,
 					53,
-					54
+					54,
+					35,
+					45,
+					34,
+					43,
+					36,
+					44
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1221,12 +1221,12 @@
 				"ID" : 45,
 				"neighbours" : 
 				[
+					53,
+					54,
 					35,
 					45,
 					36,
-					44,
-					53,
-					54
+					44
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1246,10 +1246,10 @@
 				"ID" : 46,
 				"neighbours" : 
 				[
-					47,
-					46,
 					37,
-					38
+					38,
+					46,
+					47
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1269,12 +1269,12 @@
 				"ID" : 47,
 				"neighbours" : 
 				[
-					47,
+					37,
+					38,
 					39,
 					46,
-					48,
-					37,
-					38
+					47,
+					48
 				],
 				"obstacle" : true,
 				"position" : 
@@ -1294,12 +1294,12 @@
 				"ID" : 48,
 				"neighbours" : 
 				[
-					47,
-					39,
-					40,
-					48,
 					38,
-					49
+					39,
+					47,
+					48,
+					49,
+					40
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1319,12 +1319,12 @@
 				"ID" : 49,
 				"neighbours" : 
 				[
-					39,
-					40,
-					48,
 					41,
+					39,
+					48,
+					49,
 					50,
-					49
+					40
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1344,12 +1344,12 @@
 				"ID" : 50,
 				"neighbours" : 
 				[
-					42,
-					40,
-					41,
 					51,
+					41,
+					49,
+					42,
 					50,
-					49
+					40
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1369,11 +1369,11 @@
 				"ID" : 51,
 				"neighbours" : 
 				[
-					43,
-					42,
-					41,
 					52,
 					51,
+					41,
+					43,
+					42,
 					50
 				],
 				"obstacle" : false,
@@ -1394,12 +1394,12 @@
 				"ID" : 52,
 				"neighbours" : 
 				[
-					43,
-					42,
-					44,
 					52,
 					53,
-					51
+					51,
+					43,
+					44,
+					42
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1419,12 +1419,12 @@
 				"ID" : 53,
 				"neighbours" : 
 				[
-					43,
-					45,
-					44,
 					52,
 					53,
-					54
+					54,
+					45,
+					43,
+					44
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1444,10 +1444,10 @@
 				"ID" : 54,
 				"neighbours" : 
 				[
-					45,
-					44,
 					53,
-					54
+					54,
+					45,
+					44
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1547,16 +1547,16 @@
 			],
 			"position" : 
 			[
-				-0.67615979909896851,
-				1.5735889673233032,
-				-0.037998054176568985
+				-0.68386417627334595,
+				0.21961455047130585,
+				-0.026542738080024719
 			],
 			"rotation" : 
 			[
-				0.010511681437492371,
-				-0.038968883454799652,
-				0.80505228042602539,
-				-0.59182924032211304
+				0.010218867100775242,
+				-0.039188064634799957,
+				0.80752116441726685,
+				-0.58844673633575439
 			],
 			"scale" : 
 			[
@@ -1655,15 +1655,15 @@
 			"position" : 
 			[
 				8.5638628005981445,
-				0.5199999213218689,
-				-9.9507579803466797
+				0.87746536731719971,
+				-9.1259784698486328
 			],
 			"rotation" : 
 			[
-				-0.00017039917293004692,
-				0.68106734752655029,
-				-0.00021542122703976929,
-				0.73222076892852783
+				-0.039507806301116943,
+				0.61047333478927612,
+				-0.41926389932632446,
+				0.67080503702163696
 			],
 			"scale" : 
 			[
@@ -1730,7 +1730,264 @@
 			"dampLinear" : 0.0,
 			"diff" : "Rock",
 			"emis" : "Robot_Emiss",
-			"emotion" : null,
+			"emotion" : 
+			[
+				{
+					"emotion" : "Anger",
+					"reaction" : 1.0,
+					"strength" : 0.04293803870677948
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Gratitude",
+					"reaction" : 0.5,
+					"strength" : 0.16340099275112152
+				}
+			],
 			"infMass" : false,
 			"isKinematic" : true,
 			"model" : "Robot",
@@ -1773,10 +2030,10 @@
 			],
 			"rotation" : 
 			[
+				-0.0,
+				0.54201483726501465,
 				0.0,
-				0.87940722703933716,
-				1.4012984643248171e-45,
-				-0.47607037425041199
+				0.84036892652511597
 			],
 			"scale" : 
 			[
@@ -1787,7 +2044,6 @@
 			"shader" : "default",
 			"spec" : "Robot_Spec1",
 			"type" : "npc",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -1845,7 +2101,49 @@
 			"dampLinear" : 0.0,
 			"diff" : "Robot",
 			"emis" : "Robot_Emiss",
-			"emotion" : null,
+			"emotion" : 
+			[
+				{
+					"emotion" : "Anger",
+					"reaction" : 1.0,
+					"strength" : 0.42373117804527283
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Gratitude",
+					"reaction" : 1.0,
+					"strength" : 0.88559573888778687
+				}
+			],
 			"infMass" : false,
 			"isKinematic" : true,
 			"model" : "Robot",
@@ -1902,7 +2200,6 @@
 			"shader" : "default",
 			"spec" : "Robot_Spec1",
 			"type" : "npc",
-			"updateFunc" : "",
 			"useGravity" : false
 		},
 		{
@@ -2541,9 +2838,9 @@
 			"rotation" : 
 			[
 				0.0,
-				0.0057934229262173176,
+				0.0057934233918786049,
 				0.0,
-				0.99998319149017334
+				0.99998331069946289
 			],
 			"scale" : 
 			[
@@ -4277,9 +4574,9 @@
 			"rotation" : 
 			[
 				0.0,
-				0.99968379735946655,
+				0.9996839165687561,
 				0.0,
-				-0.025144258514046669
+				-0.025144262239336967
 			],
 			"scale" : 
 			[
@@ -4928,9 +5225,9 @@
 			"rotation" : 
 			[
 				0.0,
-				-0.012898914515972137,
+				-0.012898916378617287,
 				0.0,
-				0.99991679191589355
+				0.99991691112518311
 			],
 			"scale" : 
 			[
@@ -8318,16 +8615,16 @@
 			],
 			"position" : 
 			[
-				-6.8167338371276855,
-				2.0375847816467285,
-				6.0057697296142578
+				-9.1923799514770508,
+				2.524498462677002,
+				-3.1094834804534912
 			],
 			"rotation" : 
 			[
 				0.0,
-				0.91704434156417847,
+				-0.31729966402053833,
 				0.0,
-				0.39878532290458679
+				0.94832533597946167
 			],
 			"scale" : 
 			[
@@ -8480,7 +8777,7 @@
 					{
 						"end" : 30,
 						"name" : "idle",
-						"speed" : 50.0,
+						"speed" : 20.0,
 						"start" : 0
 					},
 					{
