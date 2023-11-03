@@ -7,9 +7,8 @@ function init()
 	player = resources:GetGameObject("player");
 	expose_states();
 
-	robot = resources:GetGameObject("Robot");
-	robot.stateMachine:ChangeState(idle_state);
-	robot.stateMachine:ChangeGlobalState(global_state);
+	init_AI();
+
 	input:SetMouseLock(true);
 	print("init lua");
 end
@@ -368,4 +367,18 @@ function draw_instruction_gui()
 		GUI:Text("[ESC] Exit Game ",0);
 
 	GUI:EndEndWindow();
+end
+
+function init_AI()
+	robot = resources:GetGameObject("Robot");
+	robot.stateMachine:ChangeState(idle_state);
+	robot.stateMachine:ChangeGlobalState(global_state);
+
+	robot1 = resources:GetGameObject("Robot1");
+	robot1.stateMachine:ChangeState(idle_state);
+	robot1.stateMachine:ChangeGlobalState(global_state);
+
+	robot2 = resources:GetGameObject("Robot2");
+	robot2.stateMachine:ChangeState(idle_state);
+	robot2.stateMachine:ChangeGlobalState(global_state);
 end

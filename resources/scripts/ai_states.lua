@@ -24,7 +24,7 @@ end
 
 function global_enter(ent, dt)
 	ent:AddEmotion("Bored");
-	ent:GetEmotion("Bored").emotionStrength = 0.0;
+	ent:GetEmotion("Bored").emotionStrength = math.random();
 end
 
 function global_update(ent, dt)
