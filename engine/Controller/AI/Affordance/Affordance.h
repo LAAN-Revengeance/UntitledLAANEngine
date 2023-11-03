@@ -85,6 +85,12 @@ public:
 	float GetStrength() { return _strength; }
 
 	/**
+	 * @brief Get if this affordance is dangerous
+	 * @return id this affordance is dangerous
+	*/
+	float GetDanger() { return _dangerous; }
+
+	/**
 	 * @brief Get a description of this affordance
 	 * @return the ID of this affordance
 	*/
@@ -108,6 +114,9 @@ protected:
 
 	//strength of current affordance
 	float _strength;
+
+	//if _parentObject can perform this affordance
+	bool _dangerous = false;
 
 	///the owner of this affordance data
 	GameObject* _parentObject = nullptr;

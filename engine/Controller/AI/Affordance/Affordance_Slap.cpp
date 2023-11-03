@@ -7,6 +7,7 @@ AffordanceSlap::AffordanceSlap(GameObject* go)
 {
 	_parentObject = go;
 	_strength = 0.5;
+	_dangerous = true;
 }
 
 AffordanceSlap::~AffordanceSlap()
@@ -21,13 +22,10 @@ void AffordanceSlap::Activate(GameObject* go)
 
 	NPC* npc = dynamic_cast<NPC*>(go);
 	if (npc) {
-		OCCModel occModel;
 
-		Personality personality = npc->GetPersonality();
-
-		occModel.EvaluateAffordance(GetDescriptor(), GetType(), 5, emotion);
+		OCCModel::EvaluateAffordance(GetDescriptor(), GetType(), GetDanger(), emotion);
 		npc->AddEmotion(emotion);
-		occModel.CalcEmotionStrength(GetStrength(), emotion, npc->GetEmotion(emotion), npc->GetPersonality());
+		OCCModel::CalcEmotionStrength(GetStrength(), emotion, npc->GetEmotion(emotion), npc->GetPersonality());
 
 		std::cout << "Affordance Strength = " << GetStrength() << std::endl;
 		std::cout << "Emotion Strength = " << npc->GetEmotion(emotion).emotionStrength << std::endl;
