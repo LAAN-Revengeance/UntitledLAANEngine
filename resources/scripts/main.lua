@@ -16,14 +16,28 @@ end
 
 --main update function, called every frame
 function update(deltaTime)
-	keyInput(deltaTime)
-	mouseMoveFunc(deltaTime)
+	
 
 	--show emotional state of NPC looking at
 	object = physics:RaycastNPC(scene:GetCamera().position,scene:GetCamera().front,20);
-	if(not (object == nil))
+	if(not (object == nil) and not exitMenuOpen)
 	then
 		draw_emotion_gui(object);
+	end
+
+	--toggle exit splash
+	if(input:GetKeyDown(KEY_ESCAPE))
+	then
+		exitMenuOpen = not exitMenuOpen;
+	end
+	
+	--use player inputs or show exit
+	if(not exitMenuOpen)
+	then
+		keyInput(deltaTime);
+		mouseMoveFunc(deltaTime);
+	else
+		showExitSplash();
 	end
 	
 end
@@ -215,6 +229,7 @@ function keyInput(dt)
 			end
 		end
 	end
+
 end
 
 lastX = input:GetMouseX();
@@ -304,41 +319,27 @@ function draw_emotion_gui(go)
 	GUI:EndGUI();
 end
 
+exitMenuOpen = false;
+function showExitSplash()
+	input:SetMouseLock(false);
+	GUI:StartGUI();
 
-function npc_wander(go,dt)
-	
-	if(not go:GetIsMoving())
-	then
-		go:GetAnimation():Animate("run")
-		go:MoveToPoint(go:FindRandomNode());
-	end
+	wWidth = GUI:GetWindowWidth();
+	wHeight = GUI:GetWindowHeight();
+	wRatio = wWidth/wHeight;
 
-end
+	sWidth = 0.3;
+	sHeight = sWidth * wRatio;
 
-function npc_dynamic(go,dt)
-	
-	if(not go:GetIsMoving())
-	then
-		go:GetAnimation():Animate("run")
-		go:MoveToPoint(go:FindRandomNode());
-	end
+	GUI:StartWindow("ExitSplash",false,sWidth,sHeight + 0.07,0.35,sWidth/ wRatio);
 
-	local anger = go:GetEmotion("Anger").emotionStrength;
-	local fear = go:GetEmotion("Anger").emotionStrength;
-	local grat = go:GetEmotion("Gratitude").emotionStrength;
-	local hope = go:GetEmotion("Hope").emotionStrength;
-
-	if((anger + fear + grat + hope) > 0)
-	then
-		if((anger > grat) or (anger > hope))
+		if(GUI:ImageButton("ExitSplash",(wWidth * sWidth),(wHeight * sHeight),0.5,0.5))
 		then
-			print("angery");
+			CloseWindow(true);
 		end
 
-		if((anger < grat) or (anger < hope))
-		then
-			print("happy");
-		end
-	end
+	GUI:EndEndWindow();
+
+	GUI:EndGUI();
 
 end
