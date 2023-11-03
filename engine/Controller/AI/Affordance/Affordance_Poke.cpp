@@ -22,11 +22,10 @@ void AffordancePoke::Activate(GameObject* go)
 	NPC* npc = dynamic_cast<NPC*>(go);
 	if (npc) {
 		OCCModel occModel;
-		float affordanceStrength;
 
 		Personality personality = npc->GetPersonality();
 
-		occModel.EvaluateAffordance(GetDescriptor(), 0, emotion, affordanceStrength);
+		occModel.EvaluateAffordance(GetDescriptor(), GetType(), 5, emotion);
 		npc->AddEmotion(emotion);
 		occModel.CalcEmotionStrength(affordanceStrength, emotion, npc->GetEmotion(emotion), npc->GetPersonality());
 

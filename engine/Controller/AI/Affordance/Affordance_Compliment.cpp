@@ -22,11 +22,10 @@ void AffordanceCompliment::Activate(GameObject* go)
 	if (npc) {
 		OCCModel occModel;
 		std::string emotion;
-		float affordanceStrength;
 
 		Personality personality = npc->GetPersonality();
 
-		occModel.EvaluateAffordance(GetDescriptor(), 0, emotion, affordanceStrength);
+		occModel.EvaluateAffordance(GetDescriptor(), GetType(), 5, emotion);
 		npc->AddEmotion(emotion);
 		occModel.CalcEmotionStrength(affordanceStrength, emotion, npc->GetEmotion(emotion), personality);
 

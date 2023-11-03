@@ -13,7 +13,11 @@ public:
 
 	AffordanceDescriptor GetDescriptor()const override { return descriptor; }
 
+	AffordanceDescriptor GetType()const override { return type; }
+
 private:
 	AffordanceDescriptor descriptor = "blank";
+
+	AffordanceDescriptor type = "blank";
 };
 #pragma once
