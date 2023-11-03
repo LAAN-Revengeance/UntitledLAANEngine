@@ -18,7 +18,7 @@ function update(deltaTime)
 	
 
 	--show emotional state of NPC looking at
-	local object = physics:RaycastNPC(scene:GetCamera().position,scene:GetCamera().front,5);
+	object = physics:RaycastNPC(scene:GetCamera().position,scene:GetCamera().front,20);
 	if(not exitMenuOpen)
 	then
 		draw_instruction_gui();
@@ -99,7 +99,7 @@ function keyInput(dt)
 		then
 			player.affordances:GetAffordance("sit"):Deactivate();
 		else
-			local object = physics:Raycast(camera.position,camera.front,3);
+			object = physics:Raycast(camera.position,camera.front,3);
 			if(not(object == nil))
 			then
 				player.affordances:GetAffordance("sit"):Activate(object);
@@ -113,7 +113,7 @@ function keyInput(dt)
 		then
 			player.affordances:GetAffordance("punch"):Deactivate();
 		else
-			local object = physics:Raycast(camera.position,camera.front,3);
+			object = physics:Raycast(camera.position,camera.front,3);
 			if(not(object == nil))
 			then
 				player.affordances:GetAffordance("punch"):Activate(object);
@@ -127,7 +127,7 @@ function keyInput(dt)
 		then
 			player.affordances:GetAffordance("poke"):Deactivate();
 		else
-			local object = physics:Raycast(camera.position,camera.front,3);
+			object = physics:Raycast(camera.position,camera.front,3);
 			if(not(object == nil))
 			then
 				player.affordances:GetAffordance("poke"):Activate(object);
@@ -141,7 +141,7 @@ function keyInput(dt)
 		then
 			player.affordances:GetAffordance("slap"):Deactivate();
 		else
-			local object = physics:Raycast(camera.position,camera.front,3);
+			object = physics:Raycast(camera.position,camera.front,3);
 			if(not(object == nil))
 			then
 				player.affordances:GetAffordance("slap"):Activate(object);
@@ -155,7 +155,7 @@ function keyInput(dt)
 		then
 			player.affordances:GetAffordance("pickup"):Deactivate();
 		else
-			local object = physics:Raycast(camera.position,camera.front,3);
+			object = physics:Raycast(camera.position,camera.front,3);
 			if(not(object == nil))
 			then
 				player.affordances:GetAffordance("pickup"):Activate(object);
@@ -168,7 +168,7 @@ function keyInput(dt)
 		if(player.affordances:GetAffordance("pickup"):GetIsActive())
 		then
 			player.affordances:GetAffordance("pickup"):Deactivate();
-			local object = physics:Raycast(camera.position,camera.front,3);
+			object = physics:Raycast(camera.position,camera.front,3);
 			if(not(object == nil))
 			then
 				object.physicsBody:ApplyForceImpulse(forward.x * 3,forward.y * 3,forward.z * 3);
@@ -183,7 +183,7 @@ function keyInput(dt)
 		then
 			player.affordances:GetAffordance("giveMoney"):Deactivate();
 		else
-			local object = physics:Raycast(camera.position,camera.front,5);
+			object = physics:Raycast(camera.position,camera.front,5);
 			if(not(object == nil))
 			then
 				player.affordances:GetAffordance("giveMoney"):Activate(object);
@@ -197,7 +197,7 @@ function keyInput(dt)
 		then
 			player.affordances:GetAffordance("compliment"):Deactivate();
 		else
-			local object = physics:Raycast(camera.position,camera.front,5);
+			object = physics:Raycast(camera.position,camera.front,5);
 			if(not(object == nil))
 			then
 				player.affordances:GetAffordance("compliment"):Activate(object);
@@ -211,7 +211,7 @@ function keyInput(dt)
 		then
 			player.affordances:GetAffordance("threaten"):Deactivate();
 		else
-			local object = physics:Raycast(camera.position,camera.front,5);
+			object = physics:Raycast(camera.position,camera.front,5);
 			if(not(object == nil))
 			then
 				player.affordances:GetAffordance("threaten"):Activate(object);
@@ -225,7 +225,7 @@ function keyInput(dt)
 		then
 			player.affordances:GetAffordance("generousOffer"):Deactivate();
 		else
-			local object = physics:Raycast(camera.position,camera.front,5);
+			object = physics:Raycast(camera.position,camera.front,5);
 			if(not(object == nil))
 			then
 				player.affordances:GetAffordance("generousOffer"):Activate(object);
