@@ -20,9 +20,13 @@ function update(deltaTime)
 
 	--show emotional state of NPC looking at
 	object = physics:RaycastNPC(scene:GetCamera().position,scene:GetCamera().front,20);
-	if(not (object == nil) and not exitMenuOpen)
+	if(not exitMenuOpen)
 	then
-		draw_emotion_gui(object);
+		draw_instruction_gui();
+		if(not (object == nil))
+		then
+			draw_emotion_gui(object);
+		end
 	end
 
 	--toggle exit splash
@@ -267,8 +271,6 @@ end
 
 function draw_emotion_gui(go)
 
-	GUI:StartGUI();
-
 	wWidth = GUI:GetWindowWidth();
 	wHeight = GUI:GetWindowHeight();
 	wRatio = wWidth/wHeight;
@@ -312,17 +314,12 @@ function draw_emotion_gui(go)
 		GUI:Text("Gratitude:"..grat);
 		GUI:Text("Hope:"..hope);
 
-
-
 	GUI:EndEndWindow();
-
-	GUI:EndGUI();
 end
 
 exitMenuOpen = false;
 function showExitSplash()
 	input:SetMouseLock(false);
-	GUI:StartGUI();
 
 	wWidth = GUI:GetWindowWidth();
 	wHeight = GUI:GetWindowHeight();
@@ -339,7 +336,36 @@ function showExitSplash()
 		end
 
 	GUI:EndEndWindow();
+end
 
-	GUI:EndGUI();
+function draw_instruction_gui()
+	GUI:StartWindow("poop",true,0.15,0.3,0,0);
+	
+		GUI:Text("----Affordance Controls----",0);
+		GUI:Tab(10);
 
+		GUI:Text("Interation Affodances:",0);
+		GUI:Text("[E] Sit",0);
+		GUI:Text("[F] Pickup",0);
+
+
+		GUI:Text("Negative Affodances:",0);
+		GUI:Text("[I] Poke",0);
+		GUI:Text("[O] Slap",0);
+		GUI:Text("[P] Punch",0);
+
+		GUI:Text("[T] Threaten",0);
+
+		GUI:Text("Positive Affodances:",0);
+		GUI:Text("[N] compliment",0);
+		GUI:Text("[M] Give Money",0);
+
+		GUI:Tab(10);
+		GUI:Text("----Player Controls----",0);
+		GUI:Tab(10);
+		GUI:Text("[W][A][S][D] Move ",0);
+		GUI:Text("[Mouse] Look ",0);
+		GUI:Text("[ESC] Exit Game ",0);
+
+	GUI:EndEndWindow();
 end

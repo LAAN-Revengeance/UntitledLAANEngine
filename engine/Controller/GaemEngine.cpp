@@ -37,6 +37,7 @@ void GameEngine::Update(double deltaTime)
 {
 	if (!scene || !isRunning)
 		return;
+	guiRenderer.StartGUI();
 
 	scene->UpdateFunction.Execute(deltaTime);
 	scene->physicsWorld.Update(deltaTime);
@@ -50,6 +51,8 @@ void GameEngine::Update(double deltaTime)
 
 	if (msgDispatcher)
 		msgDispatcher->SendMsgQueue();
+
+	guiRenderer.EndGUI();
 }
 
 void GameEngine::Draw(double deltaTime)
