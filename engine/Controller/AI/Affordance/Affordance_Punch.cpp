@@ -6,6 +6,8 @@
 AffordancePunch::AffordancePunch(GameObject* go)
 {
 	_parentObject = go;
+	_strength = 1.0;
+	_dangerous = true;
 }
 
 AffordancePunch::~AffordancePunch()
@@ -18,19 +20,18 @@ void AffordancePunch::Activate(GameObject* go)
 	_otherObject = go;
 
 	std::string emotion;
-	float affordanceStrength;
 
 	NPC* npc = dynamic_cast<NPC*>(go);
 	if (npc) {
-
+    
 		npc->SetLastInterracted(_parentObject);
 		Personality personality = npc->GetPersonality();
-
-		OCCModel::EvaluateAffordance(GetType(), 0, emotion, affordanceStrength);
+    
+    OCCModel::EvaluateAffordance(GetDescriptor(), GetType(), GetDanger(), emotion);
 		npc->AddEmotion(emotion);
-		OCCModel::CalcEmotionStrength(affordanceStrength, emotion, npc->GetEmotion(emotion), npc->GetPersonality());
+		OCCModel::CalcEmotionStrength(GetStrength(), emotion, npc->GetEmotion(emotion), npc->GetPersonality());
 
-		std::cout << "Affordance Strength = " << affordanceStrength << std::endl;
+		std::cout << "Affordance Strength = " << GetStrength() << std::endl;
 		std::cout << "Emotion Strength = " << npc->GetEmotion(emotion).emotionStrength << std::endl;
 		std::cout << "Reaction Strength = " << npc->GetEmotion(emotion).reactionStrength << std::endl;
 	}

@@ -758,8 +758,8 @@
 					20,
 					28,
 					29,
-					37,
-					38
+					38,
+					37
 				],
 				"obstacle" : true,
 				"position" : 
@@ -787,7 +787,7 @@
 					29,
 					30,
 					37,
-					38
+					39
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1005,7 +1005,7 @@
 					28,
 					29,
 					37,
-					38
+					47
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1033,7 +1033,8 @@
 					29,
 					30,
 					37,
-					38
+					39,
+					47
 				],
 				"obstacle" : true,
 				"position" : 
@@ -1246,10 +1247,10 @@
 				"ID" : 46,
 				"neighbours" : 
 				[
-					47,
 					46,
+					38,
 					37,
-					38
+					47
 				],
 				"obstacle" : false,
 				"position" : 
@@ -1273,8 +1274,11 @@
 					47,
 					46,
 					48,
+					46,
+					38,
 					37,
-					38
+					39,
+					47
 				],
 				"obstacle" : true,
 				"position" : 
@@ -1419,6 +1423,9 @@
 				"ID" : 53,
 				"neighbours" : 
 				[
+					54,
+					53,
+					52,
 					43,
 					44,
 					45,
@@ -1447,7 +1454,8 @@
 					44,
 					45,
 					53,
-					54
+					44,
+					45
 				],
 				"obstacle" : false,
 				"position" : 
@@ -2158,7 +2166,99 @@
 			"dampLinear" : 0.0,
 			"diff" : "Robot",
 			"emis" : "Robot_Emiss",
-			"emotion" : null,
+			"emotion" : 
+			[
+				{
+					"emotion" : "Fear",
+					"reaction" : 0.47000002861022949,
+					"strength" : 1.0
+				},
+				{
+					"emotion" : "Fear",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Hope",
+					"reaction" : 1.0,
+					"strength" : 1.0
+				},
+				{
+					"emotion" : "Hope",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Hope",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Fear",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 1.0,
+					"strength" : 1.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				},
+				{
+					"emotion" : "Anger",
+					"reaction" : 0.0,
+					"strength" : 0.0
+				}
+			],
 			"infMass" : false,
 			"isKinematic" : true,
 			"model" : "Robot",
@@ -2166,7 +2266,7 @@
 			"name" : "Robot1",
 			"personality" : 
 			{
-				"agreeableness" : 92.0,
+				"agreeableness" : 90.0,
 				"conscientiousness" : 60.0,
 				"extraversion" : 60.0,
 				"neuroticism" : 60.0,
@@ -6305,7 +6405,7 @@
 			[
 				0.0,
 				0.0,
-				-0.99999988079071045
+				-1.0
 			],
 			"rotation" : 
 			[

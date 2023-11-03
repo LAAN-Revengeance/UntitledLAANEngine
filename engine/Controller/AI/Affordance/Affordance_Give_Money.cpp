@@ -6,6 +6,8 @@
 AffordanceGiveMoney::AffordanceGiveMoney(GameObject* go)
 {
 	_parentObject = go;
+	_strength = 1.0;
+	_dangerous = false;
 }
 
 AffordanceGiveMoney::~AffordanceGiveMoney()
@@ -19,18 +21,14 @@ void AffordanceGiveMoney::Activate(GameObject* go)
 
 	NPC* npc = dynamic_cast<NPC*>(go);
 	if (npc) {
-		OCCModel occModel;
-		std::string emotion;
-		float affordanceStrength;
+		std::string emotion; 
 
-		Personality personality = npc->GetPersonality();
-
-		occModel.EvaluateAffordance(GetType(), 0, emotion, affordanceStrength);
+		OCCModel::EvaluateAffordance(GetDescriptor(), GetType(), GetDanger(), emotion);
 		npc->AddEmotion(emotion);
-		occModel.CalcEmotionStrength(affordanceStrength, emotion, npc->GetEmotion(emotion), personality);
+		OCCModel::CalcEmotionStrength(GetStrength(), emotion, npc->GetEmotion(emotion), npc->GetPersonality());
 
 		std::cout << "Emotion = " << emotion << std::endl;
-		std::cout << "Affordance Strength = " << affordanceStrength << std::endl;
+		std::cout << "Affordance Strength = " << GetStrength() << std::endl;
 		std::cout << "Emotion Strength = " << npc->GetEmotion(emotion).emotionStrength << std::endl;
 		std::cout << "Reaction Strength = " << npc->GetEmotion(emotion).reactionStrength << std::endl;
 	}

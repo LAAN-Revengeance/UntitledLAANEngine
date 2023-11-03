@@ -23,7 +23,7 @@ Affordance* AffordanceController::GetAffordanceString(const std::string type)
 {
 	for (auto& affordance : _affordances)
 	{
-		if (affordance->GetType() == type) {
+		if (affordance->GetDescriptor() == type) {
 			return affordance;
 		}
 	}
