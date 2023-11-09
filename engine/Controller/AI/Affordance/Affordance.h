@@ -20,6 +20,7 @@ public:
 	
 	/**
 	 * @brief Constructor. Affordances require an owner to function
+	 * @param owner object that owns this affordance
 	*/
 	Affordance(GameObject* owner) {};
 
@@ -35,7 +36,7 @@ public:
 	virtual void Activate(GameObject* go) = 0;
 
 	/**
-	 * @brief Disable this affordances effect on the currently object
+	 * @brief Disable this affordances effect on the current object
 	 * this affordance is acting on.
 	*/
 	virtual void Deactivate() = 0;
@@ -98,10 +99,14 @@ public:
 
 	/**
 	 * @brief Get a description of this affordance
-	 * @return the ID of this affordance
+	 * @return the descriptor of this affordance
 	*/
 	virtual AffordanceDescriptor GetDescriptor()const = 0;
 
+	/**
+	 * @brief Get the type of this affordance, used to determine if affordance prospect is relevant
+	 * @return the descriptor of this affordance
+	*/
 	virtual AffordanceDescriptor GetType()const = 0;
 
 protected:

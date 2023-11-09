@@ -298,7 +298,6 @@ void SceneEditor::DrawHeighrarchy()
 		}
 	}
 
-
 	//Directional Lights
 	int deleteIndex = -1;
 
@@ -462,7 +461,6 @@ void SceneEditor::DrawInspector()
 					ImGui::Dummy(ImVec2(0.0f, 20.0f));
 				}
 				
-
 				//Rendering SETTINGS
 				if (ImGui::CollapsingHeader("-- Rendering --")) {
 					static std::string selectedShader;
@@ -473,14 +471,12 @@ void SceneEditor::DrawInspector()
 						inspectedObject->isCastShadow = !inspectedObject->isCastShadow;
 					}
 
-
 					selectedShader = "";
 					if (inspectedObject->shader)
 						selectedShader = inspectedObject->shader->name;
 					selectedMesh = "";
 					if (inspectedObject->model_data)
 						selectedMesh = inspectedObject->model_data->name;
-
 
 					ImGui::Text("Shader:");
 					if (ImGui::BeginCombo("##objectShader", selectedShader.c_str()))
@@ -575,24 +571,18 @@ void SceneEditor::DrawInspector()
 					ImGui::Dummy(ImVec2(0.0f, 20.0f));
 				}
 				
-
 				//PHYSICS SETTINGS
 				if (ImGui::CollapsingHeader("-- Physics --")) {
 					if (inspectedObject->physicsBody)
+					{
 						ImGui::Text((std::string("PhysicsBody Position: ") + std::to_string(inspectedObject->physicsBody->GetPosition().x) + " | " + std::to_string(inspectedObject->physicsBody->GetPosition().y) + " | " + std::to_string(inspectedObject->physicsBody->GetPosition().z)).c_str());
-					if (inspectedObject->physicsBody)
 						ImGui::Text((std::string("PhysicsBody Velocity: ") + std::to_string(inspectedObject->physicsBody->velocity.x) + " | " + std::to_string(inspectedObject->physicsBody->velocity.y) + " | " + std::to_string(inspectedObject->physicsBody->velocity.z)).c_str());
-
-					if (inspectedObject->physicsBody)
 						ImGui::Text((std::string("PhysicsBody Angular: ") + std::to_string(inspectedObject->physicsBody->angularVelocity.x) + " | " + std::to_string(inspectedObject->physicsBody->angularVelocity.y) + " | " + std::to_string(inspectedObject->physicsBody->angularVelocity.z)).c_str());
-					if (inspectedObject->physicsBody)
 						ImGui::Text((std::string("Total Mass: ") + std::to_string(inspectedObject->physicsBody->GetMass())).c_str());
-					if (inspectedObject->physicsBody)
 						ImGui::Text((std::string("Inverse Mass: ") + std::to_string(inspectedObject->physicsBody->GetInverseMass())).c_str());
-					if (inspectedObject->physicsBody)
 						ImGui::Text((std::string("ID: ") + std::to_string(inspectedObject->physicsBody->GetID())).c_str());
 
-					if (inspectedObject->physicsBody)
+
 						if (ImGui::RadioButton("Is Kinematic", inspectedObject->physicsBody->isKinematic))
 						{
 							inspectedObject->physicsBody->isKinematic = !inspectedObject->physicsBody->isKinematic;
@@ -602,7 +592,6 @@ void SceneEditor::DrawInspector()
 							}
 						}
 
-					if (inspectedObject->physicsBody)
 						if (ImGui::RadioButton("Use Gravity", inspectedObject->physicsBody->useGravity))
 						{
 							inspectedObject->physicsBody->useGravity = !inspectedObject->physicsBody->useGravity;
@@ -612,14 +601,11 @@ void SceneEditor::DrawInspector()
 							}
 						}
 
-					if (inspectedObject->physicsBody) {
 						if (ImGui::Button("Set Mass Infinite"))
 						{
 							inspectedObject->physicsBody->SetMassInf();
 						}
-					}
 
-					if (inspectedObject->physicsBody) {
 						float nMass = inspectedObject->physicsBody->GetMass();
 						if (ImGui::DragFloat("Mass##setmass", &nMass, 0.01f, 0.0f)) {
 							inspectedObject->physicsBody->SetMass(nMass);
@@ -640,111 +626,108 @@ void SceneEditor::DrawInspector()
 							inspectedObject->physicsBody->SetAngularDampening(naDamp);
 						}
 
-
-					}
-
-
-					//Box
-					if (ImGui::Button("Add Box Collider##box")) {
-						if (!inspectedObject->physicsBody)
+						//Box
+						if (ImGui::Button("Add Box Collider##box")) {
+							if (!inspectedObject->physicsBody)
 								engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
-						engine->scene->physicsWorld.AddBoxCollider(*inspectedObject->physicsBody, { 1.0f,1.0f,1.0f });
-						inspectedObject->physicsBody->CalcCenterOfMass();
-					}
-
-					//Sphere
-					if (ImGui::Button("Add Sphere Collider##sphere")) {
-						if (!inspectedObject->physicsBody)
-							engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
-						engine->scene->physicsWorld.AddSphereCollider(*inspectedObject->physicsBody, 1.0f);
-						inspectedObject->physicsBody->CalcCenterOfMass();
-					}
-
-					//Capsule
-					if (ImGui::Button("Add Capsule Collider##capsule")) {
-						if (!inspectedObject->physicsBody)
-							engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
-						engine->scene->physicsWorld.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f, 2.0f);
-						inspectedObject->physicsBody->CalcCenterOfMass();
-					}
-
-					static const char* colliderNames[4] = { "Box Collider","Sphere Collider", "Capsule Collider", "Terrain Collider" };
-					if (inspectedObject->physicsBody) {
-
-						PhysicsBody* pb = inspectedObject->physicsBody;
-						unsigned int i = 0;
-						for (auto& it : pb->colliders)
-						{
-
-							std::string nodeName = std::string("##") + std::to_string(i);
-							if (ImGui::TreeNodeEx((std::string(colliderNames[it.GetType() - 1]) + nodeName).c_str())) {
-								glm::vec3 nOffset = it.GetOffset();
-								if (ImGui::DragFloat3((std::string("position") + nodeName).c_str(), &nOffset.x, 0.01f))
-								{
-									it.SetOffset(nOffset);
-									pb->CalcCenterOfMass();
-								}
-
-								glm::vec3 nRotation = it.GetRotation();
-								if (ImGui::DragFloat3((std::string("rotation") + nodeName).c_str(), &nRotation.x, 0.01f))
-								{
-									it.SetRotation(nRotation);
-									pb->CalcCenterOfMass();
-								}
-
-								float nMass = it.GetMass();
-								if (ImGui::DragFloat((std::string("Mass") + nodeName).c_str(), &nMass, 0.01f))
-								{
-									it.SetMass(nMass);
-									pb->CalcCenterOfMass();
-								}
-
-								if (it.GetType() == COLLIDER_BOX) {
-
-									glm::vec3 nScale = static_cast<BoxCollider*>(&it)->GetScale();
-									if (ImGui::DragFloat3((std::string("scale") + nodeName).c_str(), &nScale.x, 0.01f))
-									{
-										static_cast<BoxCollider*>(&it)->SetScale(nScale);
-									}
-								}
-
-								if (it.GetType() == COLLIDER_SPHERE) {
-
-									float nRadius = static_cast<SphereCollider*>(&it)->GetRadius();
-									if (ImGui::DragFloat((std::string("Radius") + nodeName).c_str(), &nRadius, 0.01f))
-									{
-										if (nRadius > 0)
-											static_cast<SphereCollider*>(&it)->SetRadius(nRadius);
-									}
-								}
-
-								if (it.GetType() == COLLIDER_CAPSULE) {
-
-									float nRadius = static_cast<CapsuleCollider*>(&it)->GetRadius();
-									float nHeight = static_cast<CapsuleCollider*>(&it)->GetHeight();
-									if (ImGui::DragFloat((std::string("Radius") + nodeName).c_str(), &nRadius, 0.01f))
-									{
-										if (nRadius > 0)
-											static_cast<CapsuleCollider*>(&it)->SetRadius(nRadius);
-									}
-									if (ImGui::DragFloat((std::string("Height") + nodeName).c_str(), &nHeight, 0.01f))
-									{
-										if (nHeight > 0)
-											static_cast<CapsuleCollider*>(&it)->SetHeight(nHeight);
-									}
-								}
-
-								if (ImGui::Button((std::string("Delete") + nodeName).c_str()))
-								{
-									pb->DeleteCollider(i);
-									inspectedObject->physicsBody->CalcCenterOfMass();
-								}
-								ImGui::TreePop();
-							}
-							++i;
+							engine->scene->physicsWorld.AddBoxCollider(*inspectedObject->physicsBody, { 1.0f,1.0f,1.0f });
+							inspectedObject->physicsBody->CalcCenterOfMass();
 						}
+
+						//Sphere
+						if (ImGui::Button("Add Sphere Collider##sphere")) {
+							if (!inspectedObject->physicsBody)
+								engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
+							engine->scene->physicsWorld.AddSphereCollider(*inspectedObject->physicsBody, 1.0f);
+							inspectedObject->physicsBody->CalcCenterOfMass();
+						}
+
+						//Capsule
+						if (ImGui::Button("Add Capsule Collider##capsule")) {
+							if (!inspectedObject->physicsBody)
+								engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
+							engine->scene->physicsWorld.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f, 2.0f);
+							inspectedObject->physicsBody->CalcCenterOfMass();
+						}
+
+						static const char* colliderNames[4] = { "Box Collider","Sphere Collider", "Capsule Collider", "Terrain Collider" };
+						if (inspectedObject->physicsBody) {
+
+							PhysicsBody* pb = inspectedObject->physicsBody;
+							unsigned int i = 0;
+							for (auto& it : pb->colliders)
+							{
+
+								std::string nodeName = std::string("##") + std::to_string(i);
+								if (ImGui::TreeNodeEx((std::string(colliderNames[it.GetType() - 1]) + nodeName).c_str())) {
+									glm::vec3 nOffset = it.GetOffset();
+									if (ImGui::DragFloat3((std::string("position") + nodeName).c_str(), &nOffset.x, 0.01f))
+									{
+										it.SetOffset(nOffset);
+										pb->CalcCenterOfMass();
+									}
+
+									glm::vec3 nRotation = it.GetRotation();
+									if (ImGui::DragFloat3((std::string("rotation") + nodeName).c_str(), &nRotation.x, 0.01f))
+									{
+										it.SetRotation(nRotation);
+										pb->CalcCenterOfMass();
+									}
+
+									float nMass = it.GetMass();
+									if (ImGui::DragFloat((std::string("Mass") + nodeName).c_str(), &nMass, 0.01f))
+									{
+										it.SetMass(nMass);
+										pb->CalcCenterOfMass();
+									}
+
+									if (it.GetType() == COLLIDER_BOX) {
+
+										glm::vec3 nScale = static_cast<BoxCollider*>(&it)->GetScale();
+										if (ImGui::DragFloat3((std::string("scale") + nodeName).c_str(), &nScale.x, 0.01f))
+										{
+											static_cast<BoxCollider*>(&it)->SetScale(nScale);
+										}
+									}
+
+									if (it.GetType() == COLLIDER_SPHERE) {
+
+										float nRadius = static_cast<SphereCollider*>(&it)->GetRadius();
+										if (ImGui::DragFloat((std::string("Radius") + nodeName).c_str(), &nRadius, 0.01f))
+										{
+											if (nRadius > 0)
+												static_cast<SphereCollider*>(&it)->SetRadius(nRadius);
+										}
+									}
+
+									if (it.GetType() == COLLIDER_CAPSULE) {
+
+										float nRadius = static_cast<CapsuleCollider*>(&it)->GetRadius();
+										float nHeight = static_cast<CapsuleCollider*>(&it)->GetHeight();
+										if (ImGui::DragFloat((std::string("Radius") + nodeName).c_str(), &nRadius, 0.01f))
+										{
+											if (nRadius > 0)
+												static_cast<CapsuleCollider*>(&it)->SetRadius(nRadius);
+										}
+										if (ImGui::DragFloat((std::string("Height") + nodeName).c_str(), &nHeight, 0.01f))
+										{
+											if (nHeight > 0)
+												static_cast<CapsuleCollider*>(&it)->SetHeight(nHeight);
+										}
+									}
+
+									if (ImGui::Button((std::string("Delete") + nodeName).c_str()))
+									{
+										pb->DeleteCollider(i);
+										inspectedObject->physicsBody->CalcCenterOfMass();
+									}
+									ImGui::TreePop();
+								}
+								++i;
+							}
+						}
+						ImGui::Dummy(ImVec2(0.0f, 20.0f));
 					}
-					ImGui::Dummy(ImVec2(0.0f, 20.0f));
 				}
 
 				//affordance Settings
@@ -901,7 +884,6 @@ void SceneEditor::DrawInspector()
 
 			static GaemPathing::PathNode* testStartNode = nullptr;
 			static GaemPathing::PathNode* testEndNode = nullptr;
-
 
 			static std::string startName = "";
 			if (testStartNode) {
@@ -1121,9 +1103,6 @@ void SceneEditor::DrawInspector()
 
 		ImGui::EndTabBar();
 	}
-
-
-
 	
 	guirenderer.EndWindow();
 }
@@ -1244,7 +1223,6 @@ void SceneEditor::DrawMenu()
 	float buttonWidth = 80;
 	ImGui::SetCursorPosX((viewport->WorkSize.x/2) - (((buttonWidth + ImGui::GetStyle().ItemSpacing.x) * 3)/2));
 	
-
 	static ImVec4 baseCol = ImGui::GetStyle().Colors[ImGuiCol_Button];
 	static ImVec4 selectedCol = ImGui::GetStyle().Colors[ImGuiCol_Header];
 	static ImVec4 pButtonCol = baseCol;
@@ -1492,8 +1470,6 @@ void SceneEditor::DrawResources()
 			}
 			ImGui::EndChild();
 
-
-
 			ImGui::Columns(1);
 			ImGui::EndTabItem();
 		}
@@ -1593,7 +1569,6 @@ void SceneEditor::DrawDebug()
 	}
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 	ImGui::Text("Console Output:");
-
 
 	bool bErr = DebugLogger::GetLogLevel(GAEM_ERROR);
 	bool bLog = DebugLogger::GetLogLevel(GAEM_LOG);
@@ -1708,7 +1683,6 @@ void SceneEditor::DrawNPCInspector()
 	NPC* inspectedNPC = static_cast<NPC*>(inspectedObject);
 	if (!inspectedNPC) return;
 
-
 	//NPC Path Finding settings
 	if (ImGui::CollapsingHeader("-- Path Finding --")) {
 		
@@ -1814,7 +1788,6 @@ void SceneEditor::CameraControl(double deltaTime)
 	}
 	input.SetMouseLock(true);
 	
-
 	float baseSpeed = 0.05;
 	float camSpeed = baseSpeed;
 	if (input.GetKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
@@ -1840,7 +1813,6 @@ void SceneEditor::CameraControl(double deltaTime)
 		camera->position -= glm::vec3(0, 1, 0) * camSpeed;
 	}
 
-
 	//mouse controls
 	float xPos = input.GetMouseX();
 	float yPos = input.GetMouseY();
@@ -1863,7 +1835,6 @@ void SceneEditor::CameraControl(double deltaTime)
 		camera->Pitch = -85.0f;
 
 	camera->UpdateCameraVectors();
-
 }
 
 void SceneEditor::CheckKeys()
@@ -1896,7 +1867,6 @@ void SceneEditor::CheckKeys()
 		engine->isRunning = false;
 		input.SetMouseLock(false);
 	}
-
 }
 
 void SceneEditor::SetLuaFile(std::string nluaFile)
@@ -1912,7 +1882,6 @@ void SceneEditor::SetLuaFile(std::string nluaFile)
 	engine->scene->luaState.LoadScript(nluaFile);
 	engine->scene->UpdateFunction = engine->scene->luaState.GetFunction<void, double>("update");
 	engine->scene->InitFunction = engine->scene->luaState.GetFunction<void>("init");
-	
 }
 
 std::string SceneEditor::FilterFilePath(std::string filePath)

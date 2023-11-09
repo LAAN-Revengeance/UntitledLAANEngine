@@ -5,7 +5,7 @@
 
 /**
 *	@Class AffordanceController
-*	@brief Used to control an objects available affordance
+*	@brief Used to control an objects available affordances
 *
 *	@author Andres Comeros-Ochtman, Lochy Edward
 *	@version 1.0
@@ -21,7 +21,7 @@ public:
 	AffordanceController(GameObject* owner);
 	
 	/**
-	 * @brief destuctor
+	 * @brief destructor
 	*/
 	~AffordanceController();
 
@@ -70,7 +70,7 @@ public:
 
 private:
 
-	///The ower of this affordance controller
+	///The owner of this affordance controller
 	GameObject* _owner;
 
 	///List of all affordances the owner has
