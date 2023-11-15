@@ -115,14 +115,6 @@ FCM OCCModel::InitFearHopeFCM(float eventStrength, std::string emotion, Emotion 
 	return fearHopeFCM;
 }
 
-bool OCCModel::CheckDesirable(std::string affordance)
-{
-	if (affordance == "punch" || affordance == "slap" || affordance == "poke" || affordance == "threaten")
-		return false;
-
-	return true;
-}
-
 bool OCCModel::CheckProspectRelevant(std::string affordanceType)
 {
 	if (affordanceType == "agent")
