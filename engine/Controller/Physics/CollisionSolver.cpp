@@ -81,7 +81,6 @@ void CollisionSolver::ResolveImpulse(CollisionData& cd)
 		//calculate the contect velocity as the point of collision
 		glm::vec3 contactVel = velocityb2 - velocityb1;
 		
-		
 		//calc impulse force along contact normal
 		float impulseForce = glm::dot(contactVel, contact.contactNormal);
 
@@ -107,8 +106,8 @@ void CollisionSolver::ResolveImpulse(CollisionData& cd)
 		totalLinearB1 += -fullImpulse * b1->GetInverseMass();
 		totalLinearB2 +=  fullImpulse * b2->GetInverseMass();
 
-		totalAngularB1 += b1->GetInverseTensorWorld() * glm::cross(b1Relative, -fullImpulse);
-		totalAngularB2 += b2->GetInverseTensorWorld() * glm::cross(b2Relative,  fullImpulse);
+		totalAngularB1 -= (impulse * b1->GetInverseTensorWorld()) * (glm::cross(b1Relative, contact.contactNormal));
+		totalAngularB2 += (impulse * b2->GetInverseTensorWorld()) * (glm::cross(b2Relative, contact.contactNormal));
 	}
 
 	if (!b1->isKinematic) {
