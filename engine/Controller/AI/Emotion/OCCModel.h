@@ -44,13 +44,6 @@ public:
 	static FCM InitFearHopeFCM(float affordanceStrength, std::string emotion, Emotion npcEmotion, Personality npcPersonality, bool desirability, bool likelihood);
 
 	/**
-	 * @brief Checks if an affordance is desirable or not
-	 * @param affordance
-	 * @return desirability
-	*/
-	static bool CheckDesirable(std::string affordance);
-
-	/**
 	 * @brief Checks if an affordance's prospect is relevant
 	 * @param affordanceType
 	 * @return prospectRelevance

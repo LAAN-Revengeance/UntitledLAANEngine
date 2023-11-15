@@ -126,7 +126,7 @@ protected:
 	//strength of current affordance
 	float _strength;
 
-	//if _parentObject can perform this affordance
+	//if affordance is considered dangerous
 	bool _dangerous = false;
 
 	///the owner of this affordance data
