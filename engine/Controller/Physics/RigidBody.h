@@ -294,20 +294,21 @@ private:
 	//unique ID of this physicsbody
 	unsigned int ID = -1;
 
-	//all colliders associated with this body
-	std::vector<PhysicsCollider> colliders;
-
 	//rp3d collision body, stores position and rotation in physics space.
 	//also stored rp3d collider objects
 	rp3d::CollisionBody* body = nullptr;
 
-	//mass of the rigidbody
+	//all colliders associated with this body
+	std::vector<PhysicsCollider> colliders;
+
+	//mass properties of the rigidbody
 	float mass = 1;
 	float inverseMass = 1/mass;
 	glm::vec3 centerOfMass;
 
-	//inverse inertia tensor
+	//inertia tensor
 	glm::mat3 tensor;
+	//inverse inertia tensor
 	glm::mat3 inverseTensor;
 	//inverse inertia tensor in world space
 	glm::mat3 inverseTensorWorld;
@@ -322,7 +323,6 @@ private:
 	glm::vec3 angularAcceleration;
 	glm::vec3 touqueAccumilator;
 
-	//Derived Data
 	//cached transform matrix
 	glm::mat4 transformMatrix;
 	

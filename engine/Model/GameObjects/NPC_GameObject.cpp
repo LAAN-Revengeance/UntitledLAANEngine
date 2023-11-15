@@ -122,7 +122,7 @@ void NPC::MoveToPoint(PathNode* targetNode)
 	}
 
 	//find path required to get there
-	_currentPath = GaemPathing::FindPathA_StarPositionsNodes(_currentNode,_targetNode,_pathManager->GetNodes());
+	_currentPath = GaemPathing::FindPathA_Star(_currentNode,_targetNode,_pathManager->GetNodes());
 
 	_isMoving = true;
 }

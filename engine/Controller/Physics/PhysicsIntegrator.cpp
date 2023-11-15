@@ -4,7 +4,7 @@ glm::vec3 PhysicsIntegrator::gravity = {0, -9.805,0};
 
 void PhysicsIntegrator::IntergrateLinear(PhysicsBody& pb, float deltaTime)
 {	
-	//caclulate linear acceleration
+	//calculate linear acceleration
 	glm::vec3 totalAcceleration = pb.acceleration;
 
 	//apply gravity if object uses it or doesnt have infinite mass
@@ -14,7 +14,7 @@ void PhysicsIntegrator::IntergrateLinear(PhysicsBody& pb, float deltaTime)
 	totalAcceleration += pb.inverseMass * pb.forceAccumilator;
 	pb.acceleration = { 0,0,0 };
 
-	//caclulate velocity and add simulated drag
+	//calculate velocity and add simulated drag
 	pb.velocity += totalAcceleration * deltaTime;
 	pb.velocity *= powf(pb.dampeningLinear, deltaTime);
 
@@ -40,14 +40,6 @@ void PhysicsIntegrator::IntergrateRotational(PhysicsBody& pb, float deltaTime)
 
 }
 
-PhysicsIntegrator::PhysicsIntegrator()
-{
-}
-
-PhysicsIntegrator::~PhysicsIntegrator()
-{
-}
-
 void PhysicsIntegrator::Integrate(PhysicsBody& pb, float deltaTime)
 {
 	if (pb.isKinematic)
@@ -61,4 +53,13 @@ void PhysicsIntegrator::Integrate(PhysicsBody& pb, float deltaTime)
 	//clear accumilator and cache derived data
 	pb.CalcDerivedData();
 	pb.ClearAccumilator();
+}
+
+
+PhysicsIntegrator::PhysicsIntegrator()
+{
+}
+
+PhysicsIntegrator::~PhysicsIntegrator()
+{
 }

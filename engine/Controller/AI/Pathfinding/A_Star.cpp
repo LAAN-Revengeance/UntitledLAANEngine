@@ -3,9 +3,8 @@
 std::vector<glm::vec3> GaemPathing::FindPathA_StarPositions(PathNode* start, PathNode* end, const std::vector<PathNode*>& nodes)
 {
 
-	std::stack<PathNode*> nodeStack = FindPathA_StarPositionsNodes(start, end, nodes);
+	std::stack<PathNode*> nodeStack = FindPathA_Star(start, end, nodes);
 	std::vector<glm::vec3> pathVec;
-
 
 	while (!nodeStack.empty()) {
 		pathVec.push_back(nodeStack.top()->GetPosition());
@@ -15,7 +14,7 @@ std::vector<glm::vec3> GaemPathing::FindPathA_StarPositions(PathNode* start, Pat
 	return pathVec;
 }
 
-std::stack<GaemPathing::PathNode*> GaemPathing::FindPathA_StarPositionsNodes(PathNode* start, PathNode* end, const std::vector<PathNode*>& nodes)
+std::stack<GaemPathing::PathNode*> GaemPathing::FindPathA_Star(PathNode* start, PathNode* end, const std::vector<PathNode*>& nodes)
 {
 	//create AS_Star nodes and fill out map
 	std::map<PathNode*, AS_Node*> mapNode;
@@ -39,6 +38,7 @@ std::stack<GaemPathing::PathNode*> GaemPathing::FindPathA_StarPositionsNodes(Pat
 	std::list<AS_Node*> listNotTestedNodes;
 	listNotTestedNodes.push_back(nodeStart);
 
+	//search node graph
 	while (!listNotTestedNodes.empty())
 	{
 		//sort list
@@ -65,9 +65,8 @@ std::stack<GaemPathing::PathNode*> GaemPathing::FindPathA_StarPositionsNodes(Pat
 		listNotTestedNodes.pop_front();
 	}
 
+	//assemble a stack of nodes
 	std::stack<PathNode*> PathStack;
-
-
 	AS_Node* p = nodeEnd;
 	while (p->parent)
 	{

@@ -210,7 +210,7 @@ void rp3dCollisionCallback::onContact(const CallbackData& callbackData)
 	unsigned int numPairs = callbackData.getNbContactPairs();
 
 	const unsigned int MAX_CONTACTS = 8;
-	//static CollisionData contactBuffer[MAX_CONTACTS];
+
 	static CollisionData collisionBuffer;
 
 	for (int i = 0; i < numPairs; i++)

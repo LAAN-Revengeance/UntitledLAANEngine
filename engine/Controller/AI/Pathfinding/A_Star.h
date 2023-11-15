@@ -16,8 +16,6 @@ namespace GaemPathing {
 	*	@date 26/10/2023
 	*/
 	struct AS_Node {
-
-
 		/**
 		 * @brief constructor
 		 * @param n the node this is an A* representation of 
@@ -62,5 +60,5 @@ namespace GaemPathing {
 	 * @param nodes all the possible nodes in the network
 	 * @return path from start node to the end node(will only contain the start node if no path found)
 	*/
-	std::stack<PathNode*> FindPathA_StarPositionsNodes(PathNode* start, PathNode* end, const std::vector<PathNode*>& nodes);
+	std::stack<PathNode*> FindPathA_Star(PathNode* start, PathNode* end, const std::vector<PathNode*>& nodes);
 }

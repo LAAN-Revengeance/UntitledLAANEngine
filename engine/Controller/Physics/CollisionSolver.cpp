@@ -1,4 +1,4 @@
-#include "Collisionsolver.h"
+﻿#include "Collisionsolver.h"
 #include <iomanip>
 void CollisionSolver::ResolveCollisions(CollisionData& cd)
 {
@@ -18,7 +18,7 @@ void CollisionSolver::ResolvePenetrationLinear(CollisionData& cd)
 
 	float totalMassInverse = b1->GetInverseMass() + b2->GetInverseMass();
 
-	if (totalMassInverse <= 0) return;// both have infinite mass
+	if (totalMassInverse <= 0) return;// both have infinite mass so no resolution needed
 
 	// Accumulate corrections based on each contact point.
 	for (size_t i = 0; i < cd.numContacts; i++)
@@ -59,29 +59,35 @@ void CollisionSolver::ResolveImpulse(CollisionData& cd)
 	PhysicsBody* b1 = cd.b1;
 	PhysicsBody* b2 = cd.b2;
 
-	float restitution = (b1->GetBounce() + b2->GetBounce())/2.0f;
-
+	// 1/m1 + 1/m2
 	float totalInverseMass = b1->GetInverseMass() + b2->GetInverseMass();
+
+	//objects both have infinite mass so no resolution is needed
 	if (totalInverseMass <= 0) return;
+
+	//use the average bounce value as the coeficient of restitution
+	float restitution = (b1->GetBounce() + b2->GetBounce()) / 2.0f;
 
 	glm::vec3 totalLinearB1(0.0f), totalLinearB2(0.0f);
 	glm::vec3 totalAngularB1(0.0f), totalAngularB2(0.0f);
 
+	//run impulse resolution for each contact
 	for (size_t i = 0; i < cd.numContacts; i++)
 	{
 		ContactPointData& contact = cd.contacts[i];
-
 		
+		// r1 and r2
 		glm::vec3 b1Relative = contact.contactWorldSpace - b1->GetPosition();
 		glm::vec3 b2Relative = contact.contactWorldSpace - b2->GetPosition();
 
+		// calculate velocity of contact points
 		glm::vec3 velocityb1 = b1->GetVelocity() + glm::cross(b1->GetAngularVelocity(), b1Relative);
 		glm::vec3 velocityb2 = b2->GetVelocity() + glm::cross(b2->GetAngularVelocity(), b2Relative);
 
-		//calculate the contect velocity as the point of collision
+		// (V1 - V2)
 		glm::vec3 contactVel = velocityb2 - velocityb1;
 		
-		//calc impulse force along contact normal
+		// (V1 - V2) ⋅ n
 		float impulseForce = glm::dot(contactVel, contact.contactNormal);
 
 		//Set angular velocity to 0 if impulse is low. used to avoid jitter
@@ -90,26 +96,32 @@ void CollisionSolver::ResolveImpulse(CollisionData& cd)
 			b2->SetAngularVelocity(0, 0, 0);
 		}
 
+		//  (r1)(J1^-1(r1 x n))
 		glm::vec3 inertiaB1 = glm::cross((b1->GetInverseTensorWorld() * glm::cross(b1Relative, contact.contactNormal)), b1Relative);
+
+		// (r2)(J2^-1(r2 x n))
 		glm::vec3 inertiaB2 = glm::cross((b2->GetInverseTensorWorld() * glm::cross(b2Relative, contact.contactNormal)), b2Relative);
 
 		float angularEffect = glm::dot(inertiaB1 + inertiaB2, contact.contactNormal);
 
-		// Calculate the final scalar impulse
+		// Calculate the scalar Λ
 		float impulse = (-(1.0f + restitution) * impulseForce) / (totalInverseMass + angularEffect);
 		
-
-		// Apply the impulse to the contact normal
+		// Calculate vector Λ by multiplying by normal
 		glm::vec3 fullImpulse = impulse * contact.contactNormal;
 
 		// Accumulate the impulses to apply to the bodies' linear and angular velocities
+
+		// (V+) = (V-) + Λ/m
 		totalLinearB1 += -fullImpulse * b1->GetInverseMass();
 		totalLinearB2 +=  fullImpulse * b2->GetInverseMass();
 
+		// (ω+) = (ω-) - Λ(J^-1)(r x n) 
 		totalAngularB1 -= (impulse * b1->GetInverseTensorWorld()) * (glm::cross(b1Relative, contact.contactNormal));
 		totalAngularB2 += (impulse * b2->GetInverseTensorWorld()) * (glm::cross(b2Relative, contact.contactNormal));
 	}
 
+	//kinematic bodies do not get affected by collisions
 	if (!b1->isKinematic) {
 		b1->AddVelocity(totalLinearB1);
 		b1->AddAngularVelocity(totalAngularB1);
@@ -119,8 +131,6 @@ void CollisionSolver::ResolveImpulse(CollisionData& cd)
 		b2->AddAngularVelocity(totalAngularB2);
 		b2->AddVelocity(totalLinearB2);
 	}
-
-
 }
 
 
