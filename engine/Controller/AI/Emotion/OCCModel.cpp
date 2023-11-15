@@ -68,11 +68,8 @@ FCM OCCModel::InitAngerGratitudeFCM(float eventStrength, std::string emotion, Em
 	FCM angerGratitudeGFCM;
 	angerGratitudeGFCM.AddConcept("Affordance", eventStrength, 1);
 	angerGratitudeGFCM.AddConcept("Desireability", 0, 1);
-	angerGratitudeGFCM.AddConcept("Trust", 0, 1);
 	angerGratitudeGFCM.AddConcept("Blameworthiness", 0, 1);
-	angerGratitudeGFCM.AddConcept("Irritability", 0, 1);
 	angerGratitudeGFCM.AddConcept(emotion, 0, 1);
-	angerGratitudeGFCM.AddConcept("Impulsivity", 0, 1);
 	angerGratitudeGFCM.AddConcept("Action", 0, 1);
 
 	if(blameworthy)
@@ -97,11 +94,8 @@ FCM OCCModel::InitFearHopeFCM(float eventStrength, std::string emotion, Emotion 
 	FCM fearHopeFCM;
 	fearHopeFCM.AddConcept("Affordance", eventStrength, 1);
 	fearHopeFCM.AddConcept("Desireability", 0, 1);
-	fearHopeFCM.AddConcept("Trust", 0, 1);
 	fearHopeFCM.AddConcept("Likelihood", 0, 1);
-	fearHopeFCM.AddConcept("Irritability", 0, 1);
 	fearHopeFCM.AddConcept(emotion, 0, 1);
-	fearHopeFCM.AddConcept("Impulsivity", 0, 1);
 	fearHopeFCM.AddConcept("Action", 0, 1);
 
 	if(likely)
