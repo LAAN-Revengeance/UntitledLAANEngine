@@ -8,16 +8,16 @@ void OCCModel::EvaluateAffordance(std::string affordance, std::string affordance
 	if (!desirable)
 	{
 		if (prospectRelevant)
-			emotion = "Anger";
-		else
 			emotion = "Fear";
+		else
+			emotion = "Anger";
 	}
 	else
 	{
 		if (prospectRelevant)
-			emotion = "Gratitude";
-		else
 			emotion = "Hope";
+		else
+			emotion = "Gratitude";
 	}
 }
 
@@ -132,7 +132,7 @@ bool OCCModel::CheckDesirable(std::string affordance)
 bool OCCModel::CheckProspectRelevant(std::string affordanceType)
 {
 	if (affordanceType == "agent")
-		return true;
+		return false;
 	
-	return false;
+	return true;
 }
