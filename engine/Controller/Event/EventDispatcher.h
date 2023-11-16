@@ -15,7 +15,7 @@ namespace GaemEvents {
 		//Execute all callbacks registered to the event
 		void Post(const Event& event);
 
-		//Subscribe a cellback to an event type
+		//Subscribe a callback to an event type
 		void Subscribe(EventDescriptor, EngineEventCallback&& callback);
 
 	private:

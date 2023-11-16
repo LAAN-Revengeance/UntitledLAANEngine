@@ -1,4 +1,5 @@
 #include "StandaloneApp.h"
+#include <Serialization/ProjectLoader.h>
 
 GaemApp::GaemApp(const char* path) :
 	window(1920, 1080, "Application", &eventDispatcher),

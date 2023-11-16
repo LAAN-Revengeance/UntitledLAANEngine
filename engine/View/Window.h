@@ -1,5 +1,4 @@
 #pragma once
-#include <GLFW/glfw3.h>
 #include <string>
 #include "Graphics/Graphics.h"
 #include <Event/EventDispatcher.h>

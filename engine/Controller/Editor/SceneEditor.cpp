@@ -626,107 +626,108 @@ void SceneEditor::DrawInspector()
 							inspectedObject->physicsBody->SetAngularDampening(naDamp);
 						}
 
-						//Box
-						if (ImGui::Button("Add Box Collider##box")) {
-							if (!inspectedObject->physicsBody)
-								engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
-							engine->scene->physicsWorld.AddBoxCollider(*inspectedObject->physicsBody, { 1.0f,1.0f,1.0f });
-							inspectedObject->physicsBody->CalcCenterOfMass();
-						}
-
-						//Sphere
-						if (ImGui::Button("Add Sphere Collider##sphere")) {
-							if (!inspectedObject->physicsBody)
-								engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
-							engine->scene->physicsWorld.AddSphereCollider(*inspectedObject->physicsBody, 1.0f);
-							inspectedObject->physicsBody->CalcCenterOfMass();
-						}
-
-						//Capsule
-						if (ImGui::Button("Add Capsule Collider##capsule")) {
-							if (!inspectedObject->physicsBody)
-								engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
-							engine->scene->physicsWorld.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f, 2.0f);
-							inspectedObject->physicsBody->CalcCenterOfMass();
-						}
-
-						static const char* colliderNames[4] = { "Box Collider","Sphere Collider", "Capsule Collider", "Terrain Collider" };
-						if (inspectedObject->physicsBody) {
-
-							PhysicsBody* pb = inspectedObject->physicsBody;
-							unsigned int i = 0;
-							for (auto& it : pb->colliders)
-							{
-
-								std::string nodeName = std::string("##") + std::to_string(i);
-								if (ImGui::TreeNodeEx((std::string(colliderNames[it.GetType() - 1]) + nodeName).c_str())) {
-									glm::vec3 nOffset = it.GetOffset();
-									if (ImGui::DragFloat3((std::string("position") + nodeName).c_str(), &nOffset.x, 0.01f))
-									{
-										it.SetOffset(nOffset);
-										pb->CalcCenterOfMass();
-									}
-
-									glm::vec3 nRotation = it.GetRotation();
-									if (ImGui::DragFloat3((std::string("rotation") + nodeName).c_str(), &nRotation.x, 0.01f))
-									{
-										it.SetRotation(nRotation);
-										pb->CalcCenterOfMass();
-									}
-
-									float nMass = it.GetMass();
-									if (ImGui::DragFloat((std::string("Mass") + nodeName).c_str(), &nMass, 0.01f))
-									{
-										it.SetMass(nMass);
-										pb->CalcCenterOfMass();
-									}
-
-									if (it.GetType() == COLLIDER_BOX) {
-
-										glm::vec3 nScale = static_cast<BoxCollider*>(&it)->GetScale();
-										if (ImGui::DragFloat3((std::string("scale") + nodeName).c_str(), &nScale.x, 0.01f))
-										{
-											static_cast<BoxCollider*>(&it)->SetScale(nScale);
-										}
-									}
-
-									if (it.GetType() == COLLIDER_SPHERE) {
-
-										float nRadius = static_cast<SphereCollider*>(&it)->GetRadius();
-										if (ImGui::DragFloat((std::string("Radius") + nodeName).c_str(), &nRadius, 0.01f))
-										{
-											if (nRadius > 0)
-												static_cast<SphereCollider*>(&it)->SetRadius(nRadius);
-										}
-									}
-
-									if (it.GetType() == COLLIDER_CAPSULE) {
-
-										float nRadius = static_cast<CapsuleCollider*>(&it)->GetRadius();
-										float nHeight = static_cast<CapsuleCollider*>(&it)->GetHeight();
-										if (ImGui::DragFloat((std::string("Radius") + nodeName).c_str(), &nRadius, 0.01f))
-										{
-											if (nRadius > 0)
-												static_cast<CapsuleCollider*>(&it)->SetRadius(nRadius);
-										}
-										if (ImGui::DragFloat((std::string("Height") + nodeName).c_str(), &nHeight, 0.01f))
-										{
-											if (nHeight > 0)
-												static_cast<CapsuleCollider*>(&it)->SetHeight(nHeight);
-										}
-									}
-
-									if (ImGui::Button((std::string("Delete") + nodeName).c_str()))
-									{
-										pb->DeleteCollider(i);
-										inspectedObject->physicsBody->CalcCenterOfMass();
-									}
-									ImGui::TreePop();
-								}
-								++i;
-							}
-						}
+						
 						ImGui::Dummy(ImVec2(0.0f, 20.0f));
+					}
+					//Box
+					if (ImGui::Button("Add Box Collider##box")) {
+						if (!inspectedObject->physicsBody)
+							engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
+						engine->scene->physicsWorld.AddBoxCollider(*inspectedObject->physicsBody, { 1.0f,1.0f,1.0f });
+						inspectedObject->physicsBody->CalcCenterOfMass();
+					}
+
+					//Sphere
+					if (ImGui::Button("Add Sphere Collider##sphere")) {
+						if (!inspectedObject->physicsBody)
+							engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
+						engine->scene->physicsWorld.AddSphereCollider(*inspectedObject->physicsBody, 1.0f);
+						inspectedObject->physicsBody->CalcCenterOfMass();
+					}
+
+					//Capsule
+					if (ImGui::Button("Add Capsule Collider##capsule")) {
+						if (!inspectedObject->physicsBody)
+							engine->scene->physicsWorld.CreatePhysicsBody(inspectedObject);
+						engine->scene->physicsWorld.AddCapsuleCollider(*inspectedObject->physicsBody, 1.0f, 2.0f);
+						inspectedObject->physicsBody->CalcCenterOfMass();
+					}
+
+					static const char* colliderNames[4] = { "Box Collider","Sphere Collider", "Capsule Collider", "Terrain Collider" };
+					if (inspectedObject->physicsBody) {
+
+						PhysicsBody* pb = inspectedObject->physicsBody;
+						unsigned int i = 0;
+						for (auto& it : pb->colliders)
+						{
+
+							std::string nodeName = std::string("##") + std::to_string(i);
+							if (ImGui::TreeNodeEx((std::string(colliderNames[it.GetType() - 1]) + nodeName).c_str())) {
+								glm::vec3 nOffset = it.GetOffset();
+								if (ImGui::DragFloat3((std::string("position") + nodeName).c_str(), &nOffset.x, 0.01f))
+								{
+									it.SetOffset(nOffset);
+									pb->CalcCenterOfMass();
+								}
+
+								glm::vec3 nRotation = it.GetRotation();
+								if (ImGui::DragFloat3((std::string("rotation") + nodeName).c_str(), &nRotation.x, 0.01f))
+								{
+									it.SetRotation(nRotation);
+									pb->CalcCenterOfMass();
+								}
+
+								float nMass = it.GetMass();
+								if (ImGui::DragFloat((std::string("Mass") + nodeName).c_str(), &nMass, 0.01f))
+								{
+									it.SetMass(nMass);
+									pb->CalcCenterOfMass();
+								}
+
+								if (it.GetType() == COLLIDER_BOX) {
+
+									glm::vec3 nScale = static_cast<BoxCollider*>(&it)->GetScale();
+									if (ImGui::DragFloat3((std::string("scale") + nodeName).c_str(), &nScale.x, 0.01f))
+									{
+										static_cast<BoxCollider*>(&it)->SetScale(nScale);
+									}
+								}
+
+								if (it.GetType() == COLLIDER_SPHERE) {
+
+									float nRadius = static_cast<SphereCollider*>(&it)->GetRadius();
+									if (ImGui::DragFloat((std::string("Radius") + nodeName).c_str(), &nRadius, 0.01f))
+									{
+										if (nRadius > 0)
+											static_cast<SphereCollider*>(&it)->SetRadius(nRadius);
+									}
+								}
+
+								if (it.GetType() == COLLIDER_CAPSULE) {
+
+									float nRadius = static_cast<CapsuleCollider*>(&it)->GetRadius();
+									float nHeight = static_cast<CapsuleCollider*>(&it)->GetHeight();
+									if (ImGui::DragFloat((std::string("Radius") + nodeName).c_str(), &nRadius, 0.01f))
+									{
+										if (nRadius > 0)
+											static_cast<CapsuleCollider*>(&it)->SetRadius(nRadius);
+									}
+									if (ImGui::DragFloat((std::string("Height") + nodeName).c_str(), &nHeight, 0.01f))
+									{
+										if (nHeight > 0)
+											static_cast<CapsuleCollider*>(&it)->SetHeight(nHeight);
+									}
+								}
+
+								if (ImGui::Button((std::string("Delete") + nodeName).c_str()))
+								{
+									pb->DeleteCollider(i);
+									inspectedObject->physicsBody->CalcCenterOfMass();
+								}
+								ImGui::TreePop();
+							}
+							++i;
+						}
 					}
 				}
 

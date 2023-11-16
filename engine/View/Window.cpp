@@ -1,5 +1,6 @@
 #include "Window.h"
 #include <Utils/DebugLogger.h>
+#include <GLFW/glfw3.h>
 
 bool Window::_glfwInit = false;
 Window* Window::currentWindow = nullptr;
