@@ -267,7 +267,8 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"GetMouseY", &InputManager::GetMouseY,
 		"GetScrollOffset", &InputManager::GetScrollOffset,
 		"GetMouseLock", &InputManager::GetMouseLock,
-		"GetKeyDown", &InputManager::GetKeyPressedDown
+		"GetKeyDown", &InputManager::GetKeyPressedDown,
+		"GetKey", &InputManager::GetKeyPressed
 	);
 	luaManager->luaState["input"] = &InputManager::Get();
 
@@ -298,7 +299,9 @@ void LuaGameBridge::ExposeEngine(LuaManager* luaManager)
 		"SetMass", &PhysicsBody::SetMass,
 		"SetGravity", &PhysicsBody::SetGravity,
 		"Kinematic", &PhysicsBody::isKinematic,
-		"GetID", &PhysicsBody::GetID
+		"GetID", &PhysicsBody::GetID,
+		"SetAngularDampening", &PhysicsBody::SetAngularDampening,
+		"SetLinearDampening", &PhysicsBody::SetLinearDampening
 	);
 
 

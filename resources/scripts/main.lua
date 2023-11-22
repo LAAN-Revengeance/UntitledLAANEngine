@@ -345,7 +345,7 @@ function showExitSplash()
 end
 
 function draw_instruction_gui()
-	GUI:StartWindow("poop",true,0.15,0.3,0,0);
+	GUI:StartWindow("guiDraw",true,0.15,0.35,0,0);
 	
 		GUI:Text("----Affordance Controls----",0);
 		GUI:Tab(10);
@@ -353,6 +353,7 @@ function draw_instruction_gui()
 		GUI:Text("Interation Affodances:",0);
 		GUI:Text("[E] Sit",0);
 		GUI:Text("[F] Pickup",0);
+		GUI:Text("[Q] Throw(if object picked up)",0);
 
 
 		GUI:Text("Negative Affodances:",0);
